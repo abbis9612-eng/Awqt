@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>يوم: خمس هويات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Kufi+Arabic:wght@400;500;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--page:#E6E8E4;--ink:#16191F;--muted:#4A515C;--line:#CDD2CC;--card:#F4F5F2;--acc:#3F57A6;--ease:cubic-bezier(.2,.8,.2,1)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--page:#0C0F14;--ink:#E9ECF0;--muted:#A6AFBB;--line:#262C35;--card:#161A21;--acc:#9FB3FF}}
+:root[data-theme="dark"]{--page:#0C0F14;--ink:#E9ECF0;--muted:#A6AFBB;--line:#262C35;--card:#161A21;--acc:#9FB3FF}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--page);color:var(--ink);font-family:'IBM Plex Sans Arabic',Tahoma,sans-serif;font-size:16px;line-height:1.7}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1260px;margin:0 auto;padding:28px 16px 140px}
+h1{font-family:Alexandria,sans-serif;font-size:34px;line-height:1.3;margin:0 0 6px;font-weight:600}
+.lead{color:var(--muted);margin:0 0 4px;max-width:70ch}
+
+/* control bar */
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--page) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);margin:18px -16px 26px;padding:10px 16px}
+.bar-in{max-width:1260px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.timebox{flex:1 1 420px;display:flex;align-items:center;gap:10px;min-width:0}
+.clock{font-family:Alexandria,sans-serif;font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;min-width:68px;text-align:center}
+.rangewrap{position:relative;flex:1;height:48px;min-width:0}
+.rangewrap .trk{position:absolute;inset-inline:0;top:20px;height:8px;border-radius:4px;background:linear-gradient(to left,#0E1436 0%,#2E3A78 17%,#F39A6B 25%,#A9CCF2 40%,#A9CCF2 62%,#F2C98A 70%,#D8707A 75%,#262E63 82%,#0E1436 100%)}
+.rangewrap .tk{position:absolute;top:14px;width:2px;height:20px;background:var(--ink);border-radius:1px;margin-inline-start:-1px}
+.rangewrap .tkl{position:absolute;top:34px;font-size:12px;color:var(--muted);transform:translateX(50%);white-space:nowrap}
+.rangewrap .th{position:absolute;top:11px;width:26px;height:26px;margin-inline-start:-13px;border-radius:50%;background:#E8A23A;box-shadow:0 0 0 4px var(--page),0 2px 8px rgba(0,0,0,.3);pointer-events:none}
+.rangewrap input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:grab}
+.btn{height:44px;padding:0 16px;border-radius:22px;border:1px solid var(--line);background:var(--card);display:inline-flex;align-items:center;gap:6px;font-size:15px;white-space:nowrap}
+.btn.prim{background:var(--ink);color:var(--page);border-color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--line);background:var(--card);font-size:14px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--page);border-color:var(--ink)}
+
+/* gallery */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(380px,100%),1fr));gap:40px 28px;justify-items:center}
+.item{width:376px;max-width:100%}
+.ph{width:376px;height:796px;border-radius:52px;padding:8px;background:#07090C;box-shadow:0 24px 70px rgba(8,12,18,.28);transform-origin:top right}
+.scr{width:360px;height:780px;border-radius:44px;overflow:hidden;position:relative;isolation:isolate}
+.meta{padding:14px 6px 0}
+.meta h2{font-family:Alexandria,sans-serif;font-size:22px;margin:0;font-weight:600;line-height:1.4}
+.meta p{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.7}
+.meta b{color:var(--ink);font-weight:600}
+.verdict{margin-top:56px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px}
+.verdict h2{font-family:Alexandria,sans-serif;font-size:24px;margin:0 0 8px;font-weight:600}
+.verdict table{width:100%;border-collapse:collapse;font-size:15px}
+.verdict th,.verdict td{text-align:start;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tblw{overflow-x:auto}
+@media (max-width:700px){
+  .wrap{padding-bottom:220px}
+  .timebox{flex-wrap:wrap;flex-basis:100%}
+  .rangewrap{order:3;flex:1 1 100%}
+  #playT{display:none}
+  .chip{white-space:nowrap;flex:none}
+  .bar{position:fixed;top:auto;bottom:0;inset-inline:0;margin:0;border-top:1px solid var(--line);border-bottom:0;padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+  .chips.dates{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .chips.dates::-webkit-scrollbar{display:none}
+  h1{font-size:28px}
+}
+
+/* ---------- shared phone bits ---------- */
+.scr .nav{position:absolute;inset-inline:0;bottom:0;height:70px;display:flex;align-items:center;justify-content:space-around;padding:0 10px 8px}
+.scr .nav span{width:56px;height:32px;border-radius:16px;display:flex;align-items:center;justify-content:center}
+.scr .act{height:48px;min-width:76px;padding:0 18px;border-radius:24px;border:0;font-weight:600;font-size:16px;flex:none;transition:transform .15s var(--ease)}
+.scr .act:active{transform:scale(.95)}
+@media (prefers-reduced-motion: reduce){.scr *{animation:none!important;transition:none!important}}
+
+/* ===== A · المدار ===== */
+.A{background:#090D1A;color:#EEF1F8;font-family:Alexandria,sans-serif}
+.A .glow{position:absolute;inset:-20% -20% auto -20%;height:70%;filter:blur(40px);opacity:.55;transition:background .8s}
+.A .hd{position:relative;padding:22px 24px 0;display:flex;justify-content:space-between;align-items:flex-start}
+.A .hd b{font-weight:500;font-size:16px;display:block}
+.A .hd span{font-size:13px;color:#9AA4BD}
+.A .ring{position:relative;display:block;margin:8px auto 0}
+.A .card{position:relative;margin:4px 18px 0;border-radius:24px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:14px 16px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(10px)}
+.A .card .ti{font-size:17px;font-weight:500;line-height:1.45}
+.A .card .su{font-size:13.5px;color:#AEB7CC}
+.A .pbar{height:5px;border-radius:3px;background:rgba(255,255,255,.1);margin-top:8px;overflow:hidden}
+.A .pbar i{display:block;height:100%;border-radius:3px}
+.A .act{background:#F2F4FA;color:#0A0F1E}
+.A .next{position:relative;margin:12px 22px 0;display:flex;flex-direction:column;gap:2px}
+.A .nx{display:flex;align-items:center;gap:12px;min-height:38px;font-size:15px;color:#D5DBEA}
+.A .nx .t{width:44px;color:#8E98B2;font-variant-numeric:tabular-nums;font-size:14px}
+.A .nx i{width:8px;height:8px;border-radius:50%;flex:none}
+.A .nav{color:#8E98B2}.A .nav span.on{background:rgba(255,255,255,.1);color:#fff}
+
+/* ===== B · الأفق ===== */
+.B{font-family:'IBM Plex Sans Arabic',sans-serif;color:#F5F7FB;background:#0D1424}
+.B svg.sky{position:absolute;inset:0 0 auto 0;display:block}
+.B .hd{position:absolute;top:22px;inset-inline:24px;display:flex;justify-content:space-between;text-shadow:0 1px 8px rgba(0,0,0,.25)}
+.B .hd b{font-weight:600;font-size:16px;display:block}
+.B .hd span{font-size:13px;opacity:.85}
+.B .panel{position:absolute;inset-inline:0;top:372px;bottom:0;padding:0 16px}
+.B .glass{border-radius:26px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);padding:16px 18px;margin-top:-58px;position:relative}
+.B .big{font-size:25px;font-weight:600;line-height:1.35}
+.B .sub{font-size:14px;opacity:.8}
+.B .cur{display:flex;align-items:center;gap:12px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.14)}
+.B .cur .ti{font-size:16px;font-weight:500}
+.B .cur .su{font-size:13.5px;opacity:.75}
+.B .act{background:#fff;color:#14203A}
+.B .list{margin-top:12px;display:flex;flex-direction:column}
+.B .li{display:flex;align-items:center;gap:12px;min-height:40px;font-size:15px;border-bottom:1px solid rgba(255,255,255,.08)}
+.B .li .t{width:44px;opacity:.7;font-variant-numeric:tabular-nums;font-size:14px}
+.B .li i{width:8px;height:8px;border-radius:50%}
+.B .nav{color:rgba(255,255,255,.65)}.B .nav span.on{background:rgba(255,255,255,.14);color:#fff}
+
+/* ===== C · الظل ===== */
+.C{font-family:'Readex Pro',sans-serif;color:#1C2026;background:#E9EBE6}
+.C.night{color:#E8EAE5;background:#141920}
+.C svg.dial3d{display:block;position:relative}
+.C .hd{position:absolute;top:22px;inset-inline:24px;display:flex;justify-content:space-between;z-index:2}
+.C .hd b{font-weight:600;font-size:16px;display:block}
+.C .hd span{font-size:13px;opacity:.72}
+.C .say{padding:0 22px;margin-top:-6px;position:relative}
+.C .say .big{font-size:21px;font-weight:600;line-height:1.45}
+.C .say .sub{font-size:14px;opacity:.72}
+.C .card{margin:12px 16px 0;border-radius:24px;background:rgba(255,255,255,.72);padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(30,34,40,.08)}
+.C.night .card{background:rgba(255,255,255,.07);box-shadow:none}
+.C .card .ti{font-size:17px;font-weight:600}
+.C .card .su{font-size:13.5px;opacity:.7}
+.C .act{background:#1C2026;color:#F1F2EE}
+.C.night .act{background:#E8EAE5;color:#141920}
+.C .ring{width:42px;height:42px;flex:none}
+.C .list{margin:10px 22px 0}
+.C .li{display:flex;align-items:center;gap:12px;min-height:38px;font-size:15px}
+.C .li .t{width:44px;opacity:.6;font-variant-numeric:tabular-nums;font-size:14px}
+.C .li .k{width:11px;height:11px;transform:rotate(45deg);border-radius:2px;flex:none}
+.C .li i{width:9px;height:9px;border-radius:50%;flex:none;margin-inline:1px}
+.C .nav{color:inherit;opacity:.7}.C .nav span.on{background:rgba(127,127,127,.18)}
+
+/* ===== D · الجاجم ===== */
+.D{font-family:'Noto Kufi Arabic',sans-serif;color:#F1E6D2;background:#1B1311}
+.D .hd{padding:22px 22px 0;display:flex;justify-content:space-between}
+.D .hd b{font-weight:700;font-size:16px;display:block}
+.D .hd span{font-size:12.5px;color:#C9B79C}
+.D .np{margin:10px 22px 0;display:flex;align-items:baseline;justify-content:space-between}
+.D .np .big{font-size:21px;font-weight:800;line-height:1.4}
+.D .np .sub{font-size:13px;color:#C9B79C}
+.D svg.loom{display:block;margin:8px auto 0}
+.D .card{position:absolute;inset-inline:14px;bottom:82px;border-radius:20px;background:#2B1E1A;border:1px solid #4A372E;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.D .card .ti{font-size:15.5px;font-weight:700;line-height:1.5}
+.D .card .su{font-size:12.5px;color:#C9B79C}
+.D .act{background:#E0A12E;color:#1B1311;font-weight:800}
+.D .nav{color:#A8957B}.D .nav span.on{background:#3A2A23;color:#F1E6D2}
+
+/* ===== E · الشمسة ===== */
+.E{font-family:'Noto Naskh Arabic',serif;color:#F3EAD6;background:#0E1A3D}
+.E .pat{position:absolute;inset:0;opacity:.09}
+.E .cart{position:relative;margin:20px 18px 0;height:62px;border-radius:14px;border:1.5px solid #D4AF63;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:linear-gradient(180deg,rgba(212,175,99,.12),rgba(212,175,99,.02))}
+.E .cart::before{content:"";position:absolute;inset:4px;border:1px solid rgba(212,175,99,.45);border-radius:10px;pointer-events:none}
+.E .cart b{font-family:'Aref Ruqaa',serif;font-size:21px;color:#E8C877;font-weight:700;line-height:1.2}
+.E .cart span{font-size:13.5px;color:#D9CDB1}
+.E svg.shamsa{display:block;margin:6px auto 0;position:relative}
+.E .lines{position:relative;margin:0 22px}
+.E .ln{display:flex;align-items:center;gap:12px;min-height:40px;font-size:16px;border-bottom:1px solid rgba(212,175,99,.18)}
+.E .ln .t{width:44px;color:#C8BB9C;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:14px;font-variant-numeric:tabular-nums}
+.E .ln.p .nm{font-family:'Aref Ruqaa',serif;color:#E8C877;font-size:19px;font-weight:700}
+.E .ln.cur{background:linear-gradient(90deg,transparent,rgba(212,175,99,.14),transparent)}
+.E .ln .nm{flex:1}
+.E .ln .lz{width:9px;height:9px;transform:rotate(45deg);flex:none}
+.E .act{background:linear-gradient(180deg,#E8C877,#C99A45);color:#14204A;font-family:'IBM Plex Sans Arabic',sans-serif}
+.E .cardE{position:absolute;inset-inline:16px;bottom:82px;border-radius:18px;border:1px solid rgba(212,175,99,.5);background:rgba(14,26,61,.86);padding:12px 14px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(8px)}
+.E .cardE .ti{font-size:16px;font-weight:600}
+.E .cardE .su{font-size:13px;color:#C8BB9C;font-family:'IBM Plex Sans Arabic',sans-serif}
+.E .nav{color:#B9AC8E}.E .nav span.on{background:rgba(212,175,99,.16);color:#E8C877}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>يوم: خمس هويات، نفس اليوم</h1>
+  <p class="lead">كل تلفون هنا يشتغل بنفس المحرك المفحوص: مواقيت جدول المشروع، وخوارزمية اليوم، وموقع الشمس الحقيقي. اسحب الوقت أو دوس «تشغيل»، وشوف الخمسة يتحركون سوا. دوس «تم» بأي تصميم.</p>
+
+  <div class="bar" id="bar">
+    <div class="bar-in">
+      <div class="timebox">
+        <button class="btn prim" id="play" aria-pressed="false" aria-label="تشغيل اليوم"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" id="playIc"><path d="M7 5v14l12-7z"/></svg><span id="playT">تشغيل اليوم</span></button>
+        <div class="clock" id="clock" aria-live="off"></div>
+        <div class="rangewrap"><div class="trk"></div><div id="tks"></div><div class="th" id="th"></div><input type="range" id="range" min="0" max="1439" step="1" aria-label="الوقت"></div>
+        <button class="btn" id="now">الآن</button>
+      </div>
+      <div class="chips dates" id="dates">
+        <button class="chip" data-d="real">اليوم</button>
+        <button class="chip" data-d="2026-06-15">15 حزيران</button>
+        <button class="chip" data-d="2026-12-21">21 كانون الأول</button>
+        <button class="chip" data-d="2026-10-16">جمعة</button>
+        <button class="chip" data-c="lon">لندن</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="item"><div class="ph"><div class="scr A" id="A" role="img" aria-label="تصميم المدار"></div></div>
+      <div class="meta"><h2>أ · المدار</h2><p>يومك حلقة 24 ساعة مضيئة: الظهر فوق ونص الليل جوّه، والوقت نجم يمشي عليها. <b>الأقوى بـ:</b> تشوف يومك كله بنظرة. <b>العيب:</b> الكتل القصيرة تصغر على الحلقة.</p></div></div>
+    <div class="item"><div class="ph"><div class="scr B" id="B" role="img" aria-label="تصميم الأفق"></div></div>
+      <div class="meta"><h2>ب · الأفق</h2><p>السماء تتلون حسب ارتفاع الشمس فعلاً، والشمس تمشي بمسارها الحقيقي فوق جبال. وتحت الأفق تشوف وين تكون الشمس وقت الفجر والعشاء. <b>الأقوى بـ:</b> مبهر ويعلّم. <b>العيب:</b> فكرة لون السماء سبقنا عليها Tide Guide.</p></div></div>
+    <div class="item"><div class="ph"><div class="scr C" id="C" role="img" aria-label="تصميم الظل"></div></div>
+      <div class="meta"><h2>ج · الظل</h2><p>مزولة حجرية مجسّمة، وظل العمود محسوب من الشمس. العصر يجي لما الظل يوصل الدائرة. <b>الأقوى بـ:</b> ماكو أحد عنده هالشي. <b>العيب:</b> رسمها بأندرويد يحتاج شغل دقيق.</p></div></div>
+    <div class="item"><div class="ph"><div class="scr D" id="D" role="img" aria-label="تصميم الجاجم"></div></div>
+      <div class="meta"><h2>د · الجاجم</h2><p>يومك سجادة: كل كتلة نقشة، والصلوات عُقد بيضاء، والمكوك الذهبي هو الآن. اللي فات منسوج، واللي جاي خيوط. <b>الأقوى بـ:</b> هوية من بيئتنا ومريحة للعين. <b>العيب:</b> النقوش تحتاج ضبط حتى تبقى هادئة.</p></div></div>
+    <div class="item"><div class="ph"><div class="scr E" id="E" role="img" aria-label="تصميم الشمسة"></div></div>
+      <div class="meta"><h2>هـ · الشمسة</h2><p>مثل صفحة مصحف مُذهّبة: الشمسة بالوسط تشعّ بساعات اليوم، والصلوات بالذهب. <b>الأقوى بـ:</b> فخم ودافئ وروحاني. <b>العيب:</b> الأزرق والذهبي معروفين بتطبيقات إسلامية؛ التميز بالتفاصيل.</p></div></div>
+  </div>
+
+  <section class="verdict" aria-labelledby="vt">
+    <h2 id="vt">شلون تختار</h2>
+    <div class="tblw"><table>
+      <thead><tr><th>التصميم</th><th>الإحساس</th><th>الوضوح</th><th>التميّز</th><th>صعوبة البناء</th></tr></thead>
+      <tbody>
+        <tr><td>أ · المدار</td><td>حديث ومضيء</td><td>عالي جداً</td><td>متوسط</td><td>سهل</td></tr>
+        <tr><td>ب · الأفق</td><td>طبيعة وهدوء</td><td>عالي</td><td>متوسط</td><td>متوسط</td></tr>
+        <tr><td>ج · الظل</td><td>حِرفي وعلمي</td><td>عالي</td><td>عالي جداً</td><td>صعب</td></tr>
+        <tr><td>د · الجاجم</td><td>دافئ ومحلي</td><td>متوسط</td><td>عالي جداً</td><td>متوسط</td></tr>
+        <tr><td>هـ · الشمسة</td><td>فخم وروحاني</td><td>عالي</td><td>عالي</td><td>متوسط</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+/*@DATA*/
+/*@ENGINE*/
+
+/* ================= shared ================= */
+const $ = (id) => document.getElementById(id);
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MONTHS = ['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول'];
+const DAYS = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const TZ = { sul: 'Asia/Baghdad', lon: 'Europe/London' };
+const PN = { fajr: 'الفجر', dhuhr: 'الظهر', jumua: 'الجمعة', asr: 'العصر', maghrib: 'المغرب', isha: 'العشاء' };
+const ROLEK = { WORSHIP: 'wor', CHILD: 'fam', SPOUSE: 'fam', DEV: 'dev', BUSINESS: 'bus', SELF: 'self', LEARNING: 'self', BODY: 'body' };
+const pad = (n) => String(n).padStart(2, '0');
+const fmt = (m) => { m = Math.round(m); m = ((m % 1440) + 1440) % 1440; return pad(Math.floor(m / 60)) + ':' + pad(m % 60); };
+const hoursW = (h) => h === 1 ? 'ساعة' : h === 2 ? 'ساعتين' : h <= 10 ? h + ' ساعات' : h + ' ساعة';
+const minsW = (m) => m === 1 ? 'دقيقة' : m === 2 ? 'دقيقتين' : m <= 10 ? m + ' دقائق' : m + ' دقيقة';
+const durText = (x) => { x = Math.round(x); const h = Math.floor(x / 60), m = x % 60; return !h ? minsW(m) : !m ? hoursW(h) : hoursW(h) + ' و' + minsW(m); };
+const durShort = (x) => { x = Math.round(x); const h = Math.floor(x / 60), m = x % 60; return h && m ? `${h} س ${m} د` : h ? `${h} س` : `${m} د`; };
+const clock = (x) => { x = Math.max(0, Math.round(x)); return `${Math.floor(x / 60)}:${pad(x % 60)}`; };
+const dateOf = (doy) => new Date(Date.UTC(2026, 0, 1 + doy));
+const doyOf = (y, m, d) => Math.round((Date.UTC(y, m - 1, d) - Date.UTC(2026, 0, 1)) / 864e5);
+const hijriF = new Intl.DateTimeFormat('ar-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const gDate = (doy) => { const d = dateOf(doy); return `${DAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`; };
+const hijri = (doy) => hijriF.format(dateOf(doy)).replace(' هـ', '');
+const lerp = (a, b, k) => a + (b - a) * k;
+const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const mix = (a, b, k) => { const A = hex(a), B = hex(b); return '#' + A.map((v, i) => pad(Math.round(lerp(v, B[i], k)).toString(16))).join(''); };
+const NAV_IC = [
+  '<path d="M3 18a9 9 0 0 1 18 0"/><circle cx="12" cy="18" r="1.6" fill="currentColor"/><path d="M12 18l4.5-6.5"/>',
+  '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+  '<path d="M5 4v16M10 4v16M15 4v16M20 4v16"/><path d="M3 9h18M3 15h18" stroke-dasharray="2 3"/>',
+  '<path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h3"/>'];
+const nav = () => `<div class="nav" aria-hidden="true">${NAV_IC.map((p, i) => `<span class="${i === 0 ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">${p}</svg></span>`).join('')}</div>`;
+
+/* sky colours by solar altitude (top, horizon) */
+const SKY = [[-90, '#05081A', '#0B1230'], [-18, '#070B1E', '#111A3A'], [-12, '#0E1436', '#262E63'], [-6, '#1A2152', '#5A3F78'], [-2, '#2E3A78', '#D8707A'], [3, '#5466A8', '#F39A6B'], [10, '#4F7FC6', '#F2C98A'], [22, '#3E7BD6', '#A9CCF2'], [90, '#2F6FD0', '#B7D6F6']];
+function skyAt(alt) { for (let i = 1; i < SKY.length; i++) if (alt <= SKY[i][0]) { const [a0, t0, h0] = SKY[i - 1], [a1, t1, h1] = SKY[i], k = (alt - a0) / (a1 - a0); return [mix(t0, t1, k), mix(h0, h1, k)]; } return [SKY[8][1], SKY[8][2]]; }
+
+const S = { city: 'sul', madhab: 'SHAFI', doy: 0, t: 0, live: true, done: {} };
+function cityNow() {
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: TZ[S.city], year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()).map((x) => [x.type, x.value]));
+  return { y: +p.year, doy: doyOf(+p.year, +p.month, +p.day), min: +p.hour * 60 + +p.minute };
+}
+function realDoy() { const n = cityNow(); return n.y === 2026 ? n.doy : doyOf(2026, 10, 15); }
+
+let DAY = null, NX = null;
+function loadDay() { DAY = resolveDay(S.city, S.madhab, S.doy); NX = times(S.city, S.madhab, S.doy + 1); }
+function snap() {
+  const t = S.t, d = DAY, tt = d.times;
+  const cur = d.blocks.find((b) => b.start <= t && t < b.end) || null;
+  const idx = cur ? d.blocks.indexOf(cur) : d.blocks.findIndex((b) => b.start > t);
+  const nexts = d.blocks.slice(idx < 0 ? d.blocks.length : (cur ? idx + 1 : idx)).slice(0, 3);
+  const plist = [['fajr', tt.fajr], [d.friday ? 'jumua' : 'dhuhr', tt.dhuhr], ['asr', tt.asr], ['maghrib', tt.maghrib], ['isha', tt.isha], ['fajr', NX.fajr + 1440]];
+  const np = plist.find(([, m]) => m > t);
+  const sun = sunAt(S.city, S.doy, t);
+  const asleep = !cur;
+  return { t, d, tt, cur, nexts, np: { key: np[0], name: PN[np[0]], m: np[1], left: np[1] - t }, sun, asleep,
+    prog: cur ? (t - cur.start) / (cur.end - cur.start) : 0, plan: d.plan };
+}
+const curTitle = (s) => s.cur ? s.cur.title : (s.t >= s.plan.bedtime ? 'وقت النوم' : 'نوم');
+const curSub = (s) => s.cur ? `حتى ${fmt(s.cur.end)}، باقي ${durShort(s.cur.end - s.t)}` : `تقوم ${fmt(s.t >= s.plan.bedtime ? s.plan.wake : s.d.prevPlan.wake)}${(s.t >= s.plan.bedtime ? s.plan.qiyam : s.d.prevPlan.qiyam) ? ' للسَّحَر' : ''}`;
+const actLabel = (s) => !s.cur ? '' : S.done[S.doy + s.cur.key] ? 'رجّع' : s.cur.isPrayer ? 'صليت' : 'تم';
+const sayBig = (s) => s.np.left < 1 ? `${s.np.name} الحين` : `${s.np.name} بعد ${durText(s.np.left)}`;
+const nightLine = (s) => `الليلة ${durText(s.plan.night)} نوم، ${s.plan.qiyam ? `وسَحَر ${fmt(s.plan.wake)}` : 'وأوتر قبل نومك'}`;
+function actBtn(s, cls = '') { return s.cur ? `<button class="act ${cls}" data-act="${s.cur.key}" aria-pressed="${!!S.done[S.doy + s.cur.key]}">${actLabel(s)}</button>` : ''; }
+
+/* ================= A · المدار ================= */
+const AC = { wor: '#7C9BFF', fam: '#FFB547', dev: '#FF6B7D', bus: '#2ED3C6', self: '#B48CFF', body: '#5BE08F' };
+const aCol = (b) => b.isPrayer ? '#FFFFFF' : AC[ROLEK[b.role]];
+function arcPath(cx, cy, r, a0, a1) {
+  const p = (a) => [cx + r * Math.sin(a * Math.PI / 180), cy - r * Math.cos(a * Math.PI / 180)];
+  const [x0, y0] = p(a0), [x1, y1] = p(a1);
+  return `M${x0.toFixed(2)} ${y0.toFixed(2)}A${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+}
+const angOf = (m) => (m - 720) / 1440 * 360;
+function renderA(el, s) {
+  const W = 340, cx = 170, cy = 168, r = 112;
+  const [skyT, skyH] = skyAt(s.sun.alt);
+  let o = `<defs><filter id="aglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+  o += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="22"/>`;
+  for (let h = 0; h < 24; h++) { const a = angOf(h * 60) * Math.PI / 180, r1 = h % 6 ? 96 : 92; o += `<line x1="${cx + r1 * Math.sin(a)}" y1="${cy - r1 * Math.cos(a)}" x2="${cx + 100 * Math.sin(a)}" y2="${cy - 100 * Math.cos(a)}" stroke="rgba(255,255,255,${h % 6 ? .18 : .4})" stroke-width="${h % 6 ? 1 : 1.6}"/>`; }
+  [[0, '24'], [6, '6'], [12, '12'], [18, '18']].forEach(([h, l]) => { const a = angOf(h * 60) * Math.PI / 180; o += `<text x="${cx + 82 * Math.sin(a)}" y="${cy - 82 * Math.cos(a) + 4}" font-size="11" fill="#7F89A3" text-anchor="middle">${l}</text>`; });
+  // sleep arcs
+  const sleepArc = (a, b) => { o += `<path d="${arcPath(cx, cy, r, angOf(a) + 0.8, angOf(b) - 0.8)}" fill="none" stroke="#2C3570" stroke-width="14" stroke-linecap="round"/>`; };
+  sleepArc(Math.max(0, s.d.prevPlan.bedtime - 1440), s.d.blocks[0].start);
+  sleepArc(s.plan.bedtime, 1439.5);
+  s.d.blocks.forEach((b) => {
+    const past = b.end <= s.t, isCur = s.cur === b;
+    const a0 = angOf(b.start) + 0.7, a1 = angOf(b.end) - 0.7; if (a1 <= a0) return;
+    o += `<path d="${arcPath(cx, cy, r, a0, a1)}" fill="none" stroke="${aCol(b)}" stroke-opacity="${past ? .28 : isCur ? 1 : .8}" stroke-width="${isCur ? 20 : 14}" ${isCur ? 'filter="url(#aglow)"' : ''}/>`;
+  });
+  // comet trail
+  for (let i = 0; i < 8; i++) { const a0 = angOf(s.t - 96 + i * 12), a1 = angOf(s.t - 84 + i * 12); o += `<path d="${arcPath(cx, cy, r + 17, a0, a1)}" fill="none" stroke="#FFFFFF" stroke-opacity="${(i + 1) / 12}" stroke-width="2.5" stroke-linecap="round"/>`; }
+  const an = angOf(s.t) * Math.PI / 180, nx = cx + (r + 17) * Math.sin(an), ny = cy - (r + 17) * Math.cos(an);
+  o += `<circle cx="${nx}" cy="${ny}" r="6.5" fill="#FFFFFF" filter="url(#aglow)"/>`;
+  // prayer nodes
+  const P = [['fajr', s.tt.fajr], [s.d.friday ? 'jumua' : 'dhuhr', s.tt.dhuhr], ['asr', s.tt.asr], ['maghrib', s.tt.maghrib], ['isha', s.tt.isha]];
+  P.forEach(([k, m]) => { const a = angOf(m) * Math.PI / 180; const x = cx + r * Math.sin(a), y = cy - r * Math.cos(a); const lx = cx + (r + 32) * Math.sin(a), ly = cy - (r + 32) * Math.cos(a);
+    o += `<circle cx="${x}" cy="${y}" r="5" fill="#fff" stroke="#090D1A" stroke-width="2"/><text x="${lx}" y="${ly + 4}" font-size="12" fill="${s.np.key === k && s.np.m < 1440 ? '#FFFFFF' : '#9AA4BD'}" font-weight="${s.np.key === k ? 600 : 400}" text-anchor="middle">${PN[k]}</text>`; });
+  // centre
+  o += `<text x="${cx}" y="${cy - 30}" font-size="15" fill="#AEB7CC" text-anchor="middle">${s.np.name} بعد</text>`;
+  o += `<text x="${cx}" y="${cy + 22}" font-size="52" font-weight="600" fill="#FFFFFF" text-anchor="middle" style="font-variant-numeric:tabular-nums">${clock(s.np.left)}</text>`;
+  o += `<text x="${cx}" y="${cy + 48}" font-size="14" fill="#8E98B2" text-anchor="middle">${fmt(s.np.m)}</text>`;
+  const col = s.cur ? aCol(s.cur) : '#2C3570';
+  el.innerHTML = `<div class="glow" style="background:radial-gradient(circle at 50% 30%, ${skyH}AA, ${skyT}55 45%, transparent 70%)"></div>
+    <div class="hd"><div><b>${gDate(S.doy)}</b><span>${hijri(S.doy)}</span></div><span>${CITIES[S.city].name}</span></div>
+    <svg class="ring" width="${W}" height="${W}" viewBox="0 0 ${W} ${W}" aria-hidden="true">${o}</svg>
+    <div class="card"><div style="flex:1;min-width:0"><div class="ti">${curTitle(s)}</div><div class="su">${curSub(s)}</div><div class="pbar"><i style="width:${(s.prog * 100).toFixed(1)}%;background:${col}"></i></div></div>${actBtn(s)}</div>
+    <div class="next">${s.nexts.map((b) => `<div class="nx"><span class="t">${fmt(b.start)}</span><i style="background:${aCol(b)}"></i><span>${b.title}</span></div>`).join('')}</div>
+    ${nav()}`;
+}
+
+/* ================= B · الأفق ================= */
+const BC = { wor: '#9DB4FF', fam: '#FFC768', dev: '#FF8A97', bus: '#5FE0D4', self: '#C6A8FF', body: '#7EE8A6' };
+let ridges = null;
+function ridge(seed, base, amp, n) { const pts = []; for (let i = 0; i <= n; i++) { const x = i / n * 360; const y = base - amp * (0.55 * Math.sin(x / 47 + seed) + 0.3 * Math.sin(x / 19 + seed * 2.1) + 0.15 * Math.sin(x / 7 + seed * 3.7)); pts.push(`${x.toFixed(1)},${y.toFixed(1)}`); } return pts.join(' '); }
+const STARS = Array.from({ length: 70 }, (_, i) => [(i * 137.5) % 360, (i * 61.8) % 230 + 6, (i % 5) * 0.25 + 0.6]);
+function renderB(el, s) {
+  const [top, hor] = skyAt(s.sun.alt), dark = Math.max(0, Math.min(1, (-s.sun.alt - 2) / 14));
+  const tt = s.tt, a = tt.fajr - 50, z = tt.isha + 60;
+  const X = (m) => 340 - (m - a) / (z - a) * 320, HY = 222;
+  let maxAlt = 0; for (let m = tt.sunrise; m < tt.maghrib; m += 10) maxAlt = Math.max(maxAlt, sunAt(S.city, S.doy, m).alt);
+  const kUp = 150 / Math.max(30, maxAlt), kDn = 2.2;
+  const Y = (alt) => alt >= 0 ? HY - alt * kUp : HY - alt * kDn;
+  let pathUp = [], pathDn = [];
+  for (let m = a; m <= z; m += 6) { const al = sunAt(S.city, S.doy, m).alt; const p = `${X(m).toFixed(1)},${Y(al).toFixed(1)}`; (al >= 0 ? pathUp : pathDn).push([m, p]); }
+  const fg = mix(hor, '#0D1424', 0.55), mid = mix(hor, '#0D1424', 0.35), back = mix(hor, top, 0.4);
+  let o = `<defs><linearGradient id="bsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${top}"/><stop offset="1" stop-color="${hor}"/></linearGradient>
+    <radialGradient id="bsun"><stop offset="0" stop-color="#FFF6DA"/><stop offset=".35" stop-color="#FFD27A" stop-opacity=".9"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></radialGradient>
+    <linearGradient id="bfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0D1424" stop-opacity="0"/><stop offset="1" stop-color="#0D1424"/></linearGradient></defs>`;
+  o += `<rect width="360" height="420" fill="url(#bsky)"/>`;
+  if (dark > 0) o += STARS.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" opacity="${(dark * (0.35 + (r - 0.6))).toFixed(2)}"/>`).join('');
+  // sun path above horizon
+  const segs = []; let curSeg = [];
+  for (let m = a; m <= z; m += 4) { const al = sunAt(S.city, S.doy, m).alt; if (al >= 0) curSeg.push(`${X(m).toFixed(1)},${Y(al).toFixed(1)}`); else if (curSeg.length) { segs.push(curSeg); curSeg = []; } }
+  if (curSeg.length) segs.push(curSeg);
+  segs.forEach((sg) => { o += `<polyline points="${sg.join(' ')}" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="2 5" stroke-linecap="round"/>`; });
+  // mountains
+  o += `<polygon points="0,420 ${ridge(1.3, HY - 10, 20, 60)} 360,420" fill="${back}" opacity=".85"/>`;
+  o += `<polygon points="0,420 ${ridge(4.1, HY + 18, 26, 60)} 360,420" fill="${mid}"/>`;
+  o += `<polygon points="0,420 ${ridge(7.7, HY + 52, 22, 60)} 360,420" fill="${fg}"/>`;
+  o += `<line x1="0" y1="${HY}" x2="360" y2="${HY}" stroke="#FFFFFF" stroke-opacity=".25" stroke-dasharray="1 4"/>`;
+  // below-horizon dotted path (fajr / isha depth)
+  let dn = []; for (let m = a; m <= z; m += 4) { const al = sunAt(S.city, S.doy, m).alt; if (al < 0) dn.push([m, al]); }
+  const dl = (arr) => arr.map(([m, al]) => `${X(m).toFixed(1)},${Y(al).toFixed(1)}`).join(' ');
+  const morning = dn.filter(([m]) => m < tt.dhuhr), evening = dn.filter(([m]) => m > tt.dhuhr);
+  [morning, evening].forEach((arr) => { if (arr.length > 1) o += `<polyline points="${dl(arr)}" fill="none" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="1.4" stroke-dasharray="1 4"/>`; });
+  // prayer marks
+  const marks = [['fajr', tt.fajr], [s.d.friday ? 'jumua' : 'dhuhr', tt.dhuhr], ['asr', tt.asr], ['maghrib', tt.maghrib], ['isha', tt.isha]];
+  marks.forEach(([k, m]) => { const al = sunAt(S.city, S.doy, m).alt, x = X(m), y = Y(al), below = al < -1;
+    o += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${below ? 'none' : '#fff'}" stroke="#fff" stroke-width="1.6"/>`;
+    o += `<text x="${x.toFixed(1)}" y="${(below ? y + 18 : y - 10).toFixed(1)}" font-size="12" fill="#fff" fill-opacity=".92" text-anchor="middle">${PN[k]}</text>`;
+    if (below && (k === 'fajr' || k === 'isha')) o += `<text x="${x.toFixed(1)}" y="${(y + 33).toFixed(1)}" font-size="11" fill="#fff" fill-opacity=".7" text-anchor="middle">${Math.abs(al).toFixed(1)}° تحت الأفق</text>`;
+  });
+  // the sun itself
+  const sx = X(Math.max(a, Math.min(z, s.t))), sy = Y(s.sun.alt);
+  if (s.sun.alt > -1 && s.t >= a && s.t <= z) o += `<circle cx="${sx}" cy="${sy}" r="46" fill="url(#bsun)"/><circle cx="${sx}" cy="${sy}" r="11" fill="#FFF3D1"/>`;
+  else if (s.t >= a && s.t <= z) o += `<circle cx="${sx}" cy="${sy}" r="6" fill="none" stroke="#FFD27A" stroke-width="2"/>`;
+  o += `<rect y="330" width="360" height="90" fill="url(#bfade)"/>`;
+  const col = s.cur ? (s.cur.isPrayer ? '#fff' : BC[ROLEK[s.cur.role]]) : '#5A6AA8';
+  el.innerHTML = `<svg class="sky" width="360" height="420" viewBox="0 0 360 420" aria-hidden="true">${o}</svg>
+    <div class="hd"><div><b>${gDate(S.doy)}</b><span>${hijri(S.doy)}</span></div><span>${CITIES[S.city].name}</span></div>
+    <div class="panel"><div class="glass">
+      <div class="big">${sayBig(s)}</div><div class="sub">${fmt(s.np.m)}، ${s.np.key === 'asr' ? 'حين يصير ظل الشي بطوله' : s.np.key === 'maghrib' ? 'مع غياب الشمس' : s.np.key === 'isha' ? 'لما تنزل الشمس تحت الأفق كثير' : s.np.key === 'fajr' ? 'مع أول ضوء' : 'بعد ما تعبر الشمس أعلى نقطة'}</div>
+      <div class="cur"><span style="width:10px;height:10px;border-radius:50%;background:${col};flex:none;box-shadow:0 0 12px ${col}"></span><div style="flex:1;min-width:0"><div class="ti">${curTitle(s)}</div><div class="su">${curSub(s)}</div></div>${actBtn(s)}</div>
+    </div>
+    <div class="list">${s.nexts.map((b) => `<div class="li"><span class="t">${fmt(b.start)}</span><i style="background:${b.isPrayer ? '#fff' : BC[ROLEK[b.role]]}"></i><span>${b.title}</span></div>`).join('')}</div>
+    </div>${nav()}`;
+}
+
+/* ================= C · الظل (3D) ================= */
+const CC = { wor: '#3F57A6', fam: '#C98A1E', dev: '#B5473F', bus: '#0E8F9E', self: '#8462C4', body: '#2E9157' };
+const CCN = { wor: '#6F86D6', fam: '#B4802A', dev: '#D04E66', bus: '#16A0AF', self: '#8F74D4', body: '#3DA56B' };
+function renderC(el, s) {
+  const night = s.sun.alt < -4;
+  el.classList.toggle('night', night);
+  const W = 360, H = 400, cx = 180, cy = 262, R = 128, tilt = 58 * Math.PI / 180, ct = Math.cos(tilt), st = Math.sin(tilt);
+  // world: x east, y north, z up. camera from the north looking south: east appears on the left.
+  const P = (x, y, z) => [cx - x, cy + y * ct - z * st];
+  let nr = 0; { let best = -99; for (let m = s.tt.dhuhr - 15; m <= s.tt.dhuhr + 15; m += 1) { const a = sunAt(S.city, S.doy, m).alt; if (a > best) best = a; } nr = 1 / Math.tan(best * Math.PI / 180); }
+  const h = 82 / (1 + nr), rAsr = (S.madhab === 'HANAFI' ? 2 + nr : 1 + nr) * h;
+  const tip = (m) => { const sp = sunAt(S.city, S.doy, m); if (sp.alt <= 0.5) return null; const L = h / Math.tan(sp.alt * Math.PI / 180), az = (sp.az + 180) * Math.PI / 180; return { L, x: L * Math.sin(az), y: L * Math.cos(az) }; };
+  const ellipse = (r, fill, extra = '') => `<ellipse cx="${cx}" cy="${cy}" rx="${r}" ry="${(r * ct).toFixed(1)}" fill="${fill}" ${extra}/>`;
+  const [skyT, skyH] = skyAt(s.sun.alt);
+  const bgTop = night ? '#0E131B' : mix('#F3F4F0', skyH, 0.18), bgBot = night ? '#141920' : '#E9EBE6';
+  const stone = night ? '#2A313B' : '#D9DCD3', stoneHi = night ? '#3A4350' : '#F4F5F0', edge = night ? '#1A1F27' : '#AEB3A8', ink = night ? '#E8EAE5' : '#1C2026';
+  const sp = s.sun, lx = Math.sin((sp.az) * Math.PI / 180), ly = Math.cos(sp.az * Math.PI / 180);
+  let o = `<defs>
+    <linearGradient id="cbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${bgTop}"/><stop offset="1" stop-color="${bgBot}"/></linearGradient>
+    <radialGradient id="cstone" cx="${(0.5 - 0.28 * lx).toFixed(2)}" cy="${(0.5 - 0.28 * ly).toFixed(2)}" r=".8"><stop offset="0" stop-color="${stoneHi}"/><stop offset="1" stop-color="${stone}"/></radialGradient>
+    <filter id="cnoise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .09 0"/></filter>
+    <filter id="cblur"><feGaussianBlur stdDeviation="2.4"/></filter>
+    <clipPath id="cclip"><ellipse cx="${cx}" cy="${cy}" rx="${R}" ry="${(R * ct).toFixed(1)}"/></clipPath>
+  </defs>`;
+  o += `<rect width="${W}" height="${H}" fill="url(#cbg)"/>`;
+  // sun in the sky (projected direction, far away)
+  if (sp.alt > -2) { const D = 1.9 * R; const sx = cx - D * Math.cos(sp.alt * Math.PI / 180) * lx, sy = cy + D * Math.cos(sp.alt * Math.PI / 180) * ly * ct - D * Math.sin(Math.max(0, sp.alt) * Math.PI / 180) * st - 40;
+    const qx = Math.max(26, Math.min(334, sx)).toFixed(1), qy = Math.max(78, sy).toFixed(1); o += `<circle cx="${qx}" cy="${qy}" r="34" fill="#FFD27A" opacity=".25"/><circle cx="${qx}" cy="${qy}" r="13" fill="#F2B544"/>`; }
+  else o += `<circle cx="78" cy="128" r="13" fill="#DCE3F0" opacity=".9"/><circle cx="85" cy="122" r="13" fill="${bgTop}"/>`;
+  // ground shadow + stone body
+  o += `<ellipse cx="${cx}" cy="${cy + 22}" rx="${R + 10}" ry="${(R * ct + 10).toFixed(1)}" fill="#000" opacity="${night ? .35 : .12}" filter="url(#cblur)"/>`;
+  o += `<path d="M${cx - R} ${cy} v16 a${R} ${(R * ct).toFixed(1)} 0 0 0 ${2 * R} 0 v-16 z" fill="${edge}"/>`;
+  o += ellipse(R, 'url(#cstone)');
+  o += `<g clip-path="url(#cclip)"><rect x="${cx - R}" y="${cy - R}" width="${2 * R}" height="${2 * R}" filter="url(#cnoise)"/>`;
+  // hour lines
+  for (let H2 = Math.ceil(s.tt.sunrise / 60); H2 * 60 < s.tt.maghrib; H2++) { const tp = tip(H2 * 60); if (!tp || H2 % 2) continue; const k = R * 1.3 / tp.L; const [x2, y2] = P(tp.x * k, tp.y * k, 0); const [lx2, ly2] = P(tp.x / tp.L * (R - 16), tp.y / tp.L * (R - 16), 0);
+    o += `<line x1="${cx}" y1="${cy}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${ink}" stroke-opacity=".18" stroke-width=".8"/><text x="${lx2.toFixed(1)}" y="${(ly2 + 4).toFixed(1)}" font-size="10" fill="${ink}" fill-opacity=".55" text-anchor="middle">${H2}</text>`; }
+  o += `<ellipse cx="${cx}" cy="${cy}" rx="${rAsr.toFixed(1)}" ry="${(rAsr * ct).toFixed(1)}" fill="none" stroke="${ink}" stroke-opacity=".55" stroke-width="1.4" stroke-dasharray="3 5"/>`;
+  // tip trace
+  const past = [], fut = [];
+  for (let m = s.tt.sunrise; m <= s.tt.maghrib; m += 5) { const tp = tip(m); if (!tp || tp.L > R * 1.3) continue; const q = P(tp.x, tp.y, 0).map((v) => v.toFixed(1)).join(','); (m <= s.t ? past : fut).push(q); }
+  if (past.length > 1) o += `<polyline points="${past.join(' ')}" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>`;
+  if (fut.length) o += `<polyline points="${(past.length ? [past[past.length - 1]] : []).concat(fut).join(' ')}" fill="none" stroke="${ink}" stroke-opacity=".38" stroke-width="1.8" stroke-dasharray="1 5" stroke-linecap="round"/>`;
+  const at = tip(s.tt.asr); if (at && at.L < R) { const [ax, ay] = P(at.x, at.y, 0); o += `<circle cx="${ax.toFixed(1)}" cy="${ay.toFixed(1)}" r="5" fill="${night ? '#141920' : '#fff'}" stroke="${ink}" stroke-width="2"/><text x="${ax.toFixed(1)}" y="${(ay - 10).toFixed(1)}" font-size="12" font-weight="600" fill="${ink}" text-anchor="middle">العصر</text>`; }
+  // shadow of the pin
+  const tp = tip(s.t);
+  if (tp) { const L = Math.min(tp.L, R * 1.6), ux = tp.x / tp.L, uy = tp.y / tp.L, px = -uy, py = ux;
+    const q = [[px * 6, py * 6], [ux * L + px * 2.2, uy * L + py * 2.2], [ux * L - px * 2.2, uy * L - py * 2.2], [-px * 6, -py * 6]].map(([x, y]) => P(x, y, 0).map((v) => v.toFixed(1)).join(',')).join(' ');
+    o += `<polygon points="${q}" fill="#1E2733" opacity=".45" filter="url(#cblur)"/><polygon points="${q}" fill="#1E2733" opacity=".7"/>`;
+    if (tp.L < R) { const [ex, ey] = P(tp.x, tp.y, 0); o += `<circle cx="${ex.toFixed(1)}" cy="${ey.toFixed(1)}" r="5.5" fill="#E8A23A" stroke="${ink}" stroke-width="1.2"/>`; } }
+  o += `</g>`;
+  // the gnomon (vertical pin)
+  const [gx, gy] = P(0, 0, 0), [tx, ty] = P(0, 0, h);
+  o += `<ellipse cx="${gx}" cy="${gy}" rx="7" ry="${(7 * ct).toFixed(1)}" fill="${night ? '#0B0E13' : '#3A3F46'}"/>`;
+  o += `<path d="M${gx - 3} ${gy} L${tx - 1.6} ${ty} L${tx + 1.6} ${ty} L${gx + 3} ${gy} Z" fill="${night ? '#8892A0' : '#2A2F36'}"/><line x1="${gx + 1.2}" y1="${gy}" x2="${tx + .6}" y2="${ty}" stroke="#fff" stroke-opacity=".35" stroke-width="1"/>`;
+  o += `<circle cx="${tx}" cy="${ty}" r="3.6" fill="${night ? '#AEB6C2' : '#2A2F36'}"/>`;
+  const pal = night ? CCN : CC, col = s.cur ? (s.cur.isPrayer ? (night ? '#E8EAE5' : '#1C2026') : pal[ROLEK[s.cur.role]]) : '#5E7290';
+  const ring = `<svg class="ring" viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="17" fill="none" stroke="${night ? 'rgba(255,255,255,.12)' : 'rgba(0,0,0,.08)'}" stroke-width="5"/><circle cx="21" cy="21" r="17" fill="none" stroke="${col}" stroke-width="5" stroke-linecap="round" stroke-dasharray="106.8" stroke-dashoffset="${(106.8 * (1 - s.prog)).toFixed(1)}" transform="rotate(-90 21 21)"/></svg>`;
+  el.innerHTML = `<div class="hd"><div><b>${gDate(S.doy)}</b><span>${hijri(S.doy)}</span></div><span>${CITIES[S.city].name}</span></div>
+    <svg class="dial3d" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${o}</svg>
+    <div class="say"><div class="big">${sayBig(s)}</div><div class="sub">${s.np.key === 'asr' ? 'حين يبلغ طرف الظل الدائرة، ' : ''}${fmt(s.np.m)}</div></div>
+    <div class="card">${ring}<div style="flex:1;min-width:0"><div class="ti">${curTitle(s)}</div><div class="su">${curSub(s)}</div></div>${actBtn(s)}</div>
+    <div class="list">${s.nexts.slice(0, 2).map((b) => `<div class="li"><span class="t">${fmt(b.start)}</span>${b.isPrayer ? `<span class="k" style="background:${night ? '#E8EAE5' : '#1C2026'}"></span>` : `<i style="background:${pal[ROLEK[b.role]]}"></i>`}<span>${b.title}</span></div>`).join('')}</div>
+    ${nav()}`;
+}
+
+/* ================= D · الجاجم ================= */
+const DK = { wor: ['#2E4C8F', '#8FA8E0'], fam: ['#E0A12E', '#7A4E10'], dev: ['#B0362C', '#F0C9A8'], bus: ['#3F7F86', '#BFE0D8'], self: ['#7A3F6E', '#E6B9D6'], body: ['#6F8F3A', '#E7EFC5'] };
+function dPatterns() {
+  const pat = (id, bg, fg, body) => `<pattern id="${id}" width="16" height="12" patternUnits="userSpaceOnUse"><rect width="16" height="12" fill="${bg}"/>${body.replaceAll('FG', fg)}</pattern>`;
+  return pat('k-wor', ...DK.wor, '<path d="M8 1L14 6L8 11L2 6Z" fill="none" stroke="FG" stroke-width="1.4"/><path d="M8 4.5L9.5 6L8 7.5L6.5 6Z" fill="FG"/>')
+    + pat('k-dev', ...DK.dev, '<path d="M0 9L4 3L8 9L12 3L16 9" fill="none" stroke="FG" stroke-width="1.6"/>')
+    + pat('k-fam', ...DK.fam, '<path d="M2 6h3v-3h6v3h3v3h-3v-3h-6v3h-3z" fill="FG" opacity=".85"/>')
+    + pat('k-bus', ...DK.bus, '<path d="M0 3h16M0 9h16" stroke="FG" stroke-width="1.2" stroke-dasharray="3 2"/>')
+    + pat('k-self', ...DK.self, '<circle cx="4" cy="6" r="1.6" fill="FG"/><circle cx="12" cy="6" r="1.6" fill="FG"/>')
+    + pat('k-body', ...DK.body, '<path d="M0 6L4 2L8 6L12 2L16 6M0 11L4 7L8 11L12 7L16 11" fill="none" stroke="FG" stroke-width="1.3"/>');
+}
+function renderD(el, s) {
+  const W = 300, x0 = 78, wv = 190, top = 26, bot = 470;
+  const a = Math.floor(Math.min(s.d.blocks[0].start, s.tt.fajr) / 30) * 30, z = Math.ceil(s.plan.bedtime / 30) * 30;
+  const Y = (m) => top + (m - a) / (z - a) * (bot - top);
+  let o = `<defs>${dPatterns()}<pattern id="warp" width="5" height="6" patternUnits="userSpaceOnUse"><path d="M2.5 0v6" stroke="#F1E6D2" stroke-opacity=".22" stroke-width="1"/></pattern>
+    <filter id="dglow" x="-20%" y="-200%" width="140%" height="500%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+  // fringes
+  for (let i = 0; i <= 19; i++) { const x = (x0 + 5 + i * (wv - 10) / 19).toFixed(1), len = 12 + (i % 3) * 2; o += `<line x1="${x}" y1="${top}" x2="${x}" y2="${top - len}" stroke="#E9DCC3" stroke-width="2" stroke-linecap="round" opacity=".7"/><line x1="${x}" y1="${bot}" x2="${x}" y2="${bot + len}" stroke="#E9DCC3" stroke-width="2" stroke-linecap="round" opacity=".7"/>`; }
+  o += `<rect x="${x0}" y="${top - 3}" width="${wv}" height="3" fill="#E9DCC3" opacity=".8"/><rect x="${x0}" y="${bot}" width="${wv}" height="3" fill="#E9DCC3" opacity=".8"/>`;
+  o += `<rect x="${x0}" y="${top}" width="${wv}" height="${bot - top}" fill="#2B1E1A"/>`;
+  s.d.blocks.forEach((b) => {
+    const y = Y(b.start), h = Math.max(1.2, Y(b.end) - y), done = b.end <= s.t, isCur = s.cur === b;
+    if (b.isPrayer) {
+      o += `<rect x="${x0}" y="${y.toFixed(1)}" width="${wv}" height="${h.toFixed(1)}" fill="#F1E6D2" opacity="${done || isCur ? 1 : .55}"/>`;
+      for (let k = 0; k < 7; k++) { const kx = x0 + 14 + k * (wv - 28) / 6, ky = y + h / 2; o += `<rect x="${kx - 3}" y="${(ky - 3).toFixed(1)}" width="6" height="6" fill="#B0362C" transform="rotate(45 ${kx} ${ky.toFixed(1)})" opacity="${done || isCur ? 1 : .55}"/>`; }
+      o += `<text x="${x0 - 10}" y="${(y + h / 2 + 4).toFixed(1)}" font-size="13" font-weight="700" fill="#F1E6D2" text-anchor="end" direction="ltr">${fmt(b.start)}</text>`;
+      o += `<text x="${x0 + wv + 10}" y="${(y + h / 2 + 4).toFixed(1)}" font-size="13" font-weight="700" fill="#F1E6D2" text-anchor="start" direction="ltr">${PN[b.key] || ''}</text>`;
+    } else {
+      const k = ROLEK[b.role];
+      const cut = Math.max(y, Math.min(y + h, Y(s.t)));
+      if (done) o += `<rect x="${x0}" y="${y.toFixed(1)}" width="${wv}" height="${Math.max(0, h - .8).toFixed(1)}" fill="url(#k-${k})"/>`;
+      else {
+        if (cut > y) o += `<rect x="${x0}" y="${y.toFixed(1)}" width="${wv}" height="${(cut - y).toFixed(1)}" fill="url(#k-${k})"/>`;
+        o += `<rect x="${x0}" y="${cut.toFixed(1)}" width="${wv}" height="${Math.max(0, y + h - cut - .8).toFixed(1)}" fill="${DK[k][0]}" opacity=".28"/>`;
+      }
+    }
+  });
+  // unwoven warp over the future
+  const yn = Math.max(top, Math.min(bot, Y(s.t)));
+  o += `<rect x="${x0}" y="${yn}" width="${wv}" height="${bot - yn}" fill="url(#warp)"/>`;
+  // shuttle = now
+  if (s.t >= a && s.t <= z) { o += `<line x1="${x0 - 6}" y1="${yn}" x2="${x0 + wv + 6}" y2="${yn}" stroke="#E0A12E" stroke-width="3" filter="url(#dglow)"/><path d="M${x0 + wv + 6} ${yn - 6} l12 6 l-12 6 z" fill="#E0A12E"/><text x="${x0 - 10}" y="${yn + 4}" font-size="13" font-weight="800" fill="#E0A12E" text-anchor="end" direction="ltr">${fmt(s.t)}</text>`; }
+  o += `<text x="${x0 - 10}" y="${(Y(s.plan.bedtime) + 4).toFixed(1)}" font-size="12" fill="#C9B79C" text-anchor="end" direction="ltr">${fmt(s.plan.bedtime)}</text>`;
+  const col = s.cur ? (s.cur.isPrayer ? '#F1E6D2' : DK[ROLEK[s.cur.role]][0]) : '#3A2A23';
+  el.innerHTML = `<div class="hd"><div><b>${gDate(S.doy)}</b><span>${hijri(S.doy)}</span></div><span style="font-size:12.5px;color:#C9B79C">${CITIES[S.city].name}</span></div>
+    <div class="np"><span class="big">${sayBig(s)}</span></div>
+    <svg class="loom" width="360" height="500" viewBox="0 0 360 500" aria-hidden="true">${o}</svg>
+    <div class="card"><span style="width:14px;height:14px;transform:rotate(45deg);background:${col};flex:none;border:1px solid #F1E6D2"></span><div style="flex:1;min-width:0"><div class="ti">${curTitle(s)}</div><div class="su">${curSub(s)}</div></div>${actBtn(s)}</div>
+    ${nav()}`;
+}
+
+/* ================= E · الشمسة ================= */
+const EC = { wor: '#8FA8F0', fam: '#E4B65A', dev: '#E07A82', bus: '#4CC1B5', self: '#B69BEA', body: '#79C98A' };
+function starPattern() {
+  return `<svg class="pat" width="360" height="780" aria-hidden="true"><defs><pattern id="estar" width="44" height="44" patternUnits="userSpaceOnUse"><g transform="translate(22 22)" fill="none" stroke="#D4AF63" stroke-width="1"><rect x="-9" y="-9" width="18" height="18"/><rect x="-9" y="-9" width="18" height="18" transform="rotate(45)"/><circle r="3"/></g><path d="M0 22h4M40 22h4M22 0v4M22 40v4" stroke="#D4AF63"/></pattern></defs><rect width="360" height="780" fill="url(#estar)"/></svg>`;
+}
+function renderE(el, s) {
+  const cx = 150, cy = 150, W = 300;
+  let o = `<defs><radialGradient id="egold" cx=".35" cy=".3"><stop offset="0" stop-color="#F6DE9A"/><stop offset=".6" stop-color="#D4AF63"/><stop offset="1" stop-color="#9C7630"/></radialGradient>
+    <radialGradient id="elap" cx=".5" cy=".45"><stop offset="0" stop-color="#1D3373"/><stop offset="1" stop-color="#0E1A3D"/></radialGradient>
+    <filter id="eglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+  // 24 rays, one per hour: lit if elapsed today
+  for (let hr = 0; hr < 24; hr++) {
+    const ang = (hr * 60 + 30 - 720) / 1440 * 2 * Math.PI, lit = (hr + 1) * 60 <= s.t, now = hr * 60 <= s.t && s.t < (hr + 1) * 60;
+    const r0 = 92, r1 = now ? 146 : 136, w = 0.105;
+    const p = (r, a) => [cx + r * Math.sin(a), cy - r * Math.cos(a)];
+    const [ax, ay] = p(r0, ang - w), [bx, by] = p(r1, ang), [cx2, cy2] = p(r0, ang + w), [mx, my] = p((r0 + r1) / 2, ang);
+    o += `<path d="M${ax.toFixed(1)} ${ay.toFixed(1)} Q ${p(r0 + 20, ang - w * .5).map((v) => v.toFixed(1)).join(' ')} ${bx.toFixed(1)} ${by.toFixed(1)} Q ${p(r0 + 20, ang + w * .5).map((v) => v.toFixed(1)).join(' ')} ${cx2.toFixed(1)} ${cy2.toFixed(1)} Z" fill="${lit || now ? 'url(#egold)' : 'none'}" stroke="#D4AF63" stroke-opacity="${lit || now ? 1 : .45}" stroke-width="1" ${now ? 'filter="url(#eglow)"' : ''}/>`;
+  }
+  o += `<circle cx="${cx}" cy="${cy}" r="92" fill="url(#elap)" stroke="#D4AF63" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="85" fill="none" stroke="#D4AF63" stroke-opacity=".6" stroke-width="1"/>`;
+  for (let i = 0; i < 48; i++) { const a = i / 48 * 2 * Math.PI; o += `<circle cx="${(cx + 88.5 * Math.sin(a)).toFixed(1)}" cy="${(cy - 88.5 * Math.cos(a)).toFixed(1)}" r="1.1" fill="#D4AF63"/>`; }
+  // prayer pearls on the medallion edge
+  [['fajr', s.tt.fajr], [s.d.friday ? 'jumua' : 'dhuhr', s.tt.dhuhr], ['asr', s.tt.asr], ['maghrib', s.tt.maghrib], ['isha', s.tt.isha]].forEach(([k, m]) => { const a = (m - 720) / 1440 * 2 * Math.PI; o += `<circle cx="${(cx + 92 * Math.sin(a)).toFixed(1)}" cy="${(cy - 92 * Math.cos(a)).toFixed(1)}" r="5" fill="#F3EAD6" stroke="#9C7630" stroke-width="1.5"/>`; });
+  o += `<text x="${cx}" y="${cy - 14}" font-family="Aref Ruqaa, serif" font-size="38" font-weight="700" fill="#E8C877" text-anchor="middle">${s.np.name}</text>`;
+  o += `<text x="${cx}" y="${cy + 22}" font-family="IBM Plex Sans Arabic, sans-serif" font-size="17" fill="#F3EAD6" text-anchor="middle">بعد ${durShort(s.np.left)}</text>`;
+  o += `<text x="${cx}" y="${cy + 46}" font-family="IBM Plex Sans Arabic, sans-serif" font-size="13" fill="#C8BB9C" text-anchor="middle">${fmt(s.np.m)}</text>`;
+  const rows = [];
+  if (s.cur) rows.push(s.cur);
+  rows.push(...s.nexts.slice(0, 3));
+  el.innerHTML = `${starPattern()}
+    <div class="cart"><b>${hijri(S.doy)}</b><span>${gDate(S.doy)}</span></div>
+    <svg class="shamsa" width="${W}" height="${W}" viewBox="0 0 ${W} ${W}" aria-hidden="true">${o}</svg>
+    <div class="lines">${rows.map((b) => `<div class="ln${b.isPrayer ? ' p' : ''}${b === s.cur ? ' cur' : ''}"><span class="t">${fmt(b.start)}</span>${b.isPrayer ? '' : `<span class="lz" style="background:${EC[ROLEK[b.role]]}"></span>`}<span class="nm">${b.isPrayer ? (PN[b.key] || b.title) : b.title}</span></div>`).join('')}</div>
+    <div class="cardE"><div style="flex:1;min-width:0"><div class="ti">${curTitle(s)}</div><div class="su">${curSub(s)}</div></div>${actBtn(s)}</div>
+    ${nav()}`;
+}
+
+/* ================= controls ================= */
+const R = { A: renderA, B: renderB, C: renderC, D: renderD, E: renderE };
+let pending = false;
+function draw() {
+  if (pending) return; pending = true;
+  requestAnimationFrame(() => { pending = false; const s = snap(); for (const k in R) R[k]($(k), s); drawBar(); });
+}
+function drawBar() {
+  const tt = DAY.times, rng = $('range');
+  rng.value = Math.round(S.t) % 1440;
+  const pct = (m) => (((m % 1440) + 1440) % 1440) / 1440 * 100;
+  $('th').style.insetInlineStart = pct(S.t) + '%';
+  $('clock').textContent = fmt(S.t);
+  rng.setAttribute('aria-valuetext', fmt(S.t));
+  const P = [['fajr', tt.fajr], [DAY.friday ? 'jumua' : 'dhuhr', tt.dhuhr], ['asr', tt.asr], ['maghrib', tt.maghrib], ['isha', tt.isha]];
+  let last = -99, labels = '';
+  P.forEach(([k, m]) => { const v = pct(m); if (v - last >= 8) { labels += `<div class="tkl" style="inset-inline-start:${v}%">${PN[k]}</div>`; last = v; } });
+  $('tks').innerHTML = P.map(([, m]) => `<div class="tk" style="inset-inline-start:${pct(m)}%"></div>`).join('') + labels;
+  document.querySelectorAll('#dates .chip').forEach((c) => {
+    const on = c.dataset.c ? S.city === c.dataset.c : (c.dataset.d === 'real' ? S.doy === realDoy() && S.city === 'sul' : S.doy === doyOf(...c.dataset.d.split('-').map(Number)) && S.city === 'sul');
+    c.setAttribute('aria-pressed', on);
+  });
+}
+$('range').addEventListener('input', (e) => { stopPlay(); S.live = false; S.t = +e.target.value; draw(); });
+$('now').onclick = () => { stopPlay(); S.live = true; S.t = cityNow().min; draw(); };
+let playing = null;
+function stopPlay() { if (playing) cancelAnimationFrame(playing); playing = null; $('play').setAttribute('aria-pressed', 'false'); $('playT').textContent = 'تشغيل اليوم'; $('playIc').innerHTML = '<path d="M7 5v14l12-7z"/>'; }
+$('play').onclick = () => {
+  if (playing) { stopPlay(); return; }
+  S.live = false; $('play').setAttribute('aria-pressed', 'true'); $('playT').textContent = 'إيقاف'; $('playIc').innerHTML = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+  if (reduce) { S.t = (S.t + 60) % 1440; draw(); stopPlay(); return; }
+  let last = performance.now();
+  const step = (now) => { const dt = now - last; last = now; S.t = (S.t + dt * 0.075) % 1440; draw(); playing = requestAnimationFrame(step); };
+  playing = requestAnimationFrame(step);
+};
+document.querySelectorAll('#dates .chip').forEach((c) => c.onclick = () => {
+  if (c.dataset.c) { S.city = S.city === 'lon' ? 'sul' : 'lon'; }
+  else { S.city = 'sul'; S.doy = c.dataset.d === 'real' ? realDoy() : doyOf(...c.dataset.d.split('-').map(Number)); }
+  if (S.live) S.t = cityNow().min;
+  loadDay(); draw();
+});
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const k = S.doy + b.dataset.act; S.done[k] = !S.done[k]; draw();
+});
+function fitPhones() { document.querySelectorAll('.item').forEach((it) => { const ph = it.querySelector('.ph'), s = Math.min(1, it.clientWidth / 376); ph.style.transform = s < 1 ? `scale(${s})` : ''; ph.style.marginBottom = s < 1 ? `${-(796 * (1 - s))}px` : ''; }); }
+window.addEventListener('resize', fitPhones);
+S.doy = realDoy(); S.t = cityNow().min; loadDay(); fitPhones(); draw();
+setInterval(() => { if (S.live && !playing) { S.t = cityNow().min; draw(); } }, 30000);
+</script>
+</body>
+</html>

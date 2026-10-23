@@ -587,7 +587,7 @@ function renderC(el, s) {
   o += `<rect width="${W}" height="${H}" fill="url(#cbg)"/>`;
   // sun in the sky (projected direction, far away)
   if (sp.alt > -2) { const D = 1.9 * R; const sx = cx - D * Math.cos(sp.alt * Math.PI / 180) * lx, sy = cy + D * Math.cos(sp.alt * Math.PI / 180) * ly * ct - D * Math.sin(Math.max(0, sp.alt) * Math.PI / 180) * st - 40;
-    const qx = Math.max(26, Math.min(334, sx)).toFixed(1), qy = Math.max(78, sy).toFixed(1); o += `<circle cx="${qx}" cy="${qy}" r="34" fill="#FFD27A" opacity=".25"/><circle cx="${qx}" cy="${qy}" r="13" fill="#F2B544"/>`; }
+    const qx = Math.max(26, Math.min(334, sx)).toFixed(1), qy = Math.max(124, sy).toFixed(1); o += `<circle cx="${qx}" cy="${qy}" r="34" fill="#FFD27A" opacity=".25"/><circle cx="${qx}" cy="${qy}" r="13" fill="#F2B544"/>`; }
   else o += `<circle cx="78" cy="128" r="13" fill="#DCE3F0" opacity=".9"/><circle cx="85" cy="122" r="13" fill="${bgTop}"/>`;
   // ground shadow + stone body
   o += `<ellipse cx="${cx}" cy="${cy + 22}" rx="${R + 10}" ry="${(R * ct + 10).toFixed(1)}" fill="#000" opacity="${night ? .35 : .12}" filter="url(#cblur)"/>`;

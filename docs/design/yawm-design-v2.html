@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>يوم: التصاميم الثانية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@400;600;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ECEEF1; --surface:#FFFFFF; --ink:#171A20; --muted:#4E5562; --line:#D3D8DF; --accent:#3D4E8C; --frame:#20242C;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#121418; --surface:#1B1E24; --ink:#E9ECF1; --muted:#A9B0BC; --line:#2D323B; --accent:#AFC0FF; --frame:#050608; }
+}
+:root[data-theme="dark"]{ --bg:#121418; --surface:#1B1E24; --ink:#E9ECF1; --muted:#A9B0BC; --line:#2D323B; --accent:#AFC0FF; --frame:#050608; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Arabic',Tahoma,sans-serif;font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:30px;line-height:1.35;margin:0 0 10px;font-weight:700}
+h2{font-size:26px;line-height:1.4;margin:0;font-weight:700}
+h3{font-size:19px;line-height:1.5;margin:0 0 6px;font-weight:600}
+p{margin:0 0 12px;max-width:68ch}
+.lead{color:var(--muted)}
+.findings{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px;margin:22px 0 8px}
+.finding{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.finding p{margin:0;color:var(--muted);font-size:16px}
+.dir{margin-top:56px;padding-top:28px;border-top:2px solid var(--line)}
+.dir-head{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:8px 32px;margin-bottom:22px}
+.dir-head .meta p{font-size:16px}
+.tag{display:inline-block;font-size:14px;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);margin-bottom:8px}
+.phones{display:flex;flex-wrap:wrap;gap:28px;justify-content:flex-start}
+.phone-slot{width:356px;max-width:100%}
+.phone-cap{font-size:15px;color:var(--muted);margin:10px 4px 0}
+.ph{width:356px;height:752px;border:8px solid var(--frame);border-radius:42px;overflow:hidden;position:relative;transform-origin:top right}
+.ph>.scr{width:340px;height:736px;display:flex;flex-direction:column;overflow:hidden;position:relative}
+table{border-collapse:collapse;width:100%;background:var(--surface);border-radius:16px;overflow:hidden;font-size:16px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:16px;margin-top:16px}
+th,td{padding:12px 14px;text-align:start;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600}
+tr:last-child td{border-bottom:0}
+.theme-btn{position:fixed;inset-inline-start:auto;inset-inline-end:16px;bottom:16px;height:48px;padding:0 18px;border-radius:24px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:600;z-index:5}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ===== هـ · الظل ===== */
+.e{--stone:#E7E9E4;--plate:#DCE0D9;--sheet:#F5F6F3;--basalt:#1F2328;--shade:#3B4B5E;--sun:#E3A23B;--dusk:#A63D52;--emuted:#4F5864;
+  font-family:Alexandria,'IBM Plex Sans Arabic',sans-serif;color:var(--basalt)}
+.e .scr{background:var(--stone)}
+.e .hd{padding:14px 18px 0;display:flex;justify-content:space-between;align-items:flex-start}
+.e .d1{font-weight:600;font-size:18px;line-height:1.45}
+.e .d2{font-size:14px;line-height:1.6;color:var(--emuted)}
+.e .ib{width:48px;height:48px;border:0;background:transparent;color:inherit;display:flex;align-items:center;justify-content:center;border-radius:24px}
+.e .say{padding:0 18px}
+.e .say b{display:block;font-weight:600;font-size:20px;line-height:1.45}
+.e .say span{font-size:14px;color:var(--emuted);line-height:1.6}
+.e .sheet{margin-top:auto;background:var(--sheet);border-radius:28px 28px 0 0;padding:8px 16px 0;display:flex;flex-direction:column}
+.e .handle{width:36px;height:4px;border-radius:2px;background:#B9BFB6;margin:0 auto 10px}
+.e .nowl{display:flex;justify-content:space-between;font-size:14px;color:var(--emuted)}
+.e .nowl i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sun);margin-inline-end:6px}
+.e .nowt{font-weight:600;font-size:20px;line-height:1.45;margin:2px 0 8px}
+.e .prog{height:6px;border-radius:3px;background:#D5D9D1;overflow:hidden;margin-bottom:12px}
+.e .prog i{display:block;width:30%;height:100%;background:var(--basalt)}
+.e .primary{height:52px;border-radius:26px;border:0;background:var(--basalt);color:#F5F6F3;font-weight:600;font-size:17px}
+.e .row{display:flex;gap:12px;align-items:center;min-height:46px;border-bottom:1px solid #DFE2DB;font-size:16px}
+.e .row .t{width:46px;font-weight:500}
+.e .row .x{flex:1}
+.e .night{display:flex;align-items:center;gap:10px;min-height:52px;font-size:15px;border:0;background:transparent;color:inherit;text-align:start;padding:0;width:100%}
+.e .nav,.h .nav{display:flex;height:64px;border-top:1px solid #DFE2DB;margin:0 -16px}
+.e .nav button{flex:1;border:0;background:transparent;color:var(--emuted);font-size:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.e .nav button[aria-current]{color:var(--basalt);font-weight:600}
+.e.dark .scr{background:#1C222C;color:#E7E9E4}
+.e.dark .sheet{background:#252C38;color:#E7E9E4}
+.e.dark .handle{background:#4A5363}
+.e .cap2{font-size:14px;color:#AEB6C0;padding:0 18px;line-height:1.6}
+.e .score{display:flex;align-items:baseline;gap:10px;margin:4px 0 2px}
+.e .score b{font-size:40px;font-weight:600;line-height:1.2}
+.e .score span{font-size:15px;color:#C3CAD3}
+.e .short{color:#F09AAB;font-weight:600;font-size:16px}
+.e .why{font-size:15px;line-height:1.7;color:#D3D8DE;display:flex;flex-direction:column;gap:6px;margin:10px 0 14px}
+.e .ghost{height:52px;border-radius:26px;border:1.5px solid #E7E9E4;background:transparent;color:#E7E9E4;font-weight:600;font-size:17px;margin-bottom:16px}
+
+/* ===== و · الجاجم ===== */
+.f{--walnut:#2A2320;--wool:#EFE9DD;--fmuted:#C7BBAA;font-family:'Noto Kufi Arabic',sans-serif;color:var(--wool)}
+.f .scr{background:var(--walnut)}
+.f .hd{padding:16px 18px 6px}
+.f .d1{font-weight:800;font-size:19px;line-height:1.5}
+.f .d2{font-size:14px;line-height:1.6;color:var(--fmuted)}
+.f .grid{padding:6px 16px 0;display:flex;flex-direction:column;gap:3px}
+.f .kr{display:flex;gap:3px;align-items:center;height:19px}
+.f .kh{width:26px;font-size:12px;color:var(--fmuted);text-align:center;font-variant-numeric:tabular-nums}
+.f .k{flex:1;height:19px;border-radius:3px;position:relative;display:block}
+.f .k.fut{opacity:.38}
+.f .k.now{outline:2.5px solid var(--wool);outline-offset:1px}
+.f .k.p::after{content:"";position:absolute;width:7px;height:7px;background:var(--walnut);top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg)}
+.f .p{background:#EFE9DD}.f .w{background:#5B6FB0}.f .b{background:#93A85C}.f .d{background:#C2452F}.f .u{background:#7C8590}.f .c{background:#E2A53B}.f .s{background:#D88A8F}.f .fl{background:#9C86B5}.f .n{background:#3A302C}
+.f .legend{display:flex;flex-wrap:wrap;gap:4px 14px;padding:10px 18px 0;font-size:14px;line-height:1.6;color:var(--fmuted)}
+.f .legend span{display:inline-flex;align-items:center;gap:6px}
+.f .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.f .now-card{margin:auto 16px 16px;background:#3A302C;border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;align-items:stretch;gap:10px}
+.f .now-card b{display:block;font-size:17px;font-weight:600;line-height:1.5}
+.f .now-card span{font-size:14px;color:var(--fmuted);line-height:1.6}
+.f .btn{height:50px;padding:0 18px;border-radius:14px;border:0;background:#E2A53B;color:#2A2320;font-weight:800;font-size:16px;flex:none}
+.f .card{margin:8px 16px 0;padding:12px 14px;border-radius:16px;background:#3A302C;font-size:15px;line-height:1.7}
+.f .wide{margin:12px 16px 16px;height:52px;border-radius:14px;border:1.5px solid var(--wool);background:transparent;color:var(--wool);font-weight:600;font-size:16px}
+
+/* ===== ز · الحاشية ===== */
+.g{--paper:#F5F6F4;--ink2:#241C17;--rubric:#A3261B;--gmuted:#665D57;font-family:'Noto Naskh Arabic',serif;color:var(--ink2)}
+.g .scr{background:var(--paper)}
+.g .frame{margin:12px;flex:1;display:flex;flex-direction:column;border:1px solid rgba(163,38,27,.45);outline:1px solid rgba(163,38,27,.45);outline-offset:-5px;padding:14px 14px 0;min-height:0}
+.g .d1{font-weight:700;font-size:21px;line-height:1.5}
+.g .d2{font-size:15px;color:var(--gmuted);line-height:1.6;margin-bottom:6px}
+.g .pg{display:grid;grid-template-columns:46px minmax(0,1fr);column-gap:10px;border-top:1px solid rgba(163,38,27,.3);padding-top:8px}
+.g .mg{font-family:'IBM Plex Sans Arabic',sans-serif;font-size:14px;color:var(--gmuted);padding-top:5px;border-inline-end:1px solid rgba(163,38,27,.3);text-align:center;line-height:1.4}
+.g .mg.now{color:var(--rubric);font-weight:700}
+.g .tx{font-size:17px;line-height:1.8;margin:0 0 8px}
+.g .tx.past{color:#8A817A}
+.g .r{color:var(--rubric);font-weight:700}
+.g .acts{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;padding:8px 0 12px;margin-top:auto}
+.g .acts .pts{flex-basis:100%;font-size:15px;color:var(--gmuted)}
+.g .b1{height:48px;padding:0 16px;border-radius:12px;border:0;background:var(--ink2);color:var(--paper);font-weight:600;font-size:16px;font-family:inherit}
+.g .b2{height:48px;padding:0 14px;border-radius:12px;border:1.5px solid var(--ink2);background:transparent;color:var(--ink2);font-weight:600;font-size:16px;font-family:inherit}
+.g .q{font-size:17px;line-height:1.7;color:var(--rubric);font-weight:700;margin:12px 0 2px;display:block}
+.g textarea,.g input{width:100%;border:0;resize:none;font:inherit;font-size:17px;color:var(--ink2);background:transparent;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 33px,rgba(36,28,23,.28) 33px,rgba(36,28,23,.28) 34px);line-height:34px;padding:0;height:68px}
+.g .tasks{display:grid;grid-template-columns:20px minmax(0,1fr);align-items:center;column-gap:6px;font-size:16px;color:var(--gmuted)}
+.g .tasks input{height:34px}
+.g .marks{display:flex;gap:4px;margin:6px 0}
+.g .marks i{flex:1;height:8px;border-radius:2px;background:var(--ink2)}
+.g .marks i.o{background:#D9D4CF}
+
+/* ===== ح · المعبّر ===== */
+.h{--sf:#121318;--sc:#1E1F25;--sch:#292A30;--on:#E3E1E9;--onv:#C5C6D0;--pr:#B7C4FF;--onpr:#1E2C60;--prc:#36457A;--onprc:#DCE1FF;--ter:#F0B8C9;font-family:'Noto Sans Arabic',sans-serif;color:var(--on)}
+.h .scr{background:var(--sf)}
+.h .top{padding:18px 20px 6px;display:flex;justify-content:space-between;align-items:flex-start}
+.h .tt{font-size:26px;font-weight:600;line-height:1.35}
+.h .ts{font-size:15px;color:var(--onv);line-height:1.6}
+.h .chip{height:36px;padding:0 14px;border-radius:12px;background:var(--sc);color:var(--onv);display:inline-flex;align-items:center;font-size:15px;border:0}
+.h .now{margin:10px 16px 0;background:var(--prc);color:var(--onprc);border-radius:32px 32px 32px 12px;padding:18px}
+.h .now .lb{display:inline-flex;height:28px;align-items:center;padding:0 12px;border-radius:14px;background:var(--pr);color:var(--onpr);font-size:14px;font-weight:600}
+.h .now h4{margin:10px 0 2px;font-size:26px;line-height:1.35;font-weight:600}
+.h .now p{margin:0;font-size:16px;line-height:1.6;color:#C9D0F2}
+.h .fill{height:52px;border-radius:26px;border:0;background:var(--pr);color:var(--onpr);font-weight:600;font-size:17px;padding:0 24px;font-family:inherit}
+.h .list{margin:12px 16px 0;display:flex;flex-direction:column;gap:3px}
+.h .li{background:var(--sc);min-height:56px;padding:8px 16px;display:flex;align-items:center;gap:14px;font-size:16px}
+.h .li:first-child{border-radius:20px 20px 6px 6px}.h .li:last-child{border-radius:6px 6px 20px 20px}
+.h .li .t{width:46px;color:var(--onv);font-variant-numeric:tabular-nums}
+.h .li .x{flex:1}
+.h .li .m{font-size:14px;color:var(--onv)}
+.h .bal{margin:12px 16px 0;background:var(--sc);border-radius:20px;padding:14px 16px}
+.h .bal b{font-size:17px;font-weight:600}
+.h .bal p{margin:2px 0 8px;font-size:15px;color:var(--onv);line-height:1.6}
+.h .bar{display:flex;height:10px;gap:3px}
+.h .bar i{border-radius:5px;display:block}
+.h .nav{margin:auto 0 0;border-top:0;background:var(--sc);height:80px;padding:12px 0 16px}
+.h .nav button{flex:1;border:0;background:transparent;color:var(--onv);font-size:14px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit}
+.h .nav .pill{width:56px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center}
+.h .nav button[aria-current] .pill{background:var(--prc);color:var(--onprc)}
+.h .nav button[aria-current]{color:var(--on);font-weight:600}
+.h .scrim{position:absolute;inset:0;background:rgba(0,0,0,.5)}
+.h .sheet{position:absolute;inset-inline:0;bottom:0;height:664px;background:var(--sch);border-radius:28px 28px 0 0;padding:10px 18px 0;display:flex;flex-direction:column}
+.h .handle{width:32px;height:4px;border-radius:2px;background:#8F909A;margin:0 auto 12px}
+.h .field{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+.h .field label{font-size:15px;color:var(--onv);line-height:1.5}
+.h .field textarea{border:1px solid #8F909A;border-radius:12px;background:transparent;color:var(--on);font:inherit;font-size:16px;padding:8px 12px;resize:none;height:46px}
+.h .chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.h .fc{height:34px;border-radius:10px;padding:0 10px;font-size:14px;display:inline-flex;align-items:center;gap:4px;border:1px solid #8F909A;background:transparent;color:var(--onv);font-family:inherit}
+.h .fc[aria-pressed="true"]{background:var(--prc);border-color:var(--prc);color:var(--onprc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>يوم: التصاميم، النسخة الثانية</h1>
+  <p class="lead">أربع اتجاهات جديدة مبنية على بحث اليوم (23 تشرين الأول 2026): جوائز أبل وجوجل، أشهر مهارات التصميم بـGitHub، والكتب. كل الأوقات حقيقية من الخوارزمية المرجعية للسليمانية، والأسبوع محسوب من 10 إلى 16 تشرين الأول 2026. المصادر كلها بملف <a href="RESEARCH.md">RESEARCH.md</a>.</p>
+</header>
+
+<section aria-labelledby="learned">
+  <h2 id="learned" style="margin-top:28px">شنو غيّر البحث</h2>
+  <div class="findings">
+    <div class="finding"><h3>لون السماء صار لغيرنا</h3><p>Tide Guide فاز بجائزة أبل 2026، ومن أسباب الفوز أن ألوانه تطابق لون السماء خلال اليوم. فاتجاه «سماء الساعة» طلع من المنافسة.</p></div>
+    <div class="finding"><h3>قوس الشمس مو فريد</h3><p>Sunlitt وMoonlitt يرسمون مسار الشمس والقمر، وMoonlitt فاز بجائزة التفاعل 2026.</p></div>
+    <div class="finding"><h3>الخط الزمني الملوّن معروف</h3><p>Tiimo (تطبيق آيفون للسنة 2025) وStructured يعرضون اليوم ككتل ملوّنة. لازم فرقنا يكون الصلاة والنوم.</p></div>
+    <div class="finding"><h3>الإبهام بالأسفل</h3><p>75% من الاستعمال بإبهام وحد. نزّلنا «انتهيت» والكتلة الحالية للنص الأسفل، والتفاصيل بلوحة تنسحب.</p></div>
+  </div>
+</section>
+
+<!-- ================= هـ · الظل ================= -->
+<section class="dir" aria-labelledby="dE">
+  <div class="dir-head">
+    <div>
+      <span class="tag">تطوير الاتجاه «أ»</span>
+      <h2 id="dE">هـ · الظِّل، النسخة الثانية</h2>
+      <p>مزولة حقيقية تنحسب من موقعك. العصر يجي لما طرف الظل يوصل الدائرة، والدائرة تكبر أو تصغر حسب المذهب. بالصيف شكل الظل يتغير ويلف حول الشاخص، فالشاشة نفسها تتغير مع الموسم.</p>
+    </div>
+    <div class="meta">
+      <p><b>من البحث:</b> ما لقينا تطبيق يرسم الظل. المزولة صارت فوق كخلفية هادئة، والأفعال كلها بلوحة سفلية للإبهام. خط واحد (Alexandria) بأوزان.</p>
+      <p><b>العيب:</b> رسمها يحتاج شغل Canvas بأندرويد، والمستخدم يحتاج ثانية حتى يفهمها أول مرة.</p>
+    </div>
+  </div>
+  <div class="phones">
+    <div class="phone-slot">
+      <div class="ph e" role="img" aria-label="الرئيسية بتصميم الظل، الخميس 15 تشرين الأول الساعة 12:31">
+        <div class="scr">
+          <div class="hd">
+            <div><div class="d1">الخميس 15 تشرين الأول</div><div class="d2">4 جمادى الأولى 1448، السليمانية</div></div>
+            <button class="ib" aria-label="الإعدادات"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg></button>
+          </div>
+          <svg width="340" height="206" viewBox="0 46 390 236" aria-hidden="true" style="display:block;flex:none">
+            <circle cx="195" cy="260" r="186" fill="#DCE0D9"></circle>
+            <g stroke="#1F2328" stroke-opacity=".3"><line x1="195" y1="260" x2="21.6" y2="220"></line><line x1="195" y1="260" x2="195" y2="82"></line><line x1="195" y1="260" x2="340.8" y2="157.9"></line><line x1="195" y1="260" x2="368.4" y2="220"></line></g>
+            <circle cx="195" cy="260" r="97.5" fill="none" stroke="#3B4B5E" stroke-width="1.4" stroke-dasharray="3 5"></circle>
+            <path d="M30.0 190.1 L50.5 193.6 L67.0 196.4 L80.8 198.7 L92.4 200.6 L102.4 202.2 L111.2 203.5 L118.9 204.7 L125.8 205.7 L132.0 206.5 L137.7 207.2 L143.0 207.9 L147.8 208.5 L152.3 209.0 L156.5 209.4 L160.5 209.8 L164.3 210.1 L168.0 210.4 L171.4 210.6 L174.8 210.8 L178.1 211.0 L181.3 211.2 L184.4 211.3 L187.4 211.4 L193.5 211.4 L199.5 211.4 L205.6 211.3 L208.7 211.2" fill="none" stroke="#1F2328" stroke-width="2.2" stroke-linecap="round"></path>
+            <path d="M211.9 211.0 L218.6 210.6 L225.7 210.1 L233.5 209.4 L242.2 208.5 L252.3 207.2 L264.2 205.7 L278.8 203.5 L297.6 200.6 L323.0 196.4 L360.0 190.1" fill="none" stroke="#1F2328" stroke-opacity=".45" stroke-width="2" stroke-dasharray="2 5" stroke-linecap="round"></path>
+            <line x1="195" y1="260" x2="209.1" y2="211" stroke="#3B4B5E" stroke-width="7" stroke-linecap="round"></line>
+            <circle cx="195" cy="260" r="6" fill="#1F2328"></circle>
+            <g fill="#1F2328"><circle cx="30" cy="190.1" r="4"></circle><circle cx="195" cy="211.4" r="4"></circle><circle cx="360" cy="190.1" r="4"></circle></g>
+            <circle cx="274.9" cy="204.1" r="5.5" fill="#E7E9E4" stroke="#1F2328" stroke-width="2"></circle>
+            <circle cx="209.1" cy="211" r="7.5" fill="#E3A23B" stroke="#1F2328" stroke-width="1.5"></circle>
+            <g font-family="Alexandria, sans-serif" font-size="14" fill="#1F2328" text-anchor="middle"><text x="50" y="174">الشروق 06:04</text><text x="195" y="74">الظهر 11:45</text><text x="310" y="146" font-weight="600">العصر 14:55</text><text x="342" y="174">المغرب 17:23</text></g>
+          </svg>
+          <div class="say"><b>العصر بعد ساعتين و24 دقيقة</b><span>حين يبلغ الظل الدائرة المنقّطة، 14:55</span></div>
+          <div class="sheet">
+            <div class="handle"></div>
+            <div class="nowl"><span><i></i>الآن، من 12:25 إلى 12:45</span><span>باقي 14 د</span></div>
+            <div class="nowt">قيلولة 20 دقيقة</div>
+            <div class="prog"><i></i></div>
+            <button class="primary">انتهيت</button>
+            <div style="margin-top:8px">
+              <div class="row"><span class="t">12:45</span><span class="x">العمل: ميدان واجتماعات</span></div>
+              <div class="row"><span class="t" style="font-weight:600">14:55</span><span class="x" style="font-weight:600">صلاة العصر</span></div>
+            </div>
+            <button class="night"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg><span style="flex:1">نومك الليلة 7 س و13 د</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 15l6-6 6 6"></path></svg></button>
+            <nav class="nav" aria-label="الشاشات">
+              <button aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="17" r="2"></circle><path d="M12 17l3-8"></path><path d="M4 19a8 8 0 0 1 16 0"></path></svg>اليوم</button>
+              <button><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"></path><path d="M9 10h6M9 14h6"></path></svg>المحاسبة</button>
+              <button><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>الأسبوع</button>
+              <button><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg>الإعدادات</button>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <p class="phone-cap">الرئيسية: الخميس 15 تشرين الأول، 12:31. المزولة فوق للنظر، والأفعال تحت للإبهام.</p>
+    </div>
+
+    <div class="phone-slot">
+      <div class="ph e dark" role="img" aria-label="ميزان الليل بتصميم الظل، ليلة 15 حزيران">
+        <div class="scr">
+          <svg width="340" height="166" viewBox="0 150 390 190" aria-hidden="true" style="display:block;flex:none;margin-top:10px;opacity:.75">
+            <circle cx="195" cy="260" r="186" fill="#283040"></circle>
+            <g stroke="#E7E9E4" stroke-opacity=".25"><line x1="195" y1="260" x2="40.8" y2="349"></line><line x1="195" y1="260" x2="195" y2="82"></line><line x1="195" y1="260" x2="372.9" y2="266.2"></line><line x1="195" y1="260" x2="349.2" y2="349"></line></g>
+            <circle cx="195" cy="260" r="61" fill="none" stroke="#8FA3B8" stroke-width="1.4" stroke-dasharray="3 5"></circle>
+            <path d="M22.5 315.7 L41.8 305.7 L57.4 297.7 L70.5 291.2 L81.6 285.8 L91.1 281.2 L99.5 277.4 L106.8 274.0 L113.4 271.1 L119.3 268.6 L124.7 266.3 L129.6 264.3 L134.1 262.6 L138.3 261.0 L142.2 259.6 L145.8 258.4 L149.3 257.2 L152.5 256.2 L155.6 255.3 L158.5 254.5 L161.3 253.7 L164.0 253.1 L166.6 252.5 L169.1 251.9 L171.5 251.4 L173.8 251.0 L176.1 250.6 L178.4 250.3 L180.6 250.0 L182.7 249.8 L184.9 249.6 L187.0 249.4 L189.0 249.3 L191.1 249.2 L193.2 249.1 L195.2 249.1 L197.3 249.2 L199.3 249.2 L201.4 249.3 L203.5 249.4 L205.6 249.6 L207.7 249.8 L209.9 250.1 L212.1 250.4 L214.3 250.7 L216.6 251.1 L219.0 251.5 L221.4 252.0 L223.9 252.6 L226.5 253.2 L229.3 253.9 L232.1 254.6 L235.0 255.5 L238.1 256.4 L241.4 257.4 L244.9 258.6 L248.6 259.9 L252.5 261.3 L256.8 262.9 L261.4 264.7 L266.4 266.7 L271.8 269.0 L277.9 271.7 L284.6 274.6 L292.1 278.1 L300.7 282.1 L310.5 286.8 L321.9 292.4 L335.5 299.2 L351.8 307.5" fill="none" stroke="#E7E9E4" stroke-opacity=".7" stroke-width="2"></path>
+            <circle cx="195" cy="260" r="6" fill="#E7E9E4"></circle>
+            <g fill="#E7E9E4"><circle cx="22.5" cy="315.7" r="4"></circle><circle cx="195.2" cy="249.1" r="4"></circle><circle cx="351.8" cy="307.5" r="4"></circle></g>
+            <circle cx="255.9" cy="262.6" r="5.5" fill="#283040" stroke="#E7E9E4" stroke-width="2"></circle>
+            <g font-family="Alexandria, sans-serif" font-size="14" fill="#E7E9E4" text-anchor="middle"><text x="92" y="336">الشروق 04:42</text><text x="195" y="232">الظهر 11:59</text><text x="306" y="250">العصر 15:48</text><text x="318" y="334">المغرب 19:15</text></g>
+          </svg>
+          <p class="cap2">15 حزيران: بالصيف يلف الظل حول الشاخص، ودائرة العصر أصغر لأن ظل الظهر قصير.</p>
+          <div class="sheet" style="height:500px;flex:none">
+            <div class="handle"></div>
+            <div style="font-size:20px;font-weight:600;line-height:1.45">ميزان الليل</div>
+            <div style="font-size:14px;color:#AEB6C0">الاثنين 15 حزيران، مثال من الصيف</div>
+            <div class="score"><b>6:33</b><span>من 7 ساعات، مع القيلولة</span></div>
+            <div class="short">ينقصك 27 دقيقة اليوم</div>
+            <svg width="308" height="64" viewBox="0 0 308 64" role="img" aria-label="5 ساعات و3 دقائق نوم ليل، و90 دقيقة قيلولة، و27 دقيقة نقص" style="display:block;margin:10px 0 0">
+              <rect x="86" y="10" width="222" height="20" rx="4" fill="#E7E9E4"></rect>
+              <rect x="20.2" y="10" width="63" height="20" rx="4" fill="#7F93AA"></rect>
+              <rect x="1" y="10" width="17" height="20" rx="4" fill="none" stroke="#F09AAB" stroke-width="1.5" stroke-dasharray="3 2"></rect>
+              <g font-family="Alexandria, sans-serif" font-size="14" text-anchor="middle"><text x="197" y="54" fill="#E7E9E4">نوم الليل 5:03</text><text x="52" y="54" fill="#B9C6D4">قيلولة 1:30</text></g>
+            </svg>
+            <p style="margin:6px 0 0;font-size:16px;line-height:1.75;color:#E7E9E4">تنام من 21:30 إلى 02:33. أوتر قبل نومك، وقيلولتك اليوم 90 دقيقة بعد الظهر.</p>
+            <div class="why"><span>لا سَحَر الليلة: النوم أقل من 6 ساعات، فالوتر قبل النوم.</span><span>حُذف «الاستعداد للنوم»: العشاء 21:00 وما بقى وقت قبله.</span></div>
+            <button class="ghost" style="margin-top:auto">غيّر ساعة نومك</button>
+          </div>
+        </div>
+      </div>
+      <p class="phone-cap">ميزان الليل كلوحة تنسحب من الأسفل: رقم واحد صادق، وتحته السبب.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= و · الجاجم ================= -->
+<section class="dir" aria-labelledby="dF">
+  <div class="dir-head">
+    <div>
+      <span class="tag">جديد</span>
+      <h2 id="dF">و · الجاجم</h2>
+      <p>اليوم منسوج مثل الجاجم الكردي: كل خانة 10 دقائق، وكل لون دور، والصلوات عُقد بيضاء. اللي مضى منسوج بلونه الكامل، واللي جاي خيوط باهتة. وبمراجعة السبت تشوف الأسبوع كله قطعة نسيج وحدة.</p>
+    </div>
+    <div class="meta">
+      <p><b>من البحث:</b> Tiimo وStructured يعرضون اليوم ككتل ملوّنة. هنا نفس الوضوح، بس بشكل من بيئتنا، والصلاة هي العقدة اللي تمسك النسيج. بالأسبوع تبين حقيقة: العصر صار أبكر 5 دقائق من السبت للجمعة، والجمعة نسيجها مختلف.</p>
+      <p><b>العيب:</b> ألوان كثيرة (8 أدوار)، تحتاج ضبط دقيق حتى تبقى هادئة ومقروءة لمن عنده ضعف بتمييز الألوان.</p>
+    </div>
+  </div>
+  <div class="phones">
+    <div class="phone-slot">
+      <div class="ph f" role="img" aria-label="نسيج اليوم، الخميس 15 تشرين الأول الساعة 12:31">
+        <div class="scr">
+          <div class="hd"><div class="d1">الخميس 15 تشرين الأول</div><div class="d2">كل خانة 10 دقائق. المنسوج هو اللي مضى</div></div>
+          <div class="grid">
+<div class="kr"><span class="kh">04</span><i class="k n"></i><i class="k w"></i><i class="k w"></i><i class="k p"></i><i class="k p"></i><i class="k p"></i></div>
+<div class="kr"><span class="kh">05</span><i class="k w"></i><i class="k w"></i><i class="k w"></i><i class="k w"></i><i class="k w"></i><i class="k w"></i></div>
+<div class="kr"><span class="kh">06</span><i class="k b"></i><i class="k b"></i><i class="k b"></i><i class="k d"></i><i class="k d"></i><i class="k d"></i></div>
+<div class="kr"><span class="kh">07</span><i class="k d"></i><i class="k d"></i><i class="k d"></i><i class="k d"></i><i class="k d"></i><i class="k d"></i></div>
+<div class="kr"><span class="kh">08</span><i class="k w"></i><i class="k w"></i><i class="k d"></i><i class="k d"></i><i class="k d"></i><i class="k d"></i></div>
+<div class="kr"><span class="kh">09</span><i class="k d"></i><i class="k d"></i><i class="k d"></i><i class="k d"></i><i class="k d"></i><i class="k u"></i></div>
+<div class="kr"><span class="kh">10</span><i class="k u"></i><i class="k u"></i><i class="k u"></i><i class="k u"></i><i class="k u"></i><i class="k u"></i></div>
+<div class="kr"><span class="kh">11</span><i class="k u"></i><i class="k u"></i><i class="k u"></i><i class="k u"></i><i class="k p"></i><i class="k p"></i></div>
+<div class="kr"><span class="kh">12</span><i class="k p"></i><i class="k p"></i><i class="k b"></i><i class="k b now"></i><i class="k u fut"></i><i class="k u fut"></i></div>
+<div class="kr"><span class="kh">13</span><i class="k u fut"></i><i class="k u fut"></i><i class="k u fut"></i><i class="k u fut"></i><i class="k u fut"></i><i class="k u fut"></i></div>
+<div class="kr"><span class="kh">14</span><i class="k u fut"></i><i class="k u fut"></i><i class="k u fut"></i><i class="k u fut"></i><i class="k u fut"></i><i class="k p fut"></i></div>
+<div class="kr"><span class="kh">15</span><i class="k p fut"></i><i class="k b fut"></i><i class="k b fut"></i><i class="k b fut"></i><i class="k b fut"></i><i class="k b fut"></i></div>
+<div class="kr"><span class="kh">16</span><i class="k b fut"></i><i class="k u fut"></i><i class="k u fut"></i><i class="k c fut"></i><i class="k c fut"></i><i class="k c fut"></i></div>
+<div class="kr"><span class="kh">17</span><i class="k c fut"></i><i class="k c fut"></i><i class="k p fut"></i><i class="k p fut"></i><i class="k s fut"></i><i class="k s fut"></i></div>
+<div class="kr"><span class="kh">18</span><i class="k s fut"></i><i class="k s fut"></i><i class="k s fut"></i><i class="k s fut"></i><i class="k p fut"></i><i class="k p fut"></i></div>
+<div class="kr"><span class="kh">19</span><i class="k fl fut"></i><i class="k fl fut"></i><i class="k fl fut"></i><i class="k fl fut"></i><i class="k fl fut"></i><i class="k fl fut"></i></div>
+<div class="kr"><span class="kh">20</span><i class="k fl fut"></i><i class="k fl fut"></i><i class="k fl fut"></i><i class="k fl fut"></i><i class="k w fut"></i><i class="k w fut"></i></div>
+          </div>
+          <div class="legend">
+            <span><i class="p"></i>صلاة</span><span><i class="w"></i>عبادة</span><span><i class="d"></i>تركيز</span><span><i class="u"></i>عمل</span><span><i class="b"></i>بدن</span><span><i class="c"></i>ابن</span><span><i class="s"></i>زوجة</span><span><i style="background:#9C86B5"></i>نفس</span>
+          </div>
+          <div class="now-card">
+            <div><b>الآن قيلولة حتى 12:45</b><span>العصر 14:55، بعد ساعتين و24 دقيقة</span></div>
+            <button class="btn">انتهيت</button>
+          </div>
+        </div>
+      </div>
+      <p class="phone-cap">الخانة المحاطة هي الآن (12:30). العقد البيضاء صلوات تبدأ بوقتها بالضبط.</p>
+    </div>
+
+    <div class="phone-slot">
+      <div class="ph f" role="img" aria-label="مراجعة الأسبوع كنسيج، من السبت 10 إلى الجمعة 16 تشرين الأول">
+        <div class="scr">
+          <div class="hd"><div class="d1">مراجعة الأسبوع</div><div class="d2">السبت 17 تشرين الأول، عن الأسبوع من 10 إلى 16</div></div>
+          <svg width="340" height="466" viewBox="0 -26 340 466" aria-hidden="true" style="display:block;flex:none">
+            <g font-family="Noto Kufi Arabic, sans-serif" font-size="15" fill="#EFE9DD" text-anchor="middle">
+              <text x="321" y="-8">س</text><text x="277.6" y="-8">ح</text><text x="234.2" y="-8">ن</text><text x="190.8" y="-8">ث</text><text x="147.4" y="-8">ر</text><text x="104" y="-8">خ</text><text x="60.6" y="-8">ج</text>
+            </g>
+            <g font-family="IBM Plex Sans Arabic, sans-serif" font-size="12" fill="#C7BBAA" text-anchor="middle"><text x="18" y="52">06</text><text x="18" y="196">12</text><text x="18" y="340">18</text></g>
+<rect x="302.0" y="4" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="302.0" y="12" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="302.0" y="20" width="38" height="27" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="302.0" y="48" width="38" height="7" rx="1.5" fill="#93A85C"></rect>
+<rect x="302.0" y="56" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="302.0" y="92" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="302.0" y="100" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="302.0" y="136" width="38" height="51" rx="1.5" fill="#7C8590"></rect>
+<rect x="302.0" y="188" width="38" height="15" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="302.0" y="204" width="38" height="7" rx="1.5" fill="#93A85C"></rect>
+<rect x="302.0" y="212" width="38" height="51" rx="1.5" fill="#7C8590"></rect>
+<rect x="302.0" y="264" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="302.0" y="268" width="38" height="23" rx="1.5" fill="#93A85C"></rect>
+<rect x="302.0" y="292" width="38" height="7" rx="1.5" fill="#7C8590"></rect>
+<rect x="302.0" y="300" width="38" height="23" rx="1.5" fill="#E2A53B"></rect>
+<rect x="302.0" y="324" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="302.0" y="328" width="38" height="27" rx="1.5" fill="#D88A8F"></rect>
+<rect x="302.0" y="356" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="302.0" y="364" width="38" height="35" rx="1.5" fill="#9C86B5"></rect>
+<rect x="302.0" y="400" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="258.6" y="4" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="258.6" y="12" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="258.6" y="20" width="38" height="27" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="258.6" y="48" width="38" height="11" rx="1.5" fill="#93A85C"></rect>
+<rect x="258.6" y="60" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="258.6" y="96" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="258.6" y="104" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="258.6" y="140" width="38" height="47" rx="1.5" fill="#7C8590"></rect>
+<rect x="258.6" y="188" width="38" height="15" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="258.6" y="204" width="38" height="7" rx="1.5" fill="#93A85C"></rect>
+<rect x="258.6" y="212" width="38" height="51" rx="1.5" fill="#7C8590"></rect>
+<rect x="258.6" y="264" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="258.6" y="268" width="38" height="23" rx="1.5" fill="#93A85C"></rect>
+<rect x="258.6" y="292" width="38" height="7" rx="1.5" fill="#7C8590"></rect>
+<rect x="258.6" y="300" width="38" height="23" rx="1.5" fill="#E2A53B"></rect>
+<rect x="258.6" y="324" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="258.6" y="328" width="38" height="27" rx="1.5" fill="#D88A8F"></rect>
+<rect x="258.6" y="356" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="258.6" y="360" width="38" height="39" rx="1.5" fill="#9C86B5"></rect>
+<rect x="258.6" y="400" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="215.2" y="4" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="215.2" y="12" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="215.2" y="20" width="38" height="27" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="215.2" y="48" width="38" height="11" rx="1.5" fill="#93A85C"></rect>
+<rect x="215.2" y="60" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="215.2" y="96" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="215.2" y="104" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="215.2" y="140" width="38" height="47" rx="1.5" fill="#7C8590"></rect>
+<rect x="215.2" y="188" width="38" height="15" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="215.2" y="204" width="38" height="7" rx="1.5" fill="#93A85C"></rect>
+<rect x="215.2" y="212" width="38" height="51" rx="1.5" fill="#7C8590"></rect>
+<rect x="215.2" y="264" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="215.2" y="268" width="38" height="23" rx="1.5" fill="#93A85C"></rect>
+<rect x="215.2" y="292" width="38" height="7" rx="1.5" fill="#7C8590"></rect>
+<rect x="215.2" y="300" width="38" height="23" rx="1.5" fill="#E2A53B"></rect>
+<rect x="215.2" y="324" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="215.2" y="328" width="38" height="27" rx="1.5" fill="#D88A8F"></rect>
+<rect x="215.2" y="356" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="215.2" y="360" width="38" height="39" rx="1.5" fill="#9C86B5"></rect>
+<rect x="215.2" y="400" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="171.8" y="4" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="171.8" y="12" width="38" height="11" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="171.8" y="24" width="38" height="23" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="171.8" y="48" width="38" height="11" rx="1.5" fill="#93A85C"></rect>
+<rect x="171.8" y="60" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="171.8" y="96" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="171.8" y="104" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="171.8" y="140" width="38" height="47" rx="1.5" fill="#7C8590"></rect>
+<rect x="171.8" y="188" width="38" height="15" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="171.8" y="204" width="38" height="7" rx="1.5" fill="#93A85C"></rect>
+<rect x="171.8" y="212" width="38" height="51" rx="1.5" fill="#7C8590"></rect>
+<rect x="171.8" y="264" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="171.8" y="268" width="38" height="23" rx="1.5" fill="#93A85C"></rect>
+<rect x="171.8" y="292" width="38" height="7" rx="1.5" fill="#7C8590"></rect>
+<rect x="171.8" y="300" width="38" height="23" rx="1.5" fill="#E2A53B"></rect>
+<rect x="171.8" y="324" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="171.8" y="328" width="38" height="27" rx="1.5" fill="#D88A8F"></rect>
+<rect x="171.8" y="356" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="171.8" y="360" width="38" height="39" rx="1.5" fill="#9C86B5"></rect>
+<rect x="171.8" y="400" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="128.4" y="4" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="128.4" y="12" width="38" height="11" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="128.4" y="24" width="38" height="23" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="128.4" y="48" width="38" height="11" rx="1.5" fill="#93A85C"></rect>
+<rect x="128.4" y="60" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="128.4" y="96" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="128.4" y="104" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="128.4" y="140" width="38" height="43" rx="1.5" fill="#7C8590"></rect>
+<rect x="128.4" y="184" width="38" height="15" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="128.4" y="200" width="38" height="7" rx="1.5" fill="#93A85C"></rect>
+<rect x="128.4" y="208" width="38" height="55" rx="1.5" fill="#7C8590"></rect>
+<rect x="128.4" y="264" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="128.4" y="268" width="38" height="23" rx="1.5" fill="#93A85C"></rect>
+<rect x="128.4" y="292" width="38" height="7" rx="1.5" fill="#7C8590"></rect>
+<rect x="128.4" y="300" width="38" height="19" rx="1.5" fill="#E2A53B"></rect>
+<rect x="128.4" y="320" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="128.4" y="328" width="38" height="27" rx="1.5" fill="#D88A8F"></rect>
+<rect x="128.4" y="356" width="38" height="3" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="128.4" y="360" width="38" height="39" rx="1.5" fill="#9C86B5"></rect>
+<rect x="128.4" y="400" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="85.0" y="4" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="85.0" y="12" width="38" height="11" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="85.0" y="24" width="38" height="23" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="85.0" y="48" width="38" height="11" rx="1.5" fill="#93A85C"></rect>
+<rect x="85.0" y="60" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="85.0" y="96" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="85.0" y="104" width="38" height="35" rx="1.5" fill="#C2452F"></rect>
+<rect x="85.0" y="140" width="38" height="43" rx="1.5" fill="#7C8590"></rect>
+<rect x="85.0" y="184" width="38" height="15" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="85.0" y="200" width="38" height="7" rx="1.5" fill="#93A85C"></rect>
+<rect x="85.0" y="208" width="38" height="51" rx="1.5" fill="#7C8590"></rect>
+<rect x="85.0" y="260" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="85.0" y="268" width="38" height="23" rx="1.5" fill="#93A85C"></rect>
+<rect x="85.0" y="292" width="38" height="7" rx="1.5" fill="#7C8590"></rect>
+<rect x="85.0" y="300" width="38" height="19" rx="1.5" fill="#E2A53B"></rect>
+<rect x="85.0" y="320" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="85.0" y="328" width="38" height="23" rx="1.5" fill="#D88A8F"></rect>
+<rect x="85.0" y="352" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="85.0" y="360" width="38" height="39" rx="1.5" fill="#9C86B5"></rect>
+<rect x="85.0" y="400" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="41.6" y="4" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="41.6" y="12" width="38" height="11" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="41.6" y="24" width="38" height="23" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="41.6" y="48" width="38" height="15" rx="1.5" fill="#93A85C"></rect>
+<rect x="41.6" y="64" width="38" height="95" rx="1.5" fill="#9C86B5"></rect>
+<rect x="41.6" y="160" width="38" height="23" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="41.6" y="184" width="38" height="19" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="41.6" y="204" width="38" height="15" rx="1.5" fill="#D88A8F"></rect>
+<rect x="41.6" y="220" width="38" height="7" rx="1.5" fill="#93A85C"></rect>
+<rect x="41.6" y="228" width="38" height="31" rx="1.5" fill="#E2A53B"></rect>
+<rect x="41.6" y="260" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="41.6" y="268" width="38" height="27" rx="1.5" fill="#9C86B5"></rect>
+<rect x="41.6" y="296" width="38" height="23" rx="1.5" fill="#5B6FB0"></rect>
+<rect x="41.6" y="320" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="41.6" y="328" width="38" height="23" rx="1.5" fill="#D88A8F"></rect>
+<rect x="41.6" y="352" width="38" height="7" rx="1.5" fill="#EFE9DD"></rect>
+<rect x="41.6" y="360" width="38" height="39" rx="1.5" fill="#9C86B5"></rect>
+<rect x="41.6" y="400" width="38" height="7" rx="1.5" fill="#5B6FB0"></rect>
+            <g font-family="Noto Kufi Arabic, sans-serif" font-size="15" fill="#EFE9DD" text-anchor="middle">
+              <text x="321" y="432">7</text><text x="277.6" y="432">8</text><text x="234.2" y="432">6</text><text x="190.8" y="432">8</text><text x="147.4" y="432">9</text><text x="104" y="432">7</text><text x="60.6" y="432">8</text>
+            </g>
+          </svg>
+          <div style="padding:0 18px;font-size:14px;color:#C7BBAA">الأرقام تحت كل يوم: نقاط القائمة من 10 (مثال)</div>
+          <div class="card">العصر صار أبكر 5 دقائق خلال الأسبوع (من 14:59 إلى 14:54)، وكل الكتل تحركت وياه بدون ما تعدّل شي.</div>
+          <button class="wide">اختر تعديل واحد للأسبوع الجاي</button>
+        </div>
+      </div>
+      <p class="phone-cap">الأسبوع كقطعة وحدة. خطوط الصلاة البيضاء تنحدر شوية كل يوم مع الشمس، والجمعة (يسار) نسيج مختلف.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ز · الحاشية ================= -->
+<section class="dir" aria-labelledby="dG">
+  <div class="dir-head">
+    <div>
+      <span class="tag">جديد</span>
+      <h2 id="dG">ز · الحاشية</h2>
+      <p>يومك مكتوب كصفحة من مخطوط: جمل قصيرة تقرأها مرة وحدة وتعرف وين أنت. الأوقات بالحاشية (الهامش) مثل حواشي الكتب، وأسماء الصلوات بالحبر الأحمر مثل عناوين الأبواب بالمخطوطات العربية القديمة.</p>
+    </div>
+    <div class="meta">
+      <p><b>من البحث:</b> grug فاز بجائزة أبل 2026 بجمل بسيطة وبلا حساب. هذا الاتجاه يخلّي الكتابة نفسها هي التصميم، وما لقينا تطبيق مواقيت يسويها. خط واحد (Noto Naskh Arabic) مصمم للشاشة.</p>
+      <p><b>العيب:</b> الجمل لازم تتولد من البيانات بعربي سليم (العدد والمعدود)، وهذا شغل لغة دقيق. وما يعطي نظرة سريعة لكل اليوم مثل الرسم.</p>
+    </div>
+  </div>
+  <div class="phones">
+    <div class="phone-slot">
+      <div class="ph g" role="img" aria-label="الرئيسية كصفحة مكتوبة، الخميس 15 تشرين الأول الساعة 12:31">
+        <div class="scr">
+          <div class="frame">
+            <div class="d1">الخميس 15 تشرين الأول</div>
+            <div class="d2">4 جمادى الأولى 1448، السليمانية</div>
+            <div class="pg"><div class="mg">04:12</div><p class="tx past">قمت للسَّحَر قبل <span class="r">الفجر</span>، ثم ورد الغدوة وكتلتا تركيز.</p></div>
+            <div class="pg"><div class="mg now">الآن</div><p class="tx"><span class="r">الظهر</span> دخل 11:45. أنت الآن في القيلولة، وتنتهي 12:45، ثم العمل في الميدان والاجتماعات.</p></div>
+            <div class="pg"><div class="mg">14:55</div><p class="tx"><span class="r">العصر</span> بعد ساعتين و24 دقيقة. بعده تدريب قوة ساعة، ثم إغلاق يوم العمل، ثم وقت ابنك.</p></div>
+            <div class="pg"><div class="mg">17:23</div><p class="tx"><span class="r">المغرب</span>، ثم العشاء والحديث مع الأسرة حتى <span class="r">العشاء</span> 18:45.</p></div>
+            <div class="pg"><div class="mg">21:00</div><p class="tx">تنام 7 ساعات و13 دقيقة، وتقوم للسَّحَر 04:13.</p></div>
+            <div class="acts"><span class="pts">اليوم 3 من 10</span><button class="b2">المحاسبة</button><button class="b1">انتهت القيلولة</button></div>
+          </div>
+        </div>
+      </div>
+      <p class="phone-cap">اللي مضى بلون باهت، والفقرة الحالية واضحة، والحاشية تقول «الآن» بالأحمر.</p>
+    </div>
+
+    <div class="phone-slot">
+      <div class="ph g" role="img" aria-label="صحيفة اليوم: محاسبة المساء">
+        <div class="scr">
+          <div class="frame">
+            <div class="d1">صحيفة الخميس</div>
+            <div class="d2">محاسبة المساء، أقل من دقيقتين</div>
+            <label class="q" for="gq1">ماذا فعلت اليوم لله، ولأهلي، ولبدني، ولعملي؟</label>
+            <textarea id="gq1" rows="2"></textarea>
+            <label class="q" for="gq2">أين ضاع وقت بلا فائدة، ولماذا؟</label>
+            <textarea id="gq2" rows="2"></textarea>
+            <span class="q" id="gq3">ما أهم 3 مهام غداً؟</span>
+            <div class="tasks" role="group" aria-labelledby="gq3"><span>1</span><input aria-label="المهمة الأولى"><span>2</span><input aria-label="المهمة الثانية"><span>3</span><input aria-label="المهمة الثالثة"></div>
+            <div style="margin-top:12px;font-size:16px">نقاط اليوم: 7 من 10</div>
+            <div class="marks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="o"></i><i class="o"></i><i class="o"></i></div>
+            <div class="acts"><span class="pts">تنحفظ على جهازك فقط</span><button class="b1">احفظ الصحيفة</button></div>
+          </div>
+        </div>
+      </div>
+      <p class="phone-cap">المحاسبة كصفحة بأسطر للكتابة، والأسئلة بالأحمر. نفس الأسئلة الثلاثة من المنهج.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ح · المعبّر ================= -->
+<section class="dir" aria-labelledby="dH">
+  <div class="dir-head">
+    <div>
+      <span class="tag">الأسرع بالبناء</span>
+      <h2 id="dH">ح · المعبّر</h2>
+      <p>Material 3 Expressive، لغة أندرويد الحالية، بألواننا: لون «الفجر» أساس، وأشكال مدوّرة كبيرة للكتلة الحالية، وقوائم متصلة، ولوحة سفلية للمحاسبة. هذا الشكل وقت المساء 20:15.</p>
+    </div>
+    <div class="meta">
+      <p><b>من البحث:</b> جوجل أعلنت بـI/O 2026 أن Compose هو الأساس، مع 14 مكوّن معبّر جاهز. يعني أقل كود وأقل أخطاء، ويحس «أصلي» على أندرويد.</p>
+      <p><b>العيب:</b> ما بيه توقيع خاص. لوحده يشبه أي تطبيق أندرويد حديث. أحسن استعمال له: الأساس للأزرار والقوائم تحت توقيع من الاتجاهات الثانية.</p>
+    </div>
+  </div>
+  <div class="phones">
+    <div class="phone-slot">
+      <div class="ph h" role="img" aria-label="الرئيسية بتصميم Material 3 Expressive، مساء الخميس 20:15">
+        <div class="scr">
+          <div class="top">
+            <div><div class="tt">مساء الخميس</div><div class="ts">4 جمادى الأولى، السليمانية</div></div>
+            <button class="chip">الفجر 04:33</button>
+          </div>
+          <div class="now">
+            <span class="lb">الآن، حتى 20:45</span>
+            <h4>الاستعداد للنوم</h4>
+            <p>محاسبة اليوم وترتيب الغد</p>
+            <svg width="268" height="14" viewBox="0 0 268 14" aria-hidden="true" style="display:block;margin:14px 0">
+              <path d="M268 7 q-6 -6 -12 0 t-12 0 t-12 0 t-12 0" fill="none" stroke="#B7C4FF" stroke-width="4" stroke-linecap="round"></path>
+              <line x1="210" y1="7" x2="0" y2="7" stroke="#5A6AA3" stroke-width="4" stroke-linecap="round"></line>
+            </svg>
+            <button class="fill">ابدأ المحاسبة</button>
+          </div>
+          <div class="list">
+            <div class="li"><span class="t">20:45</span><span class="x">الوتر وأذكار النوم</span><span class="m">15 د</span></div>
+            <div class="li"><span class="t">21:00</span><span class="x">النوم</span><span class="m">7 س 13 د</span></div>
+            <div class="li"><span class="t">04:13</span><span class="x">السَّحَر قبل الفجر</span><span class="m">20 د</span></div>
+          </div>
+          <div class="bal">
+            <b>ميزان الليلة: 7 س و33 د</b>
+            <p>نوم الليل 7 س و13 د، مع قيلولة اليوم 20 د. يكفي، وتقوم للسَّحَر.</p>
+            <div class="bar" aria-hidden="true"><i style="flex:433;background:#B7C4FF"></i><i style="flex:20;background:#F0B8C9"></i></div>
+          </div>
+          <nav class="nav" aria-label="الشاشات">
+            <button aria-current="page"><span class="pill"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l3 2"></path></svg></span>اليوم</button>
+            <button><span class="pill"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"></path><path d="M9 10h6M9 14h6"></path></svg></span>المحاسبة</button>
+            <button><span class="pill"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16"></path></svg></span>الأسبوع</button>
+            <button><span class="pill"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg></span>الإعدادات</button>
+          </nav>
+        </div>
+      </div>
+      <p class="phone-cap">مساء الخميس 20:15. شريط التقدم المتموّج من مكونات Material 3 Expressive.</p>
+    </div>
+
+    <div class="phone-slot">
+      <div class="ph h" role="img" aria-label="لوحة المحاسبة السفلية بتصميم Material 3 Expressive">
+        <div class="scr">
+          <div class="top"><div><div class="tt">مساء الخميس</div><div class="ts">4 جمادى الأولى، السليمانية</div></div></div>
+          <div class="scrim"></div>
+          <div class="sheet">
+            <div class="handle"></div>
+            <div style="font-size:22px;font-weight:600;line-height:1.4">محاسبة المساء</div>
+            <div style="font-size:15px;color:var(--onv);margin-bottom:12px">3 أسئلة، أقل من دقيقتين</div>
+            <div class="field"><label for="hq1">ماذا فعلت اليوم لله، ولأهلي، ولبدني، ولعملي؟</label><textarea id="hq1"></textarea></div>
+            <div class="field"><label for="hq2">أين ضاع وقت بلا فائدة، ولماذا؟</label><textarea id="hq2"></textarea></div>
+            <div class="field"><label for="hq3">ما أهم 3 مهام غداً؟</label><textarea id="hq3"></textarea></div>
+            <div style="font-size:16px;font-weight:600">نقاط اليوم: 7 من 10</div>
+            <div class="chips">
+              <button class="fc" aria-pressed="true">الصلوات بوقتها</button><button class="fc" aria-pressed="true">ورد الغدوة</button><button class="fc" aria-pressed="true">بلا تلفون أول ساعة وآخرها</button><button class="fc" aria-pressed="true">كتلة عمق</button><button class="fc" aria-pressed="true">تدريب أو مشي</button><button class="fc" aria-pressed="true">قيلولة</button><button class="fc" aria-pressed="true">20 د مع الزوجة</button><button class="fc" aria-pressed="false">30 د مع الأبناء</button><button class="fc" aria-pressed="false">تعلم أو خلوة</button><button class="fc" aria-pressed="false">النوم بموعده</button>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:auto;padding-bottom:18px">
+              <button class="fc" style="height:52px;border:0;font-size:17px;padding:0 18px;color:var(--pr)">لاحقاً</button>
+              <button class="fill">احفظ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="phone-cap">المحاسبة لوحة سفلية فوق الرئيسية. القائمة العشرة كأزرار تختارها بلمسة.</p>
+    </div>
+  </div>
+</section>
+
+<section class="dir" aria-labelledby="cmp">
+  <h2 id="cmp">المقارنة</h2>
+  <div class="tbl">
+    <table>
+      <thead><tr><th scope="col">الاتجاه</th><th scope="col">التوقيع</th><th scope="col">هل له شبيه؟</th><th scope="col">جهد البناء</th></tr></thead>
+      <tbody>
+        <tr><td>هـ · الظِّل</td><td>مزولة حقيقية تتغير مع الموسم والمذهب</td><td>ما لقينا</td><td>متوسط: رسم يدوي على Canvas</td></tr>
+        <tr><td>و · الجاجم</td><td>اليوم والأسبوع نسيج، والصلوات عُقد</td><td>قريب من مخططات الكتل الملوّنة، بس الشكل والمعنى جديد</td><td>متوسط</td></tr>
+        <tr><td>ز · الحاشية</td><td>اليوم مكتوب، والصلوات بالحبر الأحمر</td><td>ما لقينا</td><td>الرسم سهل، واللغة دقيقة</td></tr>
+        <tr><td>ح · المعبّر</td><td>بلا توقيع خاص</td><td>يشبه تطبيقات أندرويد الحديثة</td><td>الأسهل</td></tr>
+        <tr><td>ب · سماء الساعة (القديم)</td><td>لون السماء</td><td>نعم: Tide Guide، فائز أبل 2026</td><td>نستبعده</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:18px"><b>اقتراحي:</b> الرئيسية من «هـ · الظِّل»، وشاشة المراجعة الأسبوعية من «و · الجاجم»، والأزرار والقوائم والإعدادات من «ح · المعبّر» (Material 3 Expressive بتوكناتنا). هذا يطابق قاعدة المشروع: مكونات Material قياسية، وتوقيع واحد مرسوم بإيدنا.</p>
+</section>
+
+</div>
+<button class="theme-btn" type="button" id="themeBtn">الوضع الداكن</button>
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  function isDark(){var t=root.getAttribute('data-theme');return t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches}
+  function label(){btn.textContent=isDark()?'الوضع الفاتح':'الوضع الداكن'}
+  try{var s=localStorage.getItem('yawm-theme');if(s)root.setAttribute('data-theme',s)}catch(e){}
+  label();
+  btn.addEventListener('click',function(){var n=isDark()?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('yawm-theme',n)}catch(e){}label()});
+  function fit(){
+    document.querySelectorAll('.phone-slot').forEach(function(slot){
+      var ph=slot.querySelector('.ph'); var w=slot.clientWidth; var s=Math.min(1,w/356);
+      ph.style.transform=s<1?'scale('+s+')':''; ph.style.marginBottom=s<1?(-(752*(1-s)))+'px':'';
+    });
+  }
+  window.addEventListener('resize',fit); fit();
+})();
+</script>
+</body>
+</html>

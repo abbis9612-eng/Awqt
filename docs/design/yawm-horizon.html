@@ -30,8 +30,8 @@ button{cursor:pointer}
 @media (max-width:860px), (pointer:coarse){.about{display:none}.stage{padding:0;display:block}.device{width:100%;height:100dvh;border-radius:0;padding:0;background:none;box-shadow:none}.app{width:100%;height:100dvh;border-radius:0}}
 
 /* ---------- app ---------- */
-.app{--amb:#0D1424;--ink:#F3F6FB;--ink2:#B9C3D6;--ink3:#8C97AD;--glass:rgba(255,255,255,.08);--glassB:rgba(255,255,255,.13);--line:rgba(255,255,255,.1);
-  --r-wor:#6F86D6;--r-fam:#B4802A;--r-dev:#D04E66;--r-bus:#16A0AF;--r-self:#8F74D4;--r-body:#3DA56B;--knot:#FFFFFF;--sun:#FFD27A;--short:#F09AAB;--sleep:#5E74C0;--nap:#A3B4E8;
+.app{--amb:#F4F7FB;--ink:#14203A;--ink2:#4A5670;--ink3:#6B7690;--glass:#FFFFFF;--glassB:rgba(20,32,58,.07);--line:rgba(20,32,58,.08);--soft:rgba(20,32,58,.06);--gold:#F2B33D;
+  --r-wor:#3F57A6;--r-fam:#C98A1E;--r-dev:#B5473F;--r-bus:#0E8F9E;--r-self:#8462C4;--r-body:#2E9157;--knot:#14203A;--sun:#F2B33D;--short:#B83A55;--sleep:#4F63B8;--nap:#9AAAE0;
   background:var(--amb);color:var(--ink);display:flex;flex-direction:column;transition:background-color 1s var(--ease)}
 .scroll{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;position:relative}
 .scroll::-webkit-scrollbar{display:none}
@@ -40,13 +40,13 @@ button{cursor:pointer}
 @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.screen{animation:none}.app,.app *{transition:none!important}}
 
-.top{position:absolute;top:0;inset-inline:0;z-index:5;display:flex;align-items:center;gap:2px;padding:12px 8px 0;pointer-events:none;text-shadow:0 1px 10px rgba(0,0,0,.25)}
+.top{color:#fff;position:absolute;top:0;inset-inline:0;z-index:5;display:flex;align-items:center;gap:2px;padding:12px 8px 0;pointer-events:none;text-shadow:0 1px 10px rgba(0,0,0,.25)}
 .top>*{pointer-events:auto}
 .top .when{flex:1;text-align:center;min-width:0}
 .top .d1{font-size:17px;font-weight:600;line-height:1.4}
 .top .d2{font-size:13.5px;opacity:.85;line-height:1.5}
-.ib{width:48px;height:48px;border:0;border-radius:24px;background:transparent;display:flex;align-items:center;justify-content:center;color:var(--ink);flex:none}
-.ib:active{background:rgba(255,255,255,.12)}
+.ib{width:48px;height:48px;border:0;border-radius:24px;background:transparent;display:flex;align-items:center;justify-content:center;color:inherit;flex:none}
+.ib:active{background:rgba(127,127,127,.18)}
 .ib:disabled{opacity:.35}
 
 .hero{display:block;width:100%;height:auto;touch-action:pan-y;cursor:grab;user-select:none}
@@ -58,7 +58,7 @@ button{cursor:pointer}
 .pillrow{position:absolute;inset-inline:0;bottom:78px;display:flex;justify-content:center;pointer-events:none}
 .pill{pointer-events:auto;height:36px;padding:0 14px;border-radius:18px;border:1px solid rgba(255,255,255,.25);background:rgba(10,16,30,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-size:14px;display:inline-flex;align-items:center;gap:6px}
 
-.glass{background:var(--glass);border:1px solid var(--glassB);border-radius:26px;backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3)}
+.glass{background:var(--glass);border:1px solid var(--glassB);box-shadow:0 8px 28px rgba(20,32,58,.07);border-radius:26px;backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3)}
 .say{margin:-70px 16px 0;padding:16px 18px;position:relative;z-index:2}
 .say .big{font-size:25px;font-weight:600;line-height:1.35}
 .say .sub{font-size:14.5px;color:var(--ink2);line-height:1.6}
@@ -66,7 +66,8 @@ button{cursor:pointer}
 .pt{border-radius:14px;padding:6px 2px;text-align:center;line-height:1.35}
 .pt b{display:block;font-size:13px;font-weight:500;color:var(--ink2)}
 .pt span{font-size:16px;font-weight:600;font-variant-numeric:tabular-nums}
-.pt.next{background:rgba(255,255,255,.14)}
+.pt.next{background:#14203A;color:#fff}
+.pt.next b{color:rgba(255,255,255,.8)!important}
 .pt.next b{color:var(--ink)}
 .pt.past span{color:var(--ink3)}
 
@@ -78,7 +79,7 @@ button{cursor:pointer}
 .peg .nm{flex:1;font-size:16px}
 .peg .du{font-size:13.5px;color:var(--ink2);font-weight:400}
 .peg .dep{font-size:12.5px;color:var(--ink3);font-weight:400}
-.knot{width:12px;height:12px;transform:rotate(45deg);background:var(--knot);border-radius:2px;flex:none;margin-inline:2px;box-shadow:0 0 10px rgba(255,255,255,.45)}
+.knot{width:12px;height:12px;transform:rotate(45deg);background:var(--knot);border-radius:2px;flex:none;margin-inline:2px;box-shadow:none}
 .blk{display:flex;align-items:flex-start;gap:12px;padding:8px 16px;min-height:48px}
 .blk .t{width:48px;font-size:14.5px;color:var(--ink2);padding-top:1px;font-variant-numeric:tabular-nums}
 .blk .dot{width:10px;height:10px;border-radius:50%;margin-top:8px;flex:none}
@@ -86,7 +87,7 @@ button{cursor:pointer}
 .blk .ti{font-size:15.5px;line-height:1.55}
 .blk .nt{font-size:13.5px;color:var(--ink2);line-height:1.55;margin-top:2px}
 .blk .du{font-size:13.5px;color:var(--ink2);padding-top:2px;white-space:nowrap}
-.cur{background:rgba(255,255,255,.1)}
+.cur{background:rgba(63,87,166,.08)}
 .blk.cur .ti{font-weight:600}
 .blk.drop .ti{color:var(--ink3);text-decoration:line-through}
 .chk{width:20px;height:20px;flex:none;margin-top:3px;color:var(--ink2)}
@@ -96,21 +97,22 @@ button{cursor:pointer}
 .teaser b{display:block;font-weight:600;font-size:16px}
 .teaser span{font-size:14px;color:var(--ink2)}
 
-.dock{margin:0 10px 8px;border-radius:26px;display:flex;align-items:center;gap:12px;padding:10px 10px 10px 16px;flex:none;background:rgba(14,20,36,.72);border:1px solid var(--glassB);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.dock{margin:0 10px 8px;border-radius:26px;display:flex;align-items:center;gap:12px;padding:10px 10px 10px 16px;flex:none;background:#FFFFFF;box-shadow:0 10px 30px rgba(20,32,58,.12);border:1px solid var(--glassB);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 .ring{width:44px;height:44px;flex:none}
 .dock .tx{flex:1;min-width:0}
 .dock .ti{font-weight:600;font-size:15.5px;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dock .su{font-size:13.5px;color:var(--ink2)}
-.done-btn{height:50px;min-width:82px;padding:0 18px;border-radius:25px;border:0;background:#fff;color:#14203A;font-weight:600;font-size:16px;flex:none;transition:transform .15s var(--ease)}
+.done-btn{height:50px;min-width:82px;padding:0 18px;border-radius:25px;border:0;background:#14203A;color:#fff;font-weight:600;font-size:16px;flex:none;transition:transform .15s var(--ease)}
 .done-btn:active{transform:scale(.95)}
-.done-btn[aria-pressed="true"]{background:rgba(255,255,255,.16);color:#fff}
+.done-btn[aria-pressed="true"]{background:var(--soft);color:var(--ink)}
 .nav{display:flex;height:66px;padding-bottom:env(safe-area-inset-bottom);flex:none}
 .nav button{flex:1;border:0;background:transparent;color:var(--ink3);font-size:12.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .nav .ic{width:56px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center}
 .nav button[aria-current="page"]{color:var(--ink);font-weight:600}
-.nav button[aria-current="page"] .ic{background:rgba(255,255,255,.14)}
+.nav button[aria-current="page"] .ic{background:rgba(63,87,166,.12);color:#3F57A6}
 
-.hcap{position:absolute;top:70px;inset-inline:20px;z-index:2}
+.hcap{position:absolute;top:70px;inset-inline:20px;z-index:2;color:#fff}
+.hcap .sm{color:rgba(255,255,255,.82)!important}
 .hcap .ttl{font-size:26px;font-weight:600;line-height:1.35;text-shadow:0 2px 14px rgba(0,0,0,.35)}
 .hcap .sm{font-size:14px;color:var(--ink2)}
 .card{padding:14px 16px}
@@ -118,25 +120,25 @@ button{cursor:pointer}
 .score b{font-size:50px;font-weight:500;line-height:1.1;font-variant-numeric:tabular-nums}
 .score span{font-size:14.5px;color:var(--ink2)}
 .status{display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;margin-top:4px}
-.status.ok{color:#8FE0B0}.status.short{color:var(--short)}
+.status.ok{color:#2E9157}.status.short{color:var(--short)}
 .para{font-size:16.5px;line-height:1.85;margin:10px 0 0}
 .row{display:flex;align-items:center;gap:12px;min-height:56px}
 .row .tx{flex:1}
 .row .tx b{display:block;font-weight:500;font-size:16px}
 .row .tx span{font-size:13.5px;color:var(--ink2)}
-.step{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.1);border-radius:24px;padding:2px}
+.step{display:flex;align-items:center;gap:2px;background:var(--soft);border-radius:24px;padding:2px}
 .step button{width:44px;height:44px;border:0;border-radius:22px;background:transparent;font-size:22px;line-height:1}
 .step output{min-width:54px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
-.switch{width:56px;height:32px;border-radius:16px;border:0;background:rgba(255,255,255,.16);position:relative;flex:none}
-.switch::after{content:"";position:absolute;top:4px;inset-inline-start:4px;width:24px;height:24px;border-radius:12px;background:#C7CFDD;transition:inset-inline-start .2s var(--ease)}
-.switch[aria-checked="true"]{background:#FFD27A}
-.switch[aria-checked="true"]::after{inset-inline-start:28px;background:#14203A}
+.switch{width:56px;height:32px;border-radius:16px;border:0;background:rgba(20,32,58,.14);position:relative;flex:none}
+.switch::after{content:"";position:absolute;top:4px;inset-inline-start:4px;width:24px;height:24px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:inset-inline-start .2s var(--ease)}
+.switch[aria-checked="true"]{background:#14203A}
+.switch[aria-checked="true"]::after{inset-inline-start:28px;background:#F2B33D}
 .wrapTap{position:relative}
-.tip{position:absolute;pointer-events:none;background:#F3F6FB;color:#14203A;font-size:13.5px;line-height:1.5;padding:6px 10px;border-radius:10px;white-space:nowrap;display:none;z-index:3;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.tip{position:absolute;pointer-events:none;background:#14203A;color:#fff;font-size:13.5px;line-height:1.5;padding:6px 10px;border-radius:10px;white-space:nowrap;display:none;z-index:3;box-shadow:0 6px 20px rgba(0,0,0,.3)}
 .legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13.5px;color:var(--ink2);margin-top:8px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
-.bar{height:6px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:6px}
+.bar{height:6px;border-radius:3px;background:var(--soft);overflow:hidden;margin-top:6px}
 .bar i{display:block;height:100%;border-radius:3px}
 .small{font-size:14px;color:var(--ink2);line-height:1.7}
 .rise{animation:rise .9s var(--ease) both}
@@ -156,13 +158,13 @@ button{cursor:pointer}
 .dayrow .fc{flex:1;min-width:0}
 .dayrow .fc b{display:block;font-size:15.5px;font-weight:600;line-height:1.45}
 .dayrow .fc span{display:block;font-size:13.5px;color:var(--ink2);line-height:1.6}
-.dayrow.today{background:rgba(255,210,122,.1)}
+.dayrow.today{background:rgba(242,179,61,.12)}
 .dayrow.past .fc,.dayrow.past .dn{opacity:.6}
 .dayrow .go{color:var(--ink3);padding-top:4px}
 .dayrow .fc .badge{display:inline-block;width:auto}
 .top{transition:background-color .3s,box-shadow .3s}
-.top.solid{background:color-mix(in srgb,var(--amb) 82%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--line);padding-bottom:6px}
-.badge{font-size:12px;font-weight:600;color:#14203A;background:#FFD27A;border-radius:10px;padding:1px 8px;margin-inline-start:6px;vertical-align:2px}
+.top.solid{color:var(--ink);text-shadow:none;background:color-mix(in srgb,var(--amb) 90%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--line);padding-bottom:6px}
+.badge{font-size:12px;font-weight:600;color:#14203A;background:#F2B33D;border-radius:10px;padding:1px 8px;margin-inline-start:6px;vertical-align:2px}
 .sunbtn{position:absolute;border:0;background:transparent;border-radius:14px;padding:0}
 .sunbtn:focus-visible{outline:2px solid #FFD27A;outline-offset:-2px}
 .steps{margin:8px 0 0;padding:0 18px 0 0;color:var(--ink2);font-size:14.5px;line-height:1.8}
@@ -174,47 +176,47 @@ button{cursor:pointer}
 .steps2{position:relative;padding:6px 0}
 .st{display:flex;align-items:flex-start;gap:14px;padding:10px 16px;min-height:56px;position:relative}
 .st .t{width:48px;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;padding-top:2px}
-.st .ic{width:32px;height:32px;border-radius:16px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;flex:none;position:relative;z-index:1}
+.st .ic{width:32px;height:32px;border-radius:16px;background:#EEF1F7;display:flex;align-items:center;justify-content:center;flex:none;position:relative;z-index:1}
 .st .tx{flex:1;min-width:0}
 .st .tx b{display:block;font-size:15.5px;font-weight:600;line-height:1.45}
 .st .tx span{font-size:13.5px;color:var(--ink2);line-height:1.55}
 .st.past .t,.st.past .tx{opacity:.5}
-.st.next{background:rgba(255,210,122,.1)}
-.st.next .ic{background:#FFD27A;color:#14203A}
-.st .tx .cd{color:#14203A;font-size:12.5px;font-weight:600;color:#14203A;background:#FFD27A;border-radius:10px;padding:1px 8px;margin-inline-start:6px;vertical-align:2px;display:inline-block}
-.steps2::before{content:"";position:absolute;inset-inline-start:93px;top:30px;bottom:30px;width:2px;background:rgba(255,255,255,.1)}
+.st.next{background:rgba(242,179,61,.12)}
+.st.next .ic{background:#F2B33D;color:#14203A}
+.st .tx .cd{color:#14203A;font-size:12.5px;font-weight:600;color:#14203A;background:#F2B33D;border-radius:10px;padding:1px 8px;margin-inline-start:6px;vertical-align:2px;display:inline-block}
+.steps2::before{content:"";position:absolute;inset-inline-start:93px;top:30px;bottom:30px;width:2px;background:rgba(20,32,58,.1)}
 .alarm{display:flex;align-items:center;gap:14px}
 .alarm .tm{font-size:34px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
 .pts{display:flex;gap:4px;margin:10px 0 2px}
-.pts i{flex:1;height:10px;border-radius:3px;background:rgba(255,255,255,.12);transition:background-color .35s var(--ease)}
-.pts i.on{background:#FFD27A}
+.pts i{flex:1;height:10px;border-radius:3px;background:var(--soft);transition:background-color .35s var(--ease)}
+.pts i.on{background:#F2B33D}
 .chk-row{display:flex;align-items:center;gap:12px;min-height:52px;width:100%;border:0;background:transparent;text-align:start;padding:0 16px;border-bottom:1px solid var(--line)}
 .chk-row:last-child{border-bottom:0}
 .chk-row .bx{width:26px;height:26px;border-radius:8px;border:2px solid var(--ink3);flex:none;display:flex;align-items:center;justify-content:center;transition:background-color .2s,border-color .2s}
-.chk-row[aria-checked="true"] .bx{background:#FFD27A;border-color:#FFD27A;color:#14203A}
+.chk-row[aria-checked="true"] .bx{background:#14203A;border-color:#14203A;color:#fff}
 .chk-row .bx svg{opacity:0;transform:scale(.5);transition:opacity .2s,transform .25s var(--ease)}
 .chk-row[aria-checked="true"] .bx svg{opacity:1;transform:none}
 .chk-row .lb{flex:1;font-size:15.5px;line-height:1.5}
 .chk-row .rl{width:8px;height:8px;border-radius:50%;flex:none}
 .q{display:block;font-size:15.5px;font-weight:500;margin:14px 2px 6px;line-height:1.6}
-.ta{width:100%;min-height:76px;border-radius:16px;border:1px solid var(--glassB);background:rgba(255,255,255,.06);padding:10px 14px;resize:vertical;line-height:1.7;font-size:16px}
-.primary{width:100%;height:54px;border-radius:27px;border:0;background:#fff;color:#14203A;font-weight:600;font-size:17px}
-.toast{position:absolute;inset-inline:24px;bottom:150px;background:#F3F6FB;color:#14203A;padding:12px 16px;border-radius:16px;font-size:15px;text-align:center;opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s var(--ease);pointer-events:none;z-index:9}
+.ta{width:100%;min-height:76px;border-radius:16px;border:1px solid rgba(20,32,58,.12);background:#fff;padding:10px 14px;resize:vertical;line-height:1.7;font-size:16px}
+.primary{width:100%;height:54px;border-radius:27px;border:0;background:#14203A;color:#fff;font-weight:600;font-size:17px}
+.toast{position:absolute;inset-inline:24px;bottom:150px;background:#14203A;color:#fff;padding:12px 16px;border-radius:16px;font-size:15px;text-align:center;opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s var(--ease);pointer-events:none;z-index:9}
 .toast.on{opacity:1;transform:none}
 .scrim{position:absolute;inset:0;background:rgba(4,8,16,.5);opacity:0;pointer-events:none;transition:opacity .25s;z-index:7}
 .scrim.on{opacity:1;pointer-events:auto}
-.sheet{position:absolute;inset-inline:0;bottom:0;max-height:88%;overflow-y:auto;background:#121A2C;border-radius:28px 28px 0 0;padding:10px 18px 28px;transform:translateY(105%);transition:transform .35s var(--ease);z-index:8;border-top:1px solid var(--glassB)}
+.sheet{position:absolute;inset-inline:0;bottom:0;max-height:88%;overflow-y:auto;background:#fff;border-radius:28px 28px 0 0;padding:10px 18px 28px;transform:translateY(105%);transition:transform .35s var(--ease);z-index:8;border-top:1px solid var(--glassB)}
 .sheet.on{transform:none}
-.handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.3);margin:0 auto 12px}
+.handle{width:36px;height:4px;border-radius:2px;background:rgba(20,32,58,.2);margin:0 auto 12px}
 .sheet h3{font-size:20px;font-weight:600;margin:0 0 8px}
-.seg{display:flex;background:rgba(255,255,255,.08);border-radius:16px;padding:4px;gap:4px;margin-bottom:6px}
+.seg{display:flex;background:var(--soft);border-radius:16px;padding:4px;gap:4px;margin-bottom:6px}
 .seg button{flex:1;min-height:46px;border:0;border-radius:12px;background:transparent;font-size:15px;color:var(--ink2);line-height:1.35;padding:4px 6px}
-.seg button[aria-pressed="true"]{background:#F3F6FB;color:#14203A;font-weight:600}
+.seg button[aria-pressed="true"]{background:#14203A;color:#fff;font-weight:600}
 .seg button:disabled{opacity:.4;cursor:not-allowed}
 .lbl{font-size:14px;color:var(--ink2);margin:14px 2px 6px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{min-height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--glassB);background:rgba(255,255,255,.06);font-size:14px}
-.datein{width:100%;height:48px;border-radius:14px;border:1px solid var(--glassB);background:rgba(255,255,255,.06);padding:0 12px;font-size:16px;color-scheme:dark}
+.chip{min-height:40px;padding:0 14px;border-radius:20px;border:1px solid rgba(20,32,58,.12);background:#fff;font-size:14px}
+.datein{width:100%;height:48px;border-radius:14px;border:1px solid rgba(20,32,58,.12);background:#fff;padding:0 12px;font-size:16px;color-scheme:light}
 </style>
 </head>
 <body>
@@ -304,7 +306,7 @@ button{cursor:pointer}
     </div>
 
     <div class="dock" id="dock">
-      <svg class="ring" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="5"/><circle id="ringArc" cx="22" cy="22" r="18" fill="none" stroke="#FFD27A" stroke-width="5" stroke-linecap="round" transform="rotate(-90 22 22)" stroke-dasharray="113.1" stroke-dashoffset="113.1"/><circle id="ringDot" cx="22" cy="22" r="6"/></svg>
+      <svg class="ring" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(20,32,58,.08)" stroke-width="5"/><circle id="ringArc" cx="22" cy="22" r="18" fill="none" stroke="#F2B33D" stroke-width="5" stroke-linecap="round" transform="rotate(-90 22 22)" stroke-dasharray="113.1" stroke-dashoffset="113.1"/><circle id="ringDot" cx="22" cy="22" r="6"/></svg>
       <div class="tx"><div class="ti" id="dockT"></div><div class="su" id="dockS"></div></div>
       <button class="done-btn" id="doneBtn" aria-pressed="false">تم</button>
     </div>
@@ -563,7 +565,7 @@ const sunA = (m, doy = S.doy) => sunAt(S.city, doy, m);
 
 function setAmbient(t) {
   const alt = sunA(t).alt, [, hor] = skyAt(alt);
-  const amb = mix(hor, '#0A1020', 0.8);
+  const amb = mix(hor, '#F4F7FB', 0.94);
   app.style.setProperty('--amb', amb);
   document.querySelector('meta[name="theme-color"]').setAttribute('content', skyAt(alt)[0]);
   return alt;
@@ -582,7 +584,9 @@ function drawSky(t) {
   const kUp = 150 / Math.max(30, maxAlt), kDn = 2.6;
   const Y = (alt) => alt >= 0 ? HY - alt * kUp : HY - alt * kDn;
   const X = heroX;
-  const back = mix(hor, top, 0.45), mid = mix(hor, '#0A1020', 0.45), fg = mix(hor, '#0A1020', 0.72);
+  const page = mix(hor, '#F4F7FB', 0.94), lite = 1 - dark;
+  const back = mix(hor, top, 0.45), mid = mix(mix(hor, '#0A1020', 0.45), page, 0.45 * lite), fg = mix(mix(hor, '#0A1020', 0.72), page, 0.82 * lite);
+  const lowInk = lite > 0.5 ? '#14203A' : '#fff';
   let o = `<defs><linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${top}"/><stop offset=".62" stop-color="${hor}"/><stop offset="1" stop-color="${hor}"/></linearGradient>
     <radialGradient id="hsun"><stop offset="0" stop-color="#FFF7DE"/><stop offset=".3" stop-color="#FFD27A" stop-opacity=".9"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></radialGradient>
     <radialGradient id="hhalo" cx="${(X(Math.max(a, Math.min(z, t))) / 390).toFixed(3)}" cy="${(Math.min(HY, Y(sun.alt)) / 440).toFixed(3)}" r=".7"><stop offset="0" stop-color="#FFE3A8" stop-opacity="${(0.35 * (1 - dark)).toFixed(2)}"/><stop offset="1" stop-color="#FFE3A8" stop-opacity="0"/></radialGradient>
@@ -600,7 +604,7 @@ function drawSky(t) {
   o += `<polygon points="0,440 ${ridge(7.7, HY + 60, 24, 70)} 390,440" fill="${fg}"/>`;
   o += `<line x1="0" y1="${HY}" x2="390" y2="${HY}" stroke="#fff" stroke-opacity=".22" stroke-dasharray="1 4"/>`;
   // below the horizon: where the sun is at fajr and isha
-  const below = (from, to) => { let pts = []; for (let m = from; m <= to; m += 3) { const al = sunA(m).alt; if (al < 0) pts.push(`${X(m).toFixed(1)},${Y(al).toFixed(1)}`); } if (pts.length > 1) o += `<polyline points="${pts.join(' ')}" fill="none" stroke="#fff" stroke-opacity=".38" stroke-width="1.4" stroke-dasharray="1 4"/>`; };
+  const below = (from, to) => { let pts = []; for (let m = from; m <= to; m += 3) { const al = sunA(m).alt; if (al < 0) pts.push(`${X(m).toFixed(1)},${Y(al).toFixed(1)}`); } if (pts.length > 1) o += `<polyline points="${pts.join(' ')}" fill="none" stroke="${lowInk}" stroke-opacity=".38" stroke-width="1.4" stroke-dasharray="1 4"/>`; };
   below(a, tt.dhuhr); below(tt.dhuhr, z);
   // passed part of the path brighter
   let passed = []; for (let m = tt.sunrise; m <= Math.min(t, tt.maghrib); m += 3) passed.push(`${X(m).toFixed(1)},${Y(Math.max(0, sunA(m).alt)).toFixed(1)}`);
@@ -608,10 +612,10 @@ function drawSky(t) {
   const marks = [['fajr', tt.fajr], [S.day.friday ? 'jumua' : 'dhuhr', tt.dhuhr], ['asr', tt.asr], ['maghrib', tt.maghrib], ['isha', tt.isha]];
   marks.forEach(([k, m]) => {
     const al = sunA(m).alt, x = X(m), y = Y(al), bel = al < -1;
-    o += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="${bel ? 'none' : '#fff'}" stroke="#fff" stroke-width="1.8"/>`;
+    o += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="${bel ? 'none' : '#fff'}" stroke="${bel ? lowInk : '#fff'}" stroke-width="1.8"/>`;
     const lx = Math.max(64, Math.min(326, x)).toFixed(1);
-    o += `<text x="${lx}" y="${(bel ? y + 19 : y - 11).toFixed(1)}" font-size="13" font-weight="500" fill="#fff" text-anchor="middle">${PN[k]} ${fmt(m)}</text>`;
-    if (bel) o += `<text x="${lx}" y="${(y + 35).toFixed(1)}" font-size="11.5" fill="#fff" fill-opacity=".72" text-anchor="middle">الشمس ${Math.abs(al).toFixed(1)}° تحت الأفق</text>`;
+    o += `<text x="${lx}" y="${(bel ? y + 19 : y - 11).toFixed(1)}" font-size="13" font-weight="500" fill="${bel ? lowInk : '#fff'}" text-anchor="middle">${PN[k]} ${fmt(m)}</text>`;
+    if (bel) o += `<text x="${lx}" y="${(y + 35).toFixed(1)}" font-size="11.5" fill="${lowInk}" fill-opacity=".72" text-anchor="middle">الشمس ${Math.abs(al).toFixed(1)}° تحت الأفق</text>`;
   });
   // the sun now
   const tx = X(Math.max(a, Math.min(z, t))), ty = Y(sun.alt);
@@ -663,7 +667,7 @@ function renderToday() {
       if (b.shrunkFrom) { const [x, y] = segOf(b.start); note = `تقلّصت من ${b.shrunkFrom} إلى ${b.end - b.start} د، لأن ما بين ${x[0]} و${y[0]} اليوم ${durShort(y[1] - x[1])} بس`; }
       rows.push(`<div class="blk${isCur ? ' cur' : ''}"><span class="t">${fmt(b.start)}</span><span class="dot" style="background:${roleVar(b.role)}"></span><div class="tx"><div class="ti">${b.title}</div>${note ? `<div class="nt">${note}</div>` : ''}</div>${isDone ? ck : `<span class="du">${durShort(b.end - b.start)}</span>`}</div>`);
     }
-    if (segEnd) { const [x, y] = segOf(b.start); (drops[segKey[x[0]]] || []).forEach((dr) => rows.push(`<div class="blk drop"><span class="t"></span><span class="dot" style="background:rgba(255,255,255,.25)"></span><div class="tx"><div class="ti">${dr.title}</div><div class="nt">حُذفت اليوم، لأن ما بين ${x[0]} و${y[0]} ${durShort(y[1] - x[1])} بس</div></div></div>`)); }
+    if (segEnd) { const [x, y] = segOf(b.start); (drops[segKey[x[0]]] || []).forEach((dr) => rows.push(`<div class="blk drop"><span class="t"></span><span class="dot" style="background:rgba(20,32,58,.18)"></span><div class="tx"><div class="ti">${dr.title}</div><div class="nt">حُذفت اليوم، لأن ما بين ${x[0]} و${y[0]} ${durShort(y[1] - x[1])} بس</div></div></div>`)); }
   });
   const pb = pastCount || S.showPast ? `<button class="past-toggle" id="pastBtn">${S.showPast ? 'اخفِ اللي فات' : `اللي فات اليوم (${pastCount})`}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="${S.showPast ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6'}"/></svg></button>` : '';
   $('tl').innerHTML = pb + rows.join('') + `<div class="peg"><span class="t">${fmt(d.plan.bedtime)}</span><span class="knot" style="background:var(--sleep);box-shadow:none" aria-hidden="true"></span><span class="nm">النوم</span></div>`;
@@ -677,7 +681,7 @@ function renderDock(t) {
     $('dockT').textContent = cur.title;
     $('dockS').textContent = `حتى ${fmt(cur.end)}، باقي ${durShort(cur.end - t)}`;
     $('ringArc').style.strokeDashoffset = (113.1 * (1 - (t - cur.start) / (cur.end - cur.start))).toFixed(1);
-    $('ringDot').setAttribute('fill', cur.isPrayer ? '#fff' : roleVar(cur.role));
+    $('ringDot').setAttribute('fill', cur.isPrayer ? 'var(--knot)' : roleVar(cur.role));
     btn.hidden = false; btn.textContent = done[cur.key] ? 'رجّع' : cur.isPrayer ? 'صليت' : 'تم';
     btn.setAttribute('aria-pressed', done[cur.key] ? 'true' : 'false');
     btn.onclick = () => { const all = store.get(doneKey(), {}); all[cur.key] = !all[cur.key]; store.set(doneKey(), all); if (all[cur.key]) toast(cur.isPrayer ? 'تقبّل الله' : 'انحسبت'); render(); };
@@ -769,7 +773,7 @@ function renderNight() {
     ? `<span class="status short" style="flex-direction:column;align-items:flex-end;text-align:end"><span style="display:flex;gap:6px;align-items:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 7v6M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>ينقصك</span><span>${durShort(p.shortfall)}</span></span>`
     : `<span class="status ok" style="flex-direction:column;align-items:flex-end"><span style="display:flex;gap:6px;align-items:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>يكفي</span><span style="font-weight:400;font-size:13px;color:var(--ink2)">الهدف 7 ساعات</span></span>`;
   const W = 330, rx = (v) => W - 2 - v / 420 * (W - 4), n = Math.min(p.night, 420), nap = Math.min(p.nap, 420 - n);
-  let r = `<rect x="2" y="4" width="${W - 4}" height="14" rx="7" fill="rgba(255,255,255,.08)"/><rect x="${rx(n).toFixed(1)}" y="4" width="${(W - 2 - rx(n)).toFixed(1)}" height="14" rx="7" fill="var(--sleep)"/>`;
+  let r = `<rect x="2" y="4" width="${W - 4}" height="14" rx="7" fill="rgba(20,32,58,.07)"/><rect x="${rx(n).toFixed(1)}" y="4" width="${(W - 2 - rx(n)).toFixed(1)}" height="14" rx="7" fill="var(--sleep)"/>`;
   if (nap > 0) r += `<rect x="${(rx(n + nap) + 1.5).toFixed(1)}" y="4" width="${(rx(n) - rx(n + nap) - 3).toFixed(1)}" height="14" rx="7" fill="var(--nap)"/>`;
   if (p.shortfall) r += `<rect x="3" y="5" width="${(rx(n + nap) - 5).toFixed(1)}" height="12" rx="6" fill="none" stroke="var(--short)" stroke-width="1.6" stroke-dasharray="3 2"/>`;
   r += `<text x="${W - 2}" y="38" font-size="12.5" fill="var(--ink2)" text-anchor="start" direction="rtl">ليل ${hm(p.night)}، وقيلولة ${p.nap} د</text><text x="2" y="38" font-size="12.5" fill="var(--ink3)" text-anchor="end" direction="rtl">7 ساعات</text>`;
@@ -804,13 +808,13 @@ function drawYear() {
   const W = 330, top = 10, bot = 160, y0 = Math.max(0, Math.floor(Math.min(...yd.map((p) => p.night)) / 60)) * 60, y1 = 540;
   const X = (i) => W - 4 - i / 364 * (W - 40), Y = (v) => bot - (Math.min(v, y1) - y0) / (y1 - y0) * (bot - top);
   let o = '';
-  for (let h = y0 / 60; h <= 9; h++) o += `<line x1="${W - 4}" x2="36" y1="${Y(h * 60)}" y2="${Y(h * 60)}" stroke="rgba(255,255,255,.08)"/><text x="26" y="${Y(h * 60) + 4}" font-size="11.5" fill="var(--ink3)" text-anchor="middle">${h}</text>`;
+  for (let h = y0 / 60; h <= 9; h++) o += `<line x1="${W - 4}" x2="36" y1="${Y(h * 60)}" y2="${Y(h * 60)}" stroke="rgba(20,32,58,.08)"/><text x="26" y="${Y(h * 60) + 4}" font-size="11.5" fill="var(--ink3)" text-anchor="middle">${h}</text>`;
   const tp = yd.map((p, i) => `${X(i).toFixed(1)},${Y(p.total).toFixed(1)}`), md = yd.map((p, i) => `${X(i).toFixed(1)},${Y(p.night).toFixed(1)}`);
   o += `<polygon points="${tp.join(' ')} ${md.slice().reverse().join(' ')}" fill="var(--nap)"/><polygon points="${md.join(' ')} ${X(364)},${bot} ${X(0)},${bot}" fill="var(--sleep)"/>`;
-  o += `<line x1="${W - 4}" x2="36" y1="${Y(420)}" y2="${Y(420)}" stroke="#fff" stroke-width="1.5" stroke-dasharray="5 4"/><text x="${W - 6}" y="${Y(420) - 6}" font-size="12" fill="#fff" text-anchor="start" direction="rtl">7 ساعات</text>`;
+  o += `<line x1="${W - 4}" x2="36" y1="${Y(420)}" y2="${Y(420)}" stroke="#14203A" stroke-width="1.5" stroke-dasharray="5 4"/><text x="${W - 6}" y="${Y(420) - 6}" font-size="12" fill="#14203A" text-anchor="start" direction="rtl">7 ساعات</text>`;
   yd.forEach((p, i) => { if (p.shortfall) o += `<rect x="${(X(i) - .6).toFixed(1)}" y="${bot + 4}" width="1.4" height="6" fill="var(--short)"/>`; });
   [[14, 'كانون الثاني'], [105, 'نيسان'], [196, 'تموز'], [288, 'تشرين الأول']].forEach(([i, nm]) => { o += `<text x="${X(i).toFixed(1)}" y="${bot + 26}" font-size="11.5" fill="var(--ink3)" text-anchor="middle">${nm}</text>`; });
-  o += `<line x1="${X(S.doy)}" x2="${X(S.doy)}" y1="${top}" y2="${bot}" stroke="#FFD27A" stroke-width="2"/><circle cx="${X(S.doy)}" cy="${Y(yd[S.doy].total)}" r="5" fill="#FFD27A" stroke="var(--amb)" stroke-width="2"/><line id="yc" x1="0" x2="0" y1="${top}" y2="${bot}" stroke="#fff" opacity="0"/>`;
+  o += `<line x1="${X(S.doy)}" x2="${X(S.doy)}" y1="${top}" y2="${bot}" stroke="#FFD27A" stroke-width="2"/><circle cx="${X(S.doy)}" cy="${Y(yd[S.doy].total)}" r="5" fill="#FFD27A" stroke="var(--amb)" stroke-width="2"/><line id="yc" x1="0" x2="0" y1="${top}" y2="${bot}" stroke="#14203A" opacity="0"/>`;
   const sv = $('year'); sv.innerHTML = o;
   const sh = yd.filter((p) => p.shortfall), mx = Math.max(0, ...sh.map((p) => p.shortfall));
   $('yearSum').textContent = sh.length ? `${sh.length} ليلة بالسنة ما يكفي بيها النوم حتى مع القيلولة الطويلة، وأكثر نقص ${durText(mx)}.` : 'كل ليالي السنة يكفي بيها النوم مع القيلولة.';

@@ -31,7 +31,7 @@ button{cursor:pointer}
 
 /* ---------- app ---------- */
 .app{--amb:#F4F7FB;--ink:#14203A;--ink2:#4A5670;--ink3:#6B7690;--glass:#FFFFFF;--glassB:rgba(20,32,58,.07);--line:rgba(20,32,58,.08);--soft:rgba(20,32,58,.06);--gold:#F2B33D;
-  --r-wor:#3F57A6;--r-fam:#C98A1E;--r-dev:#B5473F;--r-bus:#0E8F9E;--r-self:#8462C4;--r-body:#2E9157;--knot:#14203A;--sun:#F2B33D;--short:#B83A55;--sleep:#4F63B8;--nap:#9AAAE0;
+  --r-wor:#3F57A6;--r-fam:#C98A1E;--r-dev:#B5473F;--r-bus:#0E8F9E;--r-self:#8462C4;--r-body:#2E9157;--knot:#14203A;--sun:#F2B33D;--short:#B83A55;--ok:#2E9157;--sleep:#4F63B8;--nap:#9AAAE0;
   background:var(--amb);color:var(--ink);display:flex;flex-direction:column;transition:background-color 1s var(--ease)}
 .scroll{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;position:relative}
 .scroll::-webkit-scrollbar{display:none}
@@ -55,11 +55,11 @@ button{cursor:pointer}
 .pill[hidden]{display:none}
 .hero:focus{outline:none}
 .hero:focus-visible{outline:2px solid #FFD27A;outline-offset:-6px;border-radius:12px}
-.pillrow{position:absolute;inset-inline:0;bottom:78px;display:flex;justify-content:center;pointer-events:none}
+.pillrow{position:absolute;inset-inline:0;bottom:58px;display:flex;justify-content:center;pointer-events:none}
 .pill{pointer-events:auto;height:36px;padding:0 14px;border-radius:18px;border:1px solid rgba(255,255,255,.25);background:rgba(10,16,30,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-size:14px;display:inline-flex;align-items:center;gap:6px}
 
 .glass{background:var(--glass);border:1px solid var(--glassB);box-shadow:0 8px 28px rgba(20,32,58,.07);border-radius:26px;backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3)}
-.say{margin:-70px 16px 0;padding:16px 18px;position:relative;z-index:2}
+.say{margin:-44px 16px 0;padding:16px 18px;position:relative;z-index:2}
 .say .big{font-size:25px;font-weight:600;line-height:1.35}
 .say .sub{font-size:14.5px;color:var(--ink2);line-height:1.6}
 .ptimes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin-top:12px}
@@ -87,7 +87,7 @@ button{cursor:pointer}
 .blk .ti{font-size:15.5px;line-height:1.55}
 .blk .nt{font-size:13.5px;color:var(--ink2);line-height:1.55;margin-top:2px}
 .blk .du{font-size:13.5px;color:var(--ink2);padding-top:2px;white-space:nowrap}
-.cur{background:rgba(63,87,166,.08)}
+.cur{background:rgba(242,179,61,.16)}
 .blk.cur .ti{font-weight:600}
 .blk.drop .ti{color:var(--ink3);text-decoration:line-through}
 .chk{width:20px;height:20px;flex:none;margin-top:3px;color:var(--ink2)}
@@ -187,6 +187,14 @@ button{cursor:pointer}
 .steps2::before{content:"";position:absolute;inset-inline-start:93px;top:30px;bottom:30px;width:2px;background:rgba(20,32,58,.1)}
 .alarm{display:flex;align-items:center;gap:14px}
 .alarm .tm{font-size:34px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+.ptitle{padding:80px 20px 0}
+.ptitle .ttl{font-size:26px;font-weight:600;line-height:1.35}
+.top.ink{color:var(--ink);text-shadow:none}
+.dock[hidden]{display:none}
+details.more>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;min-height:48px;font-weight:500}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary svg{transition:transform .2s var(--ease)}
+details.more[open]>summary svg{transform:rotate(180deg)}
 .pts{display:flex;gap:4px;margin:10px 0 2px}
 .pts i{flex:1;height:10px;border-radius:3px;background:var(--soft);transition:background-color .35s var(--ease)}
 .pts i.on{background:#F2B33D}
@@ -245,7 +253,7 @@ button{cursor:pointer}
     <div class="scroll" id="scroll">
       <section class="screen on" id="s-today" aria-label="اليوم">
         <div class="heroWrap">
-          <svg class="hero" id="sky" viewBox="0 0 390 440" role="img" aria-label=""></svg>
+          <svg class="hero" id="sky" viewBox="0 0 390 372" role="img" aria-label=""></svg>
           <div class="pillrow"><button class="pill" id="backNow" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><span id="backT">رجوع للآن</span></button><span class="pill" id="hint">اسحب على السماء تمشي باليوم</span></div>
         </div>
         <div class="glass say">
@@ -262,34 +270,32 @@ button{cursor:pointer}
         <div class="glass nchip"><div class="row1"><div style="flex:1"><div class="big" id="nTotal"></div><div class="lbl2" id="nTotalL"></div></div><div id="nStatus"></div></div>
           <svg id="ruler" viewBox="0 0 330 46" width="100%" role="img" style="display:block;margin-top:10px"></svg></div>
         <div class="sec"><h2>ليلتك خطوة بخطوة</h2><div class="glass steps2" id="nSteps"></div></div>
-        <div class="sec"><div class="glass card alarm"><div style="flex:1"><div class="small">منبّه الاستيقاظ</div><div class="tm" id="alarmT"></div><div class="small" id="alarmS"></div></div>
-          <button class="switch" id="alarmSw" role="switch" aria-checked="false" aria-label="منبّه الاستيقاظ"></button></div></div>
-        <div class="sec"><h2>عدّل ليلتك</h2><div class="glass card">
-          <div class="row"><div class="tx"><b>ساعة نومك المعتادة</b><span>ما تنام قبل العشاء بنص ساعة</span></div>
+        <div class="sec"><h2>منبّه وتعديل</h2><div class="glass card">
+          <div class="row"><div class="tx"><b>منبّه الاستيقاظ <span id="alarmT" style="font-variant-numeric:tabular-nums"></span></b><span id="alarmS"></span></div>
+            <button class="switch" id="alarmSw" role="switch" aria-checked="false" aria-label="منبّه الاستيقاظ"></button></div>
+                    <div class="row" style="border-top:1px solid var(--line)"><div class="tx"><b>ساعة نومك المعتادة</b><span>ما تنام قبل العشاء بنص ساعة</span></div>
             <div class="step"><button id="bedMinus" aria-label="أبكر ربع ساعة">−</button><output id="bedOut" aria-live="polite"></output><button id="bedPlus" aria-label="أأخر ربع ساعة">+</button></div></div>
           <div class="row" style="border-top:1px solid var(--line)"><div class="tx"><b>السَّحَر قبل الفجر</b><span>إذا بقى للنوم 6 ساعات أو أكثر</span></div>
             <button class="switch" id="qiyamSw" role="switch" aria-checked="true" aria-label="السَّحَر قبل الفجر"></button></div>
         </div></div>
-        <div class="sec" style="padding-bottom:16px"><h2>سنتك بالنوم</h2><div class="glass card">
+        <div class="sec" style="padding-bottom:16px"><details class="glass card more"><summary>سنتك بالنوم<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
           <div class="small" id="yearSum"></div>
           <div class="wrapTap"><svg id="year" viewBox="0 0 330 190" width="100%" role="img" style="display:block;touch-action:pan-y;margin-top:6px"></svg><div class="tip" id="ytip"></div></div>
           <div class="legend"><span><i style="background:var(--sleep)"></i>نوم الليل</span><span><i style="background:var(--nap)"></i>القيلولة</span><span><i style="background:var(--short)"></i>ليلة ناقصة</span></div>
-        </div></div>
+        </details></div>
       </section>
 
       <section class="screen" id="s-week" aria-label="الأسبوع">
-        <div class="heroWrap" id="wHero"><svg class="hero" id="wsky" viewBox="0 0 390 330" role="img" style="cursor:default"></svg>
-          <div class="hcap"><div class="ttl">أسبوعك</div><div class="sm" id="wWhen"></div></div>
-          <div id="wSuns"></div></div>
-        <div class="sec" style="margin-top:-34px;position:relative;z-index:2"><h2>حصتك هالأسبوع، حسب الجدول</h2><div class="tiles" id="wTiles"></div></div>
+        <div class="ptitle"><div class="ttl">أسبوعك</div><div class="small" id="wWhen"></div></div>
+        <div class="sec" style="padding-top:12px"><div class="glass" id="wHero" style="position:relative;overflow:hidden;padding:0"><svg id="wsky" viewBox="0 112 390 214" width="100%" role="img" style="display:block"></svg><div id="wSuns"></div></div><div class="small" style="margin-top:8px">اضغط على أي يوم حتى تفتح جدوله</div></div>
+        <div class="sec"><h2>حصتك هالأسبوع، حسب الجدول</h2><div class="tiles" id="wTiles"></div></div>
         <div class="sec"><h2>خطة الأسبوع من منهجك</h2><div class="glass" id="wPlan" style="overflow:hidden"></div></div>
         <div class="sec" style="padding-bottom:16px"><div class="glass card" id="wReview"></div></div>
       </section>
 
       <section class="screen" id="s-page" aria-label="صحيفة اليوم">
-        <div class="heroWrap"><svg class="hero" id="psky" viewBox="0 0 390 230" aria-hidden="true" style="cursor:default"></svg>
-          <div class="hcap"><div class="ttl">صحيفة اليوم</div><div class="sm" id="pWhen"></div></div></div>
-        <div class="sec" style="margin-top:-46px;position:relative;z-index:2"><div class="glass card">
+        <div class="ptitle"><div class="ttl">صحيفة اليوم</div><div class="small" id="pWhen"></div></div>
+        <div class="sec" style="padding-top:12px"><div class="glass card">
           <div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-weight:600">نقاط اليوم</b><span id="pScore" style="font-weight:600;font-variant-numeric:tabular-nums"></span></div>
           <div class="pts" id="pRow" aria-hidden="true"></div>
           <div class="small">الهدف 7 بالمعدل. الفوت مرة مقبول، مرتين متتاليتين لا.</div>
@@ -403,7 +409,7 @@ function setAmbient(t) {
 }
 
 /* ================= TODAY: the horizon ================= */
-const HY = 236, HX0 = 360, HX1 = 30;
+const HY = 222, HX0 = 360, HX1 = 30;
 function skyWindow() { const tt = S.day.times; return [tt.fajr - 50, Math.max(tt.isha, tt.maghrib + 60) + 50]; }
 function heroX(m) { const [a, z] = skyWindow(); return HX0 - (m - a) / (z - a) * (HX0 - HX1); }
 function heroM(x) { const [a, z] = skyWindow(); return a + (HX0 - x) / (HX0 - HX1) * (z - a); }
@@ -412,7 +418,7 @@ function drawSky(t) {
   const tt = S.day.times, [a, z] = skyWindow();
   const sun = sunA(t), [top, hor] = skyAt(sun.alt), dark = Math.max(0, Math.min(1, (-sun.alt - 2) / 14));
   let maxAlt = 0; for (let m = tt.sunrise; m < tt.maghrib; m += 10) maxAlt = Math.max(maxAlt, sunA(m).alt);
-  const kUp = 150 / Math.max(30, maxAlt), kDn = 2.6;
+  const kUp = 128 / Math.max(30, maxAlt), kDn = 2.4;
   const Y = (alt) => alt >= 0 ? HY - alt * kUp : HY - alt * kDn;
   const X = heroX;
   const page = mix(hor, '#F4F7FB', 0.94), lite = 1 - dark;
@@ -420,9 +426,9 @@ function drawSky(t) {
   const lowInk = lite > 0.5 ? '#14203A' : '#fff';
   let o = `<defs><linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${top}"/><stop offset=".62" stop-color="${hor}"/><stop offset="1" stop-color="${hor}"/></linearGradient>
     <radialGradient id="hsun"><stop offset="0" stop-color="#FFF7DE"/><stop offset=".3" stop-color="#FFD27A" stop-opacity=".9"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></radialGradient>
-    <radialGradient id="hhalo" cx="${(X(Math.max(a, Math.min(z, t))) / 390).toFixed(3)}" cy="${(Math.min(HY, Y(sun.alt)) / 440).toFixed(3)}" r=".7"><stop offset="0" stop-color="#FFE3A8" stop-opacity="${(0.35 * (1 - dark)).toFixed(2)}"/><stop offset="1" stop-color="#FFE3A8" stop-opacity="0"/></radialGradient>
+    <radialGradient id="hhalo" cx="${(X(Math.max(a, Math.min(z, t))) / 390).toFixed(3)}" cy="${(Math.min(HY, Y(sun.alt)) / 372).toFixed(3)}" r=".7"><stop offset="0" stop-color="#FFE3A8" stop-opacity="${(0.35 * (1 - dark)).toFixed(2)}"/><stop offset="1" stop-color="#FFE3A8" stop-opacity="0"/></radialGradient>
     <linearGradient id="hfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--amb)" stop-opacity="0"/><stop offset="1" stop-color="var(--amb)"/></linearGradient></defs>`;
-  o += `<rect width="390" height="440" fill="url(#hsky)"/><rect width="390" height="440" fill="url(#hhalo)"/>`;
+  o += `<rect width="390" height="372" fill="url(#hsky)"/><rect width="390" height="372" fill="url(#hhalo)"/>`;
   if (dark > 0) o += STARS.map(([x, y, r]) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="#fff" opacity="${(dark * (0.3 + r * 0.45)).toFixed(2)}"/>`).join('');
   // sun path above the horizon
   let seg = [], segs = [];
@@ -430,9 +436,9 @@ function drawSky(t) {
   if (seg.length) segs.push(seg);
   segs.forEach((sg) => { o += `<polyline points="${sg.join(' ')}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="2 5" stroke-linecap="round"/>`; });
   // mountains
-  o += `<polygon points="0,440 ${ridge(1.3, HY - 8, 22, 70)} 390,440" fill="${back}" opacity=".9"/>`;
-  o += `<polygon points="0,440 ${ridge(4.1, HY + 22, 26, 70)} 390,440" fill="${mid}"/>`;
-  o += `<polygon points="0,440 ${ridge(7.7, HY + 60, 24, 70)} 390,440" fill="${fg}"/>`;
+  o += `<polygon points="0,372 ${ridge(1.3, HY - 8, 22, 70)} 390,372" fill="${back}" opacity=".9"/>`;
+  o += `<polygon points="0,372 ${ridge(4.1, HY + 22, 26, 70)} 390,372" fill="${mid}"/>`;
+  o += `<polygon points="0,372 ${ridge(7.7, HY + 60, 24, 70)} 390,372" fill="${fg}"/>`;
   o += `<line x1="0" y1="${HY}" x2="390" y2="${HY}" stroke="#fff" stroke-opacity=".22" stroke-dasharray="1 4"/>`;
   // below the horizon: where the sun is at fajr and isha
   const below = (from, to) => { let pts = []; for (let m = from; m <= to; m += 3) { const al = sunA(m).alt; if (al < 0) pts.push(`${X(m).toFixed(1)},${Y(al).toFixed(1)}`); } if (pts.length > 1) o += `<polyline points="${pts.join(' ')}" fill="none" stroke="${lowInk}" stroke-opacity=".38" stroke-width="1.4" stroke-dasharray="1 4"/>`; };
@@ -445,8 +451,7 @@ function drawSky(t) {
     const al = sunA(m).alt, x = X(m), y = Y(al), bel = al < -1;
     o += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="${bel ? 'none' : '#fff'}" stroke="${bel ? lowInk : '#fff'}" stroke-width="1.8"/>`;
     const lx = Math.max(64, Math.min(326, x)).toFixed(1);
-    o += `<text x="${lx}" y="${(bel ? y + 19 : y - 11).toFixed(1)}" font-size="13" font-weight="500" fill="${bel ? lowInk : '#fff'}" text-anchor="middle">${PN[k]} ${fmt(m)}</text>`;
-    if (bel) o += `<text x="${lx}" y="${(y + 35).toFixed(1)}" font-size="11.5" fill="${lowInk}" fill-opacity=".72" text-anchor="middle">الشمس ${Math.abs(al).toFixed(1)}° تحت الأفق</text>`;
+    o += `<text x="${lx}" y="${(bel ? y + 20 : y - 12).toFixed(1)}" font-size="13.5" font-weight="600" fill="${bel ? lowInk : '#fff'}" text-anchor="middle">${PN[k]}</text>`;
   });
   // the sun now
   const tx = X(Math.max(a, Math.min(z, t))), ty = Y(sun.alt);
@@ -455,7 +460,7 @@ function drawSky(t) {
     else o += `<circle cx="${tx.toFixed(1)}" cy="${ty.toFixed(1)}" r="7" fill="none" stroke="#FFD27A" stroke-width="2.4"/>`;
   }
   o += `<line x1="${tx.toFixed(1)}" y1="${HY + 6}" x2="${tx.toFixed(1)}" y2="${HY + 70}" stroke="#FFD27A" stroke-opacity=".0"/>`;
-  o += `<rect y="340" width="390" height="100" fill="url(#hfade)"/>`;
+  o += `<rect y="306" width="390" height="66" fill="url(#hfade)"/>`;
   $('sky').innerHTML = o;
   $('sky').setAttribute('aria-label', `السماء الساعة ${fmt(t)}: الشمس ${sun.alt >= 0 ? `فوق الأفق بـ${sun.alt.toFixed(0)} درجة` : `تحت الأفق بـ${Math.abs(sun.alt).toFixed(0)} درجة`}`);
 }
@@ -492,11 +497,11 @@ function renderToday() {
     if (b.end <= t && !S.showPast) { pastCount++; return; }
     const isCur = cur === b, isDone = !!done[b.key];
     const ck = '<svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="تم"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
-    if (b.isPrayer) rows.push(`<div class="peg${isCur ? ' cur' : ''}"><span class="t">${fmt(b.start)}</span><span class="knot" aria-hidden="true"></span><span class="nm">${b.title}</span>${isDone ? ck : `<span class="du">${durShort(b.end - b.start)}</span>`}</div>`);
+    if (b.isPrayer) rows.push(`<div class="peg${isCur ? ' cur' : ''}"><span class="t">${fmt(b.start)}</span><span class="knot" aria-hidden="true"></span><span class="nm">${b.title}</span>${isDone ? ck : isCur ? '<span class="badge">الآن</span>' : `<span class="du">${durShort(b.end - b.start)}</span>`}</div>`);
     else {
       let note = '';
       if (b.shrunkFrom) { const [x, y] = segOf(b.start); note = `تقلّصت من ${b.shrunkFrom} إلى ${b.end - b.start} د، لأن ما بين ${x[0]} و${y[0]} اليوم ${durShort(y[1] - x[1])} بس`; }
-      rows.push(`<div class="blk${isCur ? ' cur' : ''}"><span class="t">${fmt(b.start)}</span><span class="dot" style="background:${roleVar(b.role)}"></span><div class="tx"><div class="ti">${b.title}</div>${note ? `<div class="nt">${note}</div>` : ''}</div>${isDone ? ck : `<span class="du">${durShort(b.end - b.start)}</span>`}</div>`);
+      rows.push(`<div class="blk${isCur ? ' cur' : ''}"><span class="t">${fmt(b.start)}</span><span class="dot" style="background:${roleVar(b.role)}"></span><div class="tx"><div class="ti">${b.title}</div>${note ? `<div class="nt">${note}</div>` : ''}</div>${isDone ? ck : isCur ? '<span class="badge">الآن</span>' : `<span class="du">${durShort(b.end - b.start)}</span>`}</div>`);
     }
     if (segEnd) { const [x, y] = segOf(b.start); (drops[segKey[x[0]]] || []).forEach((dr) => rows.push(`<div class="blk drop"><span class="t"></span><span class="dot" style="background:rgba(20,32,58,.18)"></span><div class="tx"><div class="ti">${dr.title}</div><div class="nt">حُذفت اليوم، لأن ما بين ${x[0]} و${y[0]} ${durShort(y[1] - x[1])} بس</div></div></div>`)); }
   });
@@ -566,7 +571,7 @@ function renderNight() {
   const d = afterMidnight ? resolveDay(S.city, S.madhab, bdoy, S.bed, S.qiyam) : S.day;
   const p = d.plan, tt = d.times, nx = times(S.city, S.madhab, bdoy + 1), now = afterMidnight ? now0 + 1440 : now0;
   // ---- hero: the sleep arc under tonight's sky
-  const cx = 195, cy = 292, R = 146;
+  const cx = 195, cy = 276, R = 146;
   const span = p.wake - p.bedtime, ang = (m) => Math.PI * (m - p.bedtime) / Math.max(1, span); // 0 = right end, PI = left end
   const pt = (m, rr = R) => [cx + rr * Math.cos(ang(m)), cy - rr * Math.sin(ang(m))];
   const age = moonAge(localToUtc(S.city, bdoy, 22 * 60));
@@ -575,9 +580,9 @@ function renderNight() {
     <linearGradient id="arcG" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#8FA3F0"/><stop offset=".75" stop-color="#B9A6F2"/><stop offset="1" stop-color="#FFD27A"/></linearGradient>
     <linearGradient id="nfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--amb)" stop-opacity="0"/><stop offset="1" stop-color="var(--amb)"/></linearGradient></defs>`;
   o += `<rect width="390" height="360" fill="url(#nsk2)"/>` + STARS.map(([x, y, r]) => `<circle cx="${x.toFixed(1)}" cy="${(y * 1.1).toFixed(1)}" r="${r}" fill="#fff" opacity="${(0.25 + r * 0.45).toFixed(2)}"/>`).join('');
-  o += moonSvg(318, 118, 17, age);
-  o += `<text x="318" y="158" font-size="12" fill="#C9D3FF" text-anchor="middle">${moonName(age)}</text>`;
-  o += `<text x="170" y="124" font-size="14" fill="#C9D3FF" text-anchor="middle">ليلة ${gDate(bdoy)}</text>`;
+  o += moonSvg(318, 112, 17, age);
+  o += `<text x="318" y="150" font-size="12" fill="#C9D3FF" text-anchor="middle">${moonName(age)}</text>`;
+  o += `<text x="170" y="116" font-size="14" fill="#C9D3FF" text-anchor="middle">ليلة ${gDate(bdoy)}</text>`;
   // arc track and hour ticks
   o += `<path d="M${cx + R} ${cy} A${R} ${R} 0 0 0 ${cx - R} ${cy}" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="14" stroke-linecap="round"/>`;
   o += `<path d="M${cx + R} ${cy} A${R} ${R} 0 0 0 ${cx - R} ${cy}" fill="none" stroke="url(#arcG)" stroke-width="14" stroke-linecap="round"/>`;
@@ -587,8 +592,8 @@ function renderNight() {
   if (nowIn != null) { const [x, y] = pt(nowIn); o += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="11" fill="#fff" opacity=".25"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6" fill="#fff"/>`; }
   o += `<polygon points="0,360 ${ridge(2.6, cy + 22, 12, 70)} 390,360" fill="#0C1230"/>`;
   // ends and centre
-  o += `<text x="${cx + R}" y="${cy + 40}" font-size="13" fill="#C9D3FF" text-anchor="middle">تنام</text><text x="${cx + R}" y="${cy + 64}" font-size="22" font-weight="600" fill="#fff" text-anchor="middle">${fmt(p.bedtime)}</text>`;
-  o += `<text x="${cx - R}" y="${cy + 40}" font-size="13" fill="#FFE3A8" text-anchor="middle">${p.qiyam ? 'تكعد للسَّحَر' : 'تكعد'}</text><text x="${cx - R}" y="${cy + 64}" font-size="22" font-weight="600" fill="#fff" text-anchor="middle">${fmt(p.wake)}</text>`;
+  o += `<text x="${cx + R}" y="${cy + 34}" font-size="13" fill="#C9D3FF" text-anchor="middle">تنام</text><text x="${cx + R}" y="${cy + 58}" font-size="22" font-weight="600" fill="#fff" text-anchor="middle">${fmt(p.bedtime)}</text>`;
+  o += `<text x="${cx - R}" y="${cy + 34}" font-size="13" fill="#FFE3A8" text-anchor="middle">${p.qiyam ? 'تكعد للسَّحَر' : 'تكعد'}</text><text x="${cx - R}" y="${cy + 58}" font-size="22" font-weight="600" fill="#fff" text-anchor="middle">${fmt(p.wake)}</text>`;
   o += `<text x="${cx}" y="${cy - 52}" font-size="14" fill="#C9D3FF" text-anchor="middle">نوم الليل</text><text x="${cx}" y="${cy - 10}" font-size="46" font-weight="600" fill="#fff" text-anchor="middle" style="font-variant-numeric:tabular-nums">${hm(p.night)}</text>`;
   let sub = '';
   if (isToday && now < p.bedtime && now >= tt.maghrib - 120) sub = `تنام بعد ${durText(p.bedtime - now)}`;
@@ -598,11 +603,13 @@ function renderNight() {
   const sv = $('nsky'); sv.innerHTML = o;
   sv.setAttribute('aria-label', `ليلة ${gDate(bdoy)}: تنام ${fmt(p.bedtime)} وتكعد ${fmt(p.wake)}، نوم الليل ${durText(p.night)}. القمر الليلة ${moonName(age)}.`);
   // ---- balance
-  $('nTotal').textContent = hm(p.total);
-  $('nTotalL').textContent = `مجموع نومك، الليل مع قيلولة اليوم ${minsW(p.nap)}`;
-  $('nStatus').innerHTML = p.shortfall
-    ? `<span class="status short" style="flex-direction:column;align-items:flex-end;text-align:end"><span style="display:flex;gap:6px;align-items:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 7v6M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>ينقصك</span><span>${durShort(p.shortfall)}</span></span>`
-    : `<span class="status ok" style="flex-direction:column;align-items:flex-end"><span style="display:flex;gap:6px;align-items:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>يكفي</span><span style="font-weight:400;font-size:13px;color:var(--ink2)">الهدف 7 ساعات</span></span>`;
+  const okI = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  const shI = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 7v6M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>';
+  $('nTotal').innerHTML = p.shortfall ? `<span style="color:var(--short)">${shI} ينقصك ${durShort(p.shortfall)}</span>` : `<span style="color:var(--ok)">${okI} نومك يكفي</span>`;
+  $('nTotal').style.cssText = 'font-size:24px;display:flex;align-items:center;gap:8px';
+  $('nTotalL').textContent = p.nap ? `ليل ${hm(p.night)} وقيلولة ${p.nap} د، المجموع ${hm(p.total)} من 7 ساعات` : `المجموع ${hm(p.total)} من 7 ساعات`;
+  $('ruler').style.display = p.shortfall ? 'block' : 'none';
+  $('nStatus').innerHTML = '';
   const W = 330, rx = (v) => W - 2 - v / 420 * (W - 4), n = Math.min(p.night, 420), nap = Math.min(p.nap, 420 - n);
   let r = `<rect x="2" y="4" width="${W - 4}" height="14" rx="7" fill="rgba(20,32,58,.07)"/><rect x="${rx(n).toFixed(1)}" y="4" width="${(W - 2 - rx(n)).toFixed(1)}" height="14" rx="7" fill="var(--sleep)"/>`;
   if (nap > 0) r += `<rect x="${(rx(n + nap) + 1.5).toFixed(1)}" y="4" width="${(rx(n) - rx(n + nap) - 3).toFixed(1)}" height="14" rx="7" fill="var(--nap)"/>`;
@@ -628,7 +635,7 @@ function renderNight() {
   // ---- alarm
   const al = store.get('alarm', false);
   $('alarmT').textContent = fmt(p.wake);
-  $('alarmS').textContent = al ? 'شغّال، ويتحرك وياك كل ليلة' : 'طافي';
+  $('alarmS').textContent = al ? 'شغّال، ويتحرك وياك كل ليلة' : 'يصحيك بالوقت المحسوب كل ليلة';
   $('alarmSw').setAttribute('aria-checked', al ? 'true' : 'false');
   $('bedOut').textContent = fmt(S.bed);
   $('qiyamSw').setAttribute('aria-checked', S.qiyam ? 'true' : 'false');
@@ -704,13 +711,12 @@ function renderWeek(animate) {
     if (isToday && nowM > d.times.sunrise && nowM < d.times.maghrib) { const sx = X(nowM), sy = HY - sunA(nowM, d.doy).alt * k; o += `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="22" fill="url(#wsun)"/><circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="6.5" fill="#FFF3D1"/>`; }
     const pg = store.get(`page:${di}`, null), sc = pg && pg.pts ? pg.pts.length : null;
     const apexY = HY - maxAltOf(d) * k;
-    o += `<text x="${((xl + xr) / 2).toFixed(1)}" y="${(apexY - 10).toFixed(1)}" font-size="${sc != null ? 15 : 12}" font-weight="600" fill="${sc != null ? '#FFD27A' : 'rgba(255,255,255,.45)'}" text-anchor="middle">${sc != null ? sc : (past ? '—' : '')}</text>`;
-    btns += `<button class="sunbtn" style="inset-inline-start:${((390 - xr) / 390 * 100).toFixed(2)}%;width:${(w / 390 * 100).toFixed(2)}%;top:${((HY - 140) / 330 * 100).toFixed(1)}%;height:${(196 / 330 * 100).toFixed(1)}%" aria-label="افتح ${gDate(di)}"></button>`;
+    o += `<text x="${((xl + xr) / 2).toFixed(1)}" y="${(apexY - 10).toFixed(1)}" font-size="${sc != null ? 15 : 12}" font-weight="600" fill="${sc != null ? '#FFD27A' : 'rgba(255,255,255,.45)'}" text-anchor="middle">${sc != null ? sc : ''}</text>`;
+    btns += `<button class="sunbtn" style="inset-inline-start:${((390 - xr) / 390 * 100).toFixed(2)}%;width:${(w / 390 * 100).toFixed(2)}%;top:${((HY - 140 - 112) / 214 * 100).toFixed(1)}%;height:${(190 / 214 * 100).toFixed(1)}%" aria-label="افتح ${gDate(di)}"></button>`;
   });
   o += `<polygon points="0,330 ${ridge(3.3, HY + 6, 10, 70)} 390,330" fill="#1A2550"/><line x1="0" y1="${HY}" x2="390" y2="${HY}" stroke="#fff" stroke-opacity=".25"/>`;
   days.forEach((d, i) => { const xr = x1 - i * w, cx = xr - w / 2, di = s0 + i, isToday = di === today; const dd = dateOf(Math.max(0, Math.min(364, di)));
     o += `<text x="${cx.toFixed(1)}" y="${HY + 30}" font-size="14" font-weight="${isToday ? 700 : 500}" fill="${isToday ? '#FFD27A' : '#fff'}" text-anchor="middle">${SHORT[i]}</text><text x="${cx.toFixed(1)}" y="${HY + 48}" font-size="12.5" fill="#fff" fill-opacity=".65" text-anchor="middle">${dd.getUTCDate()}</text>`; });
-  o += `<rect y="300" width="390" height="30" fill="url(#wfade)"/>`;
   const sv = $('wsky'); sv.innerHTML = o; $('wSuns').innerHTML = btns;
   sv.setAttribute('aria-label', 'سبع شموس للأسبوع: قوس الشمس الحقيقي لكل يوم من السبت إلى الجمعة. اللي فات ذهبي وفوقه نقاطك، واليوم بيه الشمس بمكانها، والجاي منقّط.');
   $('wSuns').querySelectorAll('.sunbtn').forEach((b, j) => b.onclick = () => { const live = days.map((d, i) => d ? s0 + i : null).filter((x) => x != null); openDay(live[j]); });
@@ -738,13 +744,11 @@ function maxAltOf(d) { let m2 = 0; for (let m = d.times.sunrise; m < d.times.mag
 const POINTS = [['الصلوات الخمس في وقتها', 'wor'], ['ورد الغدوة', 'wor'], ['بلا تلفون أول ساعة وآخر ساعة', 'self'], ['كتلة عمق وحدة على الأقل', 'dev'], ['تدريب أو مشي', 'body'], ['قيلولة أو راحة الظهر', 'body'], ['20 دقيقة مع الزوجة', 'fam'], ['30 دقيقة مع الأبناء', 'fam'], ['تعلم أو خلوة تفكر', 'self'], ['النوم بالموعد', 'body']];
 const pageKey = () => `page:${S.doy}`;
 function renderPage() {
-  const [tp, hr] = skyAt(-3);
-  $('psky').innerHTML = `<defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${tp}"/><stop offset="1" stop-color="${hr}"/></linearGradient><linearGradient id="pf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--amb)" stop-opacity="0"/><stop offset="1" stop-color="var(--amb)"/></linearGradient></defs><rect width="390" height="230" fill="url(#pg)"/>${STARS.filter(([, y]) => y < 120).map(([x, y, r]) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="#fff" opacity="${(0.15 + r * .25).toFixed(2)}"/>`).join('')}<polygon points="0,230 ${ridge(5.3, 190, 18, 60)} 390,230" fill="${mix(hr, '#0A1020', .6)}"/><rect y="150" width="390" height="80" fill="url(#pf)"/>`;
   const pg = store.get(pageKey(), { pts: [], q1: '', q2: '', q3: '' });
-  $('pWhen').textContent = `${gDate(S.doy)}، ${hijri(S.doy)}`;
+  $('pWhen').textContent = 'علّم اللي سويته، وجاوب قبل ما تنام';
   $('pScore').textContent = `${pg.pts.length} من 10`;
   $('pRow').innerHTML = POINTS.map((_, i) => `<i class="${i < pg.pts.length ? 'on' : ''}"></i>`).join('');
-  $('pList').innerHTML = POINTS.map(([lb, r], i) => `<button class="chk-row" role="checkbox" aria-checked="${pg.pts.includes(i)}" data-i="${i}"><span class="bx"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="lb">${lb}</span><span class="rl" style="background:var(--r-${r})"></span></button>`).join('');
+  $('pList').innerHTML = POINTS.map(([lb, r], i) => `<button class="chk-row" role="checkbox" aria-checked="${pg.pts.includes(i)}" data-i="${i}"><span class="bx"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="lb">${lb}</span></button>`).join('');
   $('pList').querySelectorAll('.chk-row').forEach((el) => el.onclick = () => { const c = store.get(pageKey(), { pts: [], q1: '', q2: '', q3: '' }), i = +el.dataset.i; c.pts = c.pts.includes(i) ? c.pts.filter((x) => x !== i) : c.pts.concat(i); store.set(pageKey(), c); renderPage(); });
   ['q1', 'q2', 'q3'].forEach((k) => { if (document.activeElement !== $(k)) $(k).value = pg[k] || ''; });
 }
@@ -761,6 +765,8 @@ function render(opts = {}) {
   if (S.tab === 'night') renderNight();
   if (S.tab === 'week') renderWeek(opts.animate);
   if (S.tab === 'page') renderPage();
+  $('dock').hidden = S.tab !== 'today';
+  document.querySelector('.top').classList.toggle('ink', S.tab === 'week' || S.tab === 'page');
   renderDock(t);
 }
 document.querySelectorAll('.nav button').forEach((bt) => bt.onclick = () => {

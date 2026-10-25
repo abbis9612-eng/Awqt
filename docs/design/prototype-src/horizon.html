@@ -27,7 +27,7 @@ button{cursor:pointer}
 .about li{margin-bottom:6px}
 .device{width:406px;height:860px;border-radius:56px;padding:8px;background:#05070B;box-shadow:0 30px 90px rgba(5,10,25,.35);flex:none}
 .app{width:390px;height:844px;border-radius:48px;overflow:hidden;position:relative}
-@media (max-width:860px){.about{display:none}.stage{padding:0;display:block}.device{width:100%;height:100dvh;border-radius:0;padding:0;background:none;box-shadow:none}.app{width:100%;height:100dvh;border-radius:0}}
+@media (max-width:860px), (pointer:coarse){.about{display:none}.stage{padding:0;display:block}.device{width:100%;height:100dvh;border-radius:0;padding:0;background:none;box-shadow:none}.app{width:100%;height:100dvh;border-radius:0}}
 
 /* ---------- app ---------- */
 .app{--amb:#0D1424;--ink:#F3F6FB;--ink2:#B9C3D6;--ink3:#8C97AD;--glass:rgba(255,255,255,.08);--glassB:rgba(255,255,255,.13);--line:rgba(255,255,255,.1);
@@ -142,6 +142,30 @@ button{cursor:pointer}
 .rise{animation:rise .9s var(--ease) both}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tile{padding:14px 14px 12px}
+.tile .lb{font-size:13.5px;color:var(--ink2);display:flex;align-items:center;gap:6px}
+.tile .lb i{width:8px;height:8px;border-radius:50%}
+.tile .v{font-size:28px;font-weight:600;line-height:1.3;font-variant-numeric:tabular-nums;margin-top:2px}
+.tile .g{font-size:12.5px;color:var(--ink3);line-height:1.5}
+.dayrow{display:flex;gap:12px;align-items:flex-start;width:100%;border:0;background:transparent;text-align:start;padding:12px 16px;border-bottom:1px solid var(--line);color:var(--ink)}
+.dayrow:last-child{border-bottom:0}
+.dayrow .dn{width:64px;flex:none;line-height:1.4}
+.dayrow .dn b{display:block;font-size:15px;font-weight:600}
+.dayrow .dn span{font-size:12.5px;color:var(--ink3)}
+.dayrow .fc{flex:1;min-width:0}
+.dayrow .fc b{display:block;font-size:15.5px;font-weight:600;line-height:1.45}
+.dayrow .fc span{display:block;font-size:13.5px;color:var(--ink2);line-height:1.6}
+.dayrow.today{background:rgba(255,210,122,.1)}
+.dayrow.past .fc,.dayrow.past .dn{opacity:.6}
+.dayrow .go{color:var(--ink3);padding-top:4px}
+.dayrow .fc .badge{display:inline-block;width:auto}
+.top{transition:background-color .3s,box-shadow .3s}
+.top.solid{background:color-mix(in srgb,var(--amb) 82%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--line);padding-bottom:6px}
+.badge{font-size:12px;font-weight:600;color:#14203A;background:#FFD27A;border-radius:10px;padding:1px 8px;margin-inline-start:6px;vertical-align:2px}
+.sunbtn{position:absolute;border:0;background:transparent;border-radius:14px;padding:0}
+.sunbtn:focus-visible{outline:2px solid #FFD27A;outline-offset:-2px}
+.steps{margin:8px 0 0;padding:0 18px 0 0;color:var(--ink2);font-size:14.5px;line-height:1.8}
 .pts{display:flex;gap:4px;margin:10px 0 2px}
 .pts i{flex:1;height:10px;border-radius:3px;background:rgba(255,255,255,.12);transition:background-color .35s var(--ease)}
 .pts i.on{background:#FFD27A}
@@ -235,11 +259,12 @@ button{cursor:pointer}
       </section>
 
       <section class="screen" id="s-week" aria-label="الأسبوع">
-        <div style="padding:76px 20px 0"><div style="font-size:26px;font-weight:600;line-height:1.35">سماء الأسبوع</div><div class="small" id="wWhen"></div></div>
-        <div class="sec"><div class="glass card"><div class="wrapTap"><svg id="week" viewBox="0 0 330 470" width="100%" role="img" style="display:block;touch-action:pan-y"></svg><div class="tip" id="wtip"></div></div>
-          <div class="legend" id="wLegend"></div></div></div>
-        <div class="sec"><h2>شنو خطّطت هالأسبوع</h2><div class="glass card" id="wStats"></div></div>
-        <div class="sec" style="padding-bottom:16px"><h2>لاحظ</h2><div class="glass card" id="wNote" style="font-size:15.5px;line-height:1.8"></div></div>
+        <div class="heroWrap" id="wHero"><svg class="hero" id="wsky" viewBox="0 0 390 330" role="img" style="cursor:default"></svg>
+          <div class="hcap"><div class="ttl">أسبوعك</div><div class="sm" id="wWhen"></div></div>
+          <div id="wSuns"></div></div>
+        <div class="sec" style="margin-top:-34px;position:relative;z-index:2"><h2>حصتك هالأسبوع، حسب الجدول</h2><div class="tiles" id="wTiles"></div></div>
+        <div class="sec"><h2>خطة الأسبوع من منهجك</h2><div class="glass" id="wPlan" style="overflow:hidden"></div></div>
+        <div class="sec" style="padding-bottom:16px"><div class="glass card" id="wReview"></div></div>
       </section>
 
       <section class="screen" id="s-page" aria-label="صحيفة اليوم">
@@ -345,8 +370,9 @@ function cityNow() {
 }
 const realToday = () => { const n = cityNow(); return n.y === 2026 ? n.doy : doyOf(2026, 10, 15); };
 S.doy = realToday();
-const viewMin = () => (S.preview != null ? S.preview : cityNow().min);
-function resolve() { S.day = resolveDay(S.city, S.madhab, S.doy, S.bed, S.qiyam); S.nx = times(S.city, S.madhab, S.doy + 1); }
+const viewMin = () => (S.preview != null ? S.preview : S.doy === realToday() || !S.day ? cityNow().min : S.day.blocks[0].start - 15);
+const TRAIN = { 6: 'مشي أو راحة', 0: 'تدريب قوة', 1: 'تعلم تقني', 2: 'تدريب قوة', 3: 'مشي سريع 40 دقيقة', 4: 'تدريب قوة' };
+function resolve() { S.day = resolveDay(S.city, S.madhab, S.doy, S.bed, S.qiyam); S.nx = times(S.city, S.madhab, S.doy + 1); const tn = TRAIN[weekdayOf(S.doy)]; S.day.blocks.forEach((b) => { if (b.key === 'train' && tn) b.title = tn; }); }
 const sunA = (m, doy = S.doy) => sunAt(S.city, doy, m);
 
 function setAmbient(t) {
@@ -425,9 +451,10 @@ const doneKey = () => `done:${S.city}:${S.doy}`;
 function renderToday() {
   const t = viewMin(), d = S.day;
   drawSky(t);
-  $('backNow').hidden = S.preview == null;
-  $('hint').hidden = S.preview != null || S.hinted;
-  if (S.preview != null) $('backT').textContent = `${fmt(t)}، رجوع للآن`;
+  const otherDay = S.doy !== realToday();
+  $('backNow').hidden = S.preview == null && !otherDay;
+  $('hint').hidden = S.preview != null || S.hinted || otherDay;
+  $('backT').textContent = otherDay ? 'رجوع لليوم' : `${fmt(t)}، رجوع للآن`;
   const np = nextPrayer(t);
   $('sayBig').textContent = np[1] - t < 1 ? `${PN[np[0]]} الحين` : `${PN[np[0]]} بعد ${durText(np[1] - t)}`;
   $('saySub').textContent = `${PH[np[0]]}، ${fmt(np[1])}`;
@@ -491,6 +518,7 @@ function toast(m) { const el = $('toast'); el.textContent = m; el.classList.add(
 })();
 let tween;
 $('backNow').onclick = () => {
+  if (S.doy !== realToday()) { S.doy = realToday(); S.preview = null; render(); return; }
   const from = S.preview, to = cityNow().min; cancelAnimationFrame(tween);
   if (reduce || from == null) { S.preview = null; render(); return; }
   const t0 = performance.now();
@@ -573,52 +601,81 @@ function drawYear() {
   sv.onpointermove = mv; sv.onpointerdown = mv; sv.onpointerleave = () => { tip.style.display = 'none'; const c = $('yc'); if (c) c.setAttribute('opacity', '0'); };
 }
 
-/* ================= WEEK: seven skies ================= */
+/* ================= WEEK: seven suns ================= */
 const weekStart = (doy) => doy - ((weekdayOf(doy) + 1) % 7);
+// docs/METHOD.md section 5, Saturday first
+const WEEKPLAN = [
+  ['التخطيط', 'مراجعة أسبوعية 45 د وكتلة عمق', 'مشي أو راحة', 'جلسة الشورى مع الزوجة'],
+  ['العمل العميق', 'كتلتان تركيز', 'تدريب قوة', 'الأسرة'],
+  ['العمل', 'كتلة: قرارات العمل، واجتماع الشركاء', 'تعلم تقني', 'الأسرة'],
+  ['العمل العميق', 'كتلتان تركيز', 'تدريب قوة', 'تعلم شرعي'],
+  ['الميدان', 'كتلة، ثم زيارات', 'مشي سريع 40 دقيقة', 'تعلم تقني'],
+  ['الإنجاز', 'كتلة إنجاز ومراجعة، وإغلاق الأسبوع', 'تدريب قوة', 'خروج مع الزوجة'],
+  ['الروح والأهل', 'غُسل والتبكير للجمعة، وصلة الرحم', 'بلا تلفون حتى المغرب', 'فراغ مباح'],
+];
+const SHORT = ['س', 'ح', 'ن', 'ث', 'ر', 'خ', 'ج'];
+function openDay(doy) { S.doy = doy; S.preview = null; document.querySelector('.nav button[data-tab="today"]').click(); }
 function renderWeek(animate) {
-  const s0 = weekStart(S.doy), days = [];
-  for (let i = 0; i < 7; i++) { const di = s0 + i; days.push(di >= 0 && di <= 364 ? resolveDay(S.city, S.madhab, di, S.bed, S.qiyam) : null); }
+  const s0 = weekStart(S.doy), today = realToday(), nowM = cityNow().min;
+  const days = []; for (let i = 0; i < 7; i++) { const di = s0 + i; days.push(di >= 0 && di <= 364 ? resolveDay(S.city, S.madhab, di, S.bed, S.qiyam) : null); }
   const valid = days.filter(Boolean);
-  const a = Math.floor(Math.min(...valid.map((d) => d.blocks[0].start)) / 30) * 30, z = Math.ceil(Math.max(...valid.map((d) => d.plan.bedtime)) / 30) * 30;
-  const W = 330, L = 60, X = (m) => W - 2 - (m - a) / (z - a) * (W - L - 4), rowH = 64, skyH = 34;
   const f = dateOf(Math.max(0, s0)), l = dateOf(Math.min(364, s0 + 6));
-  $('wWhen').textContent = `من السبت ${f.getUTCDate()} ${MONTHS[f.getUTCMonth()]} إلى الجمعة ${l.getUTCDate()} ${MONTHS[l.getUTCMonth()]}، ${CITIES[S.city].name}`;
-  let o = '<defs>';
-  days.forEach((d, i) => { if (!d) return; o += `<linearGradient id="wg${i}" x1="${W - 2}" y1="0" x2="${L + 2}" y2="0" gradientUnits="userSpaceOnUse">`; for (let m = a; m <= z; m += 20) { const [tp, hr] = skyAt(sunA(m, d.doy).alt); o += `<stop offset="${((m - a) / (z - a)).toFixed(3)}" stop-color="${mix(tp, hr, .55)}"/>`; } o += `</linearGradient>`; });
-  o += '</defs>';
-  for (let h = Math.ceil(a / 60 / 3) * 3; h * 60 <= z; h += 3) o += `<text x="${X(h * 60).toFixed(1)}" y="12" font-size="11.5" fill="var(--ink3)" text-anchor="middle">${pad(h)}</text>`;
-  o += `<g class="${animate && !reduce ? 'rise' : ''}">`;
+  $('wWhen').textContent = `من السبت ${f.getUTCDate()} إلى الجمعة ${l.getUTCDate()} ${MONTHS[l.getUTCMonth()]}، ${CITIES[S.city].name}`;
+  // ---- hero: seven real sun arcs side by side
+  const HY = 252, x0 = 16, x1 = 374, w = (x1 - x0) / 7;
+  let maxAlt = 10; valid.forEach((d) => { for (let m = d.times.sunrise; m < d.times.maghrib; m += 15) maxAlt = Math.max(maxAlt, sunA(m, d.doy).alt); });
+  const k = 84 / maxAlt;
+  let o = `<defs><linearGradient id="wsk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1638"/><stop offset=".55" stop-color="#2E3F7E"/><stop offset="1" stop-color="#C98B86"/></linearGradient>
+    <linearGradient id="wfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD27A" stop-opacity=".45"/><stop offset="1" stop-color="#FFD27A" stop-opacity="0"/></linearGradient>
+    <radialGradient id="wsun"><stop offset="0" stop-color="#FFF7DE"/><stop offset=".35" stop-color="#FFD27A" stop-opacity=".85"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></radialGradient>
+    <linearGradient id="wfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--amb)" stop-opacity="0"/><stop offset="1" stop-color="var(--amb)"/></linearGradient></defs>`;
+  o += `<rect width="390" height="330" fill="url(#wsk)"/>` + STARS.filter(([, y]) => y < 120).map(([x, y, r]) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="#fff" opacity="${(0.2 + r * .3).toFixed(2)}"/>`).join('');
+  let btns = '';
   days.forEach((d, i) => {
-    const y = 24 + i * rowH, sel = s0 + i === S.doy;
-    o += `<text x="${L - 6}" y="${y + 22}" font-size="13" font-weight="${sel ? 700 : 400}" fill="${sel ? '#fff' : 'var(--ink2)'}" text-anchor="start" direction="rtl">${DAYS[(6 + i) % 7]}</text>`;
+    const xr = x1 - i * w, xl = xr - w, di = s0 + i;
     if (!d) return;
-    if (sel) o += `<rect x="${L - 2}" y="${y - 4}" width="${W - L + 2}" height="${rowH - 6}" rx="12" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.35)"/>`;
-    o += `<rect x="${L + 2}" y="${y}" width="${W - L - 4}" height="${skyH}" rx="9" fill="url(#wg${i})"/>`;
-    // the sun path inside the band
-    let pts = []; for (let m = d.times.sunrise; m <= d.times.maghrib; m += 8) { const al = sunA(m, d.doy).alt; pts.push(`${X(m).toFixed(1)},${(y + skyH - 4 - Math.max(0, al) / 80 * (skyH - 8)).toFixed(1)}`); }
-    o += `<polyline points="${pts.join(' ')}" fill="none" stroke="#FFF3D1" stroke-opacity=".75" stroke-width="1.4"/>`;
-    [d.times.fajr, d.times.dhuhr, d.times.asr, d.times.maghrib, d.times.isha].forEach((m) => { o += `<line x1="${X(m).toFixed(1)}" y1="${y + 2}" x2="${X(m).toFixed(1)}" y2="${y + skyH - 2}" stroke="#fff" stroke-opacity=".7"/>`; });
-    d.blocks.forEach((b) => { const x1 = X(b.end), x0 = X(b.start); o += `<rect x="${(x1 + .6).toFixed(1)}" y="${y + skyH + 5}" width="${Math.max(0.8, x0 - x1 - 1.2).toFixed(1)}" height="9" rx="2" fill="${b.isPrayer ? '#fff' : roleVar(b.role)}"/>`; });
+    const past = di < today, isToday = di === today;
+    const X = (m) => xr + 5 - (m - d.times.sunrise) / (d.times.maghrib - d.times.sunrise) * (w + 10);
+    const pts = []; for (let m = d.times.sunrise; m <= d.times.maghrib; m += 6) pts.push(`${X(m).toFixed(1)},${(HY - Math.max(0, sunA(m, d.doy).alt) * k).toFixed(1)}`);
+    if (isToday) o += `<rect x="${(xl + 2).toFixed(1)}" y="${HY - 132}" width="${(w - 4).toFixed(1)}" height="150" rx="14" fill="#fff" opacity=".08"/>`;
+    if (past || isToday) {
+      const upto = isToday ? Math.min(Math.max(nowM, d.times.sunrise), d.times.maghrib) : d.times.maghrib;
+      const done = []; for (let m = d.times.sunrise; m <= upto; m += 6) done.push(`${X(m).toFixed(1)},${(HY - Math.max(0, sunA(m, d.doy).alt) * k).toFixed(1)}`);
+      if (done.length > 1) o += `<polygon points="${X(d.times.sunrise).toFixed(1)},${HY} ${done.join(' ')} ${done[done.length - 1].split(',')[0]},${HY}" fill="url(#wfill)"/><polyline points="${done.join(' ')}" fill="none" stroke="#FFD27A" stroke-width="2.4" stroke-linecap="round"/>`;
+    }
+    if (!past) o += `<polyline points="${pts.join(' ')}" fill="none" stroke="#fff" stroke-opacity="${isToday ? .55 : .5}" stroke-width="1.5" stroke-dasharray="2 4" stroke-linecap="round"/>`;
+    if (isToday && nowM > d.times.sunrise && nowM < d.times.maghrib) { const sx = X(nowM), sy = HY - sunA(nowM, d.doy).alt * k; o += `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="22" fill="url(#wsun)"/><circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="6.5" fill="#FFF3D1"/>`; }
+    const pg = store.get(`page:${di}`, null), sc = pg && pg.pts ? pg.pts.length : null;
+    const apexY = HY - maxAltOf(d) * k;
+    o += `<text x="${((xl + xr) / 2).toFixed(1)}" y="${(apexY - 10).toFixed(1)}" font-size="${sc != null ? 15 : 12}" font-weight="600" fill="${sc != null ? '#FFD27A' : 'rgba(255,255,255,.45)'}" text-anchor="middle">${sc != null ? sc : (past ? '—' : '')}</text>`;
+    btns += `<button class="sunbtn" style="inset-inline-start:${((390 - xr) / 390 * 100).toFixed(2)}%;width:${(w / 390 * 100).toFixed(2)}%;top:${((HY - 140) / 330 * 100).toFixed(1)}%;height:${(196 / 330 * 100).toFixed(1)}%" aria-label="افتح ${gDate(di)}"></button>`;
   });
-  o += '</g>';
-  const sv = $('week'); sv.setAttribute('viewBox', `0 0 ${W} ${24 + 7 * rowH}`); sv.innerHTML = o;
-  sv.setAttribute('aria-label', 'سماء الأسبوع: كل سطر يوم من السبت إلى الجمعة، بلون السماء خلال اليوم، وتحته كتل اليوم بألوان الأدوار');
-  const tip = $('wtip');
-  const mv = (e) => { const r = sv.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width * W, sy = (e.clientY - r.top) / r.height * (24 + 7 * rowH), i = Math.floor((sy - 20) / rowH), d = days[i];
-    if (!d || sx < L) { tip.style.display = 'none'; return; }
-    const m = a + (W - 2 - sx) / (W - L - 4) * (z - a), b = d.blocks.find((q) => q.start <= m && m < q.end);
-    if (!b) { tip.style.display = 'none'; return; }
-    tip.style.display = 'block'; tip.style.left = (sx / W * r.width) + 'px'; tip.style.top = ((24 + i * rowH) / (24 + 7 * rowH) * r.height) + 'px'; tip.style.transform = sx < 120 ? 'translate(-10%,-105%)' : sx > 220 ? 'translate(-90%,-105%)' : 'translate(-50%,-105%)';
-    tip.textContent = `${DAYS[weekdayOf(d.doy)]} ${fmt(b.start)}: ${b.title}`; };
-  sv.onpointermove = mv; sv.onpointerdown = mv; sv.onpointerleave = () => { tip.style.display = 'none'; };
-  $('wLegend').innerHTML = `<span><i style="background:#fff"></i>صلاة</span>` + ['wor', 'dev', 'bus', 'body', 'fam', 'self'].map((r) => `<span><i style="background:var(--r-${r})"></i>${ROLE_NAME[r]}</span>`).join('');
-  const sum = (pred) => valid.reduce((s, d) => s + d.blocks.filter(pred).reduce((q, b) => q + b.end - b.start, 0), 0);
-  const deep = sum((b) => b.role === 'DEV'), fam = sum((b) => b.role === 'SPOUSE' || b.role === 'CHILD'), body = sum((b) => ['light', 'train'].includes(b.key)), sl = valid.reduce((s, d) => s + d.plan.total, 0) / valid.length;
-  const st = (nm, v, g, fr, c) => `<div class="row" style="min-height:58px"><div class="tx"><b>${nm}</b><span>${g}</span><div class="bar"><i style="width:${Math.min(100, fr * 100).toFixed(0)}%;background:${c}"></i></div></div><b style="font-weight:600;min-width:66px;text-align:end">${v}</b></div>`;
-  $('wStats').innerHTML = st('العمل العميق', durShort(deep), 'الهدف 10 إلى 15 ساعة', deep / 900, 'var(--r-dev)') + st('الأهل', durShort(fam), 'الزوجة والأبناء', fam / 1200, 'var(--r-fam)') + st('حركة وتدريب', durShort(body), 'الهدف 150 دقيقة', body / 600, 'var(--r-body)') + st('النوم بالمعدل', hm(sl), 'الهدف 7 ساعات مع القيلولة', sl / 420, 'var(--sleep)');
-  const f0 = valid[0], l0 = valid[valid.length - 1], sh = f0.times.asr - l0.times.asr, dl = (l0.times.maghrib - l0.times.sunrise) - (f0.times.maghrib - f0.times.sunrise);
-  $('wNote').textContent = `${sh > 0 ? `العصر صار أبكر ${minsW(sh)}` : sh < 0 ? `العصر تأخر ${minsW(-sh)}` : 'العصر ثابت'} خلال الأسبوع، و${dl < 0 ? `النهار قصر ${minsW(-dl)}` : dl > 0 ? `النهار طال ${minsW(dl)}` : 'طول النهار ثابت'}. كل الكتل تحركت وياه بدون ما تعدّل شي.`;
+  o += `<polygon points="0,330 ${ridge(3.3, HY + 6, 10, 70)} 390,330" fill="#1A2550"/><line x1="0" y1="${HY}" x2="390" y2="${HY}" stroke="#fff" stroke-opacity=".25"/>`;
+  days.forEach((d, i) => { const xr = x1 - i * w, cx = xr - w / 2, di = s0 + i, isToday = di === today; const dd = dateOf(Math.max(0, Math.min(364, di)));
+    o += `<text x="${cx.toFixed(1)}" y="${HY + 30}" font-size="14" font-weight="${isToday ? 700 : 500}" fill="${isToday ? '#FFD27A' : '#fff'}" text-anchor="middle">${SHORT[i]}</text><text x="${cx.toFixed(1)}" y="${HY + 48}" font-size="12.5" fill="#fff" fill-opacity=".65" text-anchor="middle">${dd.getUTCDate()}</text>`; });
+  o += `<rect y="300" width="390" height="30" fill="url(#wfade)"/>`;
+  const sv = $('wsky'); sv.innerHTML = o; $('wSuns').innerHTML = btns;
+  sv.setAttribute('aria-label', 'سبع شموس للأسبوع: قوس الشمس الحقيقي لكل يوم من السبت إلى الجمعة. اللي فات ذهبي وفوقه نقاطك، واليوم بيه الشمس بمكانها، والجاي منقّط.');
+  $('wSuns').querySelectorAll('.sunbtn').forEach((b, j) => b.onclick = () => { const live = days.map((d, i) => d ? s0 + i : null).filter((x) => x != null); openDay(live[j]); });
+  // ---- tiles
+  const sum = (pred) => valid.reduce((acc, d) => acc + d.blocks.filter(pred).reduce((q, b) => q + b.end - b.start, 0), 0);
+  const deep = sum((b) => b.role === 'DEV'), fam = sum((b) => b.role === 'SPOUSE' || b.role === 'CHILD'), body = sum((b) => ['light', 'train'].includes(b.key)), sl = valid.reduce((a2, d) => a2 + d.plan.total, 0) / valid.length;
+  const tile = (lb, col, v, g, fr) => `<div class="glass tile"><div class="lb"><i style="background:${col}"></i>${lb}</div><div class="v">${v}</div><div class="g">${g}</div><div class="bar"><i style="width:${Math.min(100, fr * 100).toFixed(0)}%;background:${col}"></i></div></div>`;
+  $('wTiles').innerHTML = tile('العمل العميق', 'var(--r-dev)', durShort(deep), 'الهدف 10 إلى 15 ساعة', deep / 600)
+    + tile('الأهل', 'var(--r-fam)', durShort(fam), 'أقل شي 9 س ونص', fam / 570)
+    + tile('حركة وتدريب', 'var(--r-body)', durShort(body), 'الهدف 150 دقيقة', body / 150)
+    + tile('النوم بالمعدل', 'var(--sleep)', hm(sl), 'الهدف 7 ساعات مع القيلولة', sl / 420);
+  // ---- plan rows
+  $('wPlan').innerHTML = days.map((d, i) => { const di = s0 + i; if (!d) return ''; const [focus, am, asr, eve] = WEEKPLAN[i], dd = dateOf(di), isToday = di === today, past = di < today;
+    return `<button class="dayrow${isToday ? ' today' : ''}${past ? ' past' : ''}" data-doy="${di}"><span class="dn"><b>${DAYS[(6 + i) % 7]}</b><span>${dd.getUTCDate()}</span></span><span class="fc"><b>${focus}${isToday ? '<span class="badge">اليوم</span>' : ''}</b><span>${am}</span><span>بعد العصر: ${asr}، والمساء: ${eve}</span></span><svg class="go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>`; }).join('');
+  $('wPlan').querySelectorAll('.dayrow').forEach((b) => b.onclick = () => openDay(+b.dataset.doy));
+  // ---- Saturday review
+  const sat = weekdayOf(today) === 6 ? today : today + ((6 - weekdayOf(today) + 7) % 7);
+  const satD = dateOf(Math.min(364, sat));
+  $('wReview').innerHTML = `<div style="display:flex;align-items:center;gap:12px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD27A" stroke-width="1.7" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><div style="flex:1"><b style="font-weight:600;font-size:16px;display:block">${sat === today ? 'اليوم مراجعة الأسبوع، 45 دقيقة' : `مراجعة الأسبوع: السبت ${satD.getUTCDate()} ${MONTHS[satD.getUTCMonth()]}`}</b><span class="small">خمس خطوات، وتعديل واحد بس على نظامك</span></div></div>
+    <ol class="steps"><li>مجموع نقاط الأسبوع</li><li>شنو نجح، وشنو فشل، وليش فعلاً</li><li>فرّغ كل المهام المعلقة</li><li>احجز خانات الأسبوع الجديد</li><li>غيّر شي واحد بس</li></ol>`;
 }
+function maxAltOf(d) { let m2 = 0; for (let m = d.times.sunrise; m < d.times.maghrib; m += 10) m2 = Math.max(m2, sunA(m, d.doy).alt); return m2; }
 
 /* ================= PAGE ================= */
 const POINTS = [['الصلوات الخمس في وقتها', 'wor'], ['ورد الغدوة', 'wor'], ['بلا تلفون أول ساعة وآخر ساعة', 'self'], ['كتلة عمق وحدة على الأقل', 'dev'], ['تدريب أو مشي', 'body'], ['قيلولة أو راحة الظهر', 'body'], ['20 دقيقة مع الزوجة', 'fam'], ['30 دقيقة مع الأبناء', 'fam'], ['تعلم أو خلوة تفكر', 'self'], ['النوم بالموعد', 'body']];
@@ -653,7 +710,7 @@ document.querySelectorAll('.nav button').forEach((bt) => bt.onclick = () => {
   S.tab = bt.dataset.tab;
   document.querySelectorAll('.nav button').forEach((x) => x.removeAttribute('aria-current')); bt.setAttribute('aria-current', 'page');
   document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === 's-' + S.tab));
-  $('scroll').scrollTop = 0; render({ animate: true });
+  $('scroll').scrollTop = 0; document.querySelector('.top').classList.remove('solid'); render({ animate: true });
 });
 $('teaser').onclick = () => document.querySelector('.nav button[data-tab="night"]').click();
 $('prevDay').onclick = () => { S.doy = Math.max(0, S.doy - 1); render(); };
@@ -675,6 +732,7 @@ $('segCity').onclick = (e) => { const b = e.target.closest('button'); if (!b) re
 $('segMad').onclick = (e) => { const b = e.target.closest('button'); if (!b || b.disabled) return; S.madhab = b.dataset.v; store.set('madhab', S.madhab); syncSheet(); render(); };
 $('dateIn').onchange = (e) => { const [y, m, d] = e.target.value.split('-').map(Number); if (y === 2026) { S.doy = doyOf(y, m, d); render(); } };
 document.querySelectorAll('[data-go]').forEach((c) => c.onclick = () => { if (c.dataset.go === 'today') S.doy = realToday(); else { const [y, m, d] = c.dataset.go.split('-').map(Number); S.doy = doyOf(y, m, d); } S.preview = null; syncSheet(); render(); });
+$('scroll').addEventListener('scroll', () => document.querySelector('.top').classList.toggle('solid', $('scroll').scrollTop > 120), { passive: true });
 render();
 setInterval(() => { if (S.preview == null) render(); }, 30000);
 </script>

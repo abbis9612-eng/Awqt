@@ -21,3 +21,7 @@
 ## ink-apple (الحبر وأخواته)
 `ink-apple/` يبني `docs/design/yawm-ink-apple.html`: الحبر، وأربع تصاميم على طريقة تطبيقات آبل (سماء، قائمة، حلقات، شاشة القفل) كلها تحمل كلمة الحبر.
 انسخ `data.js` و`engine.js` جنب الملفات، وبعدين: `python3 build.py ../../yawm-ink-apple.html`.
+
+## ink-list (الحبر والقائمة)
+`ink-list/` يبني `docs/design/yawm-ink-list.html`: المزيج المختار، ووياه «الحبر» و«قائمة» للمقارنة.
+انسخ `data.js` و`engine.js` جنب الملفات، وبعدين: `python3 build.py ../../yawm-ink-list.html`.

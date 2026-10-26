@@ -1,0 +1,32 @@
+/* ===== B · البطاقة ===== */
+.cB{--ink:#161A26;--ink2:#5A6072;--ink3:#9BA1B0;--acc:#3446A8;--bg:#EEF0F5;
+  background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Arabic',sans-serif;padding:26px 18px 30px}
+.cB .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.cB .top .dt{font-size:14.5px;color:var(--ink2);line-height:1.5}
+.cB .pill{background:#fff;border-radius:999px;padding:7px 14px;font-size:14.5px;font-weight:500;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.cB .pill i{width:8px;height:8px;border-radius:50%;background:var(--acc)}
+.cB .stack{position:relative;margin-top:34px;padding-bottom:26px}
+.cB .ghost{position:absolute;inset-inline:0;bottom:0;height:60px;border-radius:30px;background:#fff}
+.cB .ghost.g1{transform:scale(.92);opacity:.55;bottom:0}
+.cB .ghost.g2{transform:scale(.96);opacity:.8;bottom:13px}
+.cB .card{position:relative;background:#fff;border-radius:30px;padding:26px 24px 22px;box-shadow:0 20px 40px -26px rgba(22,26,38,.35)}
+.cB .card small{font-size:14px;font-weight:600;color:var(--acc)}
+.cB .card h2{font-size:30px;font-weight:600;line-height:1.4;margin-top:8px}
+.cB .card .tm{font-size:15.5px;color:var(--ink2);margin-top:6px;font-variant-numeric:tabular-nums}
+.cB .big{display:flex;align-items:baseline;gap:10px;margin-top:26px}
+.cB .big b{font-size:58px;font-weight:300;line-height:1;font-variant-numeric:tabular-nums}
+.cB .big span{font-size:16px;color:var(--ink2)}
+.cB .bar{height:6px;border-radius:3px;background:#E6E8F2;margin-top:16px;overflow:hidden}
+.cB .bar i{display:block;height:100%;background:var(--acc);border-radius:3px}
+.cB .go{width:100%;min-height:56px;margin-top:22px;border-radius:18px;background:var(--acc);color:#fff;font-size:17.5px;font-weight:600}
+.cB .go.is-done{background:#E9ECF8;color:var(--acc)}
+.cB .after{margin-top:22px;background:#fff;border-radius:22px;padding:4px 18px}
+.cB .after div{display:flex;gap:14px;align-items:baseline;min-height:54px;padding:12px 0;font-size:16.5px;line-height:1.5}
+.cB .after div+div{border-top:1px solid #EDEFF4}
+.cB .after span{width:44px;flex:none;font-size:15px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.cB .after .pr{font-weight:600}
+.cB .times{display:grid;grid-template-columns:repeat(5,1fr);margin-top:22px;text-align:center}
+.cB .times div{font-size:13px;color:var(--ink3);line-height:1.6;padding:8px 0;border-radius:14px}
+.cB .times b{display:block;font-size:15.5px;font-weight:600;color:var(--ink2);font-variant-numeric:tabular-nums}
+.cB .times .nx{background:#fff;color:var(--acc)}
+.cB .times .nx b{color:var(--acc)}

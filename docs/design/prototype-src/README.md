@@ -10,3 +10,7 @@
 ## identities-2 (خمس هويات جديدة)
 `identities-2/` يبني `docs/design/yawm-identities-2.html`: الرزنامة، لوحة الجامع، المسبحة، الرواق، العدسة.
 انسخ `data.js` و`engine.js` من هذا المجلد جنب الملفات، وبعدين: `python3 build.py ../../yawm-identities-2.html`.
+
+## simple (أربع تصاميم بسيطة وأنيقة)
+`simple/` يبني `docs/design/yawm-simple.html`: السطر، البطاقة، الحلقة، الصفحة.
+انسخ `data.js` و`engine.js` من هذا المجلد جنب الملفات، وبعدين: `python3 build.py ../../yawm-simple.html`.

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>يوم · بسيط وأنيق</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--g-bg:#EEF0F3;--g-ink:#15171C;--g-ink2:#555B66;--g-line:rgba(21,23,28,.1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--g-bg);color:var(--g-ink);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid #2F6FEB;outline-offset:2px}
+.g-wrap{max-width:1180px;margin:0 auto;padding:16px 16px 40px;display:grid;gap:18px}
+.g-head h1{font-size:24px;font-weight:700;line-height:1.35}
+.g-head p{font-size:15px;color:var(--g-ink2);line-height:1.7;margin-top:4px}
+.g-pick{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none}
+.g-pick::-webkit-scrollbar{display:none}
+.g-pick button{flex:none;min-height:56px;padding:6px 14px 6px 16px;border-radius:16px;background:#fff;border:1.5px solid var(--g-line);text-align:start;line-height:1.35;display:flex;align-items:center;gap:10px}
+.g-pick button .sw{width:26px;height:26px;border-radius:8px;flex:none}
+.g-pick button b{display:block;font-size:15.5px;font-weight:700}
+.g-pick button span{font-size:12.5px;color:var(--g-ink2)}
+.g-pick button[aria-pressed="true"]{border-color:var(--g-ink);box-shadow:0 0 0 1px var(--g-ink)}
+.g-time{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.g-time .lb{font-size:13.5px;color:var(--g-ink2);margin-inline-end:4px}
+.g-time button{min-height:40px;padding:0 12px;border-radius:12px;background:#fff;border:1px solid var(--g-line);font-size:14px;font-weight:500}
+.g-time button[aria-pressed="true"]{background:var(--g-ink);color:#fff;border-color:var(--g-ink)}
+.g-main{display:grid;gap:18px;grid-template-columns:1fr}
+@media (min-width:900px){.g-main{grid-template-columns:400px 1fr;align-items:start}.g-info{position:sticky;top:16px}}
+.phone{width:100%;max-width:400px;margin:0 auto;position:relative;border-radius:28px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.04),0 18px 50px -20px rgba(15,20,40,.35);min-height:800px;isolation:isolate}
+@media (max-width:440px){.g-wrap{padding:12px 0 32px}.g-head,.g-pick,.g-time,.g-info{margin-inline:14px}.phone{border-radius:0;box-shadow:none}}
+.g-info{background:#fff;border-radius:20px;padding:18px 18px 20px;border:1px solid var(--g-line)}
+.g-info h2{font-size:21px;font-weight:700;line-height:1.4}
+.g-info .from{font-size:14.5px;color:var(--g-ink2);margin-top:2px;line-height:1.6}
+.g-info h3{font-size:15px;font-weight:700;margin-top:14px}
+.g-info p,.g-info li{font-size:15px;line-height:1.75;color:#2A2E36}
+.g-info ul{padding-inline-start:20px;margin-top:4px}
+.g-note{font-size:14px;color:var(--g-ink2);line-height:1.7;background:#fff;border-radius:16px;padding:14px 16px;border:1px dashed var(--g-line)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}}
+/*@CSS_A*/
+/*@CSS_B*/
+/*@CSS_C*/
+/*@CSS_D*/
+</style>
+</head>
+<body>
+<div class="g-wrap">
+  <header class="g-head"><h1>يوم: أربع تصاميم بسيطة وأنيقة</h1><p>هادية وواضحة، كل وحدة بيها فكرة وحدة بس تميزها. اختار تصميم، وجرّب وقت مختلف من اليوم.</p></header>
+  <nav class="g-pick" id="pick" aria-label="الهويات"></nav>
+  <div class="g-time" id="times"></div>
+  <main class="g-main">
+    <div class="phone" id="screen"></div>
+    <aside class="g-info" id="info"></aside>
+  </main>
+  <p class="g-note">كل شي هنا نموذج للشكل والإحساس. الأوقات من جدول المشروع المرجعي (السليمانية، 2026)، والجدول من خوارزمية المشروع نفسها. ما كتبت أي نص ديني، بس أسماء فقرات جدولك.</p>
+</div>
+<script>
+/*@DATA*/
+/*@ENGINE*/
+/*@CORE*/
+/*@JS_A*/
+/*@JS_B*/
+/*@JS_C*/
+/*@JS_D*/
+boot();
+</script>
+</body>
+</html>

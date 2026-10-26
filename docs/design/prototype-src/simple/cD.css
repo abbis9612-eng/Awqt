@@ -1,0 +1,26 @@
+/* ===== D · الصفحة ===== */
+.cD{--ink:#1A1B20;--ink2:#5F6169;--ink3:#A7A9AF;--acc:#B4372F;--line:#ECECEE;
+  background:#fff;color:var(--ink);font-family:'IBM Plex Sans Arabic',sans-serif;padding:30px 24px 0;display:flex;flex-direction:column;min-height:800px}
+.cD .hd h2{font-family:'Noto Naskh Arabic',serif;font-size:38px;font-weight:700;line-height:1.35}
+.cD .hd p{font-size:15px;color:var(--ink2);line-height:1.6}
+.cD .sec{margin-top:26px}
+.cD .sh{display:flex;justify-content:space-between;align-items:baseline;width:100%;text-align:start;padding-bottom:8px;border-bottom:1.5px solid var(--ink);min-height:44px}
+.cD .sh b{font-family:'Noto Naskh Arabic',serif;font-size:23px;font-weight:600}
+.cD .sh span{font-size:16px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.cD .sec.past .sh{border-bottom-color:var(--line)}
+.cD .sec.past .sh b,.cD .sec.past .sh span{color:var(--ink3)}
+.cD .sec.past .sh span::after{content:" · فاتت"}
+.cD .it{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:16.5px;line-height:1.5}
+.cD .it span{font-size:14.5px;color:var(--ink3);font-variant-numeric:tabular-nums;flex:none;padding-top:2px}
+.cD .it.past{color:var(--ink3)}
+.cD .it.cur{font-weight:600}
+.cD .it.cur div::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acc);margin-inline-end:8px;vertical-align:2px}
+.cD .it.cur small{display:block;font-size:14px;font-weight:500;color:var(--acc);margin-top:2px}
+.cD .it.ok div::after{content:" ✓";color:#2E7D4F}
+.cD .bar{position:sticky;bottom:0;margin:28px -24px 0;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 20px 16px;display:flex;align-items:center;gap:14px}
+.cD .bar div{flex:1;min-width:0;line-height:1.45}
+.cD .bar small{font-size:13px;color:var(--acc);font-weight:600}
+.cD .bar b{display:block;font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cD .go{min-height:50px;padding:0 22px;border-radius:14px;background:var(--ink);color:#fff;font-size:16px;font-weight:600;flex:none}
+.cD .go.is-done{background:#F1F1F3;color:var(--ink)}
+.cD .end{flex:1}

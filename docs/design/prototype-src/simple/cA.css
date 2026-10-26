@@ -1,0 +1,32 @@
+/* ===== A · السطر ===== */
+.cA{--ink:#16191F;--ink2:#5B616C;--ink3:#9AA0AA;--acc:#0F6E63;--soft:#F3F6F5;--line:#E7EAEE;
+  background:#fff;color:var(--ink);font-family:'IBM Plex Sans Arabic',sans-serif;padding:28px 22px 32px}
+.cA .dt{font-size:14.5px;color:var(--ink2);line-height:1.6}
+.cA .hero{margin-top:34px}
+.cA .hero h2{font-size:40px;font-weight:600;line-height:1.3}
+.cA .hero p{font-size:18px;color:var(--ink2);margin-top:4px;line-height:1.6}
+.cA .hero p b{color:var(--acc);font-weight:600}
+.cA .stops{margin-top:34px;position:relative}
+.cA .stops svg{width:100%;height:20px;display:block;overflow:visible}
+.cA .lbls{display:grid;grid-template-columns:repeat(6,1fr);margin-top:8px;text-align:center}
+.cA .lbls div{font-size:13px;color:var(--ink3);line-height:1.5}
+.cA .lbls b{display:block;font-weight:500;color:var(--ink2);font-size:13.5px}
+.cA .lbls .nx b,.cA .lbls .nx{color:var(--acc)}
+.cA .lbls .ps b{color:var(--ink)}
+.cA .now{margin-top:34px;background:var(--soft);border-radius:24px;padding:20px 20px 18px}
+.cA .now small{font-size:13.5px;color:var(--acc);font-weight:600}
+.cA .now h3{font-size:23px;font-weight:600;line-height:1.45;margin-top:4px}
+.cA .now .rm{font-size:15.5px;color:var(--ink2);margin-top:4px}
+.cA .bar{height:4px;border-radius:2px;background:#DDE5E3;margin-top:14px;overflow:hidden}
+.cA .bar i{display:block;height:100%;background:var(--acc);border-radius:2px}
+.cA .go{width:100%;min-height:54px;margin-top:16px;border-radius:16px;background:var(--ink);color:#fff;font-size:17px;font-weight:600}
+.cA .go.is-done{background:#fff;color:var(--acc);box-shadow:inset 0 0 0 1.5px var(--acc)}
+.cA h4{font-size:14px;font-weight:500;color:var(--ink3);margin:30px 0 4px}
+.cA .row{display:flex;gap:16px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);font-size:16.5px;line-height:1.5}
+.cA .row:last-child{border-bottom:0}
+.cA .row span{width:46px;flex:none;color:var(--ink2);font-size:15px;font-variant-numeric:tabular-nums}
+.cA .row.pr{font-weight:600}
+.cA .row.past{color:var(--ink3)}
+.cA .row.past span{color:var(--ink3)}
+.cA .row .tag{width:auto;margin-inline-start:auto;font-size:13px;color:var(--acc);font-weight:600}
+.cA .all{min-height:48px;margin-top:6px;font-size:15px;font-weight:600;color:var(--acc)}

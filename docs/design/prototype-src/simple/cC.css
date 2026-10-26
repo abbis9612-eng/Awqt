@@ -1,0 +1,19 @@
+/* ===== C · الحلقة ===== */
+.cC{--ink:#17191E;--ink2:#5E626B;--ink3:#A0A4AC;--acc:#B7791F;--track:#EEEFF1;
+  background:#FCFCFB;color:var(--ink);font-family:'IBM Plex Sans Arabic',sans-serif;padding:26px 20px 30px}
+.cC .dt{text-align:center;font-size:14.5px;color:var(--ink2);line-height:1.6}
+.cC .ring{position:relative;width:min(320px,100%);aspect-ratio:1;margin:18px auto 0}
+.cC .ring svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.cC .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.cC .mid small{font-size:14px;color:var(--ink2)}
+.cC .mid b{font-size:34px;font-weight:600;line-height:1.3}
+.cC .mid .cd{font-size:44px;font-weight:300;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:2px}
+.cC .mid .cd span{font-size:15px;color:var(--ink2);font-weight:400;margin-inline-start:4px}
+.cC .now{margin-top:22px;border-top:1px solid #ECEDEF;padding-top:20px;text-align:center}
+.cC .now small{font-size:13.5px;color:var(--acc);font-weight:600}
+.cC .now h3{font-size:22px;font-weight:600;line-height:1.45;margin-top:2px}
+.cC .now .rm{font-size:15px;color:var(--ink2)}
+.cC .go{width:100%;min-height:56px;margin-top:18px;border-radius:999px;background:var(--ink);color:#fff;font-size:17px;font-weight:600}
+.cC .go.is-done{background:#F6EFE3;color:#8A5A12}
+.cC .nx{margin-top:14px;text-align:center;font-size:15px;color:var(--ink2)}
+.cC .nx b{color:var(--ink);font-weight:500}

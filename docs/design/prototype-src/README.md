@@ -14,3 +14,6 @@
 ## simple (أربع تصاميم بسيطة وأنيقة)
 `simple/` يبني `docs/design/yawm-simple.html`: السطر، البطاقة، الحلقة، الصفحة.
 انسخ `data.js` و`engine.js` من هذا المجلد جنب الملفات، وبعدين: `python3 build.py ../../yawm-simple.html`.
+
+## three (الحبر، الشناشيل، بغداد)
+`three/` يبني `docs/design/yawm-three.html`. انسخ `data.js` و`engine.js` جنب الملفات، وبعدين: `python3 build.py ../../yawm-three.html`.

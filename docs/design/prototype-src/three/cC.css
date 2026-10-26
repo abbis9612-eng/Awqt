@@ -1,0 +1,23 @@
+/* ===== C · بغداد ===== */
+.cC{--sky:#F1C232;--ground:#1E4FA3;--sun:#E2462B;--tx:#10183A;--gtx:#F6EEDF;background:var(--ground);color:var(--gtx);font-family:'Kufam',sans-serif;display:flex;flex-direction:column}
+.cC .sky{position:relative;height:372px;background:var(--sky);overflow:hidden;color:var(--tx)}
+.cC .sky svg{position:absolute;inset:0;width:100%;height:100%}
+.cC .sky .top{position:relative;display:flex;justify-content:space-between;padding:22px 22px 0;font-size:15px;font-weight:600;line-height:1.5}
+.cC .sky .top span{display:block;font-weight:400;font-size:13.5px;opacity:.8}
+.cC .sky .clk{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.cC .main{padding:18px 22px 0}
+.cC .main .w{font-size:84px;font-weight:900;line-height:1.15}
+.cC .main .row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:4px}
+.cC .main .t{font-size:52px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.cC .main .in{font-size:17px;font-weight:500;line-height:1.6;text-align:start}
+.cC .five{display:grid;grid-template-columns:repeat(5,1fr);margin:26px 22px 0;border-top:3px solid var(--gtx)}
+.cC .five div{padding:8px 0 6px;text-align:center;font-size:13px;font-weight:600;line-height:1.6}
+.cC .five b{display:block;font-size:16px;font-weight:800;font-variant-numeric:tabular-nums}
+.cC .five .nx{background:var(--gtx);color:var(--ground)}
+.cC .five .ps{opacity:.55}
+.cC .task{margin-top:auto;background:var(--sun);color:var(--btx);padding:18px 22px 24px;display:flex;align-items:center;gap:14px}
+.cC .task div{flex:1;min-width:0}
+.cC .task small{font-size:14px;font-weight:600}
+.cC .task h3{font-size:21px;font-weight:800;line-height:1.5}
+.cC .sq{min-width:104px;min-height:60px;background:var(--btx);color:var(--sun);font-size:18px;font-weight:800}
+.cC .sq.is-done{background:transparent;color:var(--btx);box-shadow:inset 0 0 0 3px var(--btx)}

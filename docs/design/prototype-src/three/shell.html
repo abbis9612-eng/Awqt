@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>يوم · ثلاث هويات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Kufam:wght@400;600;800;900&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#E9E9E6;color:#151515;font-family:'Noto Naskh Arabic',serif;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid #2F6FEB;outline-offset:2px}
+.v{max-width:440px;margin:0 auto;padding:18px 0 40px}
+.v-top{padding:0 18px;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.v-top h1{font-size:18px;font-weight:700}
+.v-top span{font-size:13.5px;color:#666}
+#pick{display:flex;margin:12px 18px 0;border-bottom:1.5px solid #151515}
+#pick button{flex:1;min-height:48px;font-size:16.5px;font-weight:600;color:#777;border-bottom:3px solid transparent;margin-bottom:-1.5px}
+#pick button[aria-pressed="true"]{color:#151515;border-bottom-color:#151515}
+.scrub{display:flex;align-items:center;gap:12px;padding:14px 18px 12px}
+.scrub input{flex:1;accent-color:#151515;height:32px;direction:ltr}
+.scrub output{font-size:15px;font-weight:600;min-width:74px;text-align:center;font-variant-numeric:tabular-nums}
+.scrub button{min-height:40px;padding:0 12px;border:1.5px solid #151515;border-radius:4px;font-size:14px;font-weight:600}
+.scrub button[hidden]{display:none}
+.phone{position:relative;overflow:hidden;min-height:780px;isolation:isolate}
+@media (min-width:441px){.phone{border-radius:6px;box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}}
+#about{padding:16px 18px 0;font-size:16px;line-height:1.85;color:#333}
+.v-note{padding:10px 18px 0;font-size:13.5px;line-height:1.7;color:#777}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}}
+/*@CSS_A*/
+/*@CSS_B*/
+/*@CSS_C*/
+</style>
+</head>
+<body>
+<div class="v">
+  <div class="v-top"><h1>يوم · ثلاث هويات</h1><span>السليمانية</span></div>
+  <nav id="pick" aria-label="الهويات"></nav>
+  <div class="scrub"><input id="scrub" type="range" min="240" max="1620" step="1" aria-label="اسحب حتى تجرب أي وقت من اليوم"><output id="scrubT"></output><button id="nowBtn" hidden>الآن</button></div>
+  <div class="phone" id="screen"></div>
+  <p id="about"></p>
+  <p class="v-note">اسحب الشريط فوق الشاشة حتى تمشي باليوم. الأوقات من جدول المشروع المرجعي، والجدول من خوارزمية المشروع، وموقع الشمس محسوب. ما بيها أي نص ديني، بس أسماء فقرات جدولك.</p>
+</div>
+<script>
+/*@DATA*/
+/*@ENGINE*/
+/*@CORE*/
+/*@JS_A*/
+/*@JS_B*/
+/*@JS_C*/
+boot();
+</script>
+</body>
+</html>

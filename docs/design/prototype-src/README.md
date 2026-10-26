@@ -6,3 +6,7 @@
 
 البيانات (`data.js`) تتولد من `docs/reference/reference-2026.csv`. الملف النهائي: `docs/design/yawm-prototype.html`.
 النموذج للعرض والتجربة فقط؛ التطبيق الحقيقي يُبنى بـKotlin حسب `CLAUDE.md`.
+
+## identities-2 (خمس هويات جديدة)
+`identities-2/` يبني `docs/design/yawm-identities-2.html`: الرزنامة، لوحة الجامع، المسبحة، الرواق، العدسة.
+انسخ `data.js` و`engine.js` من هذا المجلد جنب الملفات، وبعدين: `python3 build.py ../../yawm-identities-2.html`.

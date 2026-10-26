@@ -25,3 +25,7 @@
 ## ink-list (الحبر والقائمة)
 `ink-list/` يبني `docs/design/yawm-ink-list.html`: المزيج (الحبر والقائمة) والحبر العادي، كلهم بأيقونات «يوم» الملونة، وصفحة الأيقونات. الأيقونات نفسها ملفات SVG بـ`docs/design/icons/`.
 انسخ `data.js` و`engine.js` جنب الملفات، وبعدين: `python3 build.py ../../yawm-ink-list.html`.
+
+## ink (الهوية المعتمدة)
+`ink/` يبني `docs/design/yawm-ink.html`: «يوم» بهوية الحبر، أربع شاشات تشتغل (اليوم، الليل، الأسبوع، المحاسبة).
+انسخ `data.js` و`engine.js` جنب الملفات، وبعدين: `python3 build.py ../../yawm-ink.html`. المرجع المكتوب: `docs/design/IDENTITY.md`.

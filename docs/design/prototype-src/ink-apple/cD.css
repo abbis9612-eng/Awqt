@@ -1,0 +1,31 @@
+/* ===== D · حلقات (فتنس آبل) ===== */
+.cD{--r1:#FA2D5A;--r2:#9BE22D;--r3:#1EDCEB;--acc:#9BE22D;background:#000;color:#fff;display:flex;flex-direction:column;min-height:800px}
+.cD .lt{padding:2px 18px 0}
+.cD .lt p{font-size:14px;font-weight:600;color:#8E8E93}
+.cD .lt h2{font-size:34px;font-weight:700;line-height:1.3}
+.cD .card{margin:12px 16px 0;background:#1C1C1E;border-radius:16px;padding:14px 16px}
+.cD .card h3{font-size:19px;font-weight:600;line-height:1.4}
+.cD .rings{display:flex;align-items:center;gap:14px;margin-top:6px}
+.cD .rings svg{width:150px;height:150px;flex:none}
+.cD .st{flex:1;display:grid;gap:10px}
+.cD .st div{line-height:1.3}
+.cD .st span{font-size:14px;font-weight:600}
+.cD .st b{display:block;font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.cD .st b small{font-size:15px;font-weight:600}
+.cD .nx{display:flex;align-items:center;gap:12px}
+.cD .nx .ink{font-size:50px;line-height:1.55;--inkc:#fff;--inkf:#3A3A3C}
+.cD .nx div{flex:1;text-align:end;line-height:1.3}
+.cD .nx b{display:block;font-size:34px;font-weight:700;color:var(--r1);font-variant-numeric:tabular-nums}
+.cD .nx span{font-size:14px;color:#8E8E93}
+.cD .now small{font-size:14px;font-weight:600;color:var(--r2)}
+.cD .now h4{font-size:20px;font-weight:600;line-height:1.45;margin-top:2px}
+.cD .now p{font-size:14.5px;color:#8E8E93}
+.cD .now .cap{width:100%;margin-top:12px;background:var(--r2);color:#000}
+.cD .now .cap.is-done{background:#2C2C2E;color:var(--r2)}
+.cD .pr{display:flex;align-items:center;gap:12px;min-height:52px;width:100%;text-align:start;border-top:.5px solid #38383A}
+.cD .pr:first-of-type{border-top:0}
+.cD .pr .tx{flex:1;font-size:17px}
+.cD .pr .tx span{font-size:15px;color:#8E8E93;margin-inline-start:8px;font-variant-numeric:tabular-nums}
+.cD .pr .ck{border-color:#48484A;--acc:var(--r1)}
+.cD .pr .ck.on{background:var(--r1);border-color:var(--r1);color:#000}
+.cD .gap{height:26px}

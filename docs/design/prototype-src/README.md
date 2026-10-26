@@ -17,3 +17,7 @@
 
 ## three (الحبر، الشناشيل، بغداد)
 `three/` يبني `docs/design/yawm-three.html`. انسخ `data.js` و`engine.js` جنب الملفات، وبعدين: `python3 build.py ../../yawm-three.html`.
+
+## ink-apple (الحبر وأخواته)
+`ink-apple/` يبني `docs/design/yawm-ink-apple.html`: الحبر، وأربع تصاميم على طريقة تطبيقات آبل (سماء، قائمة، حلقات، شاشة القفل) كلها تحمل كلمة الحبر.
+انسخ `data.js` و`engine.js` جنب الملفات، وبعدين: `python3 build.py ../../yawm-ink-apple.html`.

@@ -51,15 +51,14 @@
 .cA .ios-tab span{color:var(--ink2)}
 .cA .ios-tab .on{color:var(--ink)}
 .cA .ios-tab .on b{font-weight:700}
-.cA .ti{width:42px;height:42px;border-radius:13px;background:var(--soft);color:var(--ink);display:grid;place-items:center;flex:none}
+.cA .ti{--tbg:var(--bg);--tic:var(--ink)}
 .cA .row .ti{margin-top:-1px}
-.cA .row.pr .ti{background:var(--ink);color:var(--bg)}
-.cA .row.done .ti{color:var(--ink2)}
-.cA .row.now .ti{box-shadow:inset 0 0 0 2px var(--ink)}
-.cA .row.now.pr .ti{box-shadow:none}
+.cA .row.done .ti{filter:grayscale(1);opacity:.55}
+.cA .row.now .ti{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ic)}
 .cA .row .ck{margin-top:8px}
-.cA .ti.big{width:52px;height:52px;border-radius:16px;background:var(--bg)}
+.cA .ti.big{width:54px;height:54px;border-radius:17px;--tbg:var(--bg)}
+.cA .cnt i{font-style:normal;display:block}
 .cA .cnt div{display:flex;flex-direction:column;align-items:center;gap:2px}
-.cA .cnt svg{color:var(--ink2)}
+.cA .cnt svg{color:var(--ink)}
 .cA .sh .tm{display:inline-flex;align-items:center;gap:6px}
-.cA .sh .tm svg{color:var(--ink2)}
+.cA .sh .tm svg{color:var(--ink)}

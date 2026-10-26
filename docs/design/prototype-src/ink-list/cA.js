@@ -16,13 +16,13 @@ C.A = {
     const row = (b) => {
       const now = b === cur, d = M.done.has(b.key);
       const sub = now ? `هسه · باقي ${durText(b.end - M.t)}` : `${fmt(b.start)} · ${durShort(b.end - b.start)}`;
-      return `<button class="row${b.isPrayer ? ' pr' : ''}${now ? ' now' : ''}${d ? ' done' : ''}" data-k="${b.key}" aria-pressed="${d}"><span class="ti">${yi(iconOf(b), 24)}</span><span class="tx"><b>${esc(b.title)}</b><span>${sub}</span></span><span class="ck${d ? ' on' : ''}">${d ? icon('check', 15, 3) : ''}</span></button>`;
+      return `<button class="row${b.isPrayer ? ' pr' : ''}${now ? ' now' : ''}${d ? ' done' : ''}" data-k="${b.key}" aria-pressed="${d}">${tile(iconOf(b), b.isPrayer)}<span class="tx"><b>${esc(b.title)}</b><span>${sub}</span></span><span class="ck${d ? ' on' : ''}">${d ? icon('check', 15, 3) : ''}</span></button>`;
     };
     const secs = S.map(([n, a, b, ic]) => {
       if (M.t >= b && !ui.past) return '';
       const rows = B.filter((x) => x.start >= a && x.start < b); if (!rows.length) return '';
       const p = Math.max(0, Math.min(1, (M.t - a) / (b - a))) * 100;
-      return `<section class="sec"><div class="sh"><span class="ink" style="--p:${p.toFixed(1)}%">${n}</span><span class="tm">${yi(ic, 20)}${fmt(a)}</span></div>${rows.map(row).join('')}</section>`;
+      return `<section class="sec"><div class="sh"><span class="ink" style="--p:${p.toFixed(1)}%">${n}</span><span class="tm" style="--ic:${ICOL[ic]}">${yi(ic, 20)}${fmt(a)}</span></div>${rows.map(row).join('')}</section>`;
     }).join('');
     const fs = s.word.length > 5 ? 104 : 124;
     const pastW = pastN === 1 ? 'فترة وحدة فاتت' : pastN === 2 ? 'فترتين فاتن' : `${pastN} فترات فاتت`;
@@ -30,8 +30,8 @@ C.A = {
       <header class="hero" id="mHero"><div class="dt">${M.day} ${M.dayNum} ${M.month} · ${M.hijri}</div>
         <span class="ink w" style="--p:${s.p.toFixed(1)}%;--fs:${fs}px" role="img" aria-label="${s.word} بعد ${durText(s.tgt - M.t)}">${s.word}</span>
         <p>بعد ${durText(s.tgt - M.t)}، الساعة <em>${fmt(s.tgt)}</em></p></header>
-      ${cur ? `<section class="nowc"><span class="ti big">${yi(iconOf(cur), 30)}</span><div><small>هسه</small><h3>${esc(cur.title)}</h3><small>لحد ${fmt(cur.end)}</small></div>${doneBtn(M, 'seal')}</section>` : ''}
-      <div class="cnt"><div>${yi('mosque', 22)}<b>${pD}/5</b><span>الصلوات</span></div><div>${yi('seal', 22)}<b>${nD}</b><span>خلّصت</span></div><div>${yi('hourglass', 22)}<b>${nLeft}</b><span>باقي اليوم</span></div></div>
+      ${cur ? `<section class="nowc">${tile(iconOf(cur), cur.isPrayer, 30, 'big')}<div><small>هسه</small><h3>${esc(cur.title)}</h3><small>لحد ${fmt(cur.end)}</small></div>${doneBtn(M, 'seal')}</section>` : ''}
+      <div class="cnt"><div><i style="--ic:${ICOL.mosque}">${yi('mosque', 22)}</i><b>${pD}/5</b><span>الصلوات</span></div><div><i style="--ic:${ICOL.seal}">${yi('seal', 22)}</i><b>${nD}</b><span>خلّصت</span></div><div><i style="--ic:${ICOL.hourglass}">${yi('hourglass', 22)}</i><b>${nLeft}</b><span>باقي اليوم</span></div></div>
       ${pastN ? `<button class="past" data-x="past">${ui.past ? 'أخفي اللي فات' : pastW + '، اضغط تشوفها'}</button>` : ''}
       ${secs}<div class="end"></div>${tabBar('today')}`;
     const hero = root.querySelector('#mHero');

@@ -137,10 +137,10 @@ function statusBar(M) {
 }
 function tabBar(active, dark) {
   const T = [['today', 'اليوم', 'dhuhr'], ['night', 'الليل', 'isha'], ['week', 'الأسبوع', 'week'], ['page', 'المحاسبة', 'page']];
-  return `<nav class="ios-tab${dark ? ' dark' : ''}" aria-label="الأقسام">${T.map(([k, n, i]) => `<span class="${k === active ? 'on' : ''}">${yi(i, 26, 1.6)}<b>${n}</b></span>`).join('')}</nav>`;
+  return `<nav class="ios-tab${dark ? ' dark' : ''}" aria-label="الأقسام">${T.map(([k, n, i]) => `<span class="${k === active ? 'on' : ''}"${k === active ? ` style="--ic:${ICOL[i]}"` : ''}>${yi(i, 26, 1.6)}<b>${n}</b></span>`).join('')}</nav>`;
 }
 /* ---- «يوم» icon family: 24 grid, 1.7 stroke, round ends, and exactly one part filled with ink ---- */
-const F = 'fill="currentColor" stroke="none"';
+const F = 'style="fill:var(--ic,currentColor);stroke:none"';
 const YI = {
   fajr: `<path d="M3 17h18M7 20.5h10M12 7.5v2M5.6 10.6l1.3 1.3M18.4 10.6l-1.3 1.3"/><path ${F} d="M7.4 17a4.6 4.6 0 0 1 9.2 0z"/>`,
   dhuhr: `<path d="M4 19.5h16M12 3.2v1.6M5 10h1.6M17.4 10H19M7.1 5.1l1.1 1.1M16.9 5.1l-1.1 1.1M7.1 14.9l1.1-1.1M16.9 14.9l-1.1-1.1"/><circle ${F} cx="12" cy="10" r="3.6"/>`,
@@ -182,4 +182,16 @@ function iconOf(b) {
   const m = { fajr: 'fajr', dhuhr: 'dhuhr', asr: 'asr', maghrib: 'maghrib', isha: 'isha', jumua: 'mosque', ghadwa: 'rahl', light: 'steps', deep1: 'nib', deep2: 'nib', duha: 'tea', msgs1: 'mail', close: 'mail', work1: 'phone', work2: 'case', nap: 'nap', child: 'child', family: 'house', self: 'book', prep: 'page', witr: 'beads', sleep: 'bed', qiyam: 'lantern', qiyam2: 'lantern', jumua_prep: 'ghusl', lunch: 'meal', visit: 'visit', free: 'palm', dua: 'hands', self_am: 'tea' };
   if (k === 'train') return /مشي/.test(b.title) ? 'steps' : /تعلم/.test(b.title) ? 'laptop' : 'dumbbell';
   return m[k] || 'page';
+}
+
+/* colour of each icon's ink part: prayers by the hour they mark, the rest by what the item is */
+const ICOL = { fajr: '#5A62C6', dhuhr: '#D3950A', asr: '#D9701F', maghrib: '#CF403D', isha: '#36459A', mosque: '#1E8768',
+  rahl: '#3F57A6', beads: '#3F57A6', lantern: '#3F57A6', hands: '#3F57A6', ghusl: '#2B82C4',
+  nib: '#B5473F', laptop: '#7F5CC2', book: '#7F5CC2', page: '#7F5CC2',
+  phone: '#0E8C9B', case: '#0E8C9B', mail: '#0E8C9B', tea: '#A2632A', steps: '#2C8C53', dumbbell: '#2C8C53',
+  nap: '#5D74C9', bed: '#4A5EB3', child: '#C2821A', house: '#C2821A', meal: '#C2821A', visit: '#CC4F74', palm: '#4C8838',
+  hourglass: '#8A8378', seal: '#2C8C53', week: '#3F57A6' };
+/* an icon on its tile: prayers get a solid tile in their colour, everything else a light tint */
+function tile(name, solid, size = 24, cls = '') {
+  return `<span class="ti${solid ? ' solid' : ''}${cls ? ' ' + cls : ''}" style="--ic:${ICOL[name] || '#555'}">${yi(name, size)}</span>`;
 }

@@ -1,0 +1,18 @@
+/* ===== B · الأيقونات ===== */
+.cC{background:#fff;color:#121212;padding:24px 18px 30px;font-family:'Noto Naskh Arabic',serif}
+.cC h2{font-family:'Aref Ruqaa',serif;font-size:40px;line-height:1.5}
+.cC .lead{font-size:16px;line-height:1.8;color:#4B4741}
+.cC h3{font-size:17px;font-weight:700;margin:22px 0 10px}
+.cC .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cC .grid div{border:1px solid #ECEAE5;border-radius:16px;padding:14px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-family:-apple-system,'Noto Sans Arabic',sans-serif;font-size:12.5px;line-height:1.4;color:#4B4741;min-height:104px}
+.cC .states{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-family:-apple-system,'Noto Sans Arabic',sans-serif;font-size:13px;color:#4B4741}
+.cC .states div{display:flex;flex-direction:column;align-items:center;gap:6px}
+.cC .tile{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#F3F2EF;color:#121212}
+.cC .tile.pr{background:#121212;color:#fff}
+.cC .tile.done{background:#F3F2EF;color:#A9A49C}
+.cC .rules li{font-size:15.5px;line-height:1.8;margin-inline-start:20px}
+.cC .grid i{font-style:normal;display:block;color:#121212}
+.cC .ti{--tbg:#fff;--tic:#121212}
+.cC .pal{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-family:-apple-system,'Noto Sans Arabic',sans-serif;font-size:14px;color:#4B4741}
+.cC .pal div{display:flex;align-items:center;gap:8px;min-height:30px}
+.cC .pal b{width:16px;height:16px;border-radius:5px;flex:none}

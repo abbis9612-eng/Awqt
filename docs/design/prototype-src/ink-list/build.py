@@ -1,7 +1,7 @@
 import sys, re
 s = open('shell.html', encoding='utf-8').read()
 s = s.replace('/*@DATA*/', open('data.js', encoding='utf-8').read().strip()).replace('/*@ENGINE*/', open('engine.js', encoding='utf-8').read())
-for k in 'AB':
+for k in 'ABC':
     s = s.replace('/*@CSS_%s*/' % k, open('c%s.css' % k, encoding='utf-8').read())
     s = s.replace('/*@JS_%s*/' % k, open('c%s.js' % k, encoding='utf-8').read())
 s = s.replace('/*@APPLE_CSS*/', open('apple.css', encoding='utf-8').read())

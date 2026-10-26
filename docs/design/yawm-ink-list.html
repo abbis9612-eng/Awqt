@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>يوم · الحبر والقائمة</title>
+<title>يوم · المزيج والحبر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -82,32 +82,85 @@ button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px so
 .cA .ios-tab span{color:var(--ink2)}
 .cA .ios-tab .on{color:var(--ink)}
 .cA .ios-tab .on b{font-weight:700}
-.cA .ti{width:42px;height:42px;border-radius:13px;background:var(--soft);color:var(--ink);display:grid;place-items:center;flex:none}
+.cA .ti{--tbg:var(--bg);--tic:var(--ink)}
 .cA .row .ti{margin-top:-1px}
-.cA .row.pr .ti{background:var(--ink);color:var(--bg)}
-.cA .row.done .ti{color:var(--ink2)}
-.cA .row.now .ti{box-shadow:inset 0 0 0 2px var(--ink)}
-.cA .row.now.pr .ti{box-shadow:none}
+.cA .row.done .ti{filter:grayscale(1);opacity:.55}
+.cA .row.now .ti{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ic)}
 .cA .row .ck{margin-top:8px}
-.cA .ti.big{width:52px;height:52px;border-radius:16px;background:var(--bg)}
+.cA .ti.big{width:54px;height:54px;border-radius:17px;--tbg:var(--bg)}
+.cA .cnt i{font-style:normal;display:block}
 .cA .cnt div{display:flex;flex-direction:column;align-items:center;gap:2px}
-.cA .cnt svg{color:var(--ink2)}
+.cA .cnt svg{color:var(--ink)}
 .cA .sh .tm{display:inline-flex;align-items:center;gap:6px}
-.cA .sh .tm svg{color:var(--ink2)}
+.cA .sh .tm svg{color:var(--ink)}
+
+/* ===== A · الحبر ===== */
+.cB{--ink:#121212;--faint:#E6E4DF;--grey:#77736C;background:#fff;color:var(--ink);font-family:'Noto Naskh Arabic',serif;padding:0;display:flex;flex-direction:column;height:800px;overflow-y:auto;scrollbar-width:none}
+.cB::-webkit-scrollbar{display:none}
+.cB > *:not(.ios-tab){margin-inline:24px}
+.cB .top{margin-top:24px}
+.cB .top{display:flex;justify-content:space-between;align-items:flex-start}
+.cB .top b{display:block;font-size:18px;font-weight:700;line-height:1.5}
+.cB .top span{font-size:14.5px;color:var(--grey)}
+.cB .top .clk{font-family:'Amiri',serif;font-size:26px;line-height:1.2;font-variant-numeric:lining-nums}
+.cB .word{margin-top:22px;text-align:center;font-family:'Aref Ruqaa',serif;font-weight:700;font-size:var(--fs,138px);line-height:1.25;
+  background:linear-gradient(to left,var(--ink) 0 calc(var(--p) - 1.5%),var(--faint) calc(var(--p) + 1.5%) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  padding:0 6px;transition:--p .6s}
+.cB .when{text-align:center;font-size:19px;line-height:1.7;margin-top:2px}
+.cB .when em{font-style:normal;font-family:'Amiri',serif;font-size:21px}
+.cB .now{display:flex;align-items:center;gap:14px;margin-top:22px}
+.cB .now div{flex:1;min-width:0}
+.cB .now small{font-size:15px;color:var(--grey)}
+.cB .now h3{font-size:23px;font-weight:700;line-height:1.5}
+.cB .seal{width:88px;height:88px;border-radius:50%;background:var(--ink);color:#fff;font-size:18px;font-weight:700;flex:none;display:grid;place-items:center;
+  box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4.5px var(--ink)}
+.cB .seal.is-done{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.cB .seal:active{transform:scale(.96)}
+.cB .after{margin-top:16px;display:grid;gap:2px}
+.cB .after div{display:flex;gap:12px;align-items:center;font-size:17px;line-height:1.5;color:#3A3835;min-height:44px}
+.cB .after span:not(.ti){flex:1}
+.cB .after em{font-style:normal;font-family:'Amiri',serif;font-size:18px;color:var(--grey);width:44px;flex:none}
+.cB .five{margin-top:auto;padding-top:18px;padding-bottom:14px;display:grid;grid-template-columns:repeat(5,1fr);text-align:center}
+.cB .five b{display:block;font-family:'Aref Ruqaa',serif;font-weight:700;font-size:25px;line-height:1.5;
+  background:linear-gradient(to left,var(--ink) 0 var(--p),var(--faint) var(--p) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cB .five span{font-family:'Amiri',serif;font-size:17px;color:var(--grey)}
+.cB .ti{--tbg:#fff;--tic:#121212}
+.cB .ti.big{width:54px;height:54px;border-radius:17px}
+.cB .ti.sm{width:34px;height:34px;border-radius:11px}
+.cB .five i{display:flex;justify-content:center;font-style:normal;color:#121212;margin-bottom:2px}
+.cB .five .nx i{transform:scale(1.15)}
+.cB .ios-tab{margin-top:0}
+.cB .seal{width:80px;height:80px}
+.cB{transition:background .4s}
+.cB.dark{--ink:#F1EEE7;--faint:#38373D;--grey:#9B978F;background:#0F0F11}
+.cB.dark .after div{color:#D3CFC7}
+.cB.dark .ti{--tbg:#0F0F11;--tic:#F1EEE7}
+.cB.dark .seal{color:#0F0F11;box-shadow:inset 0 0 0 3px #0F0F11,inset 0 0 0 4.5px var(--ink)}
+.cB.dark .seal.is-done{background:#0F0F11;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.cB .five i{color:var(--ink)}
+.cB.dark .ios-tab{background:rgba(15,15,17,.9);border-top-color:rgba(241,238,231,.1)}
+.cB.dark .ios-tab span{color:#8A867F}
+.cB.dark .ios-tab .on{color:#F1EEE7}
+.cB .ios-tab .on{color:#121212}
 
 /* ===== B · الأيقونات ===== */
-.cB{background:#fff;color:#121212;padding:24px 18px 30px;font-family:'Noto Naskh Arabic',serif}
-.cB h2{font-family:'Aref Ruqaa',serif;font-size:40px;line-height:1.5}
-.cB .lead{font-size:16px;line-height:1.8;color:#4B4741}
-.cB h3{font-size:17px;font-weight:700;margin:22px 0 10px}
-.cB .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.cB .grid div{border:1px solid #ECEAE5;border-radius:16px;padding:14px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-family:-apple-system,'Noto Sans Arabic',sans-serif;font-size:12.5px;line-height:1.4;color:#4B4741;min-height:104px}
-.cB .states{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-family:-apple-system,'Noto Sans Arabic',sans-serif;font-size:13px;color:#4B4741}
-.cB .states div{display:flex;flex-direction:column;align-items:center;gap:6px}
-.cB .tile{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#F3F2EF;color:#121212}
-.cB .tile.pr{background:#121212;color:#fff}
-.cB .tile.done{background:#F3F2EF;color:#A9A49C}
-.cB .rules li{font-size:15.5px;line-height:1.8;margin-inline-start:20px}
+.cC{background:#fff;color:#121212;padding:24px 18px 30px;font-family:'Noto Naskh Arabic',serif}
+.cC h2{font-family:'Aref Ruqaa',serif;font-size:40px;line-height:1.5}
+.cC .lead{font-size:16px;line-height:1.8;color:#4B4741}
+.cC h3{font-size:17px;font-weight:700;margin:22px 0 10px}
+.cC .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cC .grid div{border:1px solid #ECEAE5;border-radius:16px;padding:14px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-family:-apple-system,'Noto Sans Arabic',sans-serif;font-size:12.5px;line-height:1.4;color:#4B4741;min-height:104px}
+.cC .states{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-family:-apple-system,'Noto Sans Arabic',sans-serif;font-size:13px;color:#4B4741}
+.cC .states div{display:flex;flex-direction:column;align-items:center;gap:6px}
+.cC .tile{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#F3F2EF;color:#121212}
+.cC .tile.pr{background:#121212;color:#fff}
+.cC .tile.done{background:#F3F2EF;color:#A9A49C}
+.cC .rules li{font-size:15.5px;line-height:1.8;margin-inline-start:20px}
+.cC .grid i{font-style:normal;display:block;color:#121212}
+.cC .ti{--tbg:#fff;--tic:#121212}
+.cC .pal{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-family:-apple-system,'Noto Sans Arabic',sans-serif;font-size:14px;color:#4B4741}
+.cC .pal div{display:flex;align-items:center;gap:8px;min-height:30px}
+.cC .pal b{width:16px;height:16px;border-radius:5px;flex:none}
 
 /* ===== shared iOS-like chrome ===== */
 .ios{font-family:-apple-system,'SF Arabic','Noto Sans Arabic',system-ui,sans-serif;--blue:#007AFF;--green:#34C759;--orange:#FF9500;--red:#FF3B30;--indigo:#5856D6;--teal:#30B0C7;--label2:rgba(60,60,67,.6);--sep:rgba(60,60,67,.18);--group:#F2F2F7}
@@ -124,12 +177,17 @@ button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px so
 .ios .ck.on{background:var(--acc,var(--blue));border-color:var(--acc,var(--blue))}
 .ios-tab.dark{background:rgba(22,22,24,.88);border-top-color:rgba(255,255,255,.12)}
 .ios-tab.dark span{color:#7C7C80}
+/* icon tiles (shared) */
+.ti{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;flex:none;color:var(--tic,#1B1B1B);background:color-mix(in srgb,var(--ic) 13%,var(--tbg,#fff))}
+.ti.solid{background:var(--ic);color:#fff}
+.ti.solid svg{--ic:#fff}
+.ios-tab .on svg{--ic:var(--tabic,inherit)}
 
 </style>
 </head>
 <body>
 <div class="v">
-  <div class="v-top"><h1>يوم · الحبر والقائمة</h1><span>السليمانية</span></div>
+  <div class="v-top"><h1>يوم · المزيج والحبر</h1><span>السليمانية</span></div>
   <nav id="pick" aria-label="الهويات"></nav>
   <div class="scrub"><input id="scrub" type="range" min="240" max="1620" step="1" aria-label="اسحب حتى تجرب أي وقت من اليوم"><output id="scrubT"></output><button id="nowBtn" hidden>الآن</button></div>
   <div class="phone" id="screen"></div>
@@ -447,10 +505,10 @@ function statusBar(M) {
 }
 function tabBar(active, dark) {
   const T = [['today', 'اليوم', 'dhuhr'], ['night', 'الليل', 'isha'], ['week', 'الأسبوع', 'week'], ['page', 'المحاسبة', 'page']];
-  return `<nav class="ios-tab${dark ? ' dark' : ''}" aria-label="الأقسام">${T.map(([k, n, i]) => `<span class="${k === active ? 'on' : ''}">${yi(i, 26, 1.6)}<b>${n}</b></span>`).join('')}</nav>`;
+  return `<nav class="ios-tab${dark ? ' dark' : ''}" aria-label="الأقسام">${T.map(([k, n, i]) => `<span class="${k === active ? 'on' : ''}"${k === active ? ` style="--ic:${ICOL[i]}"` : ''}>${yi(i, 26, 1.6)}<b>${n}</b></span>`).join('')}</nav>`;
 }
 /* ---- «يوم» icon family: 24 grid, 1.7 stroke, round ends, and exactly one part filled with ink ---- */
-const F = 'fill="currentColor" stroke="none"';
+const F = 'style="fill:var(--ic,currentColor);stroke:none"';
 const YI = {
   fajr: `<path d="M3 17h18M7 20.5h10M12 7.5v2M5.6 10.6l1.3 1.3M18.4 10.6l-1.3 1.3"/><path ${F} d="M7.4 17a4.6 4.6 0 0 1 9.2 0z"/>`,
   dhuhr: `<path d="M4 19.5h16M12 3.2v1.6M5 10h1.6M17.4 10H19M7.1 5.1l1.1 1.1M16.9 5.1l-1.1 1.1M7.1 14.9l1.1-1.1M16.9 14.9l-1.1-1.1"/><circle ${F} cx="12" cy="10" r="3.6"/>`,
@@ -494,6 +552,18 @@ function iconOf(b) {
   return m[k] || 'page';
 }
 
+/* colour of each icon's ink part: prayers by the hour they mark, the rest by what the item is */
+const ICOL = { fajr: '#5A62C6', dhuhr: '#D3950A', asr: '#D9701F', maghrib: '#CF403D', isha: '#36459A', mosque: '#1E8768',
+  rahl: '#3F57A6', beads: '#3F57A6', lantern: '#3F57A6', hands: '#3F57A6', ghusl: '#2B82C4',
+  nib: '#B5473F', laptop: '#7F5CC2', book: '#7F5CC2', page: '#7F5CC2',
+  phone: '#0E8C9B', case: '#0E8C9B', mail: '#0E8C9B', tea: '#A2632A', steps: '#2C8C53', dumbbell: '#2C8C53',
+  nap: '#5D74C9', bed: '#4A5EB3', child: '#C2821A', house: '#C2821A', meal: '#C2821A', visit: '#CC4F74', palm: '#4C8838',
+  hourglass: '#8A8378', seal: '#2C8C53', week: '#3F57A6' };
+/* an icon on its tile: prayers get a solid tile in their colour, everything else a light tint */
+function tile(name, solid, size = 24, cls = '') {
+  return `<span class="ti${solid ? ' solid' : ''}${cls ? ' ' + cls : ''}" style="--ic:${ICOL[name] || '#555'}">${yi(name, size)}</span>`;
+}
+
 /* ================= A · الحبر والقائمة ================= */
 C.A = {
   name: 'الحبر والقائمة',
@@ -512,13 +582,13 @@ C.A = {
     const row = (b) => {
       const now = b === cur, d = M.done.has(b.key);
       const sub = now ? `هسه · باقي ${durText(b.end - M.t)}` : `${fmt(b.start)} · ${durShort(b.end - b.start)}`;
-      return `<button class="row${b.isPrayer ? ' pr' : ''}${now ? ' now' : ''}${d ? ' done' : ''}" data-k="${b.key}" aria-pressed="${d}"><span class="ti">${yi(iconOf(b), 24)}</span><span class="tx"><b>${esc(b.title)}</b><span>${sub}</span></span><span class="ck${d ? ' on' : ''}">${d ? icon('check', 15, 3) : ''}</span></button>`;
+      return `<button class="row${b.isPrayer ? ' pr' : ''}${now ? ' now' : ''}${d ? ' done' : ''}" data-k="${b.key}" aria-pressed="${d}">${tile(iconOf(b), b.isPrayer)}<span class="tx"><b>${esc(b.title)}</b><span>${sub}</span></span><span class="ck${d ? ' on' : ''}">${d ? icon('check', 15, 3) : ''}</span></button>`;
     };
     const secs = S.map(([n, a, b, ic]) => {
       if (M.t >= b && !ui.past) return '';
       const rows = B.filter((x) => x.start >= a && x.start < b); if (!rows.length) return '';
       const p = Math.max(0, Math.min(1, (M.t - a) / (b - a))) * 100;
-      return `<section class="sec"><div class="sh"><span class="ink" style="--p:${p.toFixed(1)}%">${n}</span><span class="tm">${yi(ic, 20)}${fmt(a)}</span></div>${rows.map(row).join('')}</section>`;
+      return `<section class="sec"><div class="sh"><span class="ink" style="--p:${p.toFixed(1)}%">${n}</span><span class="tm" style="--ic:${ICOL[ic]}">${yi(ic, 20)}${fmt(a)}</span></div>${rows.map(row).join('')}</section>`;
     }).join('');
     const fs = s.word.length > 5 ? 104 : 124;
     const pastW = pastN === 1 ? 'فترة وحدة فاتت' : pastN === 2 ? 'فترتين فاتن' : `${pastN} فترات فاتت`;
@@ -526,8 +596,8 @@ C.A = {
       <header class="hero" id="mHero"><div class="dt">${M.day} ${M.dayNum} ${M.month} · ${M.hijri}</div>
         <span class="ink w" style="--p:${s.p.toFixed(1)}%;--fs:${fs}px" role="img" aria-label="${s.word} بعد ${durText(s.tgt - M.t)}">${s.word}</span>
         <p>بعد ${durText(s.tgt - M.t)}، الساعة <em>${fmt(s.tgt)}</em></p></header>
-      ${cur ? `<section class="nowc"><span class="ti big">${yi(iconOf(cur), 30)}</span><div><small>هسه</small><h3>${esc(cur.title)}</h3><small>لحد ${fmt(cur.end)}</small></div>${doneBtn(M, 'seal')}</section>` : ''}
-      <div class="cnt"><div>${yi('mosque', 22)}<b>${pD}/5</b><span>الصلوات</span></div><div>${yi('seal', 22)}<b>${nD}</b><span>خلّصت</span></div><div>${yi('hourglass', 22)}<b>${nLeft}</b><span>باقي اليوم</span></div></div>
+      ${cur ? `<section class="nowc">${tile(iconOf(cur), cur.isPrayer, 30, 'big')}<div><small>هسه</small><h3>${esc(cur.title)}</h3><small>لحد ${fmt(cur.end)}</small></div>${doneBtn(M, 'seal')}</section>` : ''}
+      <div class="cnt"><div><i style="--ic:${ICOL.mosque}">${yi('mosque', 22)}</i><b>${pD}/5</b><span>الصلوات</span></div><div><i style="--ic:${ICOL.seal}">${yi('seal', 22)}</i><b>${nD}</b><span>خلّصت</span></div><div><i style="--ic:${ICOL.hourglass}">${yi('hourglass', 22)}</i><b>${nLeft}</b><span>باقي اليوم</span></div></div>
       ${pastN ? `<button class="past" data-x="past">${ui.past ? 'أخفي اللي فات' : pastW + '، اضغط تشوفها'}</button>` : ''}
       ${secs}<div class="end"></div>${tabBar('today')}`;
     const hero = root.querySelector('#mHero');
@@ -542,16 +612,47 @@ C.A = {
   },
 };
 
-/* ================= B · الأيقونات ================= */
+/* ================= A · الحبر ================= */
 C.B = {
-  name: 'الأيقونات',
-  about: 'مجموعة أيقونات «يوم»: مرسومة لفقرات يومك بالذات، مو مأخوذة من مكتبة. القاعدة: خط رفيع، وبكل أيقونة جزء واحد معبّى بالحبر، حتى تبين عائلة وحدة ويّا «الحبر».',
+  name: 'الحبر',
+  about: 'الحبر الأصلي، وعليه نفس الأيقونات الملونة. اسم الصلاة الجاية مكتوب بخط الرقعة كبير، والحبر يعبّي حروفه من اليمين على كد ما يقرب وقتها. لما تكمل الكلمة يكون وقتها. تحتها شغلتك الحين، وختم أسود تدوسه لما تخلّص. وجوه الصلوات الخمس، اللي فاتت مكتوبة بالحبر كاملة.',
   render(root, M) {
-    const sample = (n, cls, lb) => `<div><span class="tile ${cls}">${yi(n, 26)}</span>${lb}</div>`;
+    root.classList.toggle('dark', M.t >= M.tt.isha || M.t < M.tt.fajr);
+    const P = M.PR.filter(([k]) => k !== 'sunrise');
+    const h = heroOf(M);
+    // ink fills from the previous prayer to the next one
+    const all = [['isha0', 'العشاء', M.tt.isha - 1440 + 0], ...P, ['fajr2', 'الفجر', M.nx.fajr + 1440]];
+    let i = all.findIndex(([, , m]) => m > M.t); if (i < 1) i = 1;
+    const prev = all[i - 1][2], nxt = all[i];
+    const isWake = M.cur && M.cur.sleep;
+    const word = isWake ? (M.plan.qiyam ? 'السَّحَر' : 'الكعدة') : nxt[1];
+    const tgt = isWake ? M.plan.wake : nxt[2], from = isWake ? M.plan.bedtime : prev;
+    const p = Math.max(0, Math.min(1, (M.t - from) / (tgt - from))) * 100;
+    const fs = word.length > 5 ? 116 : 138;
+    const cur = M.cur, nb = upcoming(M, 2);
+    const PI = { fajr: 'fajr', dhuhr: M.d.friday ? 'mosque' : 'dhuhr', asr: 'asr', maghrib: 'maghrib', isha: 'isha' };
+    const five = P.map(([k, n, m]) => { const fill = m <= M.t ? 100 : (k === nxt[0] && !isWake) ? p : 0; return `<div class="${k === nxt[0] && !isWake ? 'nx' : ''}"><i style="--ic:${ICOL[PI[k]]}">${yi(PI[k], 26)}</i><b style="--p:${fill.toFixed(1)}%">${n}</b><span>${fmt(m)}</span></div>`; }).join('');
+    root.innerHTML = `<div class="top"><div><b>${M.day} ${M.dayNum} ${M.month}</b><span>${M.hijri}</span></div><div class="clk">${fmt(M.t)}</div></div>
+      <div class="word" style="--p:${p.toFixed(1)}%;--fs:${fs}px" role="img" aria-label="${word} بعد ${durText(tgt - M.t)}">${word}</div>
+      <p class="when">بعد ${durText(tgt - M.t)}، الساعة <em>${fmt(tgt)}</em></p>
+      ${cur ? `<section class="now">${tile(iconOf(cur), cur.isPrayer, 30, 'big')}<div><small>هسه</small><h3>${esc(cur.title)}</h3><small>لحد ${fmt(cur.end)}</small></div>${doneBtn(M, 'seal')}</section>` : ''}
+      <div class="after">${nb.map((b) => `<div>${tile(iconOf(b), b.isPrayer, 20, 'sm')}<em>${fmt(b.start)}</em><span>${esc(b.title)}</span></div>`).join('')}</div>
+      <div class="five">${five}</div>${tabBar('today')}`;
+    bindDone(root, M);
+  },
+};
+
+/* ================= C · الأيقونات ================= */
+C.C = {
+  name: 'الأيقونات',
+  about: 'أيقونات «يوم» الملونة: الخط حبر، والجزء المعبّى ياخذ لون معناه. الصلوات بلون وقتها، والباقي بلون نوع الفقرة. الصلاة على مربع ملون كامل، والفقرة على مربع فاتح من نفس لونها، واللي خلّصته يصير رمادي.',
+  render(root, M) {
+    const pal = [['#5A62C6', 'الفجر'], ['#D3950A', 'الظهر'], ['#D9701F', 'العصر'], ['#CF403D', 'المغرب'], ['#36459A', 'العشاء'], ['#1E8768', 'الجمعة والجماعة'], ['#3F57A6', 'عبادة وأذكار'], ['#B5473F', 'تركيز'], ['#0E8C9B', 'شغل ورسائل'], ['#2C8C53', 'حركة وجسم'], ['#C2821A', 'الأهل'], ['#7F5CC2', 'قراءة وتعلّم'], ['#4A5EB3', 'نوم وقيلولة'], ['#A2632A', 'چاي واستراحة']];
     root.innerHTML = `<h2>أيقونات يوم</h2><p class="lead">كل فقرة بيومك إلها أيقونة تعرفها من أول نظرة. الصلوات من الشمس نفسها، والباقي من أشياء بيوتنا: الاستكان، والرحل، والفانوس، والمسبحة، والنخلة.</p>
-      <h3>شلون تنعرض</h3><div class="states">${sample('nib', '', 'فقرة')}${sample('asr', 'pr', 'صلاة')}${sample('tea', 'done', 'خلّصتها')}</div>
-      <h3>القواعد</h3><ul class="rules"><li>شبكة 24، خط 1.7، أطراف مدورة.</li><li>بكل أيقونة جزء واحد بس معبّى (الحبر).</li><li>ما تنعكس باليمين واليسار، مثل الساعة.</li><li>الصلاة على مربع أسود، والفقرة على مربع فاتح.</li></ul>
-      <h3>المجموعة (${Object.keys(YI).length})</h3><div class="grid">${Object.keys(YI).map((n) => `<div>${yi(n, 34, 1.6)}<span>${YN[n]}</span></div>`).join('')}</div>`;
+      <h3>شلون تنعرض</h3><div class="states"><div>${tile('nib', false, 26)}فقرة</div><div>${tile('asr', true, 26)}صلاة</div><div><span style="filter:grayscale(1);opacity:.55">${tile('tea', false, 26)}</span>خلّصتها</div></div>
+      <h3>الألوان</h3><div class="pal">${pal.map(([c, n]) => `<div><b style="background:${c}"></b>${n}</div>`).join('')}</div>
+      <h3>القواعد</h3><ul class="rules"><li>شبكة 24، خط 1.7، أطراف مدورة.</li><li>الخط بلون الحبر، والجزء المعبّى بلون المعنى.</li><li>ما تنعكس باليمين واليسار، مثل الساعة.</li><li>اللون دايماً وياه أيقونة واسم، ما يشتغل لحاله.</li></ul>
+      <h3>المجموعة (${Object.keys(YI).length})</h3><div class="grid">${Object.keys(YI).map((n) => `<div><i style="--ic:${ICOL[n]}">${yi(n, 34, 1.6)}</i><span>${YN[n]}</span></div>`).join('')}</div>`;
   },
 };
 

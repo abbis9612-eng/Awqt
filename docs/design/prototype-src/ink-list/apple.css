@@ -13,3 +13,8 @@
 .ios .ck.on{background:var(--acc,var(--blue));border-color:var(--acc,var(--blue))}
 .ios-tab.dark{background:rgba(22,22,24,.88);border-top-color:rgba(255,255,255,.12)}
 .ios-tab.dark span{color:#7C7C80}
+/* icon tiles (shared) */
+.ti{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;flex:none;color:var(--tic,#1B1B1B);background:color-mix(in srgb,var(--ic) 13%,var(--tbg,#fff))}
+.ti.solid{background:var(--ic);color:#fff}
+.ti.solid svg{--ic:#fff}
+.ios-tab .on svg{--ic:var(--tabic,inherit)}

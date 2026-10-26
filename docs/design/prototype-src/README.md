@@ -23,5 +23,5 @@
 انسخ `data.js` و`engine.js` جنب الملفات، وبعدين: `python3 build.py ../../yawm-ink-apple.html`.
 
 ## ink-list (الحبر والقائمة)
-`ink-list/` يبني `docs/design/yawm-ink-list.html`: المزيج المختار (الحبر والقائمة) بأيقونات «يوم» الخاصة، وصفحة الأيقونات. الأيقونات نفسها ملفات SVG بـ`docs/design/icons/`.
+`ink-list/` يبني `docs/design/yawm-ink-list.html`: المزيج (الحبر والقائمة) والحبر العادي، كلهم بأيقونات «يوم» الملونة، وصفحة الأيقونات. الأيقونات نفسها ملفات SVG بـ`docs/design/icons/`.
 انسخ `data.js` و`engine.js` جنب الملفات، وبعدين: `python3 build.py ../../yawm-ink-list.html`.

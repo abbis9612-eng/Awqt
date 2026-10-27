@@ -34,6 +34,7 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
 | 2026-10-27 | Step 1 versions, all checked on official sources today: AGP 9.4.0 (needs Gradle 9.6.0, JDK 17), Gradle wrapper 9.6.0, Kotlin 2.4.21, Compose Multiplatform 1.12.2, androidx Activity 1.13.0; CI actions checkout v7, setup-java v6, gradle/actions v6, upload-artifact v7. Room 3.0.3 confirmed stable for step 5 | Rule 1 | Next step that touches them |
 | 2026-10-27 | The Android entry point lives in `:shared` (`ComponentActivity.showYawm()`), so `:androidApp` needs no Compose compiler plugin | Keeps the app module to manifest and MainActivity, as AGP 9 rules intend | — |
 | 2026-10-27 | Gradle distribution checksum not pinned yet: its checksum host was blocked from the cloud session. The wrapper jar is validated in CI by gradle/actions/setup-gradle | Pin `distributionSha256Sum` once the host is reachable | Host becomes reachable |
+| 2026-10-27 | Step 1 build check passed in CI (run 4): build, lint, host tests (ArabicDateTest 2/2) and the debug APK artifact `yawm-debug-apk`. CI now fails if no test results exist. Waiting for the owner's phone check | CLAUDE.md rules 2 and 3 | — |
 
 ## Open (must be decided before the step that needs it)
 - App name: check both stores first; avoid names close to "Noor" (Noor Focus exists).

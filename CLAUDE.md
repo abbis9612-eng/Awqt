@@ -166,12 +166,14 @@ it never issues religious rulings.
 6. Before ending, update `docs/DECISIONS.md`.
 
 ## Commands
-Verified in step 1 (2026-10-27). Gradle 9.6.0 through the wrapper; JDK 17 in CI.
+Verified in step 1 (2026-10-27) in GitHub Actions (run 4: BUILD SUCCESSFUL, `testAndroidHostTest` ran
+ArabicDateTest 2/2, lint ran, APK uploaded). Gradle 9.6.0 through the wrapper; JDK 17 in CI.
+Not yet run in the cloud session itself (see the `dl.google.com` note below).
 
 | What | Command |
 | --- | --- |
 | Tests, checks and the debug APK (what CI runs) | `./gradlew build assembleDebug` |
-| Only the shared logic tests | `./gradlew :shared:testAndroidHostTest` |
+| Only the shared logic tests (results: `shared/build/test-results/testAndroidHostTest/`) | `./gradlew :shared:testAndroidHostTest` |
 | Debug APK only | `./gradlew :androidApp:assembleDebug` → `androidApp/build/outputs/apk/debug/androidApp-debug.apk` |
 
 CI: `.github/workflows/ci.yml` runs on every push and uploads the artifact `yawm-debug-apk`.

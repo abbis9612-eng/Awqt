@@ -1,0 +1,1520 @@
+{
+ "sulaymaniyah-shafi:2026-05-03": {
+  "times": {
+   "fajr": "03:20",
+   "sunrise": "05:05",
+   "dhuhr": "11:56",
+   "asr": "15:41",
+   "maghrib": "18:46",
+   "isha": "20:19"
+  },
+  "night_plan": {
+   "bedtime": 1260,
+   "wake": 1629,
+   "qiyam": false,
+   "witr_before_sleep": true,
+   "night_sleep": 369,
+   "nap": 90,
+   "total": 459,
+   "shortfall": 0
+  },
+  "notes": [
+   "shrunk:prep",
+   "dropped:prep"
+  ],
+  "blocks": [
+   {
+    "key": "qiyam",
+    "title": "السَّحَر: ركعتان والوتر",
+    "role": "WORSHIP",
+    "start": "03:00",
+    "end": "03:20",
+    "minutes": 20
+   },
+   {
+    "key": "fajr",
+    "title": "صلاة الفجر جماعة",
+    "role": "WORSHIP",
+    "start": "03:20",
+    "end": "03:45",
+    "minutes": 25
+   },
+   {
+    "key": "ghadwa",
+    "title": "ورد الغدوة: أذكار وقرآن، بلا تلفون",
+    "role": "WORSHIP",
+    "start": "03:45",
+    "end": "05:05",
+    "minutes": 80
+   },
+   {
+    "key": "light",
+    "title": "ضوء الشمس ومشي وفطور",
+    "role": "BODY",
+    "start": "05:05",
+    "end": "05:30",
+    "minutes": 25
+   },
+   {
+    "key": "deep1",
+    "title": "تركيز: أصعب مهمة",
+    "role": "DEV",
+    "start": "05:30",
+    "end": "07:00",
+    "minutes": 90
+   },
+   {
+    "key": "duha",
+    "title": "استراحة وركعتا الضحى",
+    "role": "WORSHIP",
+    "start": "07:00",
+    "end": "07:20",
+    "minutes": 20
+   },
+   {
+    "key": "deep2",
+    "title": "تركيز: الكتلة الثانية",
+    "role": "DEV",
+    "start": "07:20",
+    "end": "08:50",
+    "minutes": 90
+   },
+   {
+    "key": "msgs1",
+    "title": "نافذة الرسائل",
+    "role": "BUSINESS",
+    "start": "08:50",
+    "end": "09:10",
+    "minutes": 20
+   },
+   {
+    "key": "work1",
+    "title": "العمل: اتصالات ومتابعة",
+    "role": "BUSINESS",
+    "start": "09:10",
+    "end": "11:56",
+    "minutes": 166
+   },
+   {
+    "key": "dhuhr",
+    "title": "صلاة الظهر وغداء خفيف",
+    "role": "WORSHIP",
+    "start": "11:56",
+    "end": "12:36",
+    "minutes": 40
+   },
+   {
+    "key": "nap",
+    "title": "قيلولة 90 دقيقة",
+    "role": "BODY",
+    "start": "12:36",
+    "end": "14:06",
+    "minutes": 90
+   },
+   {
+    "key": "work2",
+    "title": "العمل: ميدان واجتماعات",
+    "role": "BUSINESS",
+    "start": "14:06",
+    "end": "15:41",
+    "minutes": 95
+   },
+   {
+    "key": "asr",
+    "title": "صلاة العصر",
+    "role": "WORSHIP",
+    "start": "15:41",
+    "end": "15:53",
+    "minutes": 12
+   },
+   {
+    "key": "train",
+    "title": "تدريب أو تعلم (حسب اليوم)",
+    "role": "BODY",
+    "start": "15:53",
+    "end": "16:53",
+    "minutes": 60
+   },
+   {
+    "key": "close",
+    "title": "الرسائل وإغلاق يوم العمل",
+    "role": "BUSINESS",
+    "start": "16:53",
+    "end": "17:13",
+    "minutes": 20
+   },
+   {
+    "key": "child",
+    "title": "وقت الابن وأذكار المساء",
+    "role": "CHILD",
+    "start": "17:13",
+    "end": "18:46",
+    "minutes": 93
+   },
+   {
+    "key": "maghrib",
+    "title": "صلاة المغرب",
+    "role": "WORSHIP",
+    "start": "18:46",
+    "end": "19:01",
+    "minutes": 15
+   },
+   {
+    "key": "family",
+    "title": "الأسرة: عشاء وحديث مع الزوجة",
+    "role": "SPOUSE",
+    "start": "19:01",
+    "end": "20:19",
+    "minutes": 78
+   },
+   {
+    "key": "isha",
+    "title": "صلاة العشاء",
+    "role": "WORSHIP",
+    "start": "20:19",
+    "end": "20:34",
+    "minutes": 15
+   },
+   {
+    "key": "self",
+    "title": "وقت لك: قراءة أو تعلم خفيف",
+    "role": "SELF",
+    "start": "20:34",
+    "end": "20:45",
+    "minutes": 11
+   },
+   {
+    "key": "witr",
+    "title": "الوتر وأذكار النوم",
+    "role": "WORSHIP",
+    "start": "20:45",
+    "end": "21:00",
+    "minutes": 15
+   }
+  ]
+ },
+ "sulaymaniyah-shafi:2026-06-15": {
+  "times": {
+   "fajr": "02:43",
+   "sunrise": "04:42",
+   "dhuhr": "11:59",
+   "asr": "15:48",
+   "maghrib": "19:15",
+   "isha": "21:00"
+  },
+  "night_plan": {
+   "bedtime": 1290,
+   "wake": 1593,
+   "qiyam": false,
+   "witr_before_sleep": true,
+   "night_sleep": 303,
+   "nap": 90,
+   "total": 393,
+   "shortfall": 27
+  },
+  "notes": [
+   "shrunk:prep",
+   "dropped:prep"
+  ],
+  "blocks": [
+   {
+    "key": "fajr",
+    "title": "صلاة الفجر جماعة",
+    "role": "WORSHIP",
+    "start": "02:43",
+    "end": "03:08",
+    "minutes": 25
+   },
+   {
+    "key": "ghadwa",
+    "title": "ورد الغدوة: أذكار وقرآن، بلا تلفون",
+    "role": "WORSHIP",
+    "start": "03:08",
+    "end": "04:42",
+    "minutes": 94
+   },
+   {
+    "key": "light",
+    "title": "ضوء الشمس ومشي وفطور",
+    "role": "BODY",
+    "start": "04:42",
+    "end": "05:07",
+    "minutes": 25
+   },
+   {
+    "key": "deep1",
+    "title": "تركيز: أصعب مهمة",
+    "role": "DEV",
+    "start": "05:07",
+    "end": "06:37",
+    "minutes": 90
+   },
+   {
+    "key": "duha",
+    "title": "استراحة وركعتا الضحى",
+    "role": "WORSHIP",
+    "start": "06:37",
+    "end": "06:57",
+    "minutes": 20
+   },
+   {
+    "key": "deep2",
+    "title": "تركيز: الكتلة الثانية",
+    "role": "DEV",
+    "start": "06:57",
+    "end": "08:27",
+    "minutes": 90
+   },
+   {
+    "key": "msgs1",
+    "title": "نافذة الرسائل",
+    "role": "BUSINESS",
+    "start": "08:27",
+    "end": "08:47",
+    "minutes": 20
+   },
+   {
+    "key": "work1",
+    "title": "العمل: اتصالات ومتابعة",
+    "role": "BUSINESS",
+    "start": "08:47",
+    "end": "11:59",
+    "minutes": 192
+   },
+   {
+    "key": "dhuhr",
+    "title": "صلاة الظهر وغداء خفيف",
+    "role": "WORSHIP",
+    "start": "11:59",
+    "end": "12:39",
+    "minutes": 40
+   },
+   {
+    "key": "nap",
+    "title": "قيلولة 90 دقيقة",
+    "role": "BODY",
+    "start": "12:39",
+    "end": "14:09",
+    "minutes": 90
+   },
+   {
+    "key": "work2",
+    "title": "العمل: ميدان واجتماعات",
+    "role": "BUSINESS",
+    "start": "14:09",
+    "end": "15:48",
+    "minutes": 99
+   },
+   {
+    "key": "asr",
+    "title": "صلاة العصر",
+    "role": "WORSHIP",
+    "start": "15:48",
+    "end": "16:00",
+    "minutes": 12
+   },
+   {
+    "key": "train",
+    "title": "تدريب أو تعلم (حسب اليوم)",
+    "role": "BODY",
+    "start": "16:00",
+    "end": "17:00",
+    "minutes": 60
+   },
+   {
+    "key": "close",
+    "title": "الرسائل وإغلاق يوم العمل",
+    "role": "BUSINESS",
+    "start": "17:00",
+    "end": "17:20",
+    "minutes": 20
+   },
+   {
+    "key": "child",
+    "title": "وقت الابن وأذكار المساء",
+    "role": "CHILD",
+    "start": "17:20",
+    "end": "19:15",
+    "minutes": 115
+   },
+   {
+    "key": "maghrib",
+    "title": "صلاة المغرب",
+    "role": "WORSHIP",
+    "start": "19:15",
+    "end": "19:30",
+    "minutes": 15
+   },
+   {
+    "key": "family",
+    "title": "الأسرة: عشاء وحديث مع الزوجة",
+    "role": "SPOUSE",
+    "start": "19:30",
+    "end": "21:00",
+    "minutes": 90
+   },
+   {
+    "key": "isha",
+    "title": "صلاة العشاء",
+    "role": "WORSHIP",
+    "start": "21:00",
+    "end": "21:15",
+    "minutes": 15
+   },
+   {
+    "key": "witr",
+    "title": "الوتر وأذكار النوم",
+    "role": "WORSHIP",
+    "start": "21:15",
+    "end": "21:30",
+    "minutes": 15
+   }
+  ]
+ },
+ "sulaymaniyah-shafi:2026-10-15": {
+  "times": {
+   "fajr": "04:32",
+   "sunrise": "06:04",
+   "dhuhr": "11:45",
+   "asr": "14:55",
+   "maghrib": "17:23",
+   "isha": "18:45"
+  },
+  "night_plan": {
+   "bedtime": 1260,
+   "wake": 1693,
+   "qiyam": true,
+   "witr_before_sleep": false,
+   "night_sleep": 433,
+   "nap": 20,
+   "total": 453,
+   "shortfall": 0
+  },
+  "notes": [],
+  "blocks": [
+   {
+    "key": "qiyam",
+    "title": "السَّحَر: ركعتان والوتر",
+    "role": "WORSHIP",
+    "start": "04:12",
+    "end": "04:32",
+    "minutes": 20
+   },
+   {
+    "key": "fajr",
+    "title": "صلاة الفجر جماعة",
+    "role": "WORSHIP",
+    "start": "04:32",
+    "end": "04:57",
+    "minutes": 25
+   },
+   {
+    "key": "ghadwa",
+    "title": "ورد الغدوة: أذكار وقرآن، بلا تلفون",
+    "role": "WORSHIP",
+    "start": "04:57",
+    "end": "06:04",
+    "minutes": 67
+   },
+   {
+    "key": "light",
+    "title": "ضوء الشمس ومشي وفطور",
+    "role": "BODY",
+    "start": "06:04",
+    "end": "06:29",
+    "minutes": 25
+   },
+   {
+    "key": "deep1",
+    "title": "تركيز: أصعب مهمة",
+    "role": "DEV",
+    "start": "06:29",
+    "end": "07:59",
+    "minutes": 90
+   },
+   {
+    "key": "duha",
+    "title": "استراحة وركعتا الضحى",
+    "role": "WORSHIP",
+    "start": "07:59",
+    "end": "08:19",
+    "minutes": 20
+   },
+   {
+    "key": "deep2",
+    "title": "تركيز: الكتلة الثانية",
+    "role": "DEV",
+    "start": "08:19",
+    "end": "09:49",
+    "minutes": 90
+   },
+   {
+    "key": "msgs1",
+    "title": "نافذة الرسائل",
+    "role": "BUSINESS",
+    "start": "09:49",
+    "end": "10:09",
+    "minutes": 20
+   },
+   {
+    "key": "work1",
+    "title": "العمل: اتصالات ومتابعة",
+    "role": "BUSINESS",
+    "start": "10:09",
+    "end": "11:45",
+    "minutes": 96
+   },
+   {
+    "key": "dhuhr",
+    "title": "صلاة الظهر وغداء خفيف",
+    "role": "WORSHIP",
+    "start": "11:45",
+    "end": "12:25",
+    "minutes": 40
+   },
+   {
+    "key": "nap",
+    "title": "قيلولة 20 دقيقة",
+    "role": "BODY",
+    "start": "12:25",
+    "end": "12:45",
+    "minutes": 20
+   },
+   {
+    "key": "work2",
+    "title": "العمل: ميدان واجتماعات",
+    "role": "BUSINESS",
+    "start": "12:45",
+    "end": "14:55",
+    "minutes": 130
+   },
+   {
+    "key": "asr",
+    "title": "صلاة العصر",
+    "role": "WORSHIP",
+    "start": "14:55",
+    "end": "15:07",
+    "minutes": 12
+   },
+   {
+    "key": "train",
+    "title": "تدريب أو تعلم (حسب اليوم)",
+    "role": "BODY",
+    "start": "15:07",
+    "end": "16:07",
+    "minutes": 60
+   },
+   {
+    "key": "close",
+    "title": "الرسائل وإغلاق يوم العمل",
+    "role": "BUSINESS",
+    "start": "16:07",
+    "end": "16:27",
+    "minutes": 20
+   },
+   {
+    "key": "child",
+    "title": "وقت الابن وأذكار المساء",
+    "role": "CHILD",
+    "start": "16:27",
+    "end": "17:23",
+    "minutes": 56
+   },
+   {
+    "key": "maghrib",
+    "title": "صلاة المغرب",
+    "role": "WORSHIP",
+    "start": "17:23",
+    "end": "17:38",
+    "minutes": 15
+   },
+   {
+    "key": "family",
+    "title": "الأسرة: عشاء وحديث مع الزوجة",
+    "role": "SPOUSE",
+    "start": "17:38",
+    "end": "18:45",
+    "minutes": 67
+   },
+   {
+    "key": "isha",
+    "title": "صلاة العشاء",
+    "role": "WORSHIP",
+    "start": "18:45",
+    "end": "19:00",
+    "minutes": 15
+   },
+   {
+    "key": "self",
+    "title": "وقت لك: قراءة أو تعلم خفيف",
+    "role": "SELF",
+    "start": "19:00",
+    "end": "20:15",
+    "minutes": 75
+   },
+   {
+    "key": "prep",
+    "title": "الاستعداد للنوم: محاسبة وترتيب الغد",
+    "role": "SELF",
+    "start": "20:15",
+    "end": "20:45",
+    "minutes": 30
+   },
+   {
+    "key": "witr",
+    "title": "الوتر وأذكار النوم",
+    "role": "WORSHIP",
+    "start": "20:45",
+    "end": "21:00",
+    "minutes": 15
+   }
+  ]
+ },
+ "sulaymaniyah-shafi:2026-10-16": {
+  "times": {
+   "fajr": "04:33",
+   "sunrise": "06:05",
+   "dhuhr": "11:45",
+   "asr": "14:54",
+   "maghrib": "17:22",
+   "isha": "18:44"
+  },
+  "night_plan": {
+   "bedtime": 1260,
+   "wake": 1694,
+   "qiyam": true,
+   "witr_before_sleep": false,
+   "night_sleep": 434,
+   "nap": 20,
+   "total": 454,
+   "shortfall": 0
+  },
+  "notes": [],
+  "blocks": [
+   {
+    "key": "qiyam",
+    "title": "السَّحَر: ركعتان والوتر",
+    "role": "WORSHIP",
+    "start": "04:13",
+    "end": "04:33",
+    "minutes": 20
+   },
+   {
+    "key": "fajr",
+    "title": "صلاة الفجر جماعة",
+    "role": "WORSHIP",
+    "start": "04:33",
+    "end": "04:58",
+    "minutes": 25
+   },
+   {
+    "key": "ghadwa",
+    "title": "ورد الغدوة: أذكار وقرآن، بلا تلفون",
+    "role": "WORSHIP",
+    "start": "04:58",
+    "end": "06:05",
+    "minutes": 67
+   },
+   {
+    "key": "light",
+    "title": "ضوء الشمس ومشي وفطور مع الأهل",
+    "role": "BODY",
+    "start": "06:05",
+    "end": "06:45",
+    "minutes": 40
+   },
+   {
+    "key": "self_am",
+    "title": "وقت لك أو للأسرة",
+    "role": "SELF",
+    "start": "06:45",
+    "end": "10:45",
+    "minutes": 240
+   },
+   {
+    "key": "jumua_prep",
+    "title": "التبكير للجمعة: غُسل وسورة الكهف",
+    "role": "WORSHIP",
+    "start": "10:45",
+    "end": "11:45",
+    "minutes": 60
+   },
+   {
+    "key": "jumua",
+    "title": "الجمعة: الخطبة والصلاة",
+    "role": "WORSHIP",
+    "start": "11:45",
+    "end": "12:35",
+    "minutes": 50
+   },
+   {
+    "key": "lunch",
+    "title": "غداء مع الأسرة",
+    "role": "SPOUSE",
+    "start": "12:35",
+    "end": "13:15",
+    "minutes": 40
+   },
+   {
+    "key": "nap",
+    "title": "قيلولة 20 دقيقة",
+    "role": "BODY",
+    "start": "13:15",
+    "end": "13:35",
+    "minutes": 20
+   },
+   {
+    "key": "visit",
+    "title": "صلة الرحم ونزهة الأبناء",
+    "role": "CHILD",
+    "start": "13:35",
+    "end": "14:54",
+    "minutes": 79
+   },
+   {
+    "key": "asr",
+    "title": "صلاة العصر",
+    "role": "WORSHIP",
+    "start": "14:54",
+    "end": "15:06",
+    "minutes": 12
+   },
+   {
+    "key": "free",
+    "title": "فراغ مباح مع الأهل",
+    "role": "SELF",
+    "start": "15:06",
+    "end": "16:22",
+    "minutes": 76
+   },
+   {
+    "key": "dua",
+    "title": "بلا تلفون: دعاء آخر ساعة من الجمعة",
+    "role": "WORSHIP",
+    "start": "16:22",
+    "end": "17:22",
+    "minutes": 60
+   },
+   {
+    "key": "maghrib",
+    "title": "صلاة المغرب",
+    "role": "WORSHIP",
+    "start": "17:22",
+    "end": "17:37",
+    "minutes": 15
+   },
+   {
+    "key": "family",
+    "title": "الأسرة: عشاء وحديث مع الزوجة",
+    "role": "SPOUSE",
+    "start": "17:37",
+    "end": "18:44",
+    "minutes": 67
+   },
+   {
+    "key": "isha",
+    "title": "صلاة العشاء",
+    "role": "WORSHIP",
+    "start": "18:44",
+    "end": "18:59",
+    "minutes": 15
+   },
+   {
+    "key": "self",
+    "title": "وقت لك: قراءة أو تعلم خفيف",
+    "role": "SELF",
+    "start": "18:59",
+    "end": "20:15",
+    "minutes": 76
+   },
+   {
+    "key": "prep",
+    "title": "الاستعداد للنوم: محاسبة وترتيب الغد",
+    "role": "SELF",
+    "start": "20:15",
+    "end": "20:45",
+    "minutes": 30
+   },
+   {
+    "key": "witr",
+    "title": "الوتر وأذكار النوم",
+    "role": "WORSHIP",
+    "start": "20:45",
+    "end": "21:00",
+    "minutes": 15
+   }
+  ]
+ },
+ "sulaymaniyah-shafi:2026-12-21": {
+  "times": {
+   "fajr": "05:25",
+   "sunrise": "07:04",
+   "dhuhr": "11:57",
+   "asr": "14:31",
+   "maghrib": "16:49",
+   "isha": "18:18"
+  },
+  "night_plan": {
+   "bedtime": 1260,
+   "wake": 1745,
+   "qiyam": true,
+   "witr_before_sleep": false,
+   "night_sleep": 485,
+   "nap": 20,
+   "total": 505,
+   "shortfall": 0
+  },
+  "notes": [],
+  "blocks": [
+   {
+    "key": "qiyam",
+    "title": "السَّحَر: ركعتان والوتر",
+    "role": "WORSHIP",
+    "start": "05:05",
+    "end": "05:25",
+    "minutes": 20
+   },
+   {
+    "key": "fajr",
+    "title": "صلاة الفجر جماعة",
+    "role": "WORSHIP",
+    "start": "05:25",
+    "end": "05:50",
+    "minutes": 25
+   },
+   {
+    "key": "ghadwa",
+    "title": "ورد الغدوة: أذكار وقرآن، بلا تلفون",
+    "role": "WORSHIP",
+    "start": "05:50",
+    "end": "07:04",
+    "minutes": 74
+   },
+   {
+    "key": "light",
+    "title": "ضوء الشمس ومشي وفطور",
+    "role": "BODY",
+    "start": "07:04",
+    "end": "07:29",
+    "minutes": 25
+   },
+   {
+    "key": "deep1",
+    "title": "تركيز: أصعب مهمة",
+    "role": "DEV",
+    "start": "07:29",
+    "end": "08:59",
+    "minutes": 90
+   },
+   {
+    "key": "duha",
+    "title": "استراحة وركعتا الضحى",
+    "role": "WORSHIP",
+    "start": "08:59",
+    "end": "09:19",
+    "minutes": 20
+   },
+   {
+    "key": "deep2",
+    "title": "تركيز: الكتلة الثانية",
+    "role": "DEV",
+    "start": "09:19",
+    "end": "10:49",
+    "minutes": 90
+   },
+   {
+    "key": "msgs1",
+    "title": "نافذة الرسائل",
+    "role": "BUSINESS",
+    "start": "10:49",
+    "end": "11:09",
+    "minutes": 20
+   },
+   {
+    "key": "work1",
+    "title": "العمل: اتصالات ومتابعة",
+    "role": "BUSINESS",
+    "start": "11:09",
+    "end": "11:57",
+    "minutes": 48
+   },
+   {
+    "key": "dhuhr",
+    "title": "صلاة الظهر وغداء خفيف",
+    "role": "WORSHIP",
+    "start": "11:57",
+    "end": "12:37",
+    "minutes": 40
+   },
+   {
+    "key": "nap",
+    "title": "قيلولة 20 دقيقة",
+    "role": "BODY",
+    "start": "12:37",
+    "end": "12:57",
+    "minutes": 20
+   },
+   {
+    "key": "work2",
+    "title": "العمل: ميدان واجتماعات",
+    "role": "BUSINESS",
+    "start": "12:57",
+    "end": "14:31",
+    "minutes": 94
+   },
+   {
+    "key": "asr",
+    "title": "صلاة العصر",
+    "role": "WORSHIP",
+    "start": "14:31",
+    "end": "14:43",
+    "minutes": 12
+   },
+   {
+    "key": "train",
+    "title": "تدريب أو تعلم (حسب اليوم)",
+    "role": "BODY",
+    "start": "14:43",
+    "end": "15:43",
+    "minutes": 60
+   },
+   {
+    "key": "close",
+    "title": "الرسائل وإغلاق يوم العمل",
+    "role": "BUSINESS",
+    "start": "15:43",
+    "end": "16:03",
+    "minutes": 20
+   },
+   {
+    "key": "child",
+    "title": "وقت الابن وأذكار المساء",
+    "role": "CHILD",
+    "start": "16:03",
+    "end": "16:49",
+    "minutes": 46
+   },
+   {
+    "key": "maghrib",
+    "title": "صلاة المغرب",
+    "role": "WORSHIP",
+    "start": "16:49",
+    "end": "17:04",
+    "minutes": 15
+   },
+   {
+    "key": "family",
+    "title": "الأسرة: عشاء وحديث مع الزوجة",
+    "role": "SPOUSE",
+    "start": "17:04",
+    "end": "18:18",
+    "minutes": 74
+   },
+   {
+    "key": "isha",
+    "title": "صلاة العشاء",
+    "role": "WORSHIP",
+    "start": "18:18",
+    "end": "18:33",
+    "minutes": 15
+   },
+   {
+    "key": "self",
+    "title": "وقت لك: قراءة أو تعلم خفيف",
+    "role": "SELF",
+    "start": "18:33",
+    "end": "20:15",
+    "minutes": 102
+   },
+   {
+    "key": "prep",
+    "title": "الاستعداد للنوم: محاسبة وترتيب الغد",
+    "role": "SELF",
+    "start": "20:15",
+    "end": "20:45",
+    "minutes": 30
+   },
+   {
+    "key": "witr",
+    "title": "الوتر وأذكار النوم",
+    "role": "WORSHIP",
+    "start": "20:45",
+    "end": "21:00",
+    "minutes": 15
+   }
+  ]
+ },
+ "sulaymaniyah-hanafi:2026-01-10": {
+  "times": {
+   "fajr": "05:30",
+   "sunrise": "07:08",
+   "dhuhr": "12:07",
+   "asr": "15:25",
+   "maghrib": "17:04",
+   "isha": "18:31"
+  },
+  "night_plan": {
+   "bedtime": 1260,
+   "wake": 1750,
+   "qiyam": true,
+   "witr_before_sleep": false,
+   "night_sleep": 490,
+   "nap": 20,
+   "total": 510,
+   "shortfall": 0
+  },
+  "notes": [
+   "shrunk:close",
+   "shrunk:train"
+  ],
+  "blocks": [
+   {
+    "key": "qiyam",
+    "title": "السَّحَر: ركعتان والوتر",
+    "role": "WORSHIP",
+    "start": "05:10",
+    "end": "05:30",
+    "minutes": 20
+   },
+   {
+    "key": "fajr",
+    "title": "صلاة الفجر جماعة",
+    "role": "WORSHIP",
+    "start": "05:30",
+    "end": "05:55",
+    "minutes": 25
+   },
+   {
+    "key": "ghadwa",
+    "title": "ورد الغدوة: أذكار وقرآن، بلا تلفون",
+    "role": "WORSHIP",
+    "start": "05:55",
+    "end": "07:08",
+    "minutes": 73
+   },
+   {
+    "key": "light",
+    "title": "ضوء الشمس ومشي وفطور",
+    "role": "BODY",
+    "start": "07:08",
+    "end": "07:33",
+    "minutes": 25
+   },
+   {
+    "key": "deep1",
+    "title": "تركيز: أصعب مهمة",
+    "role": "DEV",
+    "start": "07:33",
+    "end": "09:03",
+    "minutes": 90
+   },
+   {
+    "key": "duha",
+    "title": "استراحة وركعتا الضحى",
+    "role": "WORSHIP",
+    "start": "09:03",
+    "end": "09:23",
+    "minutes": 20
+   },
+   {
+    "key": "deep2",
+    "title": "تركيز: الكتلة الثانية",
+    "role": "DEV",
+    "start": "09:23",
+    "end": "10:53",
+    "minutes": 90
+   },
+   {
+    "key": "msgs1",
+    "title": "نافذة الرسائل",
+    "role": "BUSINESS",
+    "start": "10:53",
+    "end": "11:13",
+    "minutes": 20
+   },
+   {
+    "key": "work1",
+    "title": "العمل: اتصالات ومتابعة",
+    "role": "BUSINESS",
+    "start": "11:13",
+    "end": "12:07",
+    "minutes": 54
+   },
+   {
+    "key": "dhuhr",
+    "title": "صلاة الظهر وغداء خفيف",
+    "role": "WORSHIP",
+    "start": "12:07",
+    "end": "12:47",
+    "minutes": 40
+   },
+   {
+    "key": "nap",
+    "title": "قيلولة 20 دقيقة",
+    "role": "BODY",
+    "start": "12:47",
+    "end": "13:07",
+    "minutes": 20
+   },
+   {
+    "key": "work2",
+    "title": "العمل: ميدان واجتماعات",
+    "role": "BUSINESS",
+    "start": "13:07",
+    "end": "15:25",
+    "minutes": 138
+   },
+   {
+    "key": "asr",
+    "title": "صلاة العصر",
+    "role": "WORSHIP",
+    "start": "15:25",
+    "end": "15:37",
+    "minutes": 12
+   },
+   {
+    "key": "train",
+    "title": "تدريب أو تعلم (حسب اليوم)",
+    "role": "BODY",
+    "start": "15:37",
+    "end": "16:24",
+    "minutes": 47
+   },
+   {
+    "key": "close",
+    "title": "الرسائل وإغلاق يوم العمل",
+    "role": "BUSINESS",
+    "start": "16:24",
+    "end": "16:34",
+    "minutes": 10
+   },
+   {
+    "key": "child",
+    "title": "وقت الابن وأذكار المساء",
+    "role": "CHILD",
+    "start": "16:34",
+    "end": "17:04",
+    "minutes": 30
+   },
+   {
+    "key": "maghrib",
+    "title": "صلاة المغرب",
+    "role": "WORSHIP",
+    "start": "17:04",
+    "end": "17:19",
+    "minutes": 15
+   },
+   {
+    "key": "family",
+    "title": "الأسرة: عشاء وحديث مع الزوجة",
+    "role": "SPOUSE",
+    "start": "17:19",
+    "end": "18:31",
+    "minutes": 72
+   },
+   {
+    "key": "isha",
+    "title": "صلاة العشاء",
+    "role": "WORSHIP",
+    "start": "18:31",
+    "end": "18:46",
+    "minutes": 15
+   },
+   {
+    "key": "self",
+    "title": "وقت لك: قراءة أو تعلم خفيف",
+    "role": "SELF",
+    "start": "18:46",
+    "end": "20:15",
+    "minutes": 89
+   },
+   {
+    "key": "prep",
+    "title": "الاستعداد للنوم: محاسبة وترتيب الغد",
+    "role": "SELF",
+    "start": "20:15",
+    "end": "20:45",
+    "minutes": 30
+   },
+   {
+    "key": "witr",
+    "title": "الوتر وأذكار النوم",
+    "role": "WORSHIP",
+    "start": "20:45",
+    "end": "21:00",
+    "minutes": 15
+   }
+  ]
+ },
+ "london-shafi:2026-06-21": {
+  "times": {
+   "fajr": "03:40",
+   "sunrise": "04:43",
+   "dhuhr": "13:03",
+   "asr": "17:25",
+   "maghrib": "21:22",
+   "isha": "22:25"
+  },
+  "night_plan": {
+   "bedtime": 1375,
+   "wake": 1650,
+   "qiyam": false,
+   "witr_before_sleep": true,
+   "night_sleep": 275,
+   "nap": 90,
+   "total": 365,
+   "shortfall": 55
+  },
+  "notes": [
+   "shrunk:prep",
+   "dropped:prep"
+  ],
+  "blocks": [
+   {
+    "key": "fajr",
+    "title": "صلاة الفجر جماعة",
+    "role": "WORSHIP",
+    "start": "03:40",
+    "end": "04:05",
+    "minutes": 25
+   },
+   {
+    "key": "ghadwa",
+    "title": "ورد الغدوة: أذكار وقرآن، بلا تلفون",
+    "role": "WORSHIP",
+    "start": "04:05",
+    "end": "04:43",
+    "minutes": 38
+   },
+   {
+    "key": "light",
+    "title": "ضوء الشمس ومشي وفطور",
+    "role": "BODY",
+    "start": "04:43",
+    "end": "05:08",
+    "minutes": 25
+   },
+   {
+    "key": "deep1",
+    "title": "تركيز: أصعب مهمة",
+    "role": "DEV",
+    "start": "05:08",
+    "end": "06:38",
+    "minutes": 90
+   },
+   {
+    "key": "duha",
+    "title": "استراحة وركعتا الضحى",
+    "role": "WORSHIP",
+    "start": "06:38",
+    "end": "06:58",
+    "minutes": 20
+   },
+   {
+    "key": "deep2",
+    "title": "تركيز: الكتلة الثانية",
+    "role": "DEV",
+    "start": "06:58",
+    "end": "08:28",
+    "minutes": 90
+   },
+   {
+    "key": "msgs1",
+    "title": "نافذة الرسائل",
+    "role": "BUSINESS",
+    "start": "08:28",
+    "end": "08:48",
+    "minutes": 20
+   },
+   {
+    "key": "work1",
+    "title": "العمل: اتصالات ومتابعة",
+    "role": "BUSINESS",
+    "start": "08:48",
+    "end": "13:03",
+    "minutes": 255
+   },
+   {
+    "key": "dhuhr",
+    "title": "صلاة الظهر وغداء خفيف",
+    "role": "WORSHIP",
+    "start": "13:03",
+    "end": "13:43",
+    "minutes": 40
+   },
+   {
+    "key": "nap",
+    "title": "قيلولة 90 دقيقة",
+    "role": "BODY",
+    "start": "13:43",
+    "end": "15:13",
+    "minutes": 90
+   },
+   {
+    "key": "work2",
+    "title": "العمل: ميدان واجتماعات",
+    "role": "BUSINESS",
+    "start": "15:13",
+    "end": "17:25",
+    "minutes": 132
+   },
+   {
+    "key": "asr",
+    "title": "صلاة العصر",
+    "role": "WORSHIP",
+    "start": "17:25",
+    "end": "17:37",
+    "minutes": 12
+   },
+   {
+    "key": "train",
+    "title": "تدريب أو تعلم (حسب اليوم)",
+    "role": "BODY",
+    "start": "17:37",
+    "end": "18:37",
+    "minutes": 60
+   },
+   {
+    "key": "close",
+    "title": "الرسائل وإغلاق يوم العمل",
+    "role": "BUSINESS",
+    "start": "18:37",
+    "end": "18:57",
+    "minutes": 20
+   },
+   {
+    "key": "child",
+    "title": "وقت الابن وأذكار المساء",
+    "role": "CHILD",
+    "start": "18:57",
+    "end": "21:22",
+    "minutes": 145
+   },
+   {
+    "key": "maghrib",
+    "title": "صلاة المغرب",
+    "role": "WORSHIP",
+    "start": "21:22",
+    "end": "21:37",
+    "minutes": 15
+   },
+   {
+    "key": "family",
+    "title": "الأسرة: عشاء وحديث مع الزوجة",
+    "role": "SPOUSE",
+    "start": "21:37",
+    "end": "22:25",
+    "minutes": 48
+   },
+   {
+    "key": "isha",
+    "title": "صلاة العشاء",
+    "role": "WORSHIP",
+    "start": "22:25",
+    "end": "22:40",
+    "minutes": 15
+   },
+   {
+    "key": "witr",
+    "title": "الوتر وأذكار النوم",
+    "role": "WORSHIP",
+    "start": "22:40",
+    "end": "22:55",
+    "minutes": 15
+   }
+  ]
+ },
+ "london-shafi:2026-12-21": {
+  "times": {
+   "fajr": "05:59",
+   "sunrise": "08:04",
+   "dhuhr": "11:59",
+   "asr": "13:38",
+   "maghrib": "15:53",
+   "isha": "17:51"
+  },
+  "night_plan": {
+   "bedtime": 1260,
+   "wake": 1779,
+   "qiyam": true,
+   "witr_before_sleep": false,
+   "night_sleep": 519,
+   "nap": 20,
+   "total": 539,
+   "shortfall": 0
+  },
+  "notes": [
+   "shrunk:deep2"
+  ],
+  "blocks": [
+   {
+    "key": "qiyam",
+    "title": "السَّحَر: ركعتان والوتر",
+    "role": "WORSHIP",
+    "start": "05:39",
+    "end": "05:59",
+    "minutes": 20
+   },
+   {
+    "key": "fajr",
+    "title": "صلاة الفجر جماعة",
+    "role": "WORSHIP",
+    "start": "05:59",
+    "end": "06:24",
+    "minutes": 25
+   },
+   {
+    "key": "ghadwa",
+    "title": "ورد الغدوة: أذكار وقرآن، بلا تلفون",
+    "role": "WORSHIP",
+    "start": "06:24",
+    "end": "08:04",
+    "minutes": 100
+   },
+   {
+    "key": "light",
+    "title": "ضوء الشمس ومشي وفطور",
+    "role": "BODY",
+    "start": "08:04",
+    "end": "08:29",
+    "minutes": 25
+   },
+   {
+    "key": "deep1",
+    "title": "تركيز: أصعب مهمة",
+    "role": "DEV",
+    "start": "08:29",
+    "end": "09:59",
+    "minutes": 90
+   },
+   {
+    "key": "duha",
+    "title": "استراحة وركعتا الضحى",
+    "role": "WORSHIP",
+    "start": "09:59",
+    "end": "10:19",
+    "minutes": 20
+   },
+   {
+    "key": "deep2",
+    "title": "تركيز: الكتلة الثانية",
+    "role": "DEV",
+    "start": "10:19",
+    "end": "11:39",
+    "minutes": 80
+   },
+   {
+    "key": "msgs1",
+    "title": "نافذة الرسائل",
+    "role": "BUSINESS",
+    "start": "11:39",
+    "end": "11:59",
+    "minutes": 20
+   },
+   {
+    "key": "dhuhr",
+    "title": "صلاة الظهر وغداء خفيف",
+    "role": "WORSHIP",
+    "start": "11:59",
+    "end": "12:39",
+    "minutes": 40
+   },
+   {
+    "key": "nap",
+    "title": "قيلولة 20 دقيقة",
+    "role": "BODY",
+    "start": "12:39",
+    "end": "12:59",
+    "minutes": 20
+   },
+   {
+    "key": "work2",
+    "title": "العمل: ميدان واجتماعات",
+    "role": "BUSINESS",
+    "start": "12:59",
+    "end": "13:38",
+    "minutes": 39
+   },
+   {
+    "key": "asr",
+    "title": "صلاة العصر",
+    "role": "WORSHIP",
+    "start": "13:38",
+    "end": "13:50",
+    "minutes": 12
+   },
+   {
+    "key": "train",
+    "title": "تدريب أو تعلم (حسب اليوم)",
+    "role": "BODY",
+    "start": "13:50",
+    "end": "14:50",
+    "minutes": 60
+   },
+   {
+    "key": "close",
+    "title": "الرسائل وإغلاق يوم العمل",
+    "role": "BUSINESS",
+    "start": "14:50",
+    "end": "15:10",
+    "minutes": 20
+   },
+   {
+    "key": "child",
+    "title": "وقت الابن وأذكار المساء",
+    "role": "CHILD",
+    "start": "15:10",
+    "end": "15:53",
+    "minutes": 43
+   },
+   {
+    "key": "maghrib",
+    "title": "صلاة المغرب",
+    "role": "WORSHIP",
+    "start": "15:53",
+    "end": "16:08",
+    "minutes": 15
+   },
+   {
+    "key": "family",
+    "title": "الأسرة: عشاء وحديث مع الزوجة",
+    "role": "SPOUSE",
+    "start": "16:08",
+    "end": "17:51",
+    "minutes": 103
+   },
+   {
+    "key": "isha",
+    "title": "صلاة العشاء",
+    "role": "WORSHIP",
+    "start": "17:51",
+    "end": "18:06",
+    "minutes": 15
+   },
+   {
+    "key": "self",
+    "title": "وقت لك: قراءة أو تعلم خفيف",
+    "role": "SELF",
+    "start": "18:06",
+    "end": "20:15",
+    "minutes": 129
+   },
+   {
+    "key": "prep",
+    "title": "الاستعداد للنوم: محاسبة وترتيب الغد",
+    "role": "SELF",
+    "start": "20:15",
+    "end": "20:45",
+    "minutes": 30
+   },
+   {
+    "key": "witr",
+    "title": "الوتر وأذكار النوم",
+    "role": "WORSHIP",
+    "start": "20:45",
+    "end": "21:00",
+    "minutes": 15
+   }
+  ]
+ }
+}

@@ -166,17 +166,21 @@ it never issues religious rulings.
 6. Before ending, update `docs/DECISIONS.md`.
 
 ## Commands
-Verified in step 1 (2026-10-27) in GitHub Actions (run 4: BUILD SUCCESSFUL, `testAndroidHostTest` ran
-ArabicDateTest 2/2, lint ran, APK uploaded). Gradle 9.6.0 through the wrapper; JDK 17 in CI.
+Verified in GitHub Actions on 2026-10-27 (run 10, step 5: BUILD SUCCESSFUL; host tests ArabicDate 2,
+PrayerTimesReference 2, DayReference 5, Checklist 3, SettingsCodec 4; JVM tests YawmDatabase 4 plus the
+common tests; lint ran; APK uploaded). Gradle 9.6.0 through the wrapper. CI installs JDK 21 and 17:
+Gradle and the app build on 17, the tests run on 21 (adhan2-jvm is Java 21 bytecode).
 Not yet run in the cloud session itself (see the `dl.google.com` note below).
 
 | What | Command |
 | --- | --- |
 | Tests, checks and the debug APK (what CI runs) | `./gradlew build assembleDebug` |
-| Only the shared logic tests (results: `shared/build/test-results/testAndroidHostTest/`) | `./gradlew :shared:testAndroidHostTest` |
+| Logic and reference tests (results: `shared/build/test-results/testAndroidHostTest/`) | `./gradlew :shared:testAndroidHostTest` |
+| Database tests on the JVM (results: `shared/build/test-results/jvmTest/`) | `./gradlew :shared:jvmTest` |
 | Debug APK only | `./gradlew :androidApp:assembleDebug` → `androidApp/build/outputs/apk/debug/androidApp-debug.apk` |
 
-CI: `.github/workflows/ci.yml` runs on every push and uploads the artifact `yawm-debug-apk`.
+CI: `.github/workflows/ci.yml` runs on every push, prints the Room schema and uploads the artifact
+`yawm-debug-apk`. The Room schema of each database version lives in `shared/schemas/` and is committed.
 The cloud session cannot reach `dl.google.com` yet, so builds run in CI until the owner allows it.
 
 Owner: install the APK on the phone

@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dcc.yawm.shared.SimpleDate
+import com.dcc.yawm.shared.day.DayResolver
 import com.dcc.yawm.shared.day.arabicDate
 import com.dcc.yawm.shared.prayer.AsrMadhab
 import com.dcc.yawm.shared.prayer.CalcMethod
@@ -29,11 +30,14 @@ import com.dcc.yawm.shared.prayer.GeoPoint
 import com.dcc.yawm.shared.prayer.Prayer
 import com.dcc.yawm.shared.prayer.PrayerSettings
 import com.dcc.yawm.shared.prayer.PrayerTimesEngine
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-// Test screen for steps 1 and 2 only. The Ink identity (docs/design/IDENTITY.md) arrives in step 7.
+// Test screen for steps 1 to 4 only. The Ink identity (docs/design/IDENTITY.md) arrives in step 7.
 private val Paper = Color(0xFFFFFFFF)
 private val Ink = Color(0xFF121212)
 private val Grey = Color(0xFF77736C)
@@ -53,9 +57,20 @@ private fun hhmm(times: DayPrayerTimes, p: Prayer): String {
     return "${t.hour.toString().padStart(2, '0')}:${t.minute.toString().padStart(2, '0')}"
 }
 
+private fun clock(minutes: Int): String {
+    val m = minutes.mod(1440)
+    return "${(m / 60).toString().padStart(2, '0')}:${(m % 60).toString().padStart(2, '0')}"
+}
+
 @Composable
 fun App(today: SimpleDate) {
-    val times = PrayerTimesEngine.compute(TestPlace, LocalDate(today.year, today.month, today.day), TestZone, TestSettings)
+    val date = LocalDate(today.year, today.month, today.day)
+    val times = PrayerTimesEngine.compute(TestPlace, date, TestZone, TestSettings)
+    val night = DayResolver.resolve(
+        PrayerTimesEngine.compute(TestPlace, date.minus(1, DateTimeUnit.DAY), TestZone, TestSettings),
+        times,
+        PrayerTimesEngine.compute(TestPlace, date.plus(1, DateTimeUnit.DAY), TestZone, TestSettings),
+    ).plan
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Column(
             modifier = Modifier.fillMaxSize().background(Paper).padding(28.dp),
@@ -74,6 +89,13 @@ fun App(today: SimpleDate) {
                     BasicText(hhmm(times, p), style = TextStyle(color = Ink, fontSize = 20.sp, fontWeight = FontWeight.Bold))
                 }
             }
+            BasicText(
+                "الليلة: تنام ${clock(night.bedtime)}، وتكعد ${clock(night.wake)}" + (if (night.qiyam) " للسَّحَر" else "") +
+                    "\nنوم الليل ${night.nightSleep / 60}:${(night.nightSleep % 60).toString().padStart(2, '0')}، وقيلولة ${night.nap} دقيقة" +
+                    (if (night.shortfall > 0) "\nينقصك ${night.shortfall} دقيقة عن 7 ساعات" else ""),
+                style = TextStyle(color = Ink, fontSize = 17.sp, textAlign = TextAlign.Center),
+                modifier = Modifier.padding(top = 20.dp),
+            )
             BasicText(
                 "حسب الهيئة المصرية العامة للمساحة، والعصر بالمذهب الشافعي",
                 style = TextStyle(color = Grey, fontSize = 14.sp, textAlign = TextAlign.Center),

@@ -58,6 +58,8 @@ fun NightScreen(day: DayView, t: Int, settings: UserSettings, save: (UserSetting
         }
     }
 
+    ReviewedQuote(if (p.qiyam) "h-dawud" else "h-witr-before-sleep")
+
     Heading("ليلتك خطوة بخطوة")
     val steps = day.nightSteps()
     val current = steps.indexOfLast { t >= it.start }

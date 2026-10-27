@@ -58,6 +58,7 @@ fun PageScreen(
         }
     }
 
+    ReviewedQuote("h-qadamaa")
     Heading("ثلاث أسئلة قبل النوم")
     // Filled from what is saved once it loads; typing keeps its own state until «احفظ».
     var answers by remember(saved) { mutableStateOf(listOf(saved?.didToday.orEmpty(), saved?.lostTime.orEmpty(), saved?.tomorrowTopThree.orEmpty())) }

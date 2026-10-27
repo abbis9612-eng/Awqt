@@ -114,6 +114,7 @@ fun ReviewScreen(week: WeekView, pointsDone: Int, pointsPossible: Int, close: ()
     Row(Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.End) { PillButton("رجوع", close) }
     InkWord("المراجعة", if (pointsPossible == 0) 0f else pointsDone.toFloat() / pointsPossible, 104.dp, "نقاط الأسبوع $pointsDone من $pointsPossible")
     When(listOf("نقاط الأسبوع " to false, "$pointsDone" to true, " من " to false, "$pointsPossible" to true))
+    ReviewedQuote("h-ghabn")
     Heading("خمس خطوات، 45 دقيقة")
     ReviewSteps.forEachIndexed { i, s ->
         ListRow(divider = i < ReviewSteps.lastIndex) {

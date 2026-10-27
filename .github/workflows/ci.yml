@@ -28,6 +28,10 @@ jobs:
       # Also validates the Gradle wrapper jar.
       - uses: gradle/actions/setup-gradle@v6
 
+      # Rule 6: only reviewed religious texts may reach the app, and the app's copy must match.
+      - name: Reviewed texts are in sync
+        run: python3 tools/content_to_kotlin.py --check
+
       - name: Tests, checks and the debug APK
         run: ./gradlew build assembleDebug --stacktrace
 

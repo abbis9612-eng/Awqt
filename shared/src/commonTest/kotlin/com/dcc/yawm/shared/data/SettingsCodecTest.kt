@@ -31,6 +31,8 @@ class SettingsCodecTest {
             bedtime = 22 * 60 + 15,
             qiyamEnabled = false,
             roles = setOf(Role.WORSHIP, Role.BODY, Role.CHILD),
+            blockReminders = false,
+            wakeAlarm = false,
         )
         assertEquals(london, decodeSettings(encodeSettings(london)))
         assertEquals(UserSettings(), decodeSettings(encodeSettings(UserSettings())))

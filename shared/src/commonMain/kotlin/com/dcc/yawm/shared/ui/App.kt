@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dcc.yawm.shared.SimpleDate
+import com.dcc.yawm.shared.alarm.DeviceControls
+import com.dcc.yawm.shared.alarm.batteryAdvice
 import com.dcc.yawm.shared.data.UserSettings
 import com.dcc.yawm.shared.data.YawmData
 import com.dcc.yawm.shared.day.ChecklistPoint
@@ -69,10 +71,11 @@ private fun clock(minutes: Int): String {
 }
 
 @Composable
-fun App(today: SimpleDate, data: YawmData) {
+fun App(today: SimpleDate, data: YawmData, device: DeviceControls) {
     val date = LocalDate(today.year, today.month, today.day)
     val settings by remember { data.settings.settings }.collectAsState(UserSettings())
     val done by remember(date) { data.dayLog.doneOn(date) }.collectAsState(emptySet())
+    val status by device.status.collectAsState()
     val scope = rememberCoroutineScope()
     val zone = runCatching { TimeZone.of(settings.zoneId) }.getOrElse { TimeZone.of(UserSettings().zoneId) }
     fun timesOn(d: LocalDate) = PrayerTimesEngine.compute(settings.place, d, zone, settings.prayer)
@@ -134,6 +137,83 @@ fun App(today: SimpleDate, data: YawmData) {
                     BasicText(if (isDone) "✓" else "○", style = TextStyle(color = Ink, fontSize = 22.sp, fontWeight = FontWeight.Bold))
                 }
             }
+            AlarmSection(status, device, settings) { changed ->
+                scope.launch {
+                    data.settings.save(changed)
+                    device.reschedule()
+                }
+            }
         }
     }
+}
+
+// Step 6 test section: permissions, the battery self-check and the alarm switches.
+@Composable
+private fun AlarmSection(
+    status: com.dcc.yawm.shared.alarm.DeviceStatus,
+    device: DeviceControls,
+    settings: UserSettings,
+    save: (UserSettings) -> Unit,
+) {
+    BasicText(
+        "التنبيهات",
+        style = TextStyle(color = Ink, fontSize = 20.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center),
+        modifier = Modifier.padding(top = 32.dp, bottom = 4.dp),
+    )
+    BasicText(
+        status.next?.let { "التنبيه الجاي: $it · ${status.scheduledCount} تنبيه لـ48 ساعة" } ?: "ما مضبوط أي تنبيه بعد",
+        style = TextStyle(color = Grey, fontSize = 15.sp, textAlign = TextAlign.Center),
+    )
+    CheckRow("الإشعارات مسموحة", status.notificationsAllowed, "اسمح", device::requestNotifications)
+    CheckRow("الأذان بالدقيقة (المنبهات والتذكيرات)", status.exactAlarmsAllowed, "افتح الإعداد", device::openExactAlarmSettings)
+    if (!status.exactAlarmsAllowed) {
+        Note("بدون هذا الإذن الأذان ممكن يتأخر دقائق. افتح الإعداد وفعّل «السماح بضبط المنبهات والتذكيرات» لـ«يوم».")
+    }
+    CheckRow("البطارية ما توقف التطبيق", status.batteryUnrestricted, "افتح الإعداد", device::openBatterySettings)
+    if (!status.batteryUnrestricted) {
+        Note("بالقائمة اختار «كل التطبيقات» ثم «يوم» ثم «لا تحسّن».")
+    }
+    for (step in batteryAdvice(status.manufacturer)) Note(step)
+    ActionRow("صوت الأذان: اختاره من أصوات تلفونك", device::openAdhanSound)
+    ToggleRow("تذكير ببداية كل فقرة", settings.blockReminders) { save(settings.copy(blockReminders = it)) }
+    ToggleRow("منبّه الكعدة قبل الفجر", settings.wakeAlarm) { save(settings.copy(wakeAlarm = it)) }
+}
+
+@Composable
+private fun CheckRow(label: String, ok: Boolean, action: String, onClick: () -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().heightIn(min = 48.dp).clickable(enabled = !ok, onClick = onClick).padding(vertical = 6.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        BasicText(label, style = TextStyle(color = Ink, fontSize = 17.sp), modifier = Modifier.weight(1f))
+        BasicText(if (ok) "✓" else "✗ $action", style = TextStyle(color = Ink, fontSize = 17.sp, fontWeight = FontWeight.Bold))
+    }
+}
+
+@Composable
+private fun ToggleRow(label: String, on: Boolean, onChange: (Boolean) -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().heightIn(min = 48.dp).clickable { onChange(!on) }.padding(vertical = 6.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        BasicText(label, style = TextStyle(color = Ink, fontSize = 17.sp), modifier = Modifier.weight(1f))
+        BasicText(if (on) "شغّال" else "مطفي", style = TextStyle(color = Ink, fontSize = 17.sp, fontWeight = FontWeight.Bold))
+    }
+}
+
+@Composable
+private fun ActionRow(label: String, onClick: () -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().heightIn(min = 48.dp).clickable(onClick = onClick).padding(vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        BasicText(label + " ←", style = TextStyle(color = Ink, fontSize = 17.sp, fontWeight = FontWeight.Bold))
+    }
+}
+
+@Composable
+private fun Note(text: String) {
+    BasicText(text, style = TextStyle(color = Grey, fontSize = 14.sp), modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp))
 }

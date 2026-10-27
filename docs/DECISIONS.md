@@ -42,6 +42,12 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
 | 2026-10-27 | Step 5 versions, checked today: Room 3.0.3 (`androidx.room3`, latest stable 2026-10-21; 3.1.0-alpha03 not used), androidx.sqlite bundled 2.7.1, KSP 2.3.12 (latest stable 2026-09-09; the Kotlin docs table still lists KSP 2.3.10 for Kotlin up to 2.3.x, but 2.3.10 fixed Kotlin 2.4 support: CI is the proof), kotlinx-coroutines 1.11.0 | Room 3 needs KSP and a SQLite driver; Room brings coroutines only at runtime, we use `Flow` directly | KSP states a different Kotlin range |
 | 2026-10-27 | Storage: one Room database `yawm.db` with four tables: `setting` (key/value, typed through `UserSettings`; an unreadable value falls back to its default), `template_block` (user changes per day type and block; the resolver ignores it until the edit scope below is decided), `checklist_mark` (a row = point done that date) and `day_page` (the three evening answers). Dates are ISO text in the city's zone. Bundled SQLite driver | Step 5 of PRODUCT.md; same SQLite on every phone | Encryption becomes required → SQLDelight + SQLCipher |
 | 2026-10-27 | `:shared` has a plain `jvm()` target only to run the Room tests on the CI host (real file database, closed and reopened). No desktop app | Android host tests cannot load Android's native SQLite | Robolectric or device tests are added |
+| 2026-10-27 | The owner said «اكمل الكل ... خطوة خطوة»: continue through the plan without waiting for approval or a phone check between steps. Each step still ships only with green CI; the phone checks of steps 1–6 stay pending and are listed in the report | Owner's explicit instruction, overriding the wait in CLAUDE.md rule 2 | Owner asks to pause |
+| 2026-10-27 | Step 6: alarms for the next 48 h from a pure planner (`alarm/Reminders.kt`, tested): adhan for the five prayers, a reminder at the start of each non-prayer block (switchable), and the wake alarm at the night plan's wake time through `setAlarmClock` (switchable). Exact while-idle alarms when allowed, otherwise inexact plus a warning. Rescheduled on app resume, after every alarm, boot, app update, time and zone change and exact-alarm permission change | CLAUDE.md notifications | Phone test shows missed alarms |
+| 2026-10-27 | Adhan sound for now: no bundled recording. The adhan has its own notification channel and the user picks any sound on the phone in that channel's settings (button on screen). A bundled adhan stays open until a recording with a clear license is chosen | No licensing risk; the user can use an adhan file he already has | Owner picks a licensed recording |
+| 2026-10-27 | Notification wording (provisional, owner to approve): «حان وقت صلاة الظهر» / «الساعة 12:03»; block: its title / «من 13:30 إلى 14:15»; wake: «وقت الكعدة للسَّحَر» or «وقت الكعدة قبل الفجر». Plain announcements, no religious text | Needed for step 6 | Owner changes it |
+| 2026-10-27 | Battery self-check: reads `isIgnoringBatteryOptimizations` and opens the system list (no `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`, which Play restricts); maker-specific steps for Xiaomi, Samsung, Huawei/Honor and Oppo/Realme/OnePlus/Vivo from dontkillmyapp.com (checked 2026-10-27) | CLAUDE.md self-check screen | — |
+| 2026-10-27 | The wake alarm is one notification with the alarm sound, not a looping full-screen alarm (that needs `USE_FULL_SCREEN_INTENT`, which Play limits to calling and alarm apps) | Policy risk | Owner finds it too weak |
 
 ## Open (must be decided before the step that needs it)
 - App name: check both stores first; avoid names close to "Noor" (Noor Focus exists).
@@ -50,8 +56,8 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
   anything beyond the 90-min nap goes to the scholar reviewer (Ibn al-Qayyim disliked sleep after Fajr).
 - Saturday half-day template: add only if the owner needs it during personal use.
 - Default high-latitude rule per region (London tests use seventh of the night).
-- Adhan sound for step 6: source and license (not covered by any document yet).
-- Notification texts for adhan and block starts (step 6).
+- Bundled adhan recording: source and license (for now the user picks a phone sound, see 2026-10-27).
+- Owner approval of the provisional notification wording (2026-10-27).
 - What exactly the user may edit in the day template (first run and settings).
 - Design of the missing screens before step 7: first run, settings, exact-alarm explanation, battery self-check, Saturday review, explaining a shrunk or dropped block, empty states.
 - Rule for the ink word at 200% font scale (the word is decorative; the sentence under it must scale).

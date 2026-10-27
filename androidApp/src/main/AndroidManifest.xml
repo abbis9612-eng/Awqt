@@ -2,6 +2,13 @@
 <!-- v1 has no network: no INTERNET permission (CLAUDE.md rule 5). -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Exact adhan and block alarms; the user grants it in "Alarms & reminders".
+         Never USE_EXACT_ALARM: Play limits it to alarm, timer and calendar apps. -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Alarms are cleared on reboot; set them again. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="false"
         android:label="@string/app_name"
@@ -15,6 +22,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name="com.dcc.yawm.shared.alarm.AlarmReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.dcc.yawm.shared.alarm.RescheduleReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

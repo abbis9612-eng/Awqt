@@ -22,6 +22,10 @@ data class UserSettings(
     val bedtime: Int = DEFAULT_BEDTIME,
     val qiyamEnabled: Boolean = true,
     val roles: Set<Role> = Role.entries.toSet(),
+    /** A notification when each non-prayer block starts. */
+    val blockReminders: Boolean = true,
+    /** The wake alarm before Fajr (for qiyam or plain waking), shown as the system's next alarm. */
+    val wakeAlarm: Boolean = true,
 )
 
 // Keys never change once shipped: renaming one would silently reset the user's choice.
@@ -36,6 +40,8 @@ private const val ADJ = "prayer.adjust."
 private const val BEDTIME = "night.bedtime"
 private const val QIYAM = "night.qiyam"
 private const val ROLES = "roles"
+private const val BLOCK_REMINDERS = "alerts.blocks"
+private const val WAKE_ALARM = "alerts.wake"
 private const val AUTO = "auto"
 
 internal fun encodeSettings(s: UserSettings): Map<String, String> {
@@ -57,6 +63,8 @@ internal fun encodeSettings(s: UserSettings): Map<String, String> {
         BEDTIME to s.bedtime.toString(),
         QIYAM to s.qiyamEnabled.toString(),
         ROLES to s.roles.sorted().joinToString(",") { it.name },
+        BLOCK_REMINDERS to s.blockReminders.toString(),
+        WAKE_ALARM to s.wakeAlarm.toString(),
     )
 }
 
@@ -93,5 +101,7 @@ internal fun decodeSettings(m: Map<String, String>): UserSettings {
         roles = m[ROLES]?.let { v ->
             if (v.isEmpty()) emptySet() else v.split(",").mapNotNull { n -> Role.entries.firstOrNull { it.name == n } }.toSet()
         } ?: d.roles,
+        blockReminders = m[BLOCK_REMINDERS]?.toBooleanStrictOrNull() ?: d.blockReminders,
+        wakeAlarm = m[WAKE_ALARM]?.toBooleanStrictOrNull() ?: d.wakeAlarm,
     )
 }

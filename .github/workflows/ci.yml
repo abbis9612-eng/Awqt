@@ -27,6 +27,18 @@ jobs:
       - name: Tests, checks and the debug APK
         run: ./gradlew build assembleDebug --stacktrace
 
+      - name: Show which tests ran
+        if: always()
+        run: |
+          found=0
+          for f in $(find . -path '*/build/test-results/*' -name 'TEST-*.xml'); do
+            found=1
+            echo "$f"
+            grep -o '<testsuite [^>]*>' "$f" | grep -oE '(name|tests|failures|errors|skipped)="[^"]*"' | tr '\n' ' '
+            echo
+          done
+          if [ "$found" = 0 ]; then echo "No test results found"; exit 1; fi
+
       - name: Upload the APK for the owner's phone
         uses: actions/upload-artifact@v7
         with:

@@ -48,6 +48,16 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
 | 2026-10-27 | Notification wording (provisional, owner to approve): «حان وقت صلاة الظهر» / «الساعة 12:03»; block: its title / «من 13:30 إلى 14:15»; wake: «وقت الكعدة للسَّحَر» or «وقت الكعدة قبل الفجر». Plain announcements, no religious text | Needed for step 6 | Owner changes it |
 | 2026-10-27 | Battery self-check: reads `isIgnoringBatteryOptimizations` and opens the system list (no `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`, which Play restricts); maker-specific steps for Xiaomi, Samsung, Huawei/Honor and Oppo/Realme/OnePlus/Vivo from dontkillmyapp.com (checked 2026-10-27) | CLAUDE.md self-check screen | — |
 | 2026-10-27 | The wake alarm is one notification with the alarm sound, not a looping full-screen alarm (that needs `USE_FULL_SCREEN_INTENT`, which Play limits to calling and alarm apps) | Policy risk | Owner finds it too weak |
+| 2026-10-27 | Step 7: the Ink UI in Compose (`:shared/ui`), ported from the approved prototype: Today, Night, Week, Page tabs, Settings, first run (city, roles, alarm permissions), Saturday review and the explanation of shrunk or dropped blocks. All screen logic lives in `screen/` and is unit-tested; the UI only draws it | IDENTITY.md; logic stays testable without a device | Owner's phone screenshots ask for changes |
+| 2026-10-27 | Missing screens designed in the same identity without a separate approval round, by the owner's «اكمل الكل»: first run = three steps (city, roles, alarms); settings = one long list (city, method, Asr, high latitude, mosque minutes, alarms and battery, roles, theme, about); review = the five steps of METHOD.md §8 with the week's points | Owner's instruction | Owner asks for changes |
+| 2026-10-27 | Fonts bundled from google/fonts (checked 2026-10-27, all SIL OFL 1.1, licence files beside them in `androidApp/src/main/assets/fonts`): ArefRuqaa-Bold.ttf, Amiri-Regular.ttf, NotoNaskhArabic[wght].ttf (variable). Loaded from assets in `androidMain`, so no Compose resources plugin is needed | IDENTITY.md; v1 has no network | — |
+| 2026-10-27 | Icons: `tools/icons_to_kotlin.py` turns `docs/design/icons/color/*.svg` into path data (`ui/YawmIconData.kt`) drawn on a Canvas: outline in ink, the coloured part from the icon's accent. A browser comparison of original and converted icons differs by at most 2 of 9,216 pixels per icon | One source of truth; colour stays a token | — |
+| 2026-10-27 | The ink word does not follow the system font scale (decorative, dp-sized); the sentence under it and all other text do. Closes the open item on the 200% font-scale rule | Accessibility rule in CLAUDE.md; IDENTITY.md says the sentence carries the information | — |
+| 2026-10-27 | The app day runs from Fajr to the next Fajr: after midnight the screens keep showing the night in progress and its page | Matches the night plan; the page of a day is written before sleeping | — |
+| 2026-10-27 | Database version 2 adds `block_done` (the «خلّصت» stamp) with Room's automatic migration from version 1; a JVM test builds a real version-1 file from the committed schema and checks the data survives | Owner may already have version-1 data | — |
+| 2026-10-27 | «موقعي الحالي» uses ACCESS_COARSE_LOCATION, the last known or current network location, rounded to two decimals, stored as the city; zone from the phone | CLAUDE.md rule 5 | — |
+| 2026-10-27 | Hijri date from Android's ICU Umm al-Qura calendar with our own month names | No extra library | Owner wants local moon sighting |
+| 2026-10-27 | A local Compose compile check was tried and is not possible here: Compose depends on Google Maven, and a third-party mirror was refused by the session's safety rules. UI code is compiled only in CI until `dl.google.com` is allowed | Rule: no workaround around a block | Owner allows dl.google.com |
 
 ## Open (must be decided before the step that needs it)
 - App name: check both stores first; avoid names close to "Noor" (Noor Focus exists).
@@ -59,8 +69,6 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
 - Bundled adhan recording: source and license (for now the user picks a phone sound, see 2026-10-27).
 - Owner approval of the provisional notification wording (2026-10-27).
 - What exactly the user may edit in the day template (first run and settings).
-- Design of the missing screens before step 7: first run, settings, exact-alarm explanation, battery self-check, Saturday review, explaining a shrunk or dropped block, empty states.
-- Rule for the ink word at 200% font scale (the word is decorative; the sentence under it must scale).
 - Ramadan mode spec (needed for the beta before about 8 February 2027).
 - Google Play account type: personal (requires a closed test with 12+ testers for 14 continuous
   days before production) or organization (exempt, but requires business verification).

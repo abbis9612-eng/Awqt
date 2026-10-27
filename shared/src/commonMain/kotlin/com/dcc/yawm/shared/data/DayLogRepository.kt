@@ -18,6 +18,7 @@ data class DayPage(
 class DayLogRepository(
     private val checklist: ChecklistDao,
     private val pages: DayPageDao,
+    private val blocks: BlockDoneDao,
     private val nowEpochMs: () -> Long = ::systemNowEpochMs,
 ) {
     fun doneOn(date: LocalDate): Flow<Set<ChecklistPoint>> =
@@ -40,6 +41,13 @@ class DayLogRepository(
 
     suspend fun savePage(date: LocalDate, page: DayPage) {
         pages.save(DayPageEntity(date.toString(), page.didToday, page.lostTime, page.tomorrowTopThree, nowEpochMs()))
+    }
+
+    fun blocksDoneOn(date: LocalDate): Flow<Set<String>> = blocks.observeDay(date.toString()).map { it.toSet() }
+
+    suspend fun setBlockDone(date: LocalDate, blockKey: String, done: Boolean) {
+        if (done) blocks.mark(BlockDoneEntity(date.toString(), blockKey, nowEpochMs()))
+        else blocks.unmark(date.toString(), blockKey)
     }
 
     private fun DayPageEntity.toPage() = DayPage(didToday, lostTime, tomorrowTopThree)

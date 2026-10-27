@@ -26,7 +26,13 @@ data class UserSettings(
     val blockReminders: Boolean = true,
     /** The wake alarm before Fajr (for qiyam or plain waking), shown as the system's next alarm. */
     val wakeAlarm: Boolean = true,
+    /** Light or dark; AUTO is dark from Isha to Fajr (docs/design/IDENTITY.md). */
+    val theme: Theme = Theme.AUTO,
+    /** False until the first-run screen is finished. */
+    val setupDone: Boolean = false,
 )
+
+enum class Theme { AUTO, LIGHT, DARK }
 
 // Keys never change once shipped: renaming one would silently reset the user's choice.
 private const val CITY = "city.name"
@@ -42,6 +48,8 @@ private const val QIYAM = "night.qiyam"
 private const val ROLES = "roles"
 private const val BLOCK_REMINDERS = "alerts.blocks"
 private const val WAKE_ALARM = "alerts.wake"
+private const val THEME = "look.theme"
+private const val SETUP_DONE = "setup.done"
 private const val AUTO = "auto"
 
 internal fun encodeSettings(s: UserSettings): Map<String, String> {
@@ -65,6 +73,8 @@ internal fun encodeSettings(s: UserSettings): Map<String, String> {
         ROLES to s.roles.sorted().joinToString(",") { it.name },
         BLOCK_REMINDERS to s.blockReminders.toString(),
         WAKE_ALARM to s.wakeAlarm.toString(),
+        THEME to s.theme.name,
+        SETUP_DONE to s.setupDone.toString(),
     )
 }
 
@@ -103,5 +113,7 @@ internal fun decodeSettings(m: Map<String, String>): UserSettings {
         } ?: d.roles,
         blockReminders = m[BLOCK_REMINDERS]?.toBooleanStrictOrNull() ?: d.blockReminders,
         wakeAlarm = m[WAKE_ALARM]?.toBooleanStrictOrNull() ?: d.wakeAlarm,
+        theme = m[THEME]?.let { v -> Theme.entries.firstOrNull { it.name == v } } ?: d.theme,
+        setupDone = m[SETUP_DONE]?.toBooleanStrictOrNull() ?: d.setupDone,
     )
 }

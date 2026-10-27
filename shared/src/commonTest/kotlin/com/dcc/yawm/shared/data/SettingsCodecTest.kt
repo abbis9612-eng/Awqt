@@ -33,6 +33,8 @@ class SettingsCodecTest {
             roles = setOf(Role.WORSHIP, Role.BODY, Role.CHILD),
             blockReminders = false,
             wakeAlarm = false,
+            theme = Theme.DARK,
+            setupDone = true,
         )
         assertEquals(london, decodeSettings(encodeSettings(london)))
         assertEquals(UserSettings(), decodeSettings(encodeSettings(UserSettings())))

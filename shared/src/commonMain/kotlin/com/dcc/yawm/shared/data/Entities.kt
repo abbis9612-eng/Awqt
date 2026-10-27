@@ -44,3 +44,11 @@ data class DayPageEntity(
     val tomorrowTopThree: String,
     val savedAtEpochMs: Long,
 )
+
+/** A block of the day the user marked done («خلّصت», «صلّيت», «صحيت»). Added in database version 2. */
+@Entity(tableName = "block_done", primaryKeys = ["date", "blockKey"])
+data class BlockDoneEntity(
+    val date: String,
+    val blockKey: String,
+    val doneAtEpochMs: Long,
+)

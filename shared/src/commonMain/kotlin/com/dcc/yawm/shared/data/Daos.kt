@@ -55,3 +55,15 @@ interface DayPageDao {
     @Upsert
     suspend fun save(page: DayPageEntity)
 }
+
+@Dao
+interface BlockDoneDao {
+    @Query("SELECT blockKey FROM block_done WHERE date = :date")
+    fun observeDay(date: String): Flow<List<String>>
+
+    @Upsert
+    suspend fun mark(row: BlockDoneEntity)
+
+    @Query("DELETE FROM block_done WHERE date = :date AND blockKey = :blockKey")
+    suspend fun unmark(date: String, blockKey: String)
+}

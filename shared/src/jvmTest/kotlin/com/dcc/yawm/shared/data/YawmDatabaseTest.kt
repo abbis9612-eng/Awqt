@@ -1,6 +1,8 @@
 package com.dcc.yawm.shared.data
 
 import androidx.room3.Room
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.execSQL
 import com.dcc.yawm.shared.day.ChecklistPoint
 import com.dcc.yawm.shared.day.Role
 import kotlinx.coroutines.flow.first
@@ -89,6 +91,45 @@ class YawmDatabaseTest {
             listOf(TemplateBlockEntity("WORKDAY", "walk", 25, false)),
             again.templateBlocks.forDayType("WORKDAY"),
         )
+    }
+
+    @Test
+    fun blockMarksAreKeptPerDay() = runBlocking {
+        val log = YawmData(open()).dayLog
+        log.setBlockDone(day, "deep1", true)
+        log.setBlockDone(day, "fajr", true)
+        log.setBlockDone(day, "fajr", false)
+        log.setBlockDone(day.plusDays(1), "nap", true)
+        assertEquals(setOf("deep1"), log.blocksDoneOn(day).first())
+    }
+
+    /**
+     * A phone that ran database version 1 (step 5) keeps its data after the upgrade: build the
+     * version-1 file from the committed schema, then let Room migrate it.
+     */
+    @Test
+    fun versionOneDataSurvivesTheUpgrade() = runBlocking {
+        val schema = File("schemas/com.dcc.yawm.shared.data.YawmDatabase/1.json").readText()
+        val creates = Regex("\"createSql\": \"(.*?)\",\n").findAll(schema).map { m ->
+            val sql = m.groupValues[1].replace("\\\"", "\"")
+            val table = Regex("\"tableName\": \"(\\w+)\"").findAll(schema.substring(0, m.range.first)).last().groupValues[1]
+            sql.replace("\${TABLE_NAME}", table)
+        }.toList()
+        val setup = Regex("\"setupQueries\": \\[(.*?)\\]", RegexOption.DOT_MATCHES_ALL).find(schema)!!.groupValues[1]
+            .let { Regex("\"((?:[^\"\\\\]|\\\\.)*)\"").findAll(it).map { q -> q.groupValues[1].replace("\\\"", "\"") }.toList() }
+        assertEquals(4, creates.size)
+        BundledSQLiteDriver().open(path).apply {
+            (creates + setup).forEach { execSQL(it) }
+            execSQL("INSERT INTO checklist_mark (date, point, markedAtEpochMs) VALUES ('2026-10-27', 4, 1)")
+            execSQL("INSERT INTO setting (key, value) VALUES ('night.bedtime', '1320')")
+            execSQL("PRAGMA user_version = 1")
+            close()
+        }
+        val data = YawmData(open())
+        assertEquals(setOf(ChecklistPoint.DEEP_WORK), data.dayLog.doneOn(day).first())
+        assertEquals(1320, data.settings.load().bedtime)
+        data.dayLog.setBlockDone(day, "deep1", true)
+        assertEquals(setOf("deep1"), data.dayLog.blocksDoneOn(day).first())
     }
 
     private fun LocalDate.plusDays(n: Int) = plus(n, DateTimeUnit.DAY)

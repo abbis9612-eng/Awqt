@@ -116,12 +116,20 @@ fun SettingsScreen(
     device: com.dcc.yawm.shared.alarm.DeviceControls,
     platform: Platform,
     save: (UserSettings) -> Unit,
+    openDayEditor: () -> Unit,
     close: () -> Unit,
 ) {
     val pal = LocalPalette.current
     Row(Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
         Ruqaa("الإعدادات", 34.sp)
         PillButton("رجوع", close)
+    }
+
+    Heading("يومك")
+    ListRow(onClick = openDayEditor) {
+        Tile("week", false, TileSize.SM)
+        RowText("رتّب يومك", "غيّر الفقرات وأضف فقراتك، وأيام الدوام، والمواعيد الثابتة", bold = true)
+        Txt("←", bold = true)
     }
 
     Heading("المدينة")

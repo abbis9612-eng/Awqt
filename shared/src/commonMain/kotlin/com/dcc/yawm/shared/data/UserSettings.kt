@@ -1,6 +1,7 @@
 package com.dcc.yawm.shared.data
 
 import com.dcc.yawm.shared.day.DEFAULT_BEDTIME
+import com.dcc.yawm.shared.day.DayCustomization
 import com.dcc.yawm.shared.day.Role
 import com.dcc.yawm.shared.prayer.AsrMadhab
 import com.dcc.yawm.shared.prayer.CalcMethod
@@ -30,6 +31,8 @@ data class UserSettings(
     val theme: Theme = Theme.AUTO,
     /** False until the first-run screen is finished. */
     val setupDone: Boolean = false,
+    /** The user's own day over the template («رتّب يومك»). */
+    val day: DayCustomization = DayCustomization(),
 )
 
 enum class Theme { AUTO, LIGHT, DARK }
@@ -50,6 +53,7 @@ private const val BLOCK_REMINDERS = "alerts.blocks"
 private const val WAKE_ALARM = "alerts.wake"
 private const val THEME = "look.theme"
 private const val SETUP_DONE = "setup.done"
+private const val DAY = "day.custom.v1"
 private const val AUTO = "auto"
 
 internal fun encodeSettings(s: UserSettings): Map<String, String> {
@@ -75,6 +79,7 @@ internal fun encodeSettings(s: UserSettings): Map<String, String> {
         WAKE_ALARM to s.wakeAlarm.toString(),
         THEME to s.theme.name,
         SETUP_DONE to s.setupDone.toString(),
+        DAY to encodeCustomization(s.day),
     )
 }
 
@@ -115,5 +120,6 @@ internal fun decodeSettings(m: Map<String, String>): UserSettings {
         wakeAlarm = m[WAKE_ALARM]?.toBooleanStrictOrNull() ?: d.wakeAlarm,
         theme = m[THEME]?.let { v -> Theme.entries.firstOrNull { it.name == v } } ?: d.theme,
         setupDone = m[SETUP_DONE]?.toBooleanStrictOrNull() ?: d.setupDone,
+        day = decodeCustomization(m[DAY]),
     )
 }

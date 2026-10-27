@@ -58,7 +58,7 @@ fun upcomingReminders(settings: UserSettings, now: Instant, hours: Int = SCHEDUL
         for (p in AdhanPrayers) out += Reminder(ReminderKind.ADHAN, t[p], p.name, p.name, prayer = p)
         val day = DayResolver.resolve(
             times(d.minus(1, DateTimeUnit.DAY)), t, times(d.plus(1, DateTimeUnit.DAY)),
-            userBedtime = settings.bedtime, qiyamEnabled = settings.qiyamEnabled,
+            userBedtime = settings.bedtime, qiyamEnabled = settings.qiyamEnabled, custom = settings.day,
         )
         if (settings.wakeAlarm) {
             out += Reminder(ReminderKind.WAKE, instant(d, day.plan.wake), "wake", if (day.plan.qiyam) "qiyam" else "fajr")

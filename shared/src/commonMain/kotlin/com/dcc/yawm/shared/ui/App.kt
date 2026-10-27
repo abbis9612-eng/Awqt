@@ -75,7 +75,7 @@ private enum class Tab(val label: String, val icon: String) {
     TODAY("اليوم", "dhuhr"), NIGHT("الليل", "isha"), WEEK("الأسبوع", "week"), PAGE("المحاسبة", "page"),
 }
 
-private enum class Overlay { NONE, SETTINGS, REVIEW }
+private enum class Overlay { NONE, SETTINGS, REVIEW, DAY_EDITOR }
 
 @OptIn(ExperimentalTime::class)
 @Composable
@@ -178,7 +178,8 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
 
     Column(Modifier.weight(1f).verticalScroll(scroll).padding(horizontal = 24.dp)) {
         when (overlay) {
-            Overlay.SETTINGS -> SettingsScreen(settings, status, device, platform, save) { overlay = Overlay.NONE }
+            Overlay.SETTINGS -> SettingsScreen(settings, status, device, platform, save, openDayEditor = { overlay = Overlay.DAY_EDITOR }) { overlay = Overlay.NONE }
+            Overlay.DAY_EDITOR -> DayEditorScreen(settings, save) { overlay = Overlay.NONE }
             Overlay.REVIEW -> {
                 val week = remember(settings, moment.date) { weekView(settings, moment.date) }
                 var points by remember { mutableStateOf(0) }
@@ -193,7 +194,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
                 when (tab) {
                     Tab.TODAY -> {
                         val done by remember(date) { data.dayLog.blocksDoneOn(date) }.collectAsState(emptySet())
-                        TodayScreen(day, moment.t, done) { key -> scope.launch { data.dayLog.setBlockDone(date, key, key !in done) } }
+                        TodayScreen(day, moment.t, done, openEditor = { overlay = Overlay.DAY_EDITOR }) { key -> scope.launch { data.dayLog.setBlockDone(date, key, key !in done) } }
                     }
                     Tab.NIGHT -> NightScreen(day, moment.t, settings, save)
                     Tab.WEEK -> {

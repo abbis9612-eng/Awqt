@@ -9,7 +9,8 @@ enum class Anchor { FAJR, SUNRISE, DHUHR, ASR, MAGHRIB, ISHA, BEDTIME }
 
 enum class Role { WORSHIP, BODY, SPOUSE, CHILD, BUSINESS, DEV, LEARNING, SELF }
 
-enum class DayType { WORKDAY, FRIDAY }
+/** OFFDAY is a day off chosen by the user (not in the reference; see Customization.kt). */
+enum class DayType { WORKDAY, FRIDAY, OFFDAY }
 
 data class BlockSpec(
     val key: String,
@@ -30,8 +31,11 @@ data class BlockSpec(
 data class SegmentSpec(val from: Anchor, val to: Anchor, val blocks: List<BlockSpec>)
 
 object Templates {
-    fun forDay(type: DayType, napMinutes: Int): List<SegmentSpec> =
-        if (type == DayType.FRIDAY) friday(napMinutes) else workday(napMinutes)
+    fun forDay(type: DayType, napMinutes: Int): List<SegmentSpec> = when (type) {
+        DayType.WORKDAY -> workday(napMinutes)
+        DayType.FRIDAY -> friday(napMinutes)
+        DayType.OFFDAY -> offday(napMinutes)
+    }
 
     fun workday(napMinutes: Int): List<SegmentSpec> = listOf(
         SegmentSpec(Anchor.FAJR, Anchor.SUNRISE, listOf(
@@ -86,6 +90,25 @@ object Templates {
             BlockSpec("asr", "صلاة العصر", Role.WORSHIP, 12, 10, 1, droppable = false, isPrayer = true),
             BlockSpec("free", "فراغ مباح مع الأهل", Role.SELF, 0, 0, 6, flex = true),
             BlockSpec("dua", "بلا تلفون: دعاء آخر ساعة من الجمعة", Role.WORSHIP, 60, 30, 2, droppable = false),
+        ))
+        return t
+    }
+
+    /**
+     * A day off the user chose (owner's decision 2026-10-27): the Friday template's own family
+     * blocks, with Dhuhr in place of Jumu'ah and without the Friday-only worship blocks.
+     */
+    fun offday(napMinutes: Int): List<SegmentSpec> {
+        val t = workday(napMinutes).toMutableList()
+        val f = friday(napMinutes)
+        t[1] = SegmentSpec(Anchor.SUNRISE, Anchor.DHUHR, f[1].blocks.filter { it.key != "jumua_prep" })
+        t[2] = SegmentSpec(Anchor.DHUHR, Anchor.ASR, listOf(
+            BlockSpec("dhuhr", "صلاة الظهر", Role.WORSHIP, 15, 10, 1, droppable = false, isPrayer = true),
+        ) + f[2].blocks.drop(1))
+        t[3] = SegmentSpec(Anchor.ASR, Anchor.MAGHRIB, listOf(
+            t[3].blocks.first { it.key == "asr" },
+            t[3].blocks.first { it.key == "train" },
+            f[3].blocks.first { it.key == "free" },
         ))
         return t
     }

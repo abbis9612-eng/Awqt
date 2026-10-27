@@ -47,7 +47,7 @@ private fun stampLabel(b: Item): String = when {
 }
 
 @Composable
-fun TodayScreen(day: DayView, t: Int, done: Set<String>, onToggle: (String) -> Unit) {
+fun TodayScreen(day: DayView, t: Int, done: Set<String>, openEditor: () -> Unit, onToggle: (String) -> Unit) {
     val pal = LocalPalette.current
     val ink = day.ink(t)
     val left = ink.target - t
@@ -81,7 +81,10 @@ fun TodayScreen(day: DayView, t: Int, done: Set<String>, onToggle: (String) -> U
     ListRow(onClick = { showAll = !showAll }, minHeight = 48.dp) {
         RowText(if (showAll) "خفي اليوم كامل" else "شوف اليوم كامل", bold = true)
     }
-    if (showAll) DayList(day, t, done)
+    if (showAll) {
+        DayList(day, t, done)
+        ListRow(onClick = openEditor, divider = false, minHeight = 48.dp) { RowText("رتّب يومك ←", bold = true) }
+    }
     if (day.changes.isNotEmpty()) {
         Heading("شنو تغيّر اليوم")
         for (c in day.changes) Txt(c, size = 15.5.sp, color = pal.soft, modifier = Modifier.padding(vertical = 4.dp))

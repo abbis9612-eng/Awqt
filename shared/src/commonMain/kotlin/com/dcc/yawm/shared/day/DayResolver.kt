@@ -123,6 +123,8 @@ object DayResolver {
         userBedtime: Int = DEFAULT_BEDTIME,
         qiyamEnabled: Boolean = true,
         type: DayType = if (date.dayOfWeek == DayOfWeek.FRIDAY) DayType.FRIDAY else DayType.WORKDAY,
+        /** The user's own day; empty = the reference template exactly. */
+        custom: DayCustomization = DayCustomization(),
     ): ResolvedDay {
         val plan = nightPlan(times.isha, nextFajr, userBedtime, qiyamEnabled)
         val prevPlan = nightPlan(prevIsha, times.fajr + 1440, userBedtime, qiyamEnabled)
@@ -136,8 +138,9 @@ object DayResolver {
         if (prevPlan.qiyam) {
             blocks += ResolvedBlock("qiyam", "السَّحَر: ركعتان والوتر", Role.WORSHIP, prevPlan.wake - 1440, times.fajr, false, false)
         }
-        for (seg in Templates.forDay(type, plan.nap)) {
-            val fitted = fitSegment(anchors.getValue(seg.from), anchors.getValue(seg.to), seg.blocks)
+        val busy = custom.appointmentsOn(date.dayOfWeek).map { it to (it.start until it.end) }
+        for (seg in customizedTemplate(type, plan.nap, custom)) {
+            val fitted = fitSegmentAround(anchors.getValue(seg.from), anchors.getValue(seg.to), seg.blocks, busy)
             blocks += fitted.blocks
             adjustments += fitted.adjustments
         }
@@ -151,9 +154,11 @@ object DayResolver {
         tomorrow: DayPrayerTimes,
         userBedtime: Int = DEFAULT_BEDTIME,
         qiyamEnabled: Boolean = true,
+        custom: DayCustomization = DayCustomization(),
     ): ResolvedDay = resolve(
         today.date, DayMinutes.of(today), tomorrow.wallMinutes(Prayer.FAJR) + 1440,
         yesterday.wallMinutes(Prayer.ISHA), userBedtime, qiyamEnabled,
+        custom.dayType(today.date.dayOfWeek), custom,
     )
 }
 

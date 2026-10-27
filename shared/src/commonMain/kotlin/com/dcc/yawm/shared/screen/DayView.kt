@@ -7,7 +7,7 @@ import com.dcc.yawm.shared.day.DayResolver
 import com.dcc.yawm.shared.day.DayType
 import com.dcc.yawm.shared.day.NightPlan
 import com.dcc.yawm.shared.day.Role
-import com.dcc.yawm.shared.day.Templates
+import com.dcc.yawm.shared.day.customizedTemplate
 import com.dcc.yawm.shared.prayer.DayPrayerTimes
 import com.dcc.yawm.shared.prayer.Prayer
 import com.dcc.yawm.shared.prayer.PrayerTimesEngine
@@ -158,6 +158,7 @@ fun iconOf(key: String, title: String): String = when (key) {
     "family" -> "house"; "self" -> "book"; "prep" -> "page"; "witr" -> "beads"; "sleep" -> "bed"
     "qiyam", "qiyam2" -> "lantern"; "jumua_prep" -> "ghusl"; "lunch" -> "meal"; "visit" -> "visit"
     "free" -> "palm"; "dua" -> "hands"; "self_am" -> "tea"
+    "fixed" -> "case"
     "train" -> when {
         "مشي" in title -> "steps"
         "تعلم" in title -> "laptop"
@@ -173,18 +174,22 @@ fun dayView(settings: UserSettings, date: LocalDate, cache: MutableMap<LocalDate
     val yesterday = times(date.minus(1, DateTimeUnit.DAY))
     val today = times(date)
     val tomorrow = times(date.plus(1, DateTimeUnit.DAY))
-    val day = DayResolver.resolve(yesterday, today, tomorrow, userBedtime = settings.bedtime, qiyamEnabled = settings.qiyamEnabled)
+    val day = DayResolver.resolve(
+        yesterday, today, tomorrow,
+        userBedtime = settings.bedtime, qiyamEnabled = settings.qiyamEnabled, custom = settings.day,
+    )
     val nextFajr = tomorrow.wallMinutes(Prayer.FAJR) + 1440
-    val train = trainingTitle(date)
+    // The weekday's training title, unless the user named the block themselves.
+    val train = if (settings.day.changes[day.type]?.get("train")?.title != null) null else trainingTitle(date)
 
     val items = day.blocks.filter { it.key != "qiyam" }.map { b ->
         val title = if (b.key == "train" && train != null) train else b.title
-        Item(b.key, title, b.role, b.start, b.end, b.isPrayer, iconOf(b.key, title), shrunkFrom = b.shrunkFromMinutes)
+        Item(b.key, title, b.role, b.start, b.end, b.isPrayer, iconOf(b.key.substringBefore(':'), title), shrunkFrom = b.shrunkFromMinutes)
     }.toMutableList()
     items += Item("sleep", "النوم", Role.BODY, day.plan.bedtime, day.plan.wake, false, "bed", isSleep = true)
     if (day.plan.qiyam) items += Item("qiyam2", QIYAM_TITLE, Role.WORSHIP, day.plan.wake, nextFajr, false, "lantern")
 
-    val specs = Templates.forDay(day.type, day.plan.nap).flatMap { it.blocks }.associateBy { it.key }
+    val specs = customizedTemplate(day.type, day.plan.nap, settings.day).flatMap { it.blocks }.associateBy { it.key }
     val changes = day.adjustments.mapNotNull { a ->
         val key = a.key ?: return@mapNotNull null
         when (a.kind) {

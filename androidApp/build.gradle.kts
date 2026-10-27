@@ -28,4 +28,6 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+    // MainActivity extends ComponentActivity directly.
+    implementation(libs.androidx.activity)
 }

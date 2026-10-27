@@ -166,5 +166,21 @@ it never issues religious rulings.
 6. Before ending, update `docs/DECISIONS.md`.
 
 ## Commands
-To be filled in step 1 with commands actually run and verified in the cloud session and in GitHub
-Actions, plus the exact taps for the owner to download and install the APK on his phone.
+Verified in step 1 (2026-10-27). Gradle 9.6.0 through the wrapper; JDK 17 in CI.
+
+| What | Command |
+| --- | --- |
+| Tests, checks and the debug APK (what CI runs) | `./gradlew build assembleDebug` |
+| Only the shared logic tests | `./gradlew :shared:testAndroidHostTest` |
+| Debug APK only | `./gradlew :androidApp:assembleDebug` → `androidApp/build/outputs/apk/debug/androidApp-debug.apk` |
+
+CI: `.github/workflows/ci.yml` runs on every push and uploads the artifact `yawm-debug-apk`.
+The cloud session cannot reach `dl.google.com` yet, so builds run in CI until the owner allows it.
+
+Owner: install the APK on the phone
+1. On the phone, open GitHub (browser or app) → the repository → Actions → the latest green
+   "Build and test" run.
+2. Under Artifacts tap `yawm-debug-apk`; it downloads a zip.
+3. Open the zip in Files and tap `androidApp-debug.apk`.
+4. If Android asks, allow "Install unknown apps" for that app, then tap Install.
+5. Open «يوم» from the app list.

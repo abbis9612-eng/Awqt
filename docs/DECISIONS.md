@@ -30,6 +30,10 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
 | 2026-10-27 | Design tokens stay in `DesignTokens.kt` with no Style Dictionary, although the identity now has three fonts and an icon palette | Still one platform and no designer tooling | A second platform starts |
 | 2026-10-27 | Build here: code, tests and builds run in the Claude Code cloud session; GitHub Actions builds the debug APK the owner installs on his phone. Supersedes the Windows/Android Studio workflow in FIRST_PROMPT.md | Owner's choice; he does not need to install developer tools | Cloud builds become impossible |
 | 2026-10-27 | Version check before step 1: Kotlin 2.4.21 is still the latest stable (2.5.0 is beta); Compose Multiplatform 1.12.2 latest stable (1.13 is beta); adhan2 0.0.7 latest (Maven Central). AGP and Room not yet re-checked: `dl.google.com` was blocked in the cloud environment | Rule 1 | Re-check all at the start of step 1 |
+| 2026-10-27 | applicationId `com.dcc.yawm`; namespaces `com.dcc.yawm` (`:androidApp`) and `com.dcc.yawm.shared` (`:shared`) | Owner approved; neutral of the final store name | Never after the first Play upload |
+| 2026-10-27 | Step 1 versions, all checked on official sources today: AGP 9.4.0 (needs Gradle 9.6.0, JDK 17), Gradle wrapper 9.6.0, Kotlin 2.4.21, Compose Multiplatform 1.12.2, androidx Activity 1.13.0; CI actions checkout v7, setup-java v6, gradle/actions v6, upload-artifact v7. Room 3.0.3 confirmed stable for step 5 | Rule 1 | Next step that touches them |
+| 2026-10-27 | The Android entry point lives in `:shared` (`ComponentActivity.showYawm()`), so `:androidApp` needs no Compose compiler plugin | Keeps the app module to manifest and MainActivity, as AGP 9 rules intend | — |
+| 2026-10-27 | Gradle distribution checksum not pinned yet: its checksum host was blocked from the cloud session. The wrapper jar is validated in CI by gradle/actions/setup-gradle | Pin `distributionSha256Sum` once the host is reachable | Host becomes reachable |
 
 ## Open (must be decided before the step that needs it)
 - App name: check both stores first; avoid names close to "Noor" (Noor Focus exists).
@@ -38,7 +42,6 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
   anything beyond the 90-min nap goes to the scholar reviewer (Ibn al-Qayyim disliked sleep after Fajr).
 - Saturday half-day template: add only if the owner needs it during personal use.
 - Default high-latitude rule per region (London tests use seventh of the night).
-- applicationId (package name; permanent after the first Play upload): proposed `com.dcc.yawm`, waiting for the owner's confirmation before step 1.
 - Adhan sound for step 6: source and license (not covered by any document yet).
 - Notification texts for adhan and block starts (step 6).
 - What exactly the user may edit in the day template (first run and settings).

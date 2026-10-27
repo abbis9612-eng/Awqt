@@ -1,0 +1,36 @@
+name: Build and test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      # Action versions checked on their GitHub release pages on 2026-10-27.
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      # Also validates the Gradle wrapper jar.
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Tests, checks and the debug APK
+        run: ./gradlew build assembleDebug --stacktrace
+
+      - name: Upload the APK for the owner's phone
+        uses: actions/upload-artifact@v7
+        with:
+          name: yawm-debug-apk
+          path: androidApp/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 30

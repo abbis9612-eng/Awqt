@@ -1,0 +1,24 @@
+# Every version below was checked on its official source on 2026-10-27 (CLAUDE.md rule 1).
+[versions]
+# Maven Central, kotlin-gradle-plugin: 2.4.21 is the latest stable (2.5.0 is beta)
+kotlin = "2.4.21"
+# developer.android.com AGP release notes: 9.4.0 is current; needs Gradle 9.6.0 and JDK 17
+agp = "9.4.0"
+# Maven Central, org.jetbrains.compose plugin: 1.12.2 is the latest stable (1.13 is beta)
+composeMultiplatform = "1.12.2"
+# developer.android.com Activity releases: 1.13.0 is the latest stable (2026-09-23)
+activityCompose = "1.13.0"
+
+[libraries]
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }

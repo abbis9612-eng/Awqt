@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Working name until the store name is checked (docs/DECISIONS.md, Open). -->
+    <string name="app_name">يوم</string>
+</resources>

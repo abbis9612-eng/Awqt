@@ -1,0 +1,12 @@
+# Gradle and Kotlin
+.gradle/
+build/
+.kotlin/
+# Local machine settings and secrets (never commit)
+local.properties
+*.jks
+*.keystore
+# IDE
+.idea/
+*.iml
+.DS_Store

@@ -12,6 +12,14 @@ activityCompose = "1.13.0"
 adhan = "0.0.7"
 # Maven Central: kotlinx-datetime 0.8.0 is the latest release, the version adhan2 0.0.7 is built on
 kotlinxDatetime = "0.8.0"
+# developer.android.com Room 3.0 releases: 3.0.3 is the latest stable (2026-10-21); 3.1.0-alpha03 is pre-release
+room3 = "3.0.3"
+# developer.android.com Room KMP guide and Maven: androidx.sqlite 2.7.1 is the stable line Room 3.0.3 uses
+sqlite = "2.7.1"
+# github.com/google/ksp releases: 2.3.12 is the latest stable (2026-09-09); 2.3.10 added Kotlin 2.4 module-name support
+ksp = "2.3.12"
+# Maven Central: kotlinx-coroutines 1.11.0 is the latest stable; Room only brings it at runtime scope, we use Flow directly
+coroutines = "1.11.0"
 
 [libraries]
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
@@ -21,6 +29,10 @@ androidx-activity = { module = "androidx.activity:activity", version.ref = "acti
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 adhan = { module = "com.batoulapps.adhan:adhan2", version.ref = "adhan" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+androidx-room3-runtime = { module = "androidx.room3:room3-runtime", version.ref = "room3" }
+androidx-room3-compiler = { module = "androidx.room3:room3-compiler", version.ref = "room3" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 [plugins]
@@ -29,3 +41,5 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+androidx-room3 = { id = "androidx.room3", version.ref = "room3" }

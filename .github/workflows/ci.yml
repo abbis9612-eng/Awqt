@@ -43,6 +43,13 @@ jobs:
           done
           if [ "$found" = 0 ]; then echo "No test results found"; exit 1; fi
 
+      # Room writes the schema of each database version here; it must be committed (migrations need it).
+      - name: Show the database schema
+        if: always()
+        run: |
+          find shared/schemas -name '*.json' -print -exec cat {} \; 2>/dev/null || echo "No schema generated"
+          git status --porcelain shared/schemas
+
       - name: Upload the APK for the owner's phone
         uses: actions/upload-artifact@v7
         with:

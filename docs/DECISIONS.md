@@ -58,6 +58,9 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
 | 2026-10-27 | «موقعي الحالي» uses ACCESS_COARSE_LOCATION, the last known or current network location, rounded to two decimals, stored as the city; zone from the phone | CLAUDE.md rule 5 | — |
 | 2026-10-27 | Hijri date from Android's ICU Umm al-Qura calendar with our own month names | No extra library | Owner wants local moon sighting |
 | 2026-10-27 | A local Compose compile check was tried and is not possible here: Compose depends on Google Maven, and a third-party mirror was refused by the session's safety rules. UI code is compiled only in CI until `dl.google.com` is allowed | Rule: no workaround around a block | Owner allows dl.google.com |
+| 2026-10-27 | Step 7 check passed in CI (run 13): build, lint, APK; RemindersTest 7, ScreenModelTest 9, YawmDatabaseTest 6 (with the v1→v2 upgrade) and all earlier tests. Phone screenshots still pending | Rule 3 | — |
+| 2026-10-27 | Step 8 pipeline: the 27 candidate texts of METHOD.md §11 copied verbatim by script into `docs/content/texts.json` with empty review fields; `tools/content_to_kotlin.py` writes only reviewed records (text, source, grade, graded_by, reviewed_by, reviewed_at all filled) into the app; CI fails if the app's copy is stale; a test checks every shipped record. Today 0 of 27 ship. Reviewer guide `docs/content/REVIEW.md` and printable sheet `review-sheet.md` | CLAUDE.md rule 6 | — |
+| 2026-10-27 | Steps 9 and 10 prepared, not started: `docs/RELEASE.md` (Play rules checked today: 12 testers for 14 continuous days for new personal accounts; SCHEDULE_EXACT_ALARM needs no declaration), `docs/PRIVACY.md`, and a Ramadan-mode proposal `docs/RAMADAN.md` awaiting the owner. Signing key, store name and account type wait for the owner | Irreversible or owner-only | — |
 
 ## Open (must be decided before the step that needs it)
 - App name: check both stores first; avoid names close to "Noor" (Noor Focus exists).

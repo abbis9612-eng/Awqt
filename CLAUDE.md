@@ -166,17 +166,21 @@ it never issues religious rulings.
 6. Before ending, update `docs/DECISIONS.md`.
 
 ## Commands
-Verified in GitHub Actions on 2026-10-27 (run 10, step 5: BUILD SUCCESSFUL; host tests ArabicDate 2,
-PrayerTimesReference 2, DayReference 5, Checklist 3, SettingsCodec 4; JVM tests YawmDatabase 4 plus the
-common tests; lint ran; APK uploaded). Gradle 9.6.0 through the wrapper. CI installs JDK 21 and 17:
-Gradle and the app build on 17, the tests run on 21 (adhan2-jvm is Java 21 bytecode).
-Not yet run in the cloud session itself (see the `dl.google.com` note below).
+Verified in GitHub Actions on 2026-10-27 (run 13, step 7: BUILD SUCCESSFUL; host tests ArabicDate 2,
+PrayerTimesReference 2, DayReference 5, Checklist 3, SettingsCodec 4, Reminders 7, ScreenModel 9; JVM tests
+YawmDatabase 6 (with the v1→v2 upgrade) plus the common tests; lint ran; APK uploaded). Gradle 9.6.0 through
+the wrapper. CI installs JDK 21 and 17: Gradle and the app build on 17, the tests run on 21 (adhan2-jvm is
+Java 21 bytecode). Not yet run in the cloud session itself (see the `dl.google.com` note below); pure logic is
+checked locally with a JVM-only harness, the Compose UI only in CI.
 
 | What | Command |
 | --- | --- |
 | Tests, checks and the debug APK (what CI runs) | `./gradlew build assembleDebug` |
 | Logic and reference tests (results: `shared/build/test-results/testAndroidHostTest/`) | `./gradlew :shared:testAndroidHostTest` |
 | Database tests on the JVM (results: `shared/build/test-results/jvmTest/`) | `./gradlew :shared:jvmTest` |
+| Regenerate icons after changing `docs/design/icons/color/*.svg` | `python3 tools/icons_to_kotlin.py` |
+| Bring reviewed religious texts into the app (CI checks it with `--check`) | `python3 tools/content_to_kotlin.py` |
+| Printable review sheet for the reviewer | `python3 tools/review_sheet.py` |
 | Debug APK only | `./gradlew :androidApp:assembleDebug` → `androidApp/build/outputs/apk/debug/androidApp-debug.apk` |
 
 CI: `.github/workflows/ci.yml` runs on every push, prints the Room schema and uploads the artifact

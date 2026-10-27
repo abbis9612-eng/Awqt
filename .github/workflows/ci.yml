@@ -19,7 +19,11 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: '17'
+          # 17 builds the app; 21 runs the host tests (adhan2-jvm is Java 21 bytecode).
+          # The last one listed is the default JAVA_HOME.
+          java-version: |
+            21
+            17
 
       # Also validates the Gradle wrapper jar.
       - uses: gradle/actions/setup-gradle@v6

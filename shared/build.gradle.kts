@@ -31,3 +31,13 @@ kotlin {
         }
     }
 }
+
+// adhan2-jvm 0.0.7 ships Java 21 class files (version 65, checked 2026-10-27), so the host
+// tests must run on a Java 21 JVM. Our own code still compiles with the JDK 17 toolchain.
+tasks.withType<Test>().configureEach {
+    javaLauncher.set(
+        project.extensions.getByType<JavaToolchainService>().launcherFor {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+    )
+}

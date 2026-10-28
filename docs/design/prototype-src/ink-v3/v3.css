@@ -1,0 +1,46 @@
+/* ===== النسخة الثالثة: منظّم الوقت ===== */
+.cA .when{font-size:18px}
+.cA .nowacts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.cA .nowacts button{flex:1 1 auto;min-height:48px;padding:0 14px;border-radius:999px;border:1.5px solid var(--ink);font-size:15px;font-weight:700}
+.cA .nowacts .pri{background:var(--ink);color:var(--bgc,#fff)}
+.cA .pline{display:flex;align-items:center;gap:8px;margin-top:16px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,#1E8768 7%,var(--bgc,#fff));font-size:15px;line-height:1.5}
+.cA .pline em{font-style:normal;font-family:'Amiri',serif;font-size:17px}
+.cA .pline .ti{flex:none}
+.cA .h4row{display:flex;justify-content:space-between;align-items:flex-end}
+.cA .mini{min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--ink);font-size:14px;font-weight:700;margin-bottom:4px}
+.cA .next3 .row .tx small,.cA .trow .tx small{display:block;font-size:13.5px;color:var(--grey);line-height:1.5;font-weight:400}
+.cA .trow{display:flex;gap:12px;align-items:center;min-height:56px;border-bottom:1px solid var(--line,rgba(18,18,18,.08))}
+.cA .trow .tx{flex:1;min-width:0;font-size:16.5px;line-height:1.5}
+.cA .trow .tx b{font-weight:600}
+.cA .trow.dn .tx b{text-decoration:line-through;color:var(--grey)}
+.cA .trow .ck{width:30px;height:30px}
+.cA .tl .sub{display:block;font-size:13.5px;color:var(--ink);font-weight:600;line-height:1.6;padding-inline-start:10px;border-inline-start:2px solid var(--faint);margin-top:2px}
+.cA .bell{font-size:12.5px;color:var(--grey);border:1px solid var(--line,rgba(18,18,18,.14));border-radius:999px;padding:1px 8px;flex:none;white-space:nowrap}
+.cA .ios-tab.t5{grid-template-columns:repeat(5,1fr)}
+.cA .ios-tab .plus{width:52px;height:52px;margin:0 auto;border-radius:50%;background:var(--ink);color:var(--bgc,#fff)!important;font-size:30px;font-weight:400;line-height:1;align-self:center;min-height:52px}
+.cA .addbox{margin-top:18px;display:grid;gap:10px}
+.cA .addbox input{width:100%;min-height:52px;border:1.5px solid var(--line,rgba(18,18,18,.14));border-radius:14px;padding:0 14px;font:inherit;font-size:16.5px;background:transparent;color:var(--ink)}
+.cA .addbox input:focus{outline:none;border-color:var(--ink)}
+.cA .addbox .save{margin:0}
+.cA .alarm{display:flex;align-items:center;gap:12px;min-height:72px;border-bottom:1px solid var(--line,rgba(18,18,18,.08))}
+.cA .alarm .atime{flex:1;text-align:start;min-width:0}
+.cA .alarm .atime b{display:block;font-family:'Amiri',serif;font-size:32px;font-weight:400;line-height:1.2}
+.cA .alarm .atime span{font-size:14px;color:var(--grey)}
+.cA .alarm.off .atime b{color:var(--grey)}
+.cA .aedit{padding:6px 0 14px;border-bottom:1px solid var(--line,rgba(18,18,18,.08))}
+.cA .prow{display:flex;align-items:center;gap:10px;min-height:56px;border-bottom:1px solid var(--line,rgba(18,18,18,.08))}
+.cA .prow .tx{flex:1;font-size:16px}
+.cA .prow .tx em{font-style:normal;font-family:'Amiri',serif;color:var(--grey);font-size:16px}
+.cA .seg{display:flex;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
+.cA .seg button{min-height:40px;padding:0 10px;font-size:13.5px;font-weight:600}
+.cA .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bgc,#fff)}
+.cA .sheet h3{margin-bottom:6px}
+.cA .sheet h4{margin:16px 0 4px}
+.cA .sheet .dchips button{font-size:13px}
+.cA .focus{position:absolute;left:0;right:0;height:800px;background:var(--bgc,#fff);z-index:30;display:flex;flex-direction:column;justify-content:center;padding:0 24px}
+.cA .focus .word{margin-top:0}
+.cA .fsmall{text-align:center;font-size:16px;color:var(--grey)}
+.cA .fclock{text-align:center;font-family:'Amiri',serif;font-size:64px;line-height:1.1;margin-top:6px;direction:ltr}
+.cA > .veil,.cA > .focus{margin-inline:0}
+.cA .pline small{display:block;font-size:13.5px;color:var(--grey)}
+.cA .aedit .dchips button{font-size:12px;padding:0 2px}

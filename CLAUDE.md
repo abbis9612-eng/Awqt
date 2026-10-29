@@ -181,6 +181,7 @@ checked locally with a JVM-only harness, the Compose UI only in CI.
 | Regenerate icons after changing `docs/design/icons/color/*.svg` | `python3 tools/icons_to_kotlin.py` |
 | Bring reviewed religious texts into the app (CI checks it with `--check`) | `python3 tools/content_to_kotlin.py` |
 | Printable review sheet for the reviewer | `python3 tools/review_sheet.py` |
+| Regenerate the app's own notification sounds (`androidApp/src/main/res/raw/*.wav`) | `python3 tools/sounds.py` |
 | Debug APK only | `./gradlew :androidApp:assembleDebug` → `androidApp/build/outputs/apk/debug/androidApp-debug.apk` |
 
 CI: `.github/workflows/ci.yml` runs on every push, prints the Room schema and uploads the artifact

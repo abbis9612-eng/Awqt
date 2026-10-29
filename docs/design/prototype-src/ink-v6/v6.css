@@ -1,0 +1,33 @@
+/* ===== النسخة السادسة: الكلمة واضحة ===== */
+@property --p{syntax:'<percentage>';inherits:true;initial-value:0%}
+.cA{--disp:'Noto Kufi Arabic',sans-serif;--dispw:800;--outline:#8F8A82}
+.cA.f-naskh{--disp:'Noto Naskh Arabic',serif;--dispw:700}
+.cA.f-ruqaa{--disp:'Aref Ruqaa',serif;--dispw:700}
+.cA.dark{--outline:#77736C}
+
+/* every display word follows one choice */
+.cA .word,.cA .five b,.cA .day .dn b,.cA .tl h5,.cA .sh h2,.cA .top5 b,.cA .rh h4{font-family:var(--disp);font-weight:var(--dispw)}
+.cA.f-kufi .top5 b{font-size:26px;line-height:1.6}
+.cA.f-kufi .sh h2{font-size:32px}
+.cA.f-kufi .rh h4{font-size:19px}
+
+/* the word: an outline you can read, and ink that fills it */
+.cA .word{position:relative;white-space:nowrap;overflow:visible;background:none;color:var(--faint);-webkit-text-fill-color:var(--faint);
+  -webkit-text-stroke:1.6px var(--outline);paint-order:stroke fill;line-height:1.35;transition:none}
+.cA.f-kufi .word{line-height:1.6;-webkit-text-stroke-width:1.8px}
+.cA.f-naskh .word{line-height:1.55}
+.cA .word::after{content:attr(data-w);position:absolute;inset:0;padding:inherit;text-align:center;-webkit-text-stroke:0;
+  background:linear-gradient(105deg,transparent 42%,color-mix(in srgb,var(--bgc,#fff) 38%,transparent) 50%,transparent 58%) no-repeat,linear-gradient(var(--ink),var(--ink));
+  background-size:300% 100%,100% 100%;background-position:120% 0,0 0;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  -webkit-mask-image:linear-gradient(to left,#000 calc(var(--p) - 2%),transparent calc(var(--p) + 2%));mask-image:linear-gradient(to left,#000 calc(var(--p) - 2%),transparent calc(var(--p) + 2%));
+  transition:--p .8s cubic-bezier(.2,.7,.2,1);animation:shine 6s ease-in-out 1.6s infinite}
+.cA.dark .word::after{background:linear-gradient(105deg,transparent 42%,rgba(15,15,17,.32) 50%,transparent 58%) no-repeat,linear-gradient(var(--ink),var(--ink));
+  background-size:300% 100%,100% 100%;-webkit-background-clip:text;background-clip:text}
+@keyframes shine{0%,70%{background-position:120% 0,0 0}100%{background-position:-20% 0,0 0}}
+
+/* a screen opening: the word soaks into the paper, then the ink pours to now */
+.cA.enter .word,.cA.enter .scr>.word{animation:soak .7s cubic-bezier(.2,.7,.2,1) both,pour 1.4s cubic-bezier(.2,.7,.2,1) .15s both}
+@keyframes soak{from{opacity:0;filter:blur(10px);transform:scale(1.06)}}
+@keyframes pour{from{--p:0%}}
+.cA.enter .top5 b,.cA.enter .sh h2{animation:soak .6s cubic-bezier(.2,.7,.2,1) both}
+@media (prefers-reduced-motion:reduce){.cA .word::after{animation:none}}

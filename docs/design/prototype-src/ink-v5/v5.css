@@ -1,0 +1,107 @@
+/* ===== النسخة الخامسة: أوضح، والحبر يتحرك ===== */
+@property --p{syntax:'<percentage>';inherits:false;initial-value:0%}
+.cA .word{transition:--p .6s ease}
+.cA p,.cA .note{line-height:1.7}
+
+/* header */
+.cA .top5{display:flex;justify-content:space-between;align-items:flex-start;margin-top:22px}
+.cA .top5 b{display:block;font-family:'Aref Ruqaa',serif;font-size:30px;font-weight:700;line-height:1.3}
+.cA .top5 span{font-size:14.5px;color:var(--grey);line-height:1.6}
+.cA .top5 .side{display:flex;flex-direction:column;align-items:flex-end}
+.cA .top5 .clk{font-family:'Amiri',serif;font-size:24px;color:var(--ink);line-height:1.3}
+.cA .txtbtn{min-height:44px;padding:0 2px;font-size:14.5px;font-weight:600;color:var(--grey);text-decoration:underline;text-decoration-color:var(--faint);text-underline-offset:5px}
+
+/* hero */
+.cA .sub5{text-align:center;font-size:20px;font-weight:700;line-height:1.5;margin-top:0}
+.cA .facts{display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.cA .facts span{font-size:15px;color:var(--grey);padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--ink) 5%,transparent)}
+.cA .facts em{font-style:normal;font-family:'Amiri',serif;font-size:18px;color:var(--ink)}
+.cA .acts5{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:10px;margin-top:18px}
+.cA .act{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:84px;border-radius:20px;
+  border:1.5px solid var(--line,rgba(18,18,18,.14));padding:8px 4px;transition:transform .18s cubic-bezier(.3,1.6,.5,1),background .2s}
+.cA .act b{font-size:16px;font-weight:700;line-height:1.4}
+.cA .act small{font-size:12.5px;color:var(--grey);line-height:1.4}
+.cA .act svg{--ic:currentColor}
+.cA .act.pri{background:var(--ink);border-color:var(--ink);color:var(--bgc,#fff)}
+.cA.dark .act.pri{color:#0F0F11}
+.cA .act.pri small{color:inherit;opacity:.72}
+.cA .act:active{transform:scale(.95)}
+.cA .act.stamping{animation:stamp .42s cubic-bezier(.3,1.5,.5,1)}
+.cA .act.stamping::after{content:'';position:absolute;inset:-2px;border-radius:22px;border:3px solid var(--ink);animation:ring .5s ease-out forwards;pointer-events:none}
+@keyframes stamp{0%{transform:scale(1)}35%{transform:scale(.88)}100%{transform:scale(1)}}
+@keyframes ring{from{opacity:.8;transform:scale(1)}to{opacity:0;transform:scale(1.35)}}
+.cA .acts5.two{grid-auto-columns:1fr;margin-top:20px}
+.cA .acts5.two .act{min-height:60px;flex-direction:row;gap:8px}
+
+/* the day line */
+.cA .rh{display:flex;justify-content:space-between;align-items:baseline;margin-top:26px}
+.cA .rh h4{margin:0;font-size:20px;color:var(--ink);font-family:'Aref Ruqaa',serif}
+.cA .rh span{font-size:13.5px;color:var(--grey)}
+.cA .pastbtn{width:100%;min-height:48px;margin-top:8px;border-radius:14px;border:1.5px dashed var(--line,rgba(18,18,18,.18));font-size:15px;font-weight:600;color:var(--grey)}
+.cA .rail5{margin-top:6px}
+.cA .r5{position:relative;--x:calc(50px + 12px + 17px)}
+.cA .r5::before{content:'';position:absolute;inset-inline-start:calc(var(--x) - 1px);top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,var(--ink) 0 var(--fill),var(--faint) var(--fill) 100%)}
+.cA .r5:first-child::before{top:26px}
+.cA .r5:last-child::before{bottom:calc(100% - 26px)}
+.cA .rb{position:relative;display:grid;grid-template-columns:50px 34px 1fr auto;column-gap:12px;align-items:center;width:100%;min-height:58px;padding:8px 0;text-align:start}
+.cA .rb .t{font-style:normal;font-family:'Amiri',serif;font-size:17px;color:var(--grey);text-align:center}
+.cA .rb .ic{position:relative;z-index:1;display:grid;place-items:center;background:var(--bgc,#fff);border-radius:12px}
+.cA .rb .tx{min-width:0;font-size:16.5px;line-height:1.5}
+.cA .rb .tx b{font-weight:500}
+.cA .rb .tx small{display:block;font-size:13.5px;color:var(--grey);line-height:1.5}
+.cA .rb .d{font-family:'Amiri',serif;font-size:16px;color:var(--grey);text-align:end;display:flex;flex-direction:column;align-items:flex-end}
+.cA .rb .d small{font-family:'Noto Naskh Arabic',serif;font-size:12px;color:var(--grey);border:1px solid var(--line,rgba(18,18,18,.14));border-radius:999px;padding:0 7px;margin-top:2px;white-space:nowrap}
+.cA .r5.pr .tx b{font-weight:700}
+.cA .r5.past .rb .tx b,.cA .r5.past .rb .t{color:var(--grey)}
+.cA .r5.past .ti{filter:grayscale(1);opacity:.55}
+.cA .r5.cur>.rb{background:color-mix(in srgb,var(--ink) 5%,transparent);border-radius:18px;padding-inline-end:10px;margin-block:4px}
+.cA .r5.cur .rb .t{color:var(--ink)}
+.cA .r5.cur .rb .tx b{font-weight:700;font-size:18px}
+.cA .okm{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--bgc,#fff)}
+.cA.dark .okm{color:#0F0F11}
+.cA .pb{display:block;height:5px;border-radius:3px;background:var(--faint);margin:6px 0 2px;overflow:hidden}
+.cA .pb i{display:block;height:100%;border-radius:3px;background:var(--ink);transition:width .6s}
+.cA .pb.big{height:7px;margin-top:14px}
+.cA .nowdot{position:absolute;z-index:2;top:calc(100% + 2px);width:10px;height:10px;border-radius:50%;background:var(--ink);inset-inline-start:12px}
+.cA .nowdot::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--ink);animation:breathe 2.4s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(2.6);opacity:0}}
+.cA .tk5{display:flex;align-items:center;gap:10px;min-height:48px;padding-inline-start:calc(var(--x) + 22px)}
+.cA .tk5 .ck{width:28px;height:28px;flex:none}
+.cA .tk5 span{font-size:15.5px;line-height:1.45}
+.cA .tk5 b{font-weight:600}
+.cA .tk5 small{display:block;font-family:'Amiri',serif;font-size:14px;color:var(--grey)}
+.cA .tk5.dn b{color:var(--grey);text-decoration:line-through}
+/* done: an ink line is drawn through the words, and the circle fills */
+.cA .just b{text-decoration:none!important;background:linear-gradient(currentColor,currentColor) no-repeat right 55%/100% 1.5px;animation:strike .5s ease-out both}
+.cA .just .ck,.cA .just .okm{animation:pop .4s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes strike{from{background-size:0 1.5px}}
+@keyframes pop{0%{transform:scale(.4)}100%{transform:scale(1)}}
+
+/* sheet */
+.cA .veil.opening{animation:veil .22s ease-out both}
+.cA .veil.opening .sheet{animation:rise5 .46s cubic-bezier(.2,1.25,.35,1) both}
+.cA .focus.opening{animation:veil .3s ease-out both}
+@keyframes veil{from{background:rgba(15,15,17,0)}}
+@keyframes rise5{from{transform:translateY(100%)}}
+.cA .s5 h4{display:flex;align-items:center;gap:6px;color:var(--ink);font-size:16px;margin:20px 0 8px}
+.cA .seg5{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border-radius:16px;background:color-mix(in srgb,var(--ink) 6%,transparent);padding:4px;gap:4px}
+.cA .seg5 button{min-height:48px;border-radius:12px;font-size:15px;font-weight:600;color:var(--grey);transition:background .2s,color .2s}
+.cA .seg5 button[aria-checked="true"]{background:var(--bgc,#fff);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:700}
+.cA.dark .seg5 button[aria-checked="true"]{background:#2A292E}
+
+/* a screen opening: the word pours in, the rest rises in order */
+.cA.enter .word{animation:pour 1.2s cubic-bezier(.2,.7,.2,1) both}
+@keyframes pour{from{--p:0%}}
+.cA.enter .scr>*{animation:in5 .5s cubic-bezier(.2,.8,.2,1) both}
+.cA.enter .scr>*:nth-child(2){animation-delay:.04s}.cA.enter .scr>*:nth-child(3){animation-delay:.08s}
+.cA.enter .scr>*:nth-child(4){animation-delay:.12s}.cA.enter .scr>*:nth-child(5){animation-delay:.16s}
+.cA.enter .scr>*:nth-child(6){animation-delay:.2s}.cA.enter .scr>*:nth-child(n+7){animation-delay:.24s}
+@keyframes in5{from{opacity:0;transform:translateY(10px)}}
+.cA.enter .scr>.word{animation:pour 1.2s cubic-bezier(.2,.7,.2,1) both}
+
+/* tabs: the open one gets an ink pill that slides in */
+.cA .ios-tab button[aria-current="page"] svg{animation:pill .35s cubic-bezier(.3,1.5,.5,1)}
+@keyframes pill{from{transform:scale(.85)}}
+.cA .ios-tab .plus{transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
+.cA .ios-tab .plus:active{transform:scale(.9) rotate(90deg)}

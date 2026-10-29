@@ -1,0 +1,63 @@
+<title>يوم: منظّم الوقت</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: one phone, centred, with the controls to try it above and the notes below. */
+:root{--page:#E9E9E6;--txt:#151515;--mut:#5f5c57;--edge:#151515}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#1b1b1d;--txt:#ECE9E2;--mut:#a7a39b;--edge:#ECE9E2;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#1b1b1d;--txt:#ECE9E2;--mut:#a7a39b;--edge:#ECE9E2;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--txt);font-family:'Noto Naskh Arabic','Noto Naskh Arabic UI',serif;-webkit-tap-highlight-color:transparent}
+body{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 36px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid #2F6FEB;outline-offset:2px}
+.v{max-width:430px;margin:0 auto}
+.v-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.v-top h1{font-size:18px;font-weight:700}
+.v-top span{font-size:13.5px;color:var(--mut)}
+#pick{display:none}
+.scrub{display:flex;align-items:center;gap:12px;padding:12px 0 6px}
+.scrub input{flex:1;accent-color:var(--edge);height:32px;direction:ltr;min-width:0}
+.scrub output{font-size:15px;font-weight:600;min-width:74px;text-align:center;font-variant-numeric:tabular-nums}
+.scrub button{min-height:40px;padding:0 12px;border:1.5px solid var(--edge);border-radius:4px;font-size:14px;font-weight:600}
+.scrub button[hidden]{display:none}
+.obbtn{min-height:44px;padding:0 14px;border:1.5px solid var(--edge);border-radius:4px;font-size:14px;font-weight:600;margin:0 0 6px}
+.try{display:flex;align-items:center;gap:8px;font-size:14.5px;color:var(--mut);padding:0 0 12px;min-height:44px}
+.try input{width:20px;height:20px;accent-color:var(--edge)}
+.phone{position:relative;overflow:hidden;min-height:780px;isolation:isolate;direction:rtl}
+@media (min-width:441px){.phone{border-radius:6px;box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}}
+#about{padding:16px 0 0;font-size:15.5px;line-height:1.85}
+.v-note{padding:10px 0 0;font-size:13.5px;line-height:1.75;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}}
+/*@CSS_A*/
+/*@APPLE_CSS*/
+/*@CSS_V2*/
+/*@CSS_V3*/
+/*@CSS_V4*/
+/*@CSS_V5*/
+</style>
+<div class="v" dir="rtl" lang="ar">
+  <div class="v-top"><h1>«يوم»: منظّم الوقت</h1><span>النموذج الخامس</span></div>
+  <nav id="pick" aria-label="الهويات" hidden></nav>
+  <div class="scrub"><input id="scrub" type="range" min="240" max="1620" step="1" aria-label="اسحب حتى تجرب أي وقت من اليوم"><output id="scrubT"></output><button id="nowBtn" hidden>الآن</button></div>
+  <button class="obbtn" id="obBtn">شوف أول فتحة للتطبيق</button>
+  <label class="try"><input type="checkbox" id="okToggle"> جرّب: إذن التنبيهات ناقص</label>
+  <div class="phone" id="screen"></div>
+  <p id="about"></p>
+  <p class="v-note">اضغط «خلّصت» وشوف الختم. اضغط دايرة مهمة. اضغط أي فقرة. اضغط «شوف أول فتحة للتطبيق» فوق. جرّب + واكتب «أزور أهلي باچر ساعة». اسحب الشريط حتى تمشي باليوم. اضغط أي فقرة حتى تشوف تفاصيلها وتختار تنبيهها، وجرّب «ابدأ التركيز» وقت كتلة التركيز، و«+» تحت. المواقيت من جدول المشروع المرجعي للسليمانية، والجدول من خوارزمية المشروع. ما بيها أي نص ديني.</p>
+</div>
+<script>
+/*@DATA*/
+/*@ENGINE*/
+/*@CORE*/
+/*@JS_A*/
+/*@JS_V2*/
+/*@JS_V3*/
+/*@JS_V4*/
+/*@JS_V5*/
+C.A.about = 'نفس هوية «الحبر»، بس أوضح وأسرع: تحت الكلمة ثلاث أزرار واضحة بأيقونة وكلمة (خلّصت، ركّز، نبّهني). «الجاي» و«مهامك» و«يومك كامل» صاروا قائمة وحدة اسمها «يومك»، بيها خيط ينزل ويا الأيقونات ويتعبى حبر لحد هسه، ومهامك تبين تحت الفقرة اللي انحطت بيها. اللي فات ينطوي بسطر واحد. علامة التنبيه تبين بس إذا غيّرتها. الحركة كلها إلها معنى: الكلمة تتعبى لما تفتح الشاشة، «خلّصت» ينختم وتطلع دايرة حبر، المهمة اللي تخلصها ينرسم عليها خط حبر، والنقطة اللي على هسه تتنفس.';
+boot();
+document.getElementById('okToggle').checked = !G.alertsOk;
+document.getElementById('obBtn').onclick = () => { G.page = 'welcome'; G.ob = 0; G.add = null; G.sheet = null; renderAll(); document.getElementById('screen').scrollTop = 0; };
+</script>

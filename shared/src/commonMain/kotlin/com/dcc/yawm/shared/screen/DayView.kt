@@ -5,9 +5,13 @@ import com.dcc.yawm.shared.day.AdjustmentKind
 import com.dcc.yawm.shared.day.DayMinutes
 import com.dcc.yawm.shared.day.DayResolver
 import com.dcc.yawm.shared.day.DayType
+import com.dcc.yawm.shared.day.LifeKind
+import com.dcc.yawm.shared.day.MyDayPlan
 import com.dcc.yawm.shared.day.NightPlan
 import com.dcc.yawm.shared.day.Role
 import com.dcc.yawm.shared.day.customizedTemplate
+import com.dcc.yawm.shared.day.Anchor
+import com.dcc.yawm.shared.day.myDayTemplate
 import com.dcc.yawm.shared.prayer.DayPrayerTimes
 import com.dcc.yawm.shared.prayer.Prayer
 import com.dcc.yawm.shared.prayer.PrayerTimesEngine
@@ -167,6 +171,19 @@ fun iconOf(key: String, title: String): String = when (key) {
     else -> "page"
 }
 
+private val AfterPrayer = mapOf(
+    Anchor.FAJR to "الفجر", Anchor.SUNRISE to "الشروق", Anchor.DHUHR to "الظهر", Anchor.ASR to "العصر",
+    Anchor.MAGHRIB to "المغرب", Anchor.ISHA to "العشاء", Anchor.BEDTIME to "النوم",
+)
+
+/** An item's icon: the user's own choice for their items, the work icon for work hours. */
+fun iconFor(key: String, title: String, my: MyDayPlan?): String {
+    val id = key.removePrefix("fixed:").removePrefix("my:")
+    my?.items?.firstOrNull { it.id == id }?.let { return it.icon }
+    if (key == "fixed:work") return if (my?.life == LifeKind.STUDY) "page" else "case"
+    return iconOf(key.substringBefore(':'), title)
+}
+
 /** Builds the day for [date]; [cache] avoids computing the same prayer times twice. */
 fun dayView(settings: UserSettings, date: LocalDate, cache: MutableMap<LocalDate, DayPrayerTimes> = HashMap()): DayView {
     val zone = zoneOf(settings)
@@ -174,29 +191,39 @@ fun dayView(settings: UserSettings, date: LocalDate, cache: MutableMap<LocalDate
     val yesterday = times(date.minus(1, DateTimeUnit.DAY))
     val today = times(date)
     val tomorrow = times(date.plus(1, DateTimeUnit.DAY))
+    val my = settings.myDay
     val day = DayResolver.resolve(
         yesterday, today, tomorrow,
-        userBedtime = settings.bedtime, qiyamEnabled = settings.qiyamEnabled, custom = settings.day,
+        userBedtime = settings.bedtime, qiyamEnabled = settings.qiyamEnabled, custom = settings.day, myDay = my,
     )
     val nextFajr = tomorrow.wallMinutes(Prayer.FAJR) + 1440
     // The weekday's training title, unless the user named the block themselves.
-    val train = if (settings.day.changes[day.type]?.get("train")?.title != null) null else trainingTitle(date)
+    val train = if (my != null || settings.day.changes[day.type]?.get("train")?.title != null) null else trainingTitle(date)
 
     val items = day.blocks.filter { it.key != "qiyam" }.map { b ->
         val title = if (b.key == "train" && train != null) train else b.title
-        Item(b.key, title, b.role, b.start, b.end, b.isPrayer, iconOf(b.key.substringBefore(':'), title), shrunkFrom = b.shrunkFromMinutes)
+        Item(b.key, title, b.role, b.start, b.end, b.isPrayer, iconFor(b.key, title, my), shrunkFrom = b.shrunkFromMinutes)
     }.toMutableList()
     items += Item("sleep", "النوم", Role.BODY, day.plan.bedtime, day.plan.wake, false, "bed", isSleep = true)
     if (day.plan.qiyam) items += Item("qiyam2", QIYAM_TITLE, Role.WORSHIP, day.plan.wake, nextFajr, false, "lantern")
 
-    val specs = customizedTemplate(day.type, day.plan.nap, settings.day).flatMap { it.blocks }.associateBy { it.key }
+    val segments = if (my != null) myDayTemplate(day.type, my, day.plan.witrBeforeSleep) else customizedTemplate(day.type, day.plan.nap, settings.day)
+    val specs = segments.flatMap { it.blocks }.associateBy { it.key }
+    // In the user's own day each change says after which prayer it happened.
+    val after = if (my == null) emptyMap() else segments.flatMap { seg -> seg.blocks.map { it.key to AfterPrayer.getValue(seg.from) } }.toMap()
     val changes = day.adjustments.mapNotNull { a ->
         val key = a.key ?: return@mapNotNull null
+        if (key.startsWith("free:")) return@mapNotNull null
+        val why = after[key]?.let { "لأن الوقت بعد $it قصير اليوم" } ?: "لأن الوقت بين الصلاتين قصير اليوم"
         when (a.kind) {
             AdjustmentKind.SHRUNK -> items.firstOrNull { it.key == key && it.shrunkFrom != null }?.let {
-                "«${it.title}» صارت ${durText(it.end - it.start)} بدل ${durText(it.shrunkFrom!!)}، لأن الوقت بين الصلاتين قصير اليوم."
+                "«${it.title}» صارت ${durText(it.end - it.start)} بدل ${durText(it.shrunkFrom!!)}، $why."
             }
-            AdjustmentKind.DROPPED -> specs[key]?.let { "ما بقى وقت اليوم لـ«${it.title}»، فشلناها من الجدول." }
+            AdjustmentKind.DROPPED -> specs[key]?.let { spec ->
+                val where = after[key]?.let { " بعد $it" }.orEmpty()
+                val hint = if (my != null && !spec.droppable) " إذا تريدها، قصّر غيرها أو غيّر وقتها من «عدّل يومك»." else ""
+                "ما بقى وقت اليوم لـ«${spec.title}»$where، فشلناها من الجدول.$hint"
+            }
             AdjustmentKind.OVERFLOW -> null
         }
     }.distinct()

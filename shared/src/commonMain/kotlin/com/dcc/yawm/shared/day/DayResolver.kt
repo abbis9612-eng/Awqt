@@ -123,8 +123,10 @@ object DayResolver {
         userBedtime: Int = DEFAULT_BEDTIME,
         qiyamEnabled: Boolean = true,
         type: DayType = if (date.dayOfWeek == DayOfWeek.FRIDAY) DayType.FRIDAY else DayType.WORKDAY,
-        /** The user's own day; empty = the reference template exactly. */
+        /** The user's changes to the template; empty = the reference template exactly. */
         custom: DayCustomization = DayCustomization(),
+        /** The day the user built («يومك»); when set it replaces the template and [custom]. */
+        myDay: MyDayPlan? = null,
     ): ResolvedDay {
         val plan = nightPlan(times.isha, nextFajr, userBedtime, qiyamEnabled)
         val prevPlan = nightPlan(prevIsha, times.fajr + 1440, userBedtime, qiyamEnabled)
@@ -138,8 +140,10 @@ object DayResolver {
         if (prevPlan.qiyam) {
             blocks += ResolvedBlock("qiyam", "السَّحَر: ركعتان والوتر", Role.WORSHIP, prevPlan.wake - 1440, times.fajr, false, false)
         }
-        val busy = custom.appointmentsOn(date.dayOfWeek).map { it to (it.start until it.end) }
-        for (seg in customizedTemplate(type, plan.nap, custom)) {
+        val appointments = myDay?.appointmentsOn(date.dayOfWeek) ?: custom.appointmentsOn(date.dayOfWeek)
+        val busy = appointments.map { it to (it.start until it.end) }
+        val segments = if (myDay != null) myDayTemplate(type, myDay, plan.witrBeforeSleep) else customizedTemplate(type, plan.nap, custom)
+        for (seg in segments) {
             val fitted = fitSegmentAround(anchors.getValue(seg.from), anchors.getValue(seg.to), seg.blocks, busy)
             blocks += fitted.blocks
             adjustments += fitted.adjustments
@@ -155,10 +159,12 @@ object DayResolver {
         userBedtime: Int = DEFAULT_BEDTIME,
         qiyamEnabled: Boolean = true,
         custom: DayCustomization = DayCustomization(),
+        myDay: MyDayPlan? = null,
     ): ResolvedDay = resolve(
         today.date, DayMinutes.of(today), tomorrow.wallMinutes(Prayer.FAJR) + 1440,
         yesterday.wallMinutes(Prayer.ISHA), userBedtime, qiyamEnabled,
-        custom.dayType(today.date.dayOfWeek), custom,
+        if (myDay != null) (if (today.date.dayOfWeek == DayOfWeek.FRIDAY) DayType.FRIDAY else DayType.WORKDAY) else custom.dayType(today.date.dayOfWeek),
+        custom, myDay,
     )
 }
 

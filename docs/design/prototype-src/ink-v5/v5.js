@@ -52,7 +52,7 @@ function rail5(M, placed) {
         <span class="d">${done ? `<span class="okm">${icon('check', 16, 2.6)}</span>` : dur(b)}${mark ? `<small>${mark}</small>` : ''}</span></button>${tasks}</div>`;
   }).join('');
   return `<div class="rh"><h4>يومك</h4><span>${items.length} فقرة${nTasks ? ` · ${nTasks} مهام بالفراغات` : ''}</span></div>
-    ${pastN && live ? `<button class="pastbtn" data-v5past="1" aria-expanded="${open}">${open ? 'خفي اللي فات' : `فاتت ${pastN} فقرات، شوفها`}</button>` : ''}
+    ${pastN && live ? `<button class="pastbtn" data-v5past="1" aria-expanded="${open}">${open ? 'خفي اللي فات' : `${pastN === 1 ? 'فاتت فقرة وحدة' : pastN === 2 ? 'فاتت فقرتين' : `فاتت ${pastN} فقرات`}، شوفها`}</button>` : ''}
     <div class="rail5">${rows}</div>`;
 }
 

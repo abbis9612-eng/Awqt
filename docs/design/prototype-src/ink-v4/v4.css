@@ -1,0 +1,35 @@
+/* ===== النسخة الرابعة ===== */
+.cA .strip{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:14px}
+.cA .strip button{display:flex;flex-direction:column;align-items:center;gap:1px;min-height:62px;border-radius:16px;padding:4px 0}
+.cA .strip small{font-size:12px;color:var(--grey);line-height:1.4}
+.cA .strip b{font-family:'Amiri',serif;font-size:19px;font-weight:400;line-height:1.3;width:34px;height:34px;display:grid;place-items:center;border-radius:50%}
+.cA .strip .past b{color:var(--grey)}
+.cA .strip .tdy b{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.cA .strip [aria-pressed="true"] b{background:var(--ink);color:var(--bgc,#fff)}
+.cA .strip i{width:5px;height:5px;border-radius:50%;background:var(--ink);opacity:.55}
+.cA .strip i[hidden]{display:block;visibility:hidden}
+.cA .qhint{font-size:13.5px;color:var(--grey);line-height:1.6;min-height:22px}
+.cA .sheet .addbox{margin-top:8px}
+.cA .trow .mini{margin:0;min-height:36px;font-size:13px}
+.cA .notif{margin:10px 0 6px;padding:12px 14px;border-radius:18px;background:color-mix(in srgb,var(--ink) 5%,var(--bgc,#fff));border:1px solid var(--line,rgba(18,18,18,.08));line-height:1.6}
+.cA .notif .nh{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--grey)}
+.cA .notif .nlogo{width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--bgc,#fff);display:grid;place-items:center;font-family:'Aref Ruqaa',serif;font-size:13px;font-weight:700}
+.cA .notif b{display:block;font-size:15px;margin-top:4px}
+.cA .notif p{font-size:14.5px}
+.cA .obbar{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:18px}
+.cA .obbar i{height:4px;border-radius:2px;background:var(--faint)}
+.cA .obbar i.on{background:var(--ink)}
+.cA .obtop{display:flex;justify-content:space-between;align-items:center;min-height:48px}
+.cA .obtop .skip{min-height:48px;padding:0 6px;font-size:15px;font-weight:700}
+.cA .obcard{margin-top:18px;padding:16px 18px;border:1.5px solid var(--line,rgba(18,18,18,.14));border-radius:18px;font-size:17px;line-height:1.6}
+.cA .obcard p{color:var(--grey);font-size:15px;margin-bottom:6px}
+.cA .obl{display:flex;align-items:center;gap:12px;min-height:46px}
+.cA .obck{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--grey);display:grid;place-items:center;flex:none;color:transparent;animation:obck .35s var(--d) both}
+.cA .obl s{text-decoration:none;background:linear-gradient(currentColor,currentColor) no-repeat right 55%/0 1.5px;animation:obs .45s calc(var(--d) + .15s) both}
+.cA .obl.last .obck{animation:none}
+@keyframes obck{to{background:var(--ink);border-color:var(--ink);color:var(--bgc,#fff)}}
+@keyframes obs{to{background-size:100% 1.5px;color:var(--grey)}}
+.cA .opt.big{min-height:68px}
+.cA .save[disabled]{opacity:.35;cursor:default}
+.cA .mini.wide{width:100%;min-height:48px;margin:12px 0 4px}
+.cA .ios-tab button[aria-current="page"] svg{background:color-mix(in srgb,var(--ink) 9%,transparent);border-radius:999px;padding:2px 14px;box-sizing:content-box}

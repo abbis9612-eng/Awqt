@@ -70,6 +70,9 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
 | 2026-10-28 | Scope change by the owner (beyond the 8 MVP features, rule 4): tasks that drop into the first free gap of the day (inside work, «وقتك» or free blocks; what does not fit moves to tomorrow), the user's own alarms (time, label, repeat days), a reminder before each item (at start / 5 / 10 min before / none, default at start, changeable per item), an alert when an item ends, and a focus timer that silences other reminders until it ends | Owner chose all of these on 2026-10-28 | — |
 | 2026-10-28 | Per-prayer alert choice: أذان / تنبيه / بدون, default «تنبيه» for every prayer (owner had no preference). The adhan sound itself stays the open item below | Keeps prayers as items, not the app's centre | Owner prefers the adhan by default |
 | 2026-10-28 | Prototype v3 (`docs/design/yawm-ink-v3.html`, source `docs/design/prototype-src/ink-v3/`): tabs اليوم، المهام، (+)، المنبّه، الأسبوع; Night and the evening page are reached from Today; settings start with «التنبيهات والمنبّهات». Kotlin work starts only after the owner approves it | Prototype first, code after approval | — |
+| 2026-10-29 | Looked at the owner's screenshots of Todoist and To-Do List. Taken, all offline and with no account: a first run of four short steps with a progress line, back and skip; a welcome whose lines get ticked; one question «شلون يومك؟» (دوام / دراسة / بالبيت / شغل حر, with hours and days) that fills working days and the fixed work appointment we already support; the notification shown as a live preview before asking permission; a morning summary at sunrise and an evening review 30 min before bed (both on by default, switchable); quick add from + in a sheet with «اليوم / باچر / بالبال» and duration, understanding Arabic words typed in the text («باچر», «نص ساعة», «45 د») on the phone only; a 7-day strip (Saturday first) with a dot on days with open tasks; a week summary in plain words that is hidden when empty; a clearer active tab | Owner: «خذ أفكار مفيدة من عدهم» | Owner rejects one in the v4 prototype |
+| 2026-10-29 | Not taken from those apps: accounts and sign-in, paid tiers and trial pop-ups, ads («Aile uygulamaları (AD)»), e-mail digests, intro videos, AI voice input (network and microphone), social links, a drawer full of extras, empty charts with a «no tasks» badge, and sample tutorial tasks that inflate the count | CLAUDE.md rules 4 and 5 (no network, no ads) and the owner's «سهولة الاستخدام» | — |
+| 2026-10-29 | «بالبال» (tasks with no day) and «باچر» are part of the tasks the owner already approved on 2026-10-28, not a new feature. Prototype v4: `docs/design/yawm-ink-v4.html`, source `docs/design/prototype-src/ink-v4/` (v3 plus `v4.js`, `v4.css`). Kotlin work waits for the owner's approval | Prototype first | — |
 
 ## Open (must be decided before the step that needs it)
 - App name: check both stores first; avoid names close to "Noor" (Noor Focus exists).
@@ -86,6 +89,7 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
 
 ## Later (not in v1)
 - Friction before distracting apps during deep-work blocks (Android first; iOS needs entitlement).
-- Home-screen widget.
+- Home-screen widget showing «شغلتي هسه» (both apps the owner looked at offer widgets; propose it first after v1).
 - Ramadan, travel and sickness modes (Ramadan mode targeted for the beta).
+- Task categories by role (chips like To-Do List's «İş / Kişiye özel»), a month calendar, a yearly heat map.
 - Optional sharing with spouse; English UI; Kurdish (Sorani); watch; annual zakat reminder.

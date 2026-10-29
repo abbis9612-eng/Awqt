@@ -55,18 +55,18 @@ internal object AlarmScheduler {
         Notifications.ensureChannels(app)
         val exact = canScheduleExact(am)
         for (r in reminders) {
-            val text = reminderText(r, zone)
             val intent = Intent(app, AlarmReceiver::class.java)
                 .putExtra(AlarmReceiver.KIND, r.kind.name)
                 .putExtra(AlarmReceiver.ID, r.id)
-                .putExtra(AlarmReceiver.TITLE, text.title)
-                .putExtra(AlarmReceiver.BODY, text.body)
+                .putExtra(AlarmReceiver.TITLE, r.title)
+                .putExtra(AlarmReceiver.BODY, r.body)
                 .putExtra(AlarmReceiver.AT, r.at.toEpochMilliseconds())
+                .putExtra(AlarmReceiver.SILENT, r.silent)
             val pi = PendingIntent.getBroadcast(app, r.id, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
             val t = r.at.toEpochMilliseconds()
             try {
                 when {
-                    exact && r.kind == ReminderKind.WAKE ->
+                    exact && r.kind.isAlarm ->
                         am.setAlarmClock(AlarmManager.AlarmClockInfo(t, Notifications.openApp(app)), pi)
                     exact -> am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, pi)
                     else -> am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, pi)
@@ -76,8 +76,8 @@ internal object AlarmScheduler {
                 am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, pi)
             }
         }
-        val next = reminders.firstOrNull { it.kind != ReminderKind.BLOCK }?.let { r ->
-            val what = if (r.kind == ReminderKind.ADHAN) prayerName(r.prayer!!) else "الكعدة"
+        val next = reminders.firstOrNull { it.kind.isAlarm || it.prayer != null }?.let { r ->
+            val what = r.prayer?.let { prayerName(it) } ?: r.title
             "$what ${clockText(r.at, zone)}"
         }
         prefs.edit()

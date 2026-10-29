@@ -13,6 +13,8 @@ internal object Notifications {
     const val ADHAN = "adhan"
     const val BLOCKS = "blocks"
     const val WAKE = "wake"
+    const val PRAYER = "prayer"
+    const val QUIET = "quiet"
 
     /** Channel settings belong to the user after creation; creating again changes only the name. */
     fun ensureChannels(context: Context) {
@@ -28,8 +30,18 @@ internal object Notifications {
             },
         )
         nm.createNotificationChannel(
-            NotificationChannel(WAKE, "الكعدة قبل الفجر", NotificationManager.IMPORTANCE_HIGH).apply {
-                description = "منبّه الكعدة للسَّحَر أو قبل الفجر."
+            NotificationChannel(PRAYER, "تنبيه الصلاة", NotificationManager.IMPORTANCE_HIGH).apply {
+                description = "تنبيه عادي بوقت الصلاة، للي يختار «تنبيه» بدل الأذان."
+            },
+        )
+        nm.createNotificationChannel(
+            NotificationChannel(QUIET, "بلا صوت", NotificationManager.IMPORTANCE_LOW).apply {
+                description = "تنبيهات تبين بلا صوت: بوقت نومك، وبالتركيز، ولما يرن شي قبل أقل من دقيقتين."
+            },
+        )
+        nm.createNotificationChannel(
+            NotificationChannel(WAKE, "المنبّه والصحيان", NotificationManager.IMPORTANCE_HIGH).apply {
+                description = "منبّهاتك، ومنبّه الصحيان لصلاة الليل أو قبل الفجر."
                 setSound(
                     RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM),
                     AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build(),
@@ -45,20 +57,23 @@ internal object Notifications {
         return PendingIntent.getActivity(context, 0, launch, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    fun show(context: Context, kind: ReminderKind, id: Int, title: String, body: String, atMs: Long) {
+    fun show(context: Context, kind: ReminderKind, id: Int, title: String, body: String, atMs: Long, silent: Boolean) {
         ensureChannels(context)
-        val channel = when (kind) {
-            ReminderKind.ADHAN -> ADHAN
-            ReminderKind.BLOCK -> BLOCKS
-            ReminderKind.WAKE -> WAKE
+        val channel = when {
+            kind.isAlarm -> WAKE
+            silent -> QUIET
+            kind == ReminderKind.ADHAN -> ADHAN
+            kind == ReminderKind.PRAYER -> PRAYER
+            else -> BLOCKS
         }
         val n = Notification.Builder(context, channel)
-            .setSmallIcon(if (kind == ReminderKind.BLOCK) android.R.drawable.ic_popup_reminder else android.R.drawable.ic_lock_idle_alarm)
+            .setSmallIcon(if (kind.isAlarm || kind == ReminderKind.ADHAN) android.R.drawable.ic_lock_idle_alarm else android.R.drawable.ic_popup_reminder)
             .setContentTitle(title)
-            .setContentText(body)
+            .setContentText(body.lineSequence().firstOrNull().orEmpty())
+            .setStyle(Notification.BigTextStyle().bigText(body))
             .setWhen(atMs)
             .setShowWhen(true)
-            .setCategory(if (kind == ReminderKind.BLOCK) Notification.CATEGORY_REMINDER else Notification.CATEGORY_ALARM)
+            .setCategory(if (kind.isAlarm || kind == ReminderKind.ADHAN) Notification.CATEGORY_ALARM else Notification.CATEGORY_REMINDER)
             .setContentIntent(openApp(context))
             .setAutoCancel(true)
             .build()

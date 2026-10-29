@@ -1,5 +1,6 @@
 package com.dcc.yawm.shared.data
 
+import com.dcc.yawm.shared.alarm.AlertPrefs
 import com.dcc.yawm.shared.day.DEFAULT_BEDTIME
 import com.dcc.yawm.shared.day.DayCustomization
 import com.dcc.yawm.shared.day.MyDayPlan
@@ -38,6 +39,12 @@ data class UserSettings(
     /** The day the user built («يومك»); null = the ready template with [day]. */
     val myDay: MyDayPlan? = null,
     val tasks: List<TaskItem> = emptyList(),
+    /** Reminders per item, prayer alerts, own alarms, morning summary and evening review. */
+    val alerts: AlertPrefs = AlertPrefs(),
+    /** While focus runs (epoch milliseconds it ends), only alarms and prayers ring. */
+    val focusUntil: Long? = null,
+    /** When focus started, to count focus time for the week. */
+    val focusFrom: Long? = null,
 )
 
 enum class Theme { AUTO, LIGHT, DARK }
@@ -61,6 +68,9 @@ private const val SETUP_DONE = "setup.done"
 private const val DAY = "day.custom.v1"
 private const val MY_DAY = "day.mine.v1"
 private const val TASKS = "tasks.v1"
+private const val ALERTS = "alerts.v2"
+private const val FOCUS = "focus.until"
+private const val FOCUS_FROM = "focus.from"
 private const val AUTO = "auto"
 
 internal fun encodeSettings(s: UserSettings): Map<String, String> {
@@ -89,6 +99,9 @@ internal fun encodeSettings(s: UserSettings): Map<String, String> {
         DAY to encodeCustomization(s.day),
         MY_DAY to encodeMyDay(s.myDay),
         TASKS to encodeTasks(s.tasks),
+        ALERTS to encodeAlerts(s.alerts),
+        FOCUS to (s.focusUntil?.toString() ?: ""),
+        FOCUS_FROM to (s.focusFrom?.toString() ?: ""),
     )
 }
 
@@ -132,5 +145,8 @@ internal fun decodeSettings(m: Map<String, String>): UserSettings {
         day = decodeCustomization(m[DAY]),
         myDay = decodeMyDay(m[MY_DAY]),
         tasks = decodeTasks(m[TASKS]),
+        alerts = decodeAlerts(m[ALERTS]),
+        focusUntil = m[FOCUS]?.toLongOrNull(),
+        focusFrom = m[FOCUS_FROM]?.toLongOrNull(),
     )
 }

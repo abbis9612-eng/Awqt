@@ -13,6 +13,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 context, kind, intent.getIntExtra(ID, 0),
                 intent.getStringExtra(TITLE).orEmpty(), intent.getStringExtra(BODY).orEmpty(),
                 intent.getLongExtra(AT, System.currentTimeMillis()),
+                intent.getBooleanExtra(SILENT, false),
             )
         }
         val pending = goAsync()
@@ -25,6 +26,7 @@ class AlarmReceiver : BroadcastReceiver() {
         const val TITLE = "title"
         const val BODY = "body"
         const val AT = "at"
+        const val SILENT = "silent"
     }
 }
 

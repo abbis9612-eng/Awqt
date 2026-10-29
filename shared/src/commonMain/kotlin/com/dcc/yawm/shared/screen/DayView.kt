@@ -12,6 +12,7 @@ import com.dcc.yawm.shared.day.Role
 import com.dcc.yawm.shared.day.customizedTemplate
 import com.dcc.yawm.shared.day.Anchor
 import com.dcc.yawm.shared.day.myDayTemplate
+import com.dcc.yawm.shared.day.plainTitle
 import com.dcc.yawm.shared.prayer.DayPrayerTimes
 import com.dcc.yawm.shared.prayer.Prayer
 import com.dcc.yawm.shared.prayer.PrayerTimesEngine
@@ -89,7 +90,7 @@ class DayView(
     fun ink(t: Int): InkState {
         val cur = current(t)
         if (cur != null && cur.isSleep) {
-            return InkState(if (plan.qiyam) "السَّحَر" else "الكعدة", plan.wake, fraction(t, plan.bedtime, plan.wake))
+            return InkState(if (plan.qiyam) "صلاة الليل" else "الصحيان", plan.wake, fraction(t, plan.bedtime, plan.wake))
         }
         val all = listOf("العشاء" to prevIsha) + prayerList.map { it.second to it.third } + listOf("الفجر" to nextFajr)
         var i = all.indexOfFirst { it.second > t }
@@ -130,7 +131,7 @@ class DayView(
         if (t >= plan.bedtime) ink(t) else InkState("النوم", plan.bedtime, fraction(t, times.isha, plan.bedtime))
 }
 
-private const val QIYAM_TITLE = "السَّحَر: ركعتان والوتر"
+private const val QIYAM_TITLE = "صلاة الليل والوتر"
 
 private fun fraction(t: Int, from: Int, to: Int): Float =
     if (to <= from) 1f else ((t - from).toFloat() / (to - from)).coerceIn(0f, 1f)
@@ -201,7 +202,7 @@ fun dayView(settings: UserSettings, date: LocalDate, cache: MutableMap<LocalDate
     val train = if (my != null || settings.day.changes[day.type]?.get("train")?.title != null) null else trainingTitle(date)
 
     val items = day.blocks.filter { it.key != "qiyam" }.map { b ->
-        val title = if (b.key == "train" && train != null) train else b.title
+        val title = if (b.key == "train" && train != null) train else plainTitle(b.key, b.title)
         Item(b.key, title, b.role, b.start, b.end, b.isPrayer, iconFor(b.key, title, my), shrunkFrom = b.shrunkFromMinutes)
     }.toMutableList()
     items += Item("sleep", "النوم", Role.BODY, day.plan.bedtime, day.plan.wake, false, "bed", isSleep = true)
@@ -222,7 +223,7 @@ fun dayView(settings: UserSettings, date: LocalDate, cache: MutableMap<LocalDate
             AdjustmentKind.DROPPED -> specs[key]?.let { spec ->
                 val where = after[key]?.let { " بعد $it" }.orEmpty()
                 val hint = if (my != null && !spec.droppable) " إذا تريدها، قصّر غيرها أو غيّر وقتها من «عدّل يومك»." else ""
-                "ما بقى وقت اليوم لـ«${spec.title}»$where، فشلناها من الجدول.$hint"
+                "ما بقى وقت اليوم لـ«${plainTitle(spec.key, spec.title)}»$where، فشلناها من الجدول.$hint"
             }
             AdjustmentKind.OVERFLOW -> null
         }

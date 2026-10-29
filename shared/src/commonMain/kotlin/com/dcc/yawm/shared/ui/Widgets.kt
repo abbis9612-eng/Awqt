@@ -91,29 +91,6 @@ fun When(parts: List<Pair<String, Boolean>>, modifier: Modifier = Modifier) {
     )
 }
 
-/**
- * The signature: a Ruqaa word filled with ink from the right up to [progress]. Its size does not
- * follow the font scale (it is decorative); the sentence under it carries the information.
- */
-@Composable
-fun InkWord(word: String, progress: Float, size: Dp, label: String, modifier: Modifier = Modifier) {
-    val pal = LocalPalette.current
-    val reduced = LocalReducedMotion.current
-    val p by animateFloatAsState(progress.coerceIn(0f, 1f), tween(if (reduced) 0 else 600), label = "ink")
-    val fontSize = with(LocalDensity.current) { (size.value / fontScale).sp }
-    val a = (1f - p - 0.015f).coerceIn(0f, 1f)
-    val b = (1f - p + 0.015f).coerceIn(0f, 1f).coerceAtLeast(a)
-    BasicText(
-        word,
-        modifier = modifier.fillMaxWidth().padding(horizontal = 6.dp).clearAndSetSemantics { contentDescription = label },
-        style = TextStyle(
-            brush = Brush.horizontalGradient(0f to pal.faint, a to pal.faint, b to pal.ink, 1f to pal.ink),
-            fontFamily = LocalFonts.current.ruqaa, fontWeight = FontWeight.Bold, fontSize = fontSize,
-            textAlign = TextAlign.Center, lineHeight = fontSize * 1.25f,
-        ),
-    )
-}
-
 /** Prototype fitFs: long words get a smaller size. */
 fun wordSize(word: String, big: Dp = 138.dp): Dp = when {
     word.length > 7 -> 88.dp

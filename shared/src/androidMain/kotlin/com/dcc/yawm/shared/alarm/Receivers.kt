@@ -7,15 +7,7 @@ import android.content.Intent
 /** An alarm rang: show it, then set the next 48 hours again so the chain never runs dry. */
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val kind = intent.getStringExtra(KIND)?.let { k -> ReminderKind.entries.firstOrNull { it.name == k } }
-        if (kind != null) {
-            Notifications.show(
-                context, kind, intent.getIntExtra(ID, 0),
-                intent.getStringExtra(TITLE).orEmpty(), intent.getStringExtra(BODY).orEmpty(),
-                intent.getLongExtra(AT, System.currentTimeMillis()),
-                intent.getBooleanExtra(SILENT, false),
-            )
-        }
+        if (intent.getStringExtra(KIND) != null) Notifications.show(context, intent)
         val pending = goAsync()
         AlarmScheduler.rescheduleAsync(context) { pending.finish() }
     }
@@ -27,6 +19,8 @@ class AlarmReceiver : BroadcastReceiver() {
         const val BODY = "body"
         const val AT = "at"
         const val SILENT = "silent"
+        const val STYLE = "style"
+        const val KEY = "key"
     }
 }
 

@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- «موقعي الحالي»: approximate only, read on the phone, rounded to the city (rule 5). -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- The alarm screen over the lock screen. Android 14+ grants it only to alarm and calling apps
+         and Play asks for a declaration (DECISIONS 2026-10-29); without it the alarm still rings. -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="false"
@@ -25,8 +29,22 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.dcc.yawm.shared.alarm.AlarmActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:taskAffinity="" />
+
         <receiver
             android:name="com.dcc.yawm.shared.alarm.AlarmReceiver"
+            android:exported="false" />
+
+        <!-- The buttons on a notification: done, five more minutes, tomorrow. -->
+        <receiver
+            android:name="com.dcc.yawm.shared.alarm.ActionReceiver"
             android:exported="false" />
 
         <receiver

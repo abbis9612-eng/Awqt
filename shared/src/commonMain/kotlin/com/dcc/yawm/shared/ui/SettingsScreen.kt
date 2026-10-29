@@ -105,7 +105,7 @@ fun AlarmChecks(status: DeviceStatus, device: com.dcc.yawm.shared.alarm.DeviceCo
     }
     ListRow(onClick = device::openAdhanSound) {
         RowText("صوت الأذان", "اختاره من أصوات تلفونك")
-        Txt("←", bold = true)
+        Txt("‹", bold = true)
     }
 }
 
@@ -116,20 +116,29 @@ fun SettingsScreen(
     device: com.dcc.yawm.shared.alarm.DeviceControls,
     platform: Platform,
     save: (UserSettings) -> Unit,
+    openMyDay: () -> Unit,
     openDayEditor: () -> Unit,
     close: () -> Unit,
 ) {
     val pal = LocalPalette.current
     Row(Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-        Ruqaa("الإعدادات", 34.sp)
+        Display("الإعدادات", 32.sp)
         PillButton("رجوع", close)
     }
 
     Heading("يومك")
-    ListRow(onClick = openDayEditor) {
+    ListRow(onClick = openMyDay) {
         Tile("week", false, TileSize.SM)
-        RowText("رتّب يومك", "غيّر الفقرات وأضف فقراتك، وأيام الدوام، والمواعيد الثابتة", bold = true)
-        Txt("←", bold = true)
+        RowText(
+            if (settings.myDay != null) "يومك" else "ابنِ يومك",
+            if (settings.myDay != null) "حياتك، وشغلاتك، ووين تجي ويّا الصلاة" else "تبدي من الصلاة بس، وتضيف شغلاتك إنت",
+            bold = true,
+        )
+        Txt("‹", bold = true)
+    }
+    if (settings.myDay == null) ListRow(onClick = openDayEditor) {
+        RowText("عدّل الترتيب الجاهز", "الفقرات الجاهزة، وأيام الدوام، والمواعيد الثابتة")
+        Txt("‹", bold = true)
     }
 
     Heading("المدينة")
@@ -158,16 +167,9 @@ fun SettingsScreen(
     AdjustRow("المغرب", a.maghrib) { v -> adj { it.copy(maghrib = v) } }
     AdjustRow("العشاء", a.isha) { v -> adj { it.copy(isha = v) } }
 
-    Heading("التنبيهات")
+    Heading("فحص التنبيهات")
+    Txt("المنبّهات وتنبيهات الفقرات والصلاة صارت بصفحة «المنبّه» تحت.", size = 14.sp, color = pal.grey)
     AlarmChecks(status, device)
-    ListRow {
-        RowText("تذكير ببداية كل فقرة", "تذكير خفيف بلا صوت أذان")
-        InkSwitch(settings.blockReminders, "تذكير ببداية كل فقرة") { save(settings.copy(blockReminders = it)) }
-    }
-    ListRow {
-        RowText("منبّه الكعدة قبل الفجر")
-        InkSwitch(settings.wakeAlarm, "منبه الكعدة") { save(settings.copy(wakeAlarm = it)) }
-    }
 
     Heading("أدوارك (النقاط تتبعها)")
     RolesChooser(settings, save)
@@ -187,7 +189,7 @@ fun SettingsScreen(
         size = 15.sp, color = pal.soft, modifier = Modifier.padding(top = 6.dp),
     )
     Txt(
-        "الخطوط: عارف رقعة، ونوتو نسخ عربي، وأميري، كلها برخصة SIL Open Font License 1.1. المواقيت تنحسب بمكتبة Adhan.",
+        "الخطوط: نوتو كوفي عربي، وعارف رقعة، ونوتو نسخ عربي، وأميري، كلها برخصة SIL Open Font License 1.1. المواقيت تنحسب بمكتبة Adhan.",
         size = 13.5.sp, color = pal.grey, modifier = Modifier.padding(top = 6.dp, bottom = 24.dp),
     )
 }
@@ -201,46 +203,5 @@ private fun AdjustRow(name: String, value: Int, set: (Int) -> Unit) {
             onMinus = { set((value - 1).coerceAtLeast(-30)) },
             onPlus = { set((value + 1).coerceAtMost(30)) },
         )
-    }
-}
-
-/** First run: city, roles, then the alarm permissions, then «ابدأ». */
-@Composable
-fun FirstRunScreen(
-    settings: UserSettings,
-    status: DeviceStatus,
-    device: com.dcc.yawm.shared.alarm.DeviceControls,
-    platform: Platform,
-    save: (UserSettings) -> Unit,
-) {
-    val pal = LocalPalette.current
-    var step by remember { mutableStateOf(0) }
-    InkWord("يوم", (step + 1) / 3f, 138.dp, "يوم، الخطوة ${step + 1} من 3", Modifier.padding(top = 40.dp))
-    when (step) {
-        0 -> {
-            Txt("يرتّب يومك حول الصلوات الخمس بمدينتك، ويتغيّر ويّا الشمس كل يوم.", size = 18.sp, align = androidx.compose.ui.text.style.TextAlign.Center, modifier = Modifier.fillMaxWidth())
-            Heading("وين تعيش؟")
-            CityChooser(settings, platform, save)
-            InkButton("التالي", Modifier.padding(vertical = 22.dp)) { step = 1 }
-        }
-        1 -> {
-            Txt("شنو أدوارك؟ النقاط اليومية تتبعها، وتكدر تغيّرها بعدين.", size = 18.sp, align = androidx.compose.ui.text.style.TextAlign.Center, modifier = Modifier.fillMaxWidth())
-            Heading("أدوارك")
-            RolesChooser(settings, save)
-            Row(Modifier.fillMaxWidth().padding(vertical = 22.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                PillButton("رجوع") { step = 0 }
-                InkButton("التالي", Modifier.weight(1f)) { step = 2 }
-            }
-        }
-        else -> {
-            Txt("حتى يطلع الأذان بوقته حتى لو التلفون مقفول، اسمح بهالثلاثة.", size = 18.sp, align = androidx.compose.ui.text.style.TextAlign.Center, modifier = Modifier.fillMaxWidth())
-            Heading("التنبيهات")
-            AlarmChecks(status, device)
-            Txt("تكدر تكمل بدونها، بس الأذان ممكن يتأخر.", size = 14.5.sp, color = pal.grey, modifier = Modifier.padding(top = 8.dp))
-            Row(Modifier.fillMaxWidth().padding(vertical = 22.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                PillButton("رجوع") { step = 1 }
-                InkButton("ابدأ", Modifier.weight(1f)) { save(settings.copy(setupDone = true)) }
-            }
-        }
     }
 }

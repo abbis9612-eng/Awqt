@@ -44,7 +44,7 @@ fun NightScreen(day: DayView, t: Int, settings: UserSettings, save: (UserSetting
     if (asleep) {
         When(listOf("بعد ${durText(ink.target - t)}، الساعة " to false, clock(ink.target) to true))
     } else {
-        When(listOf("تنام " to false, clock(p.bedtime) to true, "، وتكعد " to false, clock(p.wake) to true, (if (p.qiyam) " للسَّحَر" else "") to false))
+        When(listOf("تنام " to false, clock(p.bedtime) to true, "، وتصحى " to false, clock(p.wake) to true, (if (p.qiyam) " لصلاة الليل" else "") to false))
     }
 
     NightLine(day, t)
@@ -81,12 +81,12 @@ fun NightScreen(day: DayView, t: Int, settings: UserSettings, save: (UserSetting
         )
     }
     ListRow(minHeight = 60.dp) {
-        RowText("السَّحَر قبل الفجر", "إذا بقى للنوم 6 ساعات أو أكثر")
-        InkSwitch(settings.qiyamEnabled, "السحر قبل الفجر") { save(settings.copy(qiyamEnabled = it)) }
+        RowText("صلاة الليل قبل الفجر", "إذا بقى للنوم 6 ساعات أو أكثر")
+        InkSwitch(settings.qiyamEnabled, "صلاة الليل قبل الفجر") { save(settings.copy(qiyamEnabled = it)) }
     }
     ListRow(minHeight = 60.dp, divider = false) {
-        RowText("منبّه الكعدة ${clock(p.wake)}", "يتحرك وياك كل ليلة")
-        InkSwitch(settings.wakeAlarm, "منبه الكعدة") { save(settings.copy(wakeAlarm = it)) }
+        RowText("منبّه الصحيان ${clock(p.wake)}", "يتحرك وياك كل ليلة")
+        InkSwitch(settings.wakeAlarm, "منبّه الصحيان") { save(settings.copy(wakeAlarm = it)) }
     }
     Spacer(Modifier.height(18.dp))
 }
@@ -122,7 +122,7 @@ private fun NightLine(day: DayView, t: Int) {
         }
         Column(horizontalAlignment = Alignment.End) {
             Num(clock(p.wake), size = 17.sp, color = pal.ink)
-            Txt((if (p.qiyam) "السَّحَر" else "تكعد") + "، والفجر ${clock(z)}", size = 12.5.sp, color = pal.grey, lineHeight = 1.3f)
+            Txt((if (p.qiyam) "صلاة الليل" else "تصحى") + "، والفجر ${clock(z)}", size = 12.5.sp, color = pal.grey, lineHeight = 1.3f)
         }
     }
 }

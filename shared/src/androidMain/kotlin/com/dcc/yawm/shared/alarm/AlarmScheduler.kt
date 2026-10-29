@@ -62,6 +62,8 @@ internal object AlarmScheduler {
                 .putExtra(AlarmReceiver.BODY, r.body)
                 .putExtra(AlarmReceiver.AT, r.at.toEpochMilliseconds())
                 .putExtra(AlarmReceiver.SILENT, r.silent)
+                .putExtra(AlarmReceiver.KEY, r.key)
+                .putExtra(AlarmReceiver.STYLE, settings.alerts.style.name)
             val pi = PendingIntent.getBroadcast(app, r.id, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
             val t = r.at.toEpochMilliseconds()
             try {

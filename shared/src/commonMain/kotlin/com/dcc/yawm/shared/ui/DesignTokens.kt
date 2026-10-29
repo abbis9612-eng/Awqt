@@ -18,6 +18,8 @@ data class Palette(
     /** Body text of secondary rows (prototype `.after`). */
     val soft: Color,
     val isDark: Boolean,
+    /** The edge of the big word's letters before the ink reaches them (3:1 or more on paper). */
+    val outline: Color,
 )
 
 val LightPalette = Palette(
@@ -28,6 +30,7 @@ val LightPalette = Palette(
     line = Color(0x14121212),
     soft = Color(0xFF3A3835),
     isDark = false,
+    outline = Color(0xFF8F8A82),
 )
 
 /** After Isha until Fajr. */
@@ -39,6 +42,7 @@ val DarkPalette = Palette(
     line = Color(0x1AF1EEE7),
     soft = Color(0xFFD3CFC7),
     isDark = true,
+    outline = Color(0xFF77736C),
 )
 
 /** Unselected tab (prototype `.ios-tab button`). */
@@ -50,12 +54,14 @@ val SuhurColor = Color(0xFF3F57A6)
 
 @Immutable
 data class YawmFonts(
-    /** Aref Ruqaa: the ink word and the prayer names. */
+    /** Aref Ruqaa: kept for the owner's earlier screens; display words now use [display]. */
     val ruqaa: FontFamily,
     /** Noto Naskh Arabic: all text. */
     val naskh: FontFamily,
     /** Amiri: times and numbers. */
     val amiri: FontFamily,
+    /** Noto Kufi Arabic ExtraBold: the big word and every display word (owner's choice 2026-10-29). */
+    val display: FontFamily = ruqaa,
 )
 
 val LocalPalette = staticCompositionLocalOf { LightPalette }

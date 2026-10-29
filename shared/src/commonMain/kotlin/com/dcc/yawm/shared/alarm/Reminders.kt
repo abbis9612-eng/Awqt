@@ -6,6 +6,7 @@ import com.dcc.yawm.shared.day.ResolvedDay
 import com.dcc.yawm.shared.day.Slot
 import com.dcc.yawm.shared.day.isFreeKey
 import com.dcc.yawm.shared.day.placeTasks
+import com.dcc.yawm.shared.day.plainTitle
 import com.dcc.yawm.shared.day.tasksOn
 import com.dcc.yawm.shared.day.toLocalDateTime
 import com.dcc.yawm.shared.prayer.DayPrayerTimes
@@ -111,7 +112,7 @@ fun upcomingReminders(settings: UserSettings, now: Instant, hours: Int = SCHEDUL
         if (prefs.morningSummary) {
             val n = tasksOn(d, today, settings.tasks).count { !it.done }
             val first = day.blocks.firstOrNull { it.start >= day.times.sunrise && !it.isPrayer && !isFreeKey(it.key) }
-            val body = (if (n > 0) "اليوم عندك $n مهام." else "اليوم بلا مهام.") + (first?.let { " أول شغلة: ${it.title}." } ?: "")
+            val body = (if (n > 0) "اليوم عندك $n مهام." else "اليوم بلا مهام.") + (first?.let { " أول شغلة: ${plainTitle(it.key, it.title)}." } ?: "")
             due += Due(Line(ReminderKind.SUMMARY, "summary", "يومك", body), instant(d, day.times.sunrise))
         }
         if (prefs.eveningReview) {
@@ -148,8 +149,9 @@ fun upcomingReminders(settings: UserSettings, now: Instant, hours: Int = SCHEDUL
 
 private fun itemLines(day: ResolvedDay, d: LocalDate, s: UserSettings, instant: (LocalDate, Int) -> Instant, zone: TimeZone, due: MutableList<Due>) {
     val prefs = s.alerts
-    for (b in day.blocks) {
-        if (b.isPrayer || isFreeKey(b.key)) continue
+    for (raw in day.blocks) {
+        if (raw.isPrayer || isFreeKey(raw.key)) continue
+        val b = raw.copy(title = plainTitle(raw.key, raw.title))
         // The wake alarm already rings when the night prayer starts.
         if (b.key == "qiyam" && s.wakeAlarm) continue
         val start = instant(d, b.start)

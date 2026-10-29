@@ -70,7 +70,7 @@ class ScreenModelTest {
         val d = dayView(s, oct27)
         val t = d.plan.bedtime + 30
         assertTrue(d.current(t)!!.isSleep)
-        assertEquals(if (d.plan.qiyam) "السَّحَر" else "الكعدة", d.ink(t).word)
+        assertEquals(if (d.plan.qiyam) "صلاة الليل" else "الصحيان", d.ink(t).word)
         assertEquals(d.plan.wake, d.ink(t).target)
         assertEquals("النوم", d.nightInk(d.times.isha + 5).word)
     }

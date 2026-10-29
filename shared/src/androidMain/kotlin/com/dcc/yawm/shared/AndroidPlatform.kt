@@ -1,11 +1,13 @@
 package com.dcc.yawm.shared
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.IslamicCalendar
 import android.icu.util.ULocale
 import android.location.Location
 import android.location.LocationManager
+import android.media.MediaPlayer
 import android.os.Build
 import android.provider.Settings
 import android.view.View
@@ -15,6 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import com.dcc.yawm.shared.alarm.AlarmActivity
+import com.dcc.yawm.shared.alarm.AlarmReceiver
+import com.dcc.yawm.shared.alarm.Notifications
+import com.dcc.yawm.shared.alarm.ReminderKind
 import com.dcc.yawm.shared.prayer.GeoPoint
 import com.dcc.yawm.shared.ui.Platform
 import com.dcc.yawm.shared.ui.YawmFonts
@@ -27,7 +33,7 @@ private val HijriMonths = listOf(
 )
 
 internal class AndroidPlatform(private val activity: ComponentActivity) : Platform {
-    // The three OFL fonts ship in androidApp/src/main/assets/fonts (IDENTITY.md; no network in v1).
+    // The OFL fonts ship in androidApp/src/main/assets/fonts (IDENTITY.md; no network in v1).
     // Noto Naskh is a variable font: each weight sets its own wght axis.
     override val fonts = YawmFonts(
         ruqaa = FontFamily(Font("fonts/ArefRuqaa-Bold.ttf", activity.assets, FontWeight.Bold)),
@@ -36,6 +42,11 @@ internal class AndroidPlatform(private val activity: ComponentActivity) : Platfo
             Font("fonts/NotoNaskhArabic-wght.ttf", activity.assets, FontWeight.Bold),
         ),
         amiri = FontFamily(Font("fonts/Amiri-Regular.ttf", activity.assets, FontWeight.Normal)),
+        // Variable as well: ExtraBold sets wght 800, Bold 700.
+        display = FontFamily(
+            Font("fonts/NotoKufiArabic-wght.ttf", activity.assets, FontWeight.ExtraBold),
+            Font("fonts/NotoKufiArabic-wght.ttf", activity.assets, FontWeight.Bold),
+        ),
     )
 
     override val reducedMotion: Boolean
@@ -91,5 +102,36 @@ internal class AndroidPlatform(private val activity: ComponentActivity) : Platfo
             val v = window.decorView
             v.systemUiVisibility = if (dark) v.systemUiVisibility and flags.inv() else v.systemUiVisibility or flags
         }
+    }
+
+    private var player: MediaPlayer? = null
+
+    /** «اسمع»: plays one of the app's sounds (res/raw of the app) once. */
+    override fun playSound(file: String) {
+        @Suppress("DiscouragedApi")
+        val id = activity.resources.getIdentifier(file, "raw", activity.packageName)
+        if (id == 0) return
+        player?.release()
+        player = MediaPlayer.create(activity, id)?.apply {
+            setOnCompletionListener { it.release(); if (player === it) player = null }
+            start()
+        }
+    }
+
+    /** «جرّبها»: a real alarm now, through the same notification and screen the alarm uses. */
+    override fun testAlarm() {
+        val now = System.currentTimeMillis()
+        val extras = Intent()
+            .putExtra(AlarmReceiver.KIND, ReminderKind.ALARM.name)
+            .putExtra(AlarmReceiver.ID, TEST_ALARM_ID)
+            .putExtra(AlarmReceiver.TITLE, "تجربة المنبّه")
+            .putExtra(AlarmReceiver.BODY, "هيچ يطلع منبّهك")
+            .putExtra(AlarmReceiver.AT, now)
+        Notifications.show(activity, extras)
+        activity.startActivity(Intent(activity, AlarmActivity::class.java).putExtras(extras))
+    }
+
+    private companion object {
+        const val TEST_ALARM_ID = 7_000_001
     }
 }

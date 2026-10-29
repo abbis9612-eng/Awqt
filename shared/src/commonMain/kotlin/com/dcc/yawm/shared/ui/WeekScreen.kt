@@ -101,8 +101,8 @@ fun Ruqaa(text: String, size: androidx.compose.ui.unit.TextUnit, color: androidx
     androidx.compose.foundation.text.BasicText(
         text,
         style = androidx.compose.ui.text.TextStyle(
-            color = color, fontFamily = LocalFonts.current.ruqaa, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-            fontSize = size, lineHeight = size * 1.3f,
+            color = color, fontFamily = LocalFonts.current.display, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold,
+            fontSize = size, lineHeight = size * 1.6f,
         ),
     )
 }

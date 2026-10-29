@@ -31,3 +31,5 @@
 @keyframes pour{from{--p:0%}}
 .cA.enter .top5 b,.cA.enter .sh h2{animation:soak .6s cubic-bezier(.2,.7,.2,1) both}
 @media (prefers-reduced-motion:reduce){.cA .word::after{animation:none}}
+.cA .what{margin-top:14px;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--ink) 5%,transparent);font-size:15.5px;line-height:1.75}
+.cA .what b{display:block;font-size:14px;color:var(--grey);margin-bottom:2px}

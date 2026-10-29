@@ -247,7 +247,8 @@ fun FirstRunBuilder(
         0 -> {
             Display("هلا بيك بـ«يوم»", 30.sp)
             val lines = listOf("يرتّب يومك من الفجر للنوم", "ينبّهك بوكت كل شغلة", "يحسبلك نومك كل ليلة")
-            var shown by remember { mutableIntStateOf(if (LocalReducedMotion.current) 3 else 0) }
+            val reduced = LocalReducedMotion.current
+            var shown by remember { mutableIntStateOf(if (reduced) 3 else 0) }
             LaunchedEffect(Unit) { while (shown < 3) { delay(650); shown++ } }
             Column(Modifier.fillMaxWidth().padding(top = 16.dp).background(lerp(pal.paper, pal.ink, 0.03f), RoundedCornerShape(18.dp)).padding(16.dp)) {
                 Txt("«يوم» يساعدك…", size = 15.sp, color = pal.grey)

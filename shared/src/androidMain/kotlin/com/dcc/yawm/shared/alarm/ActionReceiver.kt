@@ -82,7 +82,8 @@ class ActionReceiver : BroadcastReceiver() {
             val am = context.getSystemService(AlarmManager::class.java)
             val at = System.currentTimeMillis() + 5 * 60_000L
             val again = Intent(extras).setClass(context, AlarmReceiver::class.java)
-                .putExtra(AlarmReceiver.AT, at).putExtra(AlarmReceiver.SILENT, false).removeExtra(WHAT)
+                .putExtra(AlarmReceiver.AT, at).putExtra(AlarmReceiver.SILENT, false)
+            again.removeExtra(WHAT)
             val pi = PendingIntent.getBroadcast(context, extras.getIntExtra(AlarmReceiver.ID, 0) xor 0x5A5A, again, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
             try {
                 if (AlarmScheduler.canScheduleExact(am)) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi)

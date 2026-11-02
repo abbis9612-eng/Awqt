@@ -3,17 +3,22 @@ package com.dcc.yawm.shared.ui
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.sp
-import com.dcc.yawm.shared.day.TaskItem
-import com.dcc.yawm.shared.day.tasksOn
-import com.dcc.yawm.shared.screen.Item
-import com.dcc.yawm.shared.screen.MonthNames
-import com.dcc.yawm.shared.screen.dayName
+import com.dcc.yawm.shared.day.DayPart
+import com.dcc.yawm.shared.day.Remind
+import com.dcc.yawm.shared.day.Repeat
+import com.dcc.yawm.shared.day.Thing
+import com.dcc.yawm.shared.day.nextThingId
+import com.dcc.yawm.shared.screen.Where
+import com.dcc.yawm.shared.screen.partNow
+import com.dcc.yawm.shared.screen.partsView
+import com.dcc.yawm.shared.screen.savedMessage
+import com.dcc.yawm.shared.screen.toAlarm
+import com.dcc.yawm.shared.screen.toThing
+import com.dcc.yawm.shared.screen.whereName
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,12 +43,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -85,13 +87,9 @@ interface Platform {
     fun testAlarm()
 }
 
-private enum class Tab(val label: String, val icon: String) {
-    TODAY("اليوم", "dhuhr"), TASKS("المهام", "seal"), ALARMS("المنبّه", "hourglass"), WEEK("الأسبوع", "week"),
-}
+private enum class Overlay { NONE, SETTINGS, REVIEW, NIGHT, PAGE, SOUNDS, ALERTS, WEEK }
 
-private enum class Overlay { NONE, SETTINGS, REVIEW, DAY_EDITOR, MY_DAY, NIGHT, PAGE, SOUNDS }
-
-private enum class SheetKind { NONE, ITEM, ADD_MENU, QUICK_ADD }
+private enum class SheetKind { NONE, ADD, ADD_ALARM, THING }
 
 @OptIn(ExperimentalTime::class)
 @Composable
@@ -155,7 +153,7 @@ private fun Screens(
             Column(Modifier.fillMaxSize().background(bg).statusBarsPadding().navigationBarsPadding()) {
                 if (!settings.setupDone) {
                     Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 24.dp)) {
-                        FirstRunBuilder(settings, status, device, platform, moment.date, save)
+                        FirstRun(settings, status, device, platform, save)
                     }
                 } else {
                     MainScreens(data, device, platform, settings, moment, save)
@@ -178,55 +176,58 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
     val pal = LocalPalette.current
     val scope = rememberCoroutineScope()
     val status by device.status.collectAsState()
-    var tab by remember { mutableStateOf(Tab.TODAY) }
     var overlay by remember { mutableStateOf(Overlay.NONE) }
     var sheet by remember { mutableStateOf(SheetKind.NONE) }
-    var sheetKey by remember { mutableStateOf<String?>(null) }
+    var sheetThing by remember { mutableStateOf<String?>(null) }
+    var addPart by remember { mutableStateOf<DayPart?>(null) }
     var shownDate by remember { mutableStateOf<LocalDate?>(null) }
     var editingAlarm by remember { mutableStateOf<String?>(null) }
     var toastText by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(toastText) { if (toastText != null) { delay(2400); toastText = null } }
     val toast: (String) -> Unit = { toastText = it }
 
-    platform.BackHandler(sheet != SheetKind.NONE || overlay != Overlay.NONE || shownDate != null || tab != Tab.TODAY) {
+    platform.BackHandler(sheet != SheetKind.NONE || overlay != Overlay.NONE || shownDate != null) {
         when {
             sheet != SheetKind.NONE -> sheet = SheetKind.NONE
+            overlay == Overlay.SOUNDS || overlay == Overlay.REVIEW -> overlay = Overlay.SETTINGS
             overlay != Overlay.NONE -> overlay = Overlay.NONE
-            shownDate != null -> shownDate = null
-            else -> tab = Tab.TODAY
+            else -> shownDate = null
         }
     }
     val date = shownDate ?: moment.date
     val isToday = date == moment.date
     val day = remember(settings, date) { dayView(settings, date) }
     val todayView = remember(settings, moment.date) { dayView(settings, moment.date) }
+    val view = remember(settings, date, moment.date, moment.t) { partsView(settings, date, moment.date, if (isToday) moment.t else null) }
     val done by remember(date) { data.dayLog.blocksDoneOn(date) }.collectAsState(emptySet())
-    val placed = remember(settings, date, moment.t) { placedTasksOf(day, settings, date, moment.date, moment.t) }
-    val placedToday = remember(settings, moment.date, moment.t) { placedTasksOf(todayView, settings, moment.date, moment.date, moment.t) }
     val scroll = rememberScrollState()
-    LaunchedEffect(tab, overlay, shownDate) { scroll.scrollTo(0) }
-    val nowMs = Clock.System.now().toEpochMilliseconds()
-    val focusUntil = settings.focusUntil?.takeIf { it > nowMs }
+    LaunchedEffect(overlay, shownDate) { scroll.scrollTo(0) }
+    // The real clock (after midnight the app day is still yesterday until Fajr).
+    val realToday = if (moment.t >= 1440) moment.date.plusDays(1) else moment.date
+    val realNow = moment.t % 1440
 
-    fun toggleTask(x: TaskItem) = save(settings.copy(tasks = settings.tasks.map { if (it.id == x.id) it.copy(doneOn = if (it.done) null else moment.date) else it }))
-    fun startFocus(it: Item) {
-        val ms = Clock.System.now().toEpochMilliseconds()
-        save(settings.copy(focusFrom = ms, focusUntil = ms + (it.end - moment.t).coerceAtLeast(5) * 60_000L))
-        sheet = SheetKind.NONE
+    fun putThing(id: String, f: (Thing) -> Thing) = save(settings.copy(things = settings.things.map { if (it.id == id) f(it) else it }))
+    fun tick(x: Thing) {
+        putThing(x.id) { it.toggled(date) }
+        if (!x.doneOn(date)) toast("تم ✓")
     }
-    fun toggleDone(key: String) { scope.launch { data.dayLog.setBlockDone(date, key, key !in done) } }
+    fun pray(key: String) { scope.launch { data.dayLog.setBlockDone(date, key, key !in done) } }
 
     Box(Modifier.weight(1f)) {
         Column(Modifier.fillMaxSize().verticalScroll(scroll).padding(horizontal = 24.dp)) {
             when (overlay) {
                 Overlay.SETTINGS -> SettingsScreen(
                     settings, status, device, platform, save,
-                    openMyDay = { overlay = Overlay.MY_DAY },
-                    openDayEditor = { overlay = Overlay.DAY_EDITOR },
+                    openNight = { overlay = Overlay.NIGHT },
+                    openAlerts = { overlay = Overlay.ALERTS },
+                    openWeek = { overlay = Overlay.WEEK },
+                    openPage = { overlay = Overlay.PAGE },
                 ) { overlay = Overlay.NONE }
-                Overlay.DAY_EDITOR -> DayEditorScreen(settings, save) { overlay = Overlay.NONE }
-                Overlay.MY_DAY -> MyDayEditorScreen(settings, moment.date, save) { overlay = Overlay.NONE }
-                Overlay.SOUNDS -> SoundsScreen(settings, todayView, moment.t, platform) { overlay = Overlay.NONE }
+                Overlay.SOUNDS -> SoundsScreen(settings, todayView, moment.t, platform) { overlay = Overlay.ALERTS }
+                Overlay.ALERTS -> {
+                    SideTop(moment.date, platform.hijri(moment.date)) { overlay = Overlay.NONE }
+                    AlarmsScreen(settings, todayView, moment.t, status, device, save, editingAlarm, { editingAlarm = it }) { overlay = Overlay.SOUNDS }
+                }
                 Overlay.NIGHT -> {
                     SideTop(date, platform.hijri(date)) { overlay = Overlay.NONE }
                     NightScreen(day, moment.t, settings, save)
@@ -244,6 +245,14 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
                         onSave = { page -> scope.launch { data.dayLog.savePage(moment.date, page) } },
                     )
                 }
+                Overlay.WEEK -> {
+                    SideTop(moment.date, platform.hijri(moment.date)) { overlay = Overlay.NONE }
+                    val week = remember(settings, moment.date) { weekView(settings, moment.date) }
+                    WeekScreen(week, moment.date, moment.t, openDay = { d ->
+                        shownDate = if (d == moment.date) null else d
+                        overlay = Overlay.NONE
+                    }, openReview = { overlay = Overlay.REVIEW })
+                }
                 Overlay.REVIEW -> {
                     val week = remember(settings, moment.date) { weekView(settings, moment.date) }
                     var points by remember { mutableStateOf(0) }
@@ -251,100 +260,81 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
                         points = data.dayLog.doneBetween(week.saturday, week.friday).values
                             .sumOf { d -> checklistScore(d, settings.roles).done }
                     }
-                    ReviewScreen(week, points, 7 * ChecklistPoint.visibleFor(settings.roles).size) { overlay = Overlay.NONE }
+                    ReviewScreen(week, points, 7 * ChecklistPoint.visibleFor(settings.roles).size) { overlay = Overlay.WEEK }
                 }
-                Overlay.NONE -> {
-                    TopRow(date, platform.hijri(date), moment.t) { overlay = Overlay.SETTINGS }
-                    when (tab) {
-                        Tab.TODAY -> {
-                            WeekStrip(moment.date, date, { d -> tasksOn(d, moment.date, settings.tasks).any { !it.done } }) { d ->
-                                shownDate = if (d == moment.date) null else d
-                            }
-                            TodayScreen(
-                                day, moment.t, isToday, done, settings, placed,
-                                onToggle = ::toggleDone,
-                                openSheet = { sheetKey = it.key; sheet = SheetKind.ITEM },
-                                startFocus = ::startFocus,
-                                toggleTask = ::toggleTask,
-                                openNight = { overlay = Overlay.NIGHT },
-                                openPage = { overlay = Overlay.PAGE },
-                                openEditor = { overlay = Overlay.MY_DAY },
-                            )
-                        }
-                        Tab.TASKS -> TasksScreen(settings, moment.date, moment.t, placedToday, { k -> todayView.items.firstOrNull { it.key == k }?.title }, save, toast)
-                        Tab.ALARMS -> AlarmsScreen(settings, todayView, moment.t, status, device, save, editingAlarm, { editingAlarm = it }) { overlay = Overlay.SOUNDS }
-                        Tab.WEEK -> {
-                            val week = remember(settings, moment.date) { weekView(settings, moment.date) }
-                            WeekScreen(week, moment.date, moment.t, openDay = { d ->
-                                shownDate = if (d == moment.date) null else d
-                                tab = Tab.TODAY
-                            }, openReview = { overlay = Overlay.REVIEW })
-                        }
-                    }
-                }
+                Overlay.NONE -> DayPage(
+                    view, moment.t, isToday, done, platform.hijri(date), settings.wakeAlarm,
+                    onTick = ::tick,
+                    onOpen = { sheetThing = it.id; sheet = SheetKind.THING },
+                    onPray = ::pray,
+                    onAdd = { addPart = it; sheet = SheetKind.ADD },
+                    onAddAlarm = { sheet = SheetKind.ADD_ALARM },
+                    onAlarm = { a, on -> save(settings.copy(alerts = settings.alerts.copy(alarms = settings.alerts.alarms.map { if (it.id == a.id) it.copy(on = on) else it }))) },
+                    onWake = { save(settings.copy(wakeAlarm = it)) },
+                    openSettings = { overlay = Overlay.SETTINGS },
+                    backToToday = if (isToday) null else ({ shownDate = null }),
+                )
             }
         }
         when (sheet) {
-            SheetKind.ITEM -> day.items.firstOrNull { it.key == sheetKey }?.let { item ->
-                Sheet(item.title, { sheet = SheetKind.NONE }) {
-                    ItemSheetBody(
-                        item, moment.t, isToday, item.key in done, settings,
-                        onDone = { toggleDone(item.key) },
-                        onFocus = { startFocus(item) },
-                        onEdit = { sheet = SheetKind.NONE; overlay = if (settings.myDay != null) Overlay.MY_DAY else Overlay.DAY_EDITOR },
-                        save = save,
-                    )
+            SheetKind.ADD, SheetKind.ADD_ALARM -> Sheet(if (sheet == SheetKind.ADD) "أضف" else "منبّه جديد", { sheet = SheetKind.NONE }) {
+                AddSheetBody(
+                    alarmMode = sheet == SheetKind.ADD_ALARM,
+                    defaultPart = addPart ?: partNow(view, if (isToday) moment.t else null),
+                    spans = view.parts.map { it.span },
+                    nowMinute = realNow,
+                ) { d ->
+                    if (d.alarm) {
+                        val a = d.toAlarm(settings.alerts.nextAlarmId(), settings.workDays, realToday, realNow)
+                        save(settings.copy(alerts = settings.alerts.copy(alarms = settings.alerts.alarms + a)))
+                    } else {
+                        save(settings.copy(things = settings.things + d.toThing(nextThingId(settings.things), date)))
+                    }
+                    toast(d.savedMessage())
+                    sheet = SheetKind.NONE
+                    addPart = null
                 }
             }
-            SheetKind.ADD_MENU -> Sheet("أضف", { sheet = SheetKind.NONE }) {
-                AddMenuBody(
-                    onTask = { sheet = SheetKind.QUICK_ADD },
-                    onAlarm = {
-                        val id = settings.alerts.nextAlarmId()
-                        save(settings.copy(alerts = settings.alerts.copy(alarms = settings.alerts.alarms + com.dcc.yawm.shared.alarm.UserAlarm(id, "منبّه", 7 * 60))))
-                        editingAlarm = id; tab = Tab.ALARMS; overlay = Overlay.NONE; sheet = SheetKind.NONE
-                    },
-                    onItem = { sheet = SheetKind.NONE; overlay = if (settings.myDay != null) Overlay.MY_DAY else Overlay.DAY_EDITOR },
-                )
-            }
-            SheetKind.QUICK_ADD -> Sheet("مهمة جديدة", { sheet = SheetKind.NONE }) {
-                Txt("مهمة جديدة", size = 21.sp, bold = true, modifier = Modifier.padding(bottom = 6.dp))
-                QuickAddForm(moment.date, moment.t) { task, msg ->
-                    save(settings.copy(tasks = settings.tasks + task)); toast(msg); sheet = SheetKind.NONE
+            SheetKind.THING -> settings.things.firstOrNull { it.id == sheetThing }?.let { x ->
+                val where = when {
+                    x.isLater -> "بعدين"
+                    x.repeat == Repeat.ONCE && x.date != null && x.date > moment.date -> "باچر"
+                    else -> view.parts.firstOrNull { p -> p.things.any { it.id == x.id } }?.part?.label ?: "اليوم"
+                }
+                Sheet(x.title, { sheet = SheetKind.NONE }) {
+                    ThingSheetBody(
+                        x, date, where,
+                        onToggle = { tick(x); sheet = SheetKind.NONE },
+                        onMove = { w ->
+                            putThing(x.id) {
+                                when (w) {
+                                    Where.Later -> it.copy(date = null, part = null, at = null, remind = Remind.NONE)
+                                    Where.Tomorrow -> it.copy(date = moment.date.plusDays(1))
+                                    is Where.In -> it.copy(date = moment.date, part = w.part, at = null, remind = if (it.remind == Remind.AT) Remind.START else it.remind)
+                                }
+                            }
+                            toast("انتقلت لـ" + whereName(w)); sheet = SheetKind.NONE
+                        },
+                        onRemind = { r -> putThing(x.id) { it.copy(remind = r) } },
+                        onRepeat = { r -> putThing(x.id) { it.copy(repeat = r, date = if (r == Repeat.ONCE) (it.date ?: moment.date) else it.date) } },
+                        onDelete = { save(settings.copy(things = settings.things.filter { it.id != x.id })); toast("انحذفت"); sheet = SheetKind.NONE },
+                    )
                 }
             }
             SheetKind.NONE -> {}
         }
-        if (focusUntil != null) {
-            FocusScreen(
-                todayView.current(moment.t)?.title ?: "تركيز", settings.focusFrom ?: nowMs, focusUntil,
-                onStop = { save(settings.copy(focusUntil = null, focusFrom = null)) },
-                onMore = { save(settings.copy(focusUntil = focusUntil + 5 * 60_000L)) },
-            )
-        }
         toastText?.let { msg ->
-            Box(Modifier.align(Alignment.BottomCenter).padding(bottom = 14.dp).background(pal.ink, RoundedCornerShape(999.dp)).padding(horizontal = 18.dp, vertical = 10.dp)) {
+            Box(Modifier.align(Alignment.BottomCenter).padding(bottom = 90.dp).background(pal.ink, RoundedCornerShape(999.dp)).padding(horizontal = 18.dp, vertical = 10.dp)) {
                 Txt(msg, size = 15.sp, color = pal.paper, lineHeight = 1.4f)
             }
         }
-    }
-    if (overlay == Overlay.NONE && focusUntil == null) TabBar(tab, pal, onAdd = { sheet = SheetKind.ADD_MENU }) { tab = it; shownDate = null }
-}
-
-@Composable
-private fun TopRow(date: LocalDate, hijri: String, t: Int, openSettings: () -> Unit) {
-    val pal = LocalPalette.current
-    Row(Modifier.fillMaxWidth().padding(top = 18.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {
-        Column(Modifier.weight(1f)) {
-            Display(dayName(date), 26.sp)
-            Txt("${date.day} ${MonthNames[date.month.ordinal]} · $hijri", size = 14.5.sp, color = pal.grey, lineHeight = 1.5f)
-        }
-        Column(horizontalAlignment = Alignment.End) {
-            Num(clock(t), size = 24.sp, color = pal.ink)
+        if (overlay == Overlay.NONE && sheet == SheetKind.NONE) {
             Box(
-                Modifier.heightIn(min = 48.dp).clickable(onClick = openSettings).semantics { role = Role.Button },
+                Modifier.align(Alignment.BottomEnd).padding(18.dp).heightIn(min = 56.dp)
+                    .background(pal.ink, RoundedCornerShape(999.dp)).clickable { addPart = null; sheet = SheetKind.ADD }
+                    .semantics { role = Role.Button; contentDescription = "أضف" }.padding(horizontal = 22.dp),
                 contentAlignment = Alignment.Center,
-            ) { Txt("الإعدادات", size = 14.5.sp, bold = true, color = pal.grey) }
+            ) { Txt("+ أضف", size = 18.sp, bold = true, color = pal.paper, lineHeight = 1.3f) }
         }
     }
 }
@@ -359,44 +349,5 @@ private fun SideTop(date: LocalDate, hijri: String, back: () -> Unit) {
             Txt(hijri, size = 14.5.sp, color = pal.grey, lineHeight = 1.5f)
         }
         PillButton("رجوع لليوم", back)
-    }
-}
-
-@Composable
-private fun TabBar(current: Tab, pal: Palette, onAdd: () -> Unit, onSelect: (Tab) -> Unit) {
-    val idle = if (pal.isDark) TabIdleDark else TabIdleLight
-    Row(
-        Modifier.fillMaxWidth().background(pal.paper)
-            .drawBehind { drawLine(pal.line, Offset(0f, 0f), Offset(size.width, 0f), 1.dp.toPx()) }
-            .padding(top = 6.dp, bottom = 6.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        @Composable
-        fun item(tab: Tab) {
-            val on = tab == current
-            Column(
-                Modifier.weight(1f).heightIn(min = 56.dp).clickable { onSelect(tab) }
-                    .semantics { role = Role.Tab; selected = on; contentDescription = tab.label },
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Box(
-                    Modifier.background(if (on) pal.ink.copy(alpha = 0.09f) else Color.Transparent, RoundedCornerShape(999.dp))
-                        .padding(horizontal = 14.dp, vertical = 2.dp),
-                ) { YIcon(tab.icon, 26.dp, if (on) pal.ink else idle, if (on) accentOf(tab.icon, pal.isDark) else idle) }
-                Txt(tab.label, size = 11.5.sp, bold = on, color = if (on) pal.ink else idle, lineHeight = 1.3f)
-            }
-        }
-        item(Tab.TODAY)
-        item(Tab.TASKS)
-        Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
-            Box(
-                Modifier.size(52.dp).background(pal.ink, CircleShape).clickable(onClick = onAdd)
-                    .semantics { role = Role.Button; contentDescription = "أضف" },
-                contentAlignment = Alignment.Center,
-            ) { Txt("+", size = 30.sp, color = pal.paper, align = androidx.compose.ui.text.style.TextAlign.Center, lineHeight = 1.0f) }
-        }
-        item(Tab.ALARMS)
-        item(Tab.WEEK)
     }
 }

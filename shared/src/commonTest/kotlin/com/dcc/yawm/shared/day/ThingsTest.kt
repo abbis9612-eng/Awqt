@@ -7,7 +7,16 @@ import com.dcc.yawm.shared.data.encodeMyDay
 import com.dcc.yawm.shared.data.encodeSettings
 import com.dcc.yawm.shared.data.encodeTasks
 import com.dcc.yawm.shared.data.encodeThings
+import com.dcc.yawm.shared.alarm.AlertPrefs
+import com.dcc.yawm.shared.alarm.UserAlarm
 import com.dcc.yawm.shared.prayer.Prayer
+import com.dcc.yawm.shared.screen.AddTaps
+import com.dcc.yawm.shared.screen.Where
+import com.dcc.yawm.shared.screen.addDraft
+import com.dcc.yawm.shared.screen.partsView
+import com.dcc.yawm.shared.screen.savedMessage
+import com.dcc.yawm.shared.screen.toAlarm
+import com.dcc.yawm.shared.screen.toThing
 import com.dcc.yawm.shared.prayer.PrayerTimesEngine
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
@@ -144,5 +153,63 @@ class ThingsTest {
         assertEquals(list, decodeThings(encodeThings(list)))
         assertEquals(listOf("h1"), decodeThings(encodeThings(list.take(1)) + "\u001Ejunk\u001EH\u001Fx").map { it.id })
         assertEquals("h5", nextThingId(list))
+    }
+
+    @Test
+    fun theOnePageOfTheDay() {
+        val things = listOf(
+            Thing("h1", "رياضة", DayPart.ASR, repeat = Repeat.DAILY),
+            Thing("h2", "اتصل بالمحاسب", date = monday),
+            Thing("h3", "زيارة خالي", date = monday.plus(1, DateTimeUnit.DAY)),
+            Thing("h4", "إجازة السوق"),
+            Thing("h5", "الدوام", at = 480, end = 840, repeat = Repeat.WORKDAYS),
+        )
+        val alarms = listOf(UserAlarm("a1", "دواء", 420), UserAlarm("a2", "مرة", 345, onceOn = LocalDate(2026, 12, 1)))
+        val st = s.copy(things = things, alerts = AlertPrefs(alarms = alarms))
+        val v = partsView(st, monday, monday, 15 * 60 + 10)
+        assertEquals(DayPart.ASR, v.current(15 * 60 + 10)?.part)
+        assertEquals(listOf("اتصل بالمحاسب", "رياضة"), v.current(15 * 60 + 10)!!.things.map { it.title }, "any time today joins the part of now")
+        assertEquals(listOf("الدوام"), v.parts.first { it.part == DayPart.MORNING }.things.map { it.title })
+        assertEquals(listOf(DayPart.FAJR, DayPart.MORNING, DayPart.DHUHR), v.past(15 * 60 + 10).map { it.part })
+        assertEquals(listOf(DayPart.MAGHRIB, DayPart.ISHA), v.future(15 * 60 + 10).map { it.part })
+        assertEquals(listOf("زيارة خالي"), v.tomorrow.map { it.title })
+        assertEquals(listOf("إجازة السوق"), v.later.map { it.title })
+        assertEquals(listOf("a1"), v.alarms.map { it.id }, "a one-time alarm of another day is not tonight's")
+        assertTrue(v.asleep(21 * 60 + 40))
+        assertTrue(v.asleep(1440 + 3 * 60), "after midnight, before Fajr")
+        assertEquals("asr", v.prayerKey(DayPart.ASR))
+        assertEquals(null, v.prayerKey(DayPart.MORNING))
+        assertEquals("jumua", partsView(st, LocalDate(2026, 11, 6), monday, null).prayerKey(DayPart.DHUHR))
+    }
+
+    @Test
+    fun theAddSheetFollowsTheWordsUnlessTapped() {
+        val spans = daySpans(times(monday), 21 * 60)
+        val now = 15 * 60 + 10
+        fun d(raw: String, taps: AddTaps = AddTaps(), alarm: Boolean = false) = addDraft(raw, alarm, taps, DayPart.ASR, spans, now)
+        val read = d("قراءة كتاب بعد العشاء", AddTaps(repeat = Repeat.DAILY))
+        assertEquals(Where.In(DayPart.ISHA), read.where)
+        assertEquals(Thing("h9", "قراءة كتاب", DayPart.ISHA, monday, repeat = Repeat.DAILY), read.toThing("h9", monday))
+        assertEquals("انحطّت: بعد العشاء · كل يوم", read.savedMessage())
+        assertEquals(Where.In(DayPart.ASR), d("اتصل بالمحاسب").where, "no words: the part of now")
+        assertEquals(Where.Tomorrow, d("اتصل بالمصلّح باچر").where)
+        assertEquals(monday.plus(1, DateTimeUnit.DAY), d("اتصل بالمصلّح باچر").toThing("h1", monday).date)
+        val later = d("تصليح السيارة بعدين")
+        assertTrue(later.toThing("h1", monday).isLater)
+        // A time puts it in the part of that time and rings then.
+        val visit = d("زيارة الساعة 17:40")
+        assertEquals(Where.In(DayPart.MAGHRIB), visit.where)
+        assertEquals(Remind.AT, visit.remind)
+        assertNull(visit.toThing("h1", monday).part)
+        // Alarms: daily by default; a passed time is said honestly.
+        val alarm = d("منبّه الساعة 05:45")
+        assertTrue(alarm.alarm && alarm.passed)
+        assertEquals(Repeat.DAILY, alarm.repeat)
+        assertEquals("المنبّه 05:45 · كل يوم", alarm.savedMessage())
+        val once = d("منبّه الساعة 05:45", AddTaps(repeat = Repeat.ONCE))
+        assertEquals(monday.plus(1, DateTimeUnit.DAY), once.toAlarm("a1", DefaultWorkdays, monday, now).onceOn)
+        assertEquals("المنبّه 05:45 · مرة وحدة · يرن باچر", once.savedMessage())
+        assertEquals(7 * 60, d("", alarm = true).at, "the alarm sheet starts at 07:00")
+        assertEquals(5 * 60 + 30, d("", AddTaps(at = 330), alarm = true).at)
     }
 }

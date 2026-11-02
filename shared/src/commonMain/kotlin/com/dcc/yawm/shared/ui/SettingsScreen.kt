@@ -116,8 +116,10 @@ fun SettingsScreen(
     device: com.dcc.yawm.shared.alarm.DeviceControls,
     platform: Platform,
     save: (UserSettings) -> Unit,
-    openMyDay: () -> Unit,
-    openDayEditor: () -> Unit,
+    openNight: () -> Unit,
+    openAlerts: () -> Unit,
+    openWeek: () -> Unit,
+    openPage: () -> Unit,
     close: () -> Unit,
 ) {
     val pal = LocalPalette.current
@@ -127,18 +129,20 @@ fun SettingsScreen(
     }
 
     Heading("يومك")
-    ListRow(onClick = openMyDay) {
-        Tile("week", false, TileSize.SM)
-        RowText(
-            if (settings.myDay != null) "يومك" else "ابنِ يومك",
-            if (settings.myDay != null) "حياتك، وشغلاتك، ووين تجي ويّا الصلاة" else "تبدي من الصلاة بس، وتضيف شغلاتك إنت",
-            bold = true,
-        )
+    for ((title, sub, open) in listOf(
+        Triple("التنبيهات والمنبّهات", "تنبيه كل صلاة، منبّهاتك، الأصوات، وفحص التنبيهات", openAlerts),
+        Triple("الليل والنوم", "شوكت تنام، صلاة الليل، القيلولة", openNight),
+        Triple("الأسبوع", "شلون مشى أسبوعك", openWeek),
+        Triple("محاسبة المساء", "عشر نقاط وثلاث أسئلة، دقيقتين", openPage),
+    )) ListRow(onClick = open) {
+        RowText(title, sub, bold = true)
         Txt("‹", bold = true)
     }
-    if (settings.myDay == null) ListRow(onClick = openDayEditor) {
-        RowText("عدّل الترتيب الجاهز", "الفقرات الجاهزة، وأيام الدوام، والمواعيد الثابتة")
-        Txt("‹", bold = true)
+    Txt("أيام الدوام", size = 15.sp, bold = true, color = pal.grey, modifier = Modifier.padding(top = 14.dp))
+    Row(Modifier.fillMaxWidth().padding(top = 4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        for (d in SatFirst) Chip(DayShort[d.ordinal], d in settings.workDays, Modifier.weight(1f)) {
+            save(settings.copy(workDays = if (d in settings.workDays) settings.workDays - d else settings.workDays + d))
+        }
     }
 
     Heading("المدينة")
@@ -166,10 +170,6 @@ fun SettingsScreen(
     AdjustRow("العصر", a.asr) { v -> adj { it.copy(asr = v) } }
     AdjustRow("المغرب", a.maghrib) { v -> adj { it.copy(maghrib = v) } }
     AdjustRow("العشاء", a.isha) { v -> adj { it.copy(isha = v) } }
-
-    Heading("فحص التنبيهات")
-    Txt("المنبّهات وتنبيهات الفقرات والصلاة صارت بصفحة «المنبّه» تحت.", size = 14.sp, color = pal.grey)
-    AlarmChecks(status, device)
 
     Heading("أدوارك (النقاط تتبعها)")
     RolesChooser(settings, save)

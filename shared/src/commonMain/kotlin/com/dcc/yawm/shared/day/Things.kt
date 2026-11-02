@@ -26,10 +26,12 @@ enum class DayPart(val label: String, val opens: Prayer, val endLabel: String) {
 data class PartSpan(val part: DayPart, val start: Int, val end: Int)
 
 /** The six parts of a day; the last one ends at [bedtime] (never before Isha + 30, as the night plan). */
-fun daySpans(times: DayPrayerTimes, bedtime: Int): List<PartSpan> {
-    val starts = DayPart.entries.map { times.wallMinutes(it.opens) }
-    val isha = starts.last()
-    val ends = starts.drop(1) + maxOf(bedtime, isha + ISHA_TO_BED_MIN)
+fun daySpans(times: DayPrayerTimes, bedtime: Int): List<PartSpan> = daySpans(DayMinutes.of(times), bedtime)
+
+/** The same from the minutes the screens already have. */
+fun daySpans(m: DayMinutes, bedtime: Int): List<PartSpan> {
+    val starts = listOf(m.fajr, m.sunrise, m.dhuhr, m.asr, m.maghrib, m.isha)
+    val ends = starts.drop(1) + maxOf(bedtime, m.isha + ISHA_TO_BED_MIN)
     return DayPart.entries.mapIndexed { i, p -> PartSpan(p, starts[i], ends[i]) }
 }
 

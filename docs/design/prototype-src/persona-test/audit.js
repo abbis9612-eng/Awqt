@@ -1,6 +1,6 @@
 const {chromium}=require('playwright');
 const CFG={v8:{root:'#screen',setup:"(()=>{const s=document.getElementById('scrub');s.value=910;s.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('screen').scrollIntoView()})()"},
- v9:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"},v10:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"}};
+ v9:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"},v10:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"},v11:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"}};
 (async()=>{const b=await chromium.launch();
 for(const [k,c] of Object.entries(CFG)){
  const p=await b.newPage({viewport:{width:420,height:1000}});

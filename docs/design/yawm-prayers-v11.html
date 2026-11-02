@@ -1,0 +1,535 @@
+<title>يومك بين الصلوات v11</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@600;800&family=Noto+Naskh+Arabic:wght@400;600;700&family=Amiri:wght@400;700&display=swap">
+<style>
+/* Layout: one working phone with the day as six parts between the prayers; why each choice sits beside it; the comparison under them. */
+:root{
+  --page:#ECEBE7; --paper:#FFFFFF; --ink:#121212; --soft:#3A3835; --grey:#6E6A63; --faint:#E6E4DF;
+  --line:rgba(18,18,18,.10); --tint:#F4F3F0; --good:#1E8768; --goodtext:#145F49; --goodbg:#E7F3EE; --scrim:rgba(15,15,17,.42); --lock:#1B2233;
+  --display:'Noto Kufi Arabic','Noto Naskh Arabic',Tahoma,sans-serif;
+  --text:'Noto Naskh Arabic','Noto Naskh Arabic UI',Tahoma,serif;
+  --num:'Amiri','Noto Naskh Arabic',Georgia,serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --page:#18181A; --paper:#0F0F11; --ink:#F1EEE7; --soft:#D3CFC7; --grey:#A39F97; --faint:#38373D;
+  --line:rgba(241,238,231,.12); --tint:#1C1C1F; --good:#4FC29A; --goodtext:#8FE0C0; --goodbg:#16302A; --scrim:rgba(0,0,0,.6); --lock:#0B0E16; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --page:#18181A; --paper:#0F0F11; --ink:#F1EEE7; --soft:#D3CFC7; --grey:#A39F97; --faint:#38373D;
+  --line:rgba(241,238,231,.12); --tint:#1C1C1F; --good:#4FC29A; --goodtext:#8FE0C0; --goodbg:#16302A; --scrim:rgba(0,0,0,.6); --lock:#0B0E16; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{direction:rtl}
+html,body{background:var(--page);color:var(--ink);font-family:var(--text)}
+body{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px;margin:0}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:3px solid #2F6FEB;outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;display:grid;gap:28px}
+.wrap>*,.stage>*,.cols>*{min-width:0}
+h1,h2,h3{font-family:var(--display);font-weight:800;margin:0;text-wrap:balance;line-height:1.5}
+p{margin:0;line-height:1.85}
+
+.intro{display:grid;gap:8px;max-width:70ch}
+.intro h1{font-size:clamp(26px,5vw,36px)}
+.intro p{font-size:17px;color:var(--soft)}
+.tag{justify-self:start;font-size:13px;font-weight:700;background:var(--ink);color:var(--paper);border-radius:999px;padding:3px 12px}
+.intro a{color:var(--ink);font-weight:700}
+
+.stage{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:820px){.stage{grid-template-columns:minmax(0,1fr)}}
+.tryrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px}
+.tryrow span{font-size:14px;color:var(--grey);margin-inline-end:4px}
+.trybtn{font-size:14px;border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 12px;min-height:36px}
+.trybtn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.phone{position:relative;width:100%;max-width:400px;height:800px;background:var(--paper);border:10px solid var(--ink);border-radius:44px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 18px 50px rgba(0,0,0,.18)}
+@media (max-width:440px){.phone{height:740px;border-width:7px;border-radius:34px}}
+.status{display:flex;justify-content:space-between;padding:10px 22px 0;font-family:var(--num);font-size:15px;color:var(--grey)}
+.scroll{flex:1;overflow-y:auto;padding:12px 18px 100px;display:flex;flex-direction:column;gap:14px}
+
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.top h2{font-size:24px}
+.top small{display:block;font-family:var(--text);font-weight:400;font-size:14px;color:var(--grey)}
+.iconbtn{min-width:48px;min-height:48px;display:grid;place-items:center;border-radius:14px}
+.ic{width:24px;height:24px;flex:none}
+.num{font-family:var(--num);font-variant-numeric:tabular-nums}
+.big-btn{min-height:56px;border-radius:16px;background:var(--ink);color:var(--paper);font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
+.ghost-btn{min-height:52px;border-radius:16px;border:1.5px solid var(--line);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--paper)}
+.link{color:var(--soft);font-size:15px;text-decoration:underline;text-underline-offset:4px;min-height:44px}
+
+/* The part of the day you are in */
+.now{border-radius:24px;background:var(--tint);padding:16px 16px 10px;display:grid;gap:10px}
+.now .lbl{font-size:14px;color:var(--grey);font-weight:700}
+.now h3{font-size:40px;line-height:1.35}
+.span{display:flex;justify-content:space-between;font-size:15px;color:var(--soft)}
+.span b{font-family:var(--num);color:var(--ink)}
+.bar{height:10px;border-radius:5px;background:var(--faint);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ink);border-radius:5px}
+.left{font-size:15px;color:var(--soft)}
+.left b{font-family:var(--num);color:var(--ink)}
+
+.prow{display:flex;align-items:center;gap:10px;min-height:52px;padding:4px 12px;border-radius:14px;background:var(--goodbg);font-size:16px}
+.prow b{font-family:var(--num)}
+.prow .pray-btn{margin-inline-start:auto;min-height:48px;padding:0 16px;border-radius:999px;border:2px solid var(--goodtext);color:var(--goodtext);font-weight:700;font-size:16px}
+.prow.done .pray-btn{border-color:var(--good)}
+.prow.done .pray-btn{background:var(--good);color:var(--paper)}
+
+.things{display:flex;flex-direction:column}
+.thing{display:flex;align-items:center;gap:12px;min-height:54px;padding:4px 2px;border-bottom:1px solid var(--line);width:100%;text-align:start}
+.thing:last-child{border-bottom:0}
+.box{width:48px;height:48px;margin-block:-4px;flex:none;display:grid;place-items:center}
+.box i{width:30px;height:30px;border-radius:50%;border:2px solid var(--grey);display:grid;place-items:center;font-style:normal;font-size:16px}
+.thing.done .box i{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.rep{font-size:13px;color:var(--soft);border:1px solid var(--line);border-radius:999px;padding:0 8px;white-space:nowrap}
+.alarm{display:flex;align-items:center;gap:12px;min-height:60px;padding-inline-start:34px}
+.alarm .tm{font-family:var(--num);font-size:30px;font-weight:700;line-height:1.2}
+.alarm.off .tm,.alarm.off .al{color:var(--grey)}
+.alarm .al{flex:1;font-size:16px;min-width:0;line-height:1.5}
+.alarm .al small{display:block;font-size:13px;color:var(--grey)}
+.sw{position:relative;width:62px;height:48px;flex:none}
+.sw::before{content:"";position:absolute;inset:7px 0;border-radius:17px;background:var(--faint)}
+.sw[aria-checked="true"]::before{background:var(--ink)}
+.sw::after{content:"";position:absolute;top:11px;right:4px;width:26px;height:26px;border-radius:50%;background:var(--paper);box-shadow:0 1px 3px rgba(0,0,0,.3);transition:right .2s}
+.sw[aria-checked="true"]::after{right:32px}
+.rings{font-size:15px;color:var(--soft);background:var(--tint);border-radius:14px;padding:8px 12px}
+.thing .n{flex:1;font-size:17px;min-width:0}
+.thing.done .n{color:var(--grey);text-decoration:line-through}
+.thing .at{font-family:var(--num);font-size:15px;color:var(--soft);border:1px solid var(--line);border-radius:999px;padding:0 10px}
+.thing .bell{width:18px;height:18px;color:var(--grey)}
+.addhere{min-height:48px;border-radius:14px;border:1.5px dashed var(--line);color:var(--soft);font-size:16px;width:100%}
+
+/* The parts still to come */
+.part{display:grid;gap:4px;padding:10px 4px 6px;border-top:1px solid var(--line)}
+.part .head{display:flex;align-items:center;gap:10px}
+.part .head h4{margin:0;font-family:var(--display);font-weight:800;font-size:18px;flex:1}
+.part .head .num{font-size:17px;color:var(--soft)}
+.part .thing{min-height:48px;border-bottom:0;padding-inline-start:20px}
+.part .thing .n{font-size:16px}
+.part .empty{font-size:15px;color:var(--grey);padding-inline-start:34px}
+.night{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--tint);font-size:16px}
+.fold{min-height:48px;border-radius:14px;border:1.5px solid var(--line);color:var(--soft);font-size:15px;width:100%;text-align:start;padding:0 14px}
+.later h3{font-size:17px}
+
+.fab{position:absolute;left:16px;bottom:22px;min-height:56px;padding:0 22px;border-radius:999px;background:var(--ink);color:var(--paper);font-weight:700;font-size:18px;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+
+.scrim{position:absolute;inset:0;background:var(--scrim);display:flex;align-items:flex-end;z-index:5}
+.sheet{width:100%;background:var(--paper);border-radius:26px 26px 0 0;padding:10px 20px 22px;display:grid;gap:14px;max-height:90%;overflow-y:auto;animation:up .28s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.sheet{animation:none}}
+.grab{width:44px;height:5px;border-radius:3px;background:var(--faint);justify-self:center}
+.sheet h3{font-size:21px}
+.q{font-size:16px;font-weight:700}
+.field{width:100%;min-height:56px;border:1.5px solid var(--line);border-radius:16px;padding:0 14px;font-size:18px;background:var(--paper)}
+.field:focus{border-color:var(--ink);outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);font-size:16px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.what{font-size:16px;color:var(--soft);line-height:1.85}
+.navrow{display:flex;align-items:center;gap:12px;min-height:60px;border-bottom:1px solid var(--line);width:100%;text-align:start;font-size:17px}
+.navrow small{display:block;font-size:14px;color:var(--grey)}
+.navrow .chev{margin-inline-start:auto;color:var(--grey);font-size:20px}
+.stepper{display:flex;align-items:center;justify-content:center;gap:10px}
+.stepper .v{font-family:var(--num);font-size:44px;font-weight:700;min-width:130px;text-align:center}
+.stepper button{width:52px;height:52px;border-radius:16px;border:1.5px solid var(--line);font-size:24px;font-weight:700}
+
+/* Lock screen: where most of the use happens */
+.lock{flex:1;background:var(--lock);color:#F2F0EA;display:flex;flex-direction:column;align-items:center;padding:30px 14px;gap:10px}
+.lock .clock{font-family:var(--num);font-size:76px;line-height:1.1}
+.lock .date{font-size:16px;opacity:.85;margin-bottom:14px}
+.notif{width:100%;background:rgba(255,255,255,.94);color:#121212;border-radius:22px;padding:12px 14px;display:grid;gap:6px}
+.notif .app{display:flex;gap:6px;align-items:center;font-size:13px;color:#5f5c57}
+.notif .app i{width:18px;height:18px;border-radius:5px;background:#121212;color:#fff;display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:700}
+.notif b{font-size:17px}
+.notif p{font-size:15px;line-height:1.7;color:#3A3835}
+.notif .acts{display:flex;gap:8px}
+.notif .acts span{font-size:14px;font-weight:700;background:#EDEBE6;border-radius:999px;padding:6px 14px}
+.widget{width:100%;margin-top:auto;background:rgba(255,255,255,.12);border-radius:22px;padding:12px 16px;display:grid;gap:6px}
+.widget .wt{font-size:13px;opacity:.75}
+.widget b{font-family:var(--display);font-size:22px}
+.widget .wbar{height:6px;border-radius:3px;background:rgba(255,255,255,.25);overflow:hidden}
+.widget .wbar i{display:block;height:100%;background:#F2F0EA}
+.widget p{font-size:14px;opacity:.9}
+
+.dots{display:flex;gap:6px}
+.dots i{flex:1;height:4px;border-radius:2px;background:var(--faint)}
+.dots i.on{background:var(--ink)}
+.onb{display:flex;flex-direction:column;gap:14px;flex:1}
+.onb h2{font-size:28px}
+.onb .spacer{flex:1}
+
+.toast{position:absolute;bottom:96px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);border-radius:999px;padding:8px 18px;font-size:15px;white-space:nowrap;z-index:9}
+
+.notes{display:grid;gap:12px;align-content:start}
+.notes h2{font-size:22px}
+.notes .scr{font-size:14px;color:var(--grey)}
+.why{display:grid;gap:4px;padding:14px 16px;background:var(--paper);border-radius:18px;border:1px solid var(--line)}
+.why b{font-size:17px}
+.why span{font-size:16px;color:var(--soft);line-height:1.8}
+
+.cmp h2,.honest h2{font-size:22px;margin-bottom:10px}
+.tblwrap{overflow-x:auto;background:var(--paper);border-radius:18px;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:15.5px}
+th,td{padding:12px 14px;text-align:start;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.7}
+th{font-size:14px;color:var(--grey);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.best{font-weight:700;color:var(--good)}
+.honest ul{margin:0;padding-inline-start:22px;display:grid;gap:6px;font-size:16px;line-height:1.8;max-width:75ch}
+.fine{font-size:14px;color:var(--grey);margin-top:8px}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="tag">النسخة 11: v10 ويّا التصليحات الأربعة</span>
+    <h1>يومك بين الصلوات</h1>
+    <p>يومك مقسوم ستة أقسام بين الصلوات: بعد الفجر، الصبح، بعد الظهر، بعد العصر، بعد المغرب، بعد العشاء. كل شي تريد تسويه اسمه «شغلة» ويقعد بقسم. إذا تأخرت ما ينكسر شي، والأشياء اللي إلها ساعة تبقى بساعتها. نفس حسابات المواقيت والنوم تشتغل وراه.</p>
+    <p>الجديد: «كل يوم» لأي شغلة، ومنبّه حقيقي يرن (إذا الساعة فاتت يرن باچر)، ومنبّهاتك تبين بقسم الليل، والدوائر والأزرار صارت بحجم إصبع مريح. جرّب: اضغط «+ أضف» واكتب «منبّه الساعة 05:45».</p>
+  </header>
+
+  <section class="stage" aria-label="جرّب النموذج">
+    <div>
+      <div class="tryrow" role="group" aria-label="جرّب ساعة ثانية">
+        <span>جرّب الساعة:</span>
+        <button class="trybtn" data-t="300">05:00</button>
+        <button class="trybtn" data-t="570">09:30</button>
+        <button class="trybtn" data-t="910" aria-pressed="true">15:10</button>
+        <button class="trybtn" data-t="1080">18:00</button>
+        <button class="trybtn" data-t="1300">21:40</button>
+      </div>
+      <div class="tryrow">
+        <button class="trybtn" data-view="app" aria-pressed="true">التطبيق</button>
+        <button class="trybtn" data-view="lock" aria-pressed="false">شاشة القفل</button>
+        <button class="trybtn" data-view="onb" aria-pressed="false">أول مرة تفتحه</button>
+      </div>
+      <div class="phone" id="phone" aria-live="polite"></div>
+    </div>
+    <aside class="notes" aria-label="ليش هيچ">
+      <div><h2>ليش هيچ</h2><p class="scr" id="notesScr"></p></div>
+      <div id="notes" class="notes"></div>
+    </aside>
+  </section>
+
+  <section class="cmp">
+    <h2>نتيجة فحص الشخصيات الوهمية (الإعادة)</h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>المهمة (4 أشخاص بكل وحدة)</th><th>الحالي (v8)</th><th>v9</th><th>v10</th><th>v11</th></tr></thead>
+        <tbody>
+          <tr><td>علّم الشغلة اللي هسه «خلصت»</td><td>✅ ضغطة</td><td>✅ ضغطة</td><td>✅ ضغطة</td><td class="best">✅ ضغطة</td></tr>
+          <tr><td>مهمة «اتصل بالمصلّح باچر»</td><td>✅ ضغطتين</td><td>✅ ضغطتين</td><td>✅ ضغطتين</td><td class="best">✅ ضغطتين</td></tr>
+          <tr><td>منبّه 05:45 كل يوم</td><td>✅ 7 ضغطات</td><td>✅ 7 ضغطات</td><td>❌ صار لمرة وحدة وفات</td><td class="best">✅ ضغطتين</td></tr>
+          <tr><td>شوكت أنام وأصحى؟</td><td>⚠️ 2 من 4 ما لكوه</td><td>✅</td><td>✅</td><td class="best">✅</td></tr>
+          <tr><td>أول مرة لحد يومك</td><td>⚠️ 7 ضغطات، 2 من 4 ملّوا</td><td>✅ 3</td><td>✅ 3</td><td class="best">✅ 3</td></tr>
+          <tr><td>«قراءة كتاب بعد العشاء» كل يوم</td><td>⚠️ وصلوا للمكان بس الطريق طويل</td><td>❌ انحطّت 16:30</td><td>❌ لليوم بس</td><td>⚠️ تاهوا (ضغطوا «رياضة ↻ كل يوم»)، بس من «+ أضف» تنجح بـ 3 ضغطات</td></tr>
+          <tr><td><b>كاملة من 6</b></td><td>3</td><td>5</td><td>4</td><td class="best">5، والسادسة تنجح من الطريق الطبيعي</td></tr>
+          <tr><td>الشاشة الأولى: كلمات / أحجام خط</td><td>64 / 13</td><td>64 / 9</td><td>45 / 7</td><td class="best">48 / 8</td></tr>
+          <tr><td>أزرار صغيرة / كتابة باهتة</td><td>0 / 4 (الصفحات تحت والكلمة الكبيرة)</td><td>0 / الكلمة الكبيرة</td><td>5 / 1</td><td class="best">0 / 0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">الحالي = النموذج v8 اللي انبنى منه التطبيق. كل نتيجة انراجعت بصورتها، واللي انحط غلط انحسب فشل. هذا فحص بشخصيات وهمية، مو ناس حقيقيين.</p>
+  </section>
+
+  <section class="honest">
+    <h2>اللي بعده يحتاج شغل</h2>
+    <ul>
+      <li>علامة «↻ كل يوم» على الشغلات ممكن تسحب العين أكثر من «+ أضف». نجربها ويّا ناس حقيقيين قبل لا نغيّرها.</li>
+      <li>كتابة علامة «كل يوم» صغيرة (13). نكبّرها شوية بالتطبيق.</li>
+      <li>هذا نموذج: بعض الصفحات (الإعدادات، تغيير المدينة) عرض بس.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(()=>{
+const ICONS={
+fajr:'<path d="M3 17h18M7 20.5h10M12 7.5v2M5.6 10.6l1.3 1.3M18.4 10.6l-1.3 1.3"/><path style="fill:#5A62C6;stroke:none" d="M7.4 17a4.6 4.6 0 0 1 9.2 0z"/>',
+sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.8v2M12 19.2v2M2.8 12h2M19.2 12h2M5.5 5.5l1.4 1.4M17.1 17.1l1.4 1.4M5.5 18.5l1.4-1.4M17.1 6.9l1.4-1.4"/>',
+dhuhr:'<path d="M4 19.5h16M12 3.2v1.6M5 10h1.6M17.4 10H19M7.1 5.1l1.1 1.1M16.9 5.1l-1.1 1.1M7.1 14.9l1.1-1.1M16.9 14.9l-1.1-1.1"/><circle style="fill:#D3950A;stroke:none" cx="12" cy="10" r="3.6"/>',
+asr:'<path d="M3 19.5h18M10 19.5V8.5M5.2 1.8v1M1.3 5.8h1M2.4 3l.7.7M8 3l-.7.7"/><path style="fill:#D9701F;stroke:none" d="M10 18.6h10.2l.6 1.8H10z"/><circle cx="5.2" cy="5.8" r="1.9"/>',
+maghrib:'<path d="M3 15.5h18M6.5 18.5h11M9.5 21h5M12 4.5v5M9.8 7.6l2.2 2.2 2.2-2.2"/><path style="fill:#CF403D;stroke:none" d="M7.4 15.5a4.6 4.6 0 0 1 9.2 0z"/>',
+isha:'<path d="M18.6 3.6l.6 1.4 1.5.2-1.1 1 .3 1.5-1.3-.8-1.3.8.3-1.5-1.1-1 1.5-.2z"/><path style="fill:#36459A;stroke:none" d="M13.4 5.2A7.6 7.6 0 1 0 19.6 16a6.1 6.1 0 0 1-6.2-10.8z"/>',
+bed:'<path d="M3 18.8V7M3 14.6h18v4.2M21 14.6v-2.2a3 3 0 0 0-3-3h-6.6v5.2"/><circle style="fill:#4A5EB3;stroke:none" cx="7.1" cy="11.6" r="2"/>',
+gear:'<path d="M4 7h9M18 7h2M4 17h3M12 17h8"/><circle cx="15.5" cy="7" r="2.3"/><circle cx="9.5" cy="17" r="2.3"/>',
+bell:'<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5h4"/>',
+lantern:'<path d="M12 2.6v1.8M9.2 6.4h5.6l-1-2h-3.6zM8.6 6.4h6.8l1.1 3.6-1.1 7.6H8.6L7.5 10zM9 20.5h6M10 17.6l-.4 2.9M14 17.6l.4 2.9"/><path style="fill:#3F57A6;stroke:none" d="M12 9.6c1.4 1.5 1.7 2.8.9 3.9-.4.5-1.4.5-1.8 0-.8-1.1-.5-2.4.9-3.9z"/>',
+week:'<rect x="3.5" y="5" width="17" height="15" rx="2.6"/><path d="M3.5 9.6h17M8 3.2v3.4M16 3.2v3.4"/><circle style="fill:#3F57A6;stroke:none" cx="16.4" cy="15.1" r="2.1"/>',
+page:'<rect x="5" y="3.5" width="14" height="17" rx="2.2"/><path d="M8.5 8.5h7M8.5 12h7M13 16.8h3"/><rect style="fill:#7F5CC2;stroke:none" x="8.2" y="15.2" width="3.2" height="3.2" rx=".8"/>',
+hourglass:'<path d="M6.5 3.5h11M6.5 20.5h11M8 3.5c0 4 4 5 4 8.5s-4 4.5-4 8.5M16 3.5c0 4-4 5-4 8.5s4 4.5 4 8.5"/><path style="fill:#8A8378;stroke:none" d="M9.1 19.6c.7-2 2.9-3 2.9-4.6 0 1.6 2.2 2.6 2.9 4.6z"/>'
+};
+const ic=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]||''}</svg>`;
+const pad=n=>String(n).padStart(2,'0');
+const clk=m=>{m=((m%1440)+1440)%1440;return pad(Math.floor(m/60))+':'+pad(m%60)};
+const dur=m=>{const h=Math.floor(m/60),r=m%60;const hs=h===0?'':h===1?'ساعة':h===2?'ساعتين':h+' ساعات';const ms=r===0?'':r<=10?r+' دقائق':r+' دقيقة';return hs&&ms?hs+' و'+ms:(hs||ms||'أقل من دقيقة')};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let HIJRI='22 جمادى الأولى';
+try{HIJRI=new Intl.DateTimeFormat('ar-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'long'}).format(new Date(2026,10,2,12))}catch(e){}
+document.documentElement.lang='ar';
+
+/* Monday 2 November 2026, Sulaymaniyah (docs/reference/reference-2026.csv). */
+const SLEEP=1260, WAKE=268;
+const PARTS=[
+ {k:'fajr',name:'بعد الفجر',s:287,e:381,icon:'fajr',pr:'الفجر',endName:'الشروق'},
+ {k:'morning',name:'الصبح',s:381,e:703,icon:'sun',pr:null,endName:'الظهر'},
+ {k:'dhuhr',name:'بعد الظهر',s:703,e:879,icon:'dhuhr',pr:'الظهر',endName:'العصر'},
+ {k:'asr',name:'بعد العصر',s:879,e:1022,icon:'asr',pr:'العصر',endName:'المغرب'},
+ {k:'maghrib',name:'بعد المغرب',s:1022,e:1106,icon:'maghrib',pr:'المغرب',endName:'العشاء'},
+ {k:'isha',name:'بعد العشاء',s:1106,e:SLEEP,icon:'isha',pr:'العشاء',endName:'النوم'},
+];
+const S={now:910,view:'app',sheet:null,sel:null,showPast:false,onb:1,
+ prayed:new Set(['fajr','dhuhr']),
+ things:[
+  {id:1,t:'أذكار الصبح وقرآن',p:'fajr',rep:'daily',done:true},
+  {id:2,t:'فطور ويّا الأهل',p:'morning',done:true},
+  {id:3,t:'الدوام',p:'morning',at:480,end:840,done:true},
+  {id:4,t:'رياضة',p:'asr',remind:'start',rep:'daily',done:false},
+  {id:5,t:'اتصل بالمحاسب',p:'asr',done:false},
+  {id:6,t:'اشتري أغراض البيت',p:'asr',done:false},
+  {id:7,t:'وقت ويّا الأهل',p:'maghrib',done:false},
+  {id:8,t:'دراسة',p:'isha',remind:'start',rep:'work',done:false},
+  {id:9,t:'جدّد إجازة السوق',p:'later',done:false},
+  {id:10,t:'زيارة خالي',p:'tomorrow',done:false},
+ ],
+ alarms:[{id:1,l:'الدواء',at:420,rep:'daily',on:true}],
+ draft:'',draftPart:null,draftRemind:null,draftRep:null,draftAt:null,draftMode:null,wake:true,toast:null};
+const REPN={once:'مرة وحدة',daily:'كل يوم',work:'أيام الدوام'};
+
+const partAt=m=>PARTS.find(p=>m>=p.s&&m<p.e);
+const phone=document.getElementById('phone');
+const status=()=>`<div class="status"><span class="num">${clk(S.now)}</span><span>السليمانية</span></div>`;
+
+function thingRow(x){
+  return `<button class="thing ${x.done?'done':''}" data-act="open" data-id="${x.id}" aria-label="${esc(x.t)}">
+    <span class="box" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}" aria-label="خلّصت ${esc(x.t)}"><i>${x.done?'✓':''}</i></span>
+    <span class="n">${esc(x.t)}</span>${x.rep&&x.rep!=='once'?`<span class="rep">↻ ${REPN[x.rep]}</span>`:''}
+    ${x.at!=null?`<span class="at">${clk(x.at)}${x.end?'–'+clk(x.end):''}</span>`:''}
+    ${x.remind?ic('bell','bell'):''}</button>`;
+}
+function inPart(k){return S.things.filter(x=>x.p===k)}
+function alarmRow(a){
+  return `<div class="alarm ${a.on?'':'off'}"><span class="tm">${clk(a.at)}</span><span class="al">${esc(a.l)}<small>${a.id==='wake'?'يتحرك ويّا الفجر كل يوم':REPN[a.rep]}</small></span>
+    <button class="sw" role="switch" aria-checked="${a.on}" aria-label="${esc(a.l)} ${clk(a.at)}" data-act="alsw" data-id="${a.id}"></button></div>`;
+}
+function nightPart(){
+  return `<div class="part"><div class="head">${ic('bed')}<h4>الليل والمنبّهات</h4><span class="num">${clk(SLEEP)}</span></div>
+    <p class="what" style="padding-inline-start:34px">تنام <b class="num">${clk(SLEEP)}</b> وتصحى <b class="num">${clk(WAKE)}</b> لصلاة الليل</p>
+    ${alarmRow({id:'wake',l:'منبّه الصحيان',at:WAKE,rep:'daily',on:S.wake})}${S.alarms.map(alarmRow).join('')}
+    <button class="addhere" data-act="addalarm">+ منبّه جديد</button></div>`;
+}
+
+function appView(){
+  const cur=partAt(S.now), asleep=!cur;
+  let top;
+  if(asleep){
+    const total=(WAKE-SLEEP+1440)%1440, gone=(S.now-SLEEP+1440)%1440, left=total-gone;
+    top=`<div class="now"><span class="lbl">هسه</span><h3>الليل</h3>
+      <div class="span"><span>نمت <b>${clk(SLEEP)}</b></span><span>تصحى <b>${clk(WAKE)}</b></span></div>
+      <div class="bar"><i style="width:${Math.round(100*gone/total)}%"></i></div>
+      <p class="left">باقي <b>${dur(left)}</b> للصحيان، لصلاة الليل قبل الفجر.</p>
+      <div class="prow">${ic('lantern')}<span>منبّه الصحيان <b>${clk(WAKE)}</b></span><button class="pray-btn" data-act="wake">${S.wake?'شغّال':'طافي'}</button></div></div>`;
+  }else{
+    const p=cur, prog=Math.round(100*(S.now-p.s)/(p.e-p.s)), list=inPart(p.k);
+    const prayed=S.prayed.has(p.k);
+    top=`<div class="now"><span class="lbl">هسه</span><h3>${p.name}</h3>
+      <div class="span"><span>${p.pr?p.pr:'الشروق'} <b>${clk(p.s)}</b></span><span>${p.endName} <b>${clk(p.e)}</b></span></div>
+      <div class="bar"><i style="width:${prog}%"></i></div>
+      <p class="left">باقي <b>${dur(p.e-S.now)}</b> لـ${p.endName}.</p>
+      ${p.pr?`<div class="prow ${prayed?'done':''}">${ic(p.icon)}<span>صلاة ${p.pr} <b>${clk(p.s)}</b></span><button class="pray-btn" data-act="pray" data-k="${p.k}" aria-pressed="${prayed}">${prayed?'صلّيت ✓':'صلّيت'}</button></div>`:''}
+      <div class="things">${list.map(thingRow).join('')||'<p class="what">ماكو شي بهالقسم. وقتك فاضي.</p>'}</div>
+      <button class="addhere" data-act="add" data-p="${p.k}">+ أضف شي ${p.name}</button></div>`;
+  }
+  const idx=asleep?(S.now>=SLEEP?PARTS.length:-1):PARTS.indexOf(cur);
+  const future=asleep?(S.now<WAKE+60?PARTS:[]):PARTS.slice(idx+1);
+  const past=asleep?(S.now>=SLEEP?PARTS:[]):PARTS.slice(0,idx);
+  const fut=future.map(p=>{const l=inPart(p.k);return `<div class="part"><div class="head">${ic(p.icon)}<h4>${p.name}</h4><span class="num">${clk(p.s)}</span></div>
+    ${l.length?`<div class="things">${l.map(thingRow).join('')}</div>`:'<p class="empty">فاضي</p>'}</div>`}).join('');
+  const pastBlock=past.length?`<button class="fold" data-act="past">${S.showPast?'خفّي اللي فات':'✓ اللي فات: '+past.map(p=>p.name).join('، ')}</button>
+    ${S.showPast?past.map(p=>`<div class="part"><div class="head">${ic(p.icon)}<h4>${p.name}</h4><span class="num">${clk(p.s)}</span></div><div class="things">${inPart(p.k).map(thingRow).join('')||'<p class="empty">فاضي</p>'}</div></div>`).join(''):''}`:'';
+  const tom=inPart('tomorrow'), later=inPart('later');
+  return `${status()}<div class="scroll">
+    <div class="top"><div><h2>الإثنين</h2><small>2 تشرين الثاني · ${HIJRI}</small></div>
+      <button class="iconbtn" data-act="settings" aria-label="الإعدادات">${ic('gear')}</button></div>
+    ${top}
+    ${fut}
+    ${nightPart()}
+    ${pastBlock}
+    ${tom.length?`<div class="later"><h3>باچر</h3><div class="things">${tom.map(thingRow).join('')}</div></div>`:''}
+    ${later.length?`<div class="later"><h3>بعدين</h3><div class="things">${later.map(thingRow).join('')}</div></div>`:''}
+  </div><button class="fab" data-act="add">+ أضف</button>`;
+}
+
+/* Quick add: the words say where; a chip row confirms it. */
+const WORDS=[['بعد الفجر','fajr'],['الفجر','fajr'],['الصبح','morning'],['الصباح','morning'],['بعد الظهر','dhuhr'],['الظهر','dhuhr'],['بعد العصر','asr'],['العصر','asr'],['بعد المغرب','maghrib'],['المغرب','maghrib'],['بعد العشاء','isha'],['العشاء','isha'],['الليل','isha'],['باچر','tomorrow'],['باجر','tomorrow'],['بكرة','tomorrow'],['بعدين','later']];
+function parse(raw){
+  let part=null,title=raw,rep=null,alarm=false;
+  if(/كل يوم|يومياً|يوميا/.test(title)){rep='daily';title=title.replace(/كل يوم|يومياً|يوميا/,' ')}
+  if(/أيام الدوام/.test(title)){rep='work';title=title.replace('أيام الدوام',' ')}
+  if(/منبّه|منبه|صحّيني|صحيني/.test(title)){alarm=true;title=title.replace(/منبّه|منبه|صحّيني|صحيني/,' ')}
+  for(const [w,k] of WORDS){if(title.includes(w)){part=part||k;title=title.replace(w,' ')}}
+  const tm=title.match(/(?:الساعة\s*)?(\d{1,2})[:٫.](\d{2})/);let at=null;
+  if(tm){at=(+tm[1])*60+(+tm[2]);title=title.replace(tm[0],' ');title=title.replace('الساعة',' ')}
+  else{const th=title.match(/الساعة\s*(\d{1,2})(?!\d)/);if(th){at=(+th[1])*60;title=title.replace(th[0],' ')}}
+  title=title.replace(/\s+/g,' ').trim();
+  if(at!=null&&!part){const p=partAt(at);part=p?p.k:'isha'}
+  return {title,part,at,rep,alarm};
+}
+const PNAME=k=>({tomorrow:'باچر',later:'بعدين'}[k]||PARTS.find(p=>p.k===k).name);
+function draftState(){
+  const p=parse(S.draft), isAlarm=S.draftMode==='alarm'||p.alarm;
+  const at=S.draftAt!=null?S.draftAt:(p.at!=null?p.at:(isAlarm?420:null));
+  const rep=S.draftRep||p.rep||(isAlarm?'daily':'once');
+  return {p,isAlarm,at,rep,passed:at!=null&&at<=S.now};
+}
+function addUnder(){
+  const d=draftState();
+  if(d.isAlarm)return `<p class="q">${ic('bell')} منبّه يرن الساعة</p>
+    <div class="stepper"><button data-act="dat" data-v="-5" aria-label="أبكر 5 دقايق">−</button><span class="v">${clk(d.at)}</span><button data-act="dat" data-v="5" aria-label="أتأخر 5 دقايق">+</button></div>
+    <div class="chips" style="justify-content:center"><button class="chip" data-act="dat" data-v="-60">أبكر ساعة</button><button class="chip" data-act="dat" data-v="60">أتأخر ساعة</button></div>
+    <p class="q">يتكرر؟</p><div class="chips">${['daily','work','once'].map(k=>`<button class="chip" aria-pressed="${k===d.rep}" data-act="drep" data-v="${k}">${REPN[k]}</button>`).join('')}</div>
+    <p class="rings">${d.passed?'الساعة '+clk(d.at)+' فاتت اليوم، فأول مرة يرن باچر الصبح.':'أول مرة يرن اليوم الساعة '+clk(d.at)+'.'}</p>
+    <button class="big-btn" data-act="save">احفظ المنبّه</button>`;
+  const p=d.p, part=S.draftPart||p.part||(partAt(S.now)||PARTS[0]).k, rem=S.draftRemind||(p.at!=null?'time':'none');
+  const opts=['fajr','morning','dhuhr','asr','maghrib','isha','tomorrow','later'];
+  return `<p class="q">وين؟</p><div class="chips">${opts.map(k=>`<button class="chip" aria-pressed="${k===part}" data-act="dpart" data-v="${k}">${PNAME(k)}</button>`).join('')}</div>
+    ${p.at!=null?`<p class="what">بساعة ثابتة: <b class="num">${clk(p.at)}</b></p>`:''}
+    ${part==='later'?'':`<p class="q">يتكرر؟</p><div class="chips">${['once','daily','work'].map(k=>`<button class="chip" aria-pressed="${k===d.rep}" data-act="drep" data-v="${k}">${REPN[k]}</button>`).join('')}</div>`}
+    <p class="q">نبّهني؟</p><div class="chips">${[['none','لا'],['start',part==='later'||part==='tomorrow'?'أول ما يبدي اليوم':'بأول القسم'],...(p.at!=null?[['time','بوكتها']]:[])].map(([k,l])=>`<button class="chip" aria-pressed="${k===rem}" data-act="drem" data-v="${k}">${l}</button>`).join('')}</div>
+    <button class="big-btn" data-act="save" ${p.title?'':'aria-disabled="true" style="opacity:.45"'}>حطّها</button>`;
+}
+function sheetView(){
+  if(S.sheet==='add')return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-label="أضف شغلة"><span class="grab"></span><h3>${S.draftMode==='alarm'?'منبّه جديد':'شنو تريد تسوي؟'}</h3>
+    <label for="draft" class="what">${S.draftMode==='alarm'?'اسم المنبّه (إذا تريد)، مثلاً: الدواء':'اكتبها مثل ما تحجي: «زيارة خالي بعد المغرب»، «قرآن بعد الفجر كل يوم»، «منبّه الساعة 05:45»'}</label>
+    <input id="draft" class="field" data-act="draft" value="${esc(S.draft)}" placeholder="${S.draftMode==='alarm'?'شنو المنبّه؟':'شنو تريد تسوي؟'}" autocomplete="off">
+    <div id="under" style="display:grid;gap:10px">${addUnder()}</div></div></div>`;
+  if(S.sheet==='open'){
+    const x=S.things.find(t=>t.id===S.sel);
+    return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-label="${esc(x.t)}"><span class="grab"></span>
+      <h3>${esc(x.t)}</h3><p class="what">${PNAME(x.p)}${x.at!=null?' · الساعة '+clk(x.at)+(x.end?' إلى '+clk(x.end):''):''}${x.remind?' · ينبّهك '+(x.remind==='time'?'بوكتها':'بأول القسم'):''}</p>
+      <button class="big-btn" data-act="tick" data-id="${x.id}">${x.done?'رجّعها، ما خلصت':'خلّصت ✓'}</button>
+      <p class="q">انقلها لـ</p><div class="chips">${['fajr','morning','dhuhr','asr','maghrib','isha','tomorrow','later'].filter(k=>k!==x.p).map(k=>`<button class="chip" data-act="move" data-id="${x.id}" data-v="${k}">${PNAME(k)}</button>`).join('')}</div>
+      <button class="ghost-btn" data-act="remind" data-id="${x.id}">${ic('bell')} ${x.remind?'لا تنبّهني':'نبّهني بأول القسم'}</button>
+      <button class="link" data-act="del" data-id="${x.id}">احذفها</button></div></div>`;
+  }
+  if(S.sheet==='settings')return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-label="الإعدادات"><span class="grab"></span><h3>الإعدادات</h3>
+    <div class="things">${[['lantern','منبّه الصحيان','04:28 · يتحرك ويّا الفجر كل يوم'],['bell','تنبيه الصلاة','بوكت كل صلاة · تختار أذان أو تنبيه'],['hourglass','منبّهات عادية','الدواء 07:00'],['bed','النوم','تنام 21:00 · صلاة الليل إذا يكفي نومك'],['week','الأسبوع ومحاسبة المساء','شلون مشى أسبوعك'],['fajr','المدينة والمواقيت','السليمانية · الهيئة المصرية'],['sun','الشكل','فاتح، داكن، أو تلقائي']]
+      .map(([i,a,b])=>`<button class="navrow" data-act="soon">${ic(i)}<span>${a}<small>${b}</small></span><span class="chev">‹</span></button>`).join('')}</div></div></div>`;
+  return '';
+}
+
+function lockView(){
+  const cur=partAt(S.now)||PARTS[3], list=inPart(cur.k).filter(x=>!x.done), prog=Math.round(100*Math.max(0,Math.min(1,(S.now-cur.s)/(cur.e-cur.s))));
+  return `<div class="lock">
+    <div class="clock">${clk(S.now)}</div><div class="date">الإثنين 2 تشرين الثاني</div>
+    <div class="notif"><div class="app"><i>ي</i>يوم · ${clk(cur.s)}</div><b>${cur.name}</b>
+      <p>${list.length?list.map(x=>esc(x.t)).join(' · '):'ماكو شي بهالقسم'}</p>
+      <div class="acts">${list[0]?`<span>خلّصت «${esc(list[0].t)}»</span>`:''}<span>افتح</span></div></div>
+    ${cur.pr?`<div class="notif"><div class="app"><i>ي</i>يوم · ${clk(cur.s)}</div><b>وقت صلاة ${cur.pr}</b><div class="acts"><span>صلّيت</span></div></div>`:''}
+    <div class="widget" aria-label="مثال للأداة على الشاشة الرئيسية"><span class="wt">الأداة على الشاشة الرئيسية (لاحقاً)</span><b>${cur.name}</b>
+      <div class="wbar"><i style="width:${prog}%"></i></div><p>${cur.endName} ${clk(cur.e)} · ${list.length} شغلات</p></div>
+  </div>`;
+}
+
+const SUGG=[['قرآن','fajr'],['مشي','morning'],['قيلولة قصيرة','dhuhr'],['رياضة','asr'],['وقت ويّا الأهل','maghrib'],['قراءة','isha']];
+let picked=new Set(['رياضة','وقت ويّا الأهل']);
+function onbView(){
+  const dots=`<div class="dots">${[1,2,3].map(i=>`<i class="${i<=S.onb?'on':''}"></i>`).join('')}</div>`;
+  let b='';
+  if(S.onb===1)b=`<h2>هلا بيك بـ«يوم»</h2><p class="what">يرتّب يومك بين الصلوات، ويذكّرك بوكت كل شي. كلشي يبقى بتلفونك، بلا حساب وبلا إعلانات.</p>
+    <div class="navrow" style="border:1.5px solid var(--line);border-radius:16px;padding:0 14px">${ic('fajr')}<span>مدينتك<small>السليمانية (من موقعك التقريبي)</small></span><button class="link" style="margin-inline-start:auto" data-act="soon">غيّر</button></div>
+    <div class="spacer"></div><button class="big-btn" data-act="onbnext">التالي</button>`;
+  if(S.onb===2)b=`<h2>شوكت تنام؟</h2><p class="what">حتى نحسب نومك وصلاة الليل.</p>
+    <div class="stepper"><button data-act="soon" aria-label="أبكر">−</button><span class="v">21:00</span><button data-act="soon" aria-label="أتأخر">+</button></div>
+    <p class="q">عندك دوام أو دراسة بساعة ثابتة؟</p>
+    <div class="chips"><button class="chip" aria-pressed="true">إي، 08:00 إلى 14:00</button><button class="chip" aria-pressed="false">لا</button></div>
+    <div class="spacer"></div><button class="big-btn" data-act="onbnext">التالي</button>`;
+  if(S.onb===3)b=`<h2>تريد شي كل يوم؟</h2><p class="what">اضغط اللي يعجبك، أو تخطّى. تكدر تضيف وتغيّر بعدين.</p>
+    <div class="chips">${SUGG.map(([t,k])=>`<button class="chip" data-act="sugg" data-v="${t}" aria-pressed="${picked.has(t)}">${t} · ${PNAME(k)}</button>`).join('')}</div>
+    <button class="ghost-btn" data-act="soon">${ic('bell')} اسمح بالتنبيهات</button>
+    <div class="spacer"></div><button class="big-btn" data-act="onbdone">وريني يومي</button>`;
+  return `${status()}<div class="scroll"><div class="onb">${dots}${b}</div></div>`;
+}
+
+const NOTES={
+ app:['الصفحة الوحيدة',[
+  ['أقسام بدل دقائق','يومك ست أقسام تعرفها من قبل. إذا تأخرت، الشغلة بعدها بقسمها وما يصير شي «غلط». هذا أكثر شي يخلي الناس يتركون تطبيقات التنظيم: الخطة تنكسر من أول تأخير.'],
+  ['شي واحد اسمه «شغلة»','ماكو فقرة ومهمة ومنبّه. كلها شغلات، بعضها إلها ساعة ثابتة مثل الدوام.'],
+  ['العنوان يتقرا دايماً','اسم القسم بحبر كامل. التقدم بشريط واضح من الصلاة للصلاة الجاية، مو بلون الحروف.'],
+  ['الصلاة بأول القسم','زر «صلّيت» بنفس المكان كل مرة. الصلاة هي اللي تفتح القسم.'],
+  ['اللي فات مطوي، واللي جاي قصير','تشوف اليوم كله بنظرة، بس التفصيل للقسم اللي إنت بيه هسه.'],
+  ['جديد: «كل يوم»','أي شغلة تكدر تخليها تتكرر: كل يوم أو أيام الدوام. تبين جنبها علامة ↻.'],
+  ['جديد: منبّه حقيقي','تكتب «منبّه الساعة 05:45» أو تضغط «+ منبّه جديد». إذا الساعة فاتت، يكلّك «أول مرة يرن باچر». ومنبّهاتك كلها بقسم «الليل والمنبّهات».'],
+  ['جديد: أزرار أكبر','الدوائر و«صلّيت» صارت بحجم إصبع مريح (48)، ولون «صلّيت» أوضح.']]],
+ lock:['شاشة القفل',[
+  ['إشعار واحد بأول كل قسم','«بعد العصر: رياضة · اتصل بالمحاسب». بدل إشعار لكل شي. تكدر تكول «خلّصت» من الإشعار.'],
+  ['هنا يصير أغلب الاستخدام','الناس تشوف الإشعار أكثر مما تفتح التطبيق، فلازم يكون واضح لحاله.'],
+  ['الأداة الصغيرة (لاحقاً)','على الشاشة الرئيسية: القسم، وشكد باقي، وكم شغلة. مسجلة «لاحقاً»، والقرار إلك.']]],
+ onb:['أول مرة',[
+  ['3 خطوات','مدينتك، شوكت تنام وعندك دوام، وشنو تريد كل يوم.'],
+  ['اقتراحات بضغطة','رياضة بعد العصر، وقت الأهل بعد المغرب… تضغط وتخلص. ماكو أسئلة عن مدة وأهمية.'],
+  ['تشوف يومك فوراً','الباقي تغيّره وقت ما تريد.']]],
+};
+function renderNotes(){
+  const [scr,list]=NOTES[S.view];
+  document.getElementById('notesScr').textContent='الشاشة اللي تشوفها: '+scr;
+  document.getElementById('notes').innerHTML=list.map(([a,b])=>`<div class="why"><b>${a}</b><span>${b}</span></div>`).join('');
+}
+function render(resetScroll){
+  const sc=phone.querySelector('.scroll'), top=sc?sc.scrollTop:0;
+  phone.innerHTML=(S.view==='lock'?lockView():S.view==='onb'?onbView():appView()+sheetView())+(S.toast?`<div class="toast" role="status">${S.toast}</div>`:'');
+  const sc2=phone.querySelector('.scroll'); if(sc2&&!resetScroll)sc2.scrollTop=top;
+  renderNotes();
+}
+let tt;function toast(m){S.toast=m;render();clearTimeout(tt);tt=setTimeout(()=>{S.toast=null;render()},2200)}
+const refreshUnder=()=>{const u=document.getElementById('under');if(u)u.innerHTML=addUnder()};
+
+phone.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b)return;
+  const a=b.dataset.act, id=+b.dataset.id;
+  if(a==='close'&&e.target!==b)return;
+  const th=()=>S.things.find(x=>x.id===id);
+  switch(a){
+    case 'tick':{e.stopPropagation();const x=th();x.done=!x.done;if(S.sheet==='open')S.sheet=null;render();if(x.done)toast('تم ✓');break}
+    case 'open':S.sel=id;S.sheet='open';render();break;
+    case 'pray':{const k=b.dataset.k;S.prayed.has(k)?S.prayed.delete(k):S.prayed.add(k);render();break}
+    case 'wake':S.wake=!S.wake;render();break;
+    case 'past':S.showPast=!S.showPast;render();break;
+    case 'add':case 'addalarm':S.sheet='add';S.draft='';S.draftPart=b.dataset.p||null;S.draftRemind=null;S.draftRep=null;S.draftAt=null;S.draftMode=a==='addalarm'?'alarm':null;render();setTimeout(()=>{const i=document.getElementById('draft');i&&i.focus()},50);break;
+    case 'dpart':S.draftPart=b.dataset.v;refreshUnder();break;
+    case 'drem':S.draftRemind=b.dataset.v;refreshUnder();break;
+    case 'drep':S.draftRep=b.dataset.v;refreshUnder();break;
+    case 'dat':{const d=draftState();S.draftAt=(d.at+ +b.dataset.v+1440)%1440;refreshUnder();break}
+    case 'alsw':{if(b.dataset.id==='wake')S.wake=!S.wake;else{const al=S.alarms.find(x=>x.id==b.dataset.id);al.on=!al.on}render();break}
+    case 'save':{const d=draftState(),p=d.p;
+      if(d.isAlarm){S.alarms.push({id:Date.now(),l:p.title||'منبّه',at:d.at,rep:d.rep,on:true});S.sheet=null;
+        toast('المنبّه '+clk(d.at)+' · '+REPN[d.rep]+(d.passed?' · أول مرة باچر':''));break}
+      if(!p.title)return;const part=S.draftPart||p.part||(partAt(S.now)||PARTS[0]).k;
+      const rem=S.draftRemind||(p.at!=null?'time':'none');
+      S.things.push({id:Date.now(),t:p.title,p:part,at:p.at,rep:part==='later'?'once':d.rep,remind:rem==='none'?null:rem,done:false});S.sheet=null;
+      toast('انحطّت: '+PNAME(part)+(p.at!=null?' · '+clk(p.at):'')+(d.rep!=='once'&&part!=='later'?' · '+REPN[d.rep]:''));break}
+    case 'move':{th().p=b.dataset.v;S.sheet=null;toast('انتقلت لـ'+PNAME(b.dataset.v));break}
+    case 'remind':{const x=th();x.remind=x.remind?null:'start';render();break}
+    case 'del':S.things=S.things.filter(x=>x.id!==id);S.sheet=null;toast('انحذفت');break;
+    case 'settings':S.sheet='settings';render();break;
+    case 'soon':toast('بالنسخة الكاملة تنفتح صفحتها');break;
+    case 'sugg':{const v=b.dataset.v;picked.has(v)?picked.delete(v):picked.add(v);render();break}
+    case 'onbnext':S.onb++;render(true);break;
+    case 'onbdone':setView('app');break;
+    case 'close':S.sheet=null;render();break;
+  }
+});
+phone.addEventListener('input',e=>{if(e.target.dataset.act==='draft'){S.draft=e.target.value;S.draftPart=null;S.draftRemind=null;S.draftRep=null;S.draftAt=null;const u=document.getElementById('under');const was=u&&u.querySelector('.stepper');refreshUnder();
+  const h=document.querySelector('.sheet h3');if(h)h.textContent=draftState().isAlarm?'منبّه جديد':'شنو تريد تسوي؟'}});
+phone.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.act==='draft'){e.preventDefault();phone.querySelector('[data-act="save"]').click()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.sheet){S.sheet=null;render()}});
+
+function setView(v){S.view=v;S.sheet=null;if(v==='onb')S.onb=1;
+  document.querySelectorAll('.trybtn[data-view]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.view===v));render(true)}
+document.querySelectorAll('.trybtn[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+document.querySelectorAll('.trybtn[data-t]').forEach(b=>b.addEventListener('click',()=>{
+  S.now=+b.dataset.t;S.showPast=false;
+  document.querySelectorAll('.trybtn[data-t]').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  if(S.view==='onb')setView('app');else render(true);
+}));
+render(true);
+})();
+</script>

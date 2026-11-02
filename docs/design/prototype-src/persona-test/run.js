@@ -29,6 +29,11 @@ const ADAPTERS={
    async startOnb(p){await p.evaluate(()=>{document.querySelector('[data-view="onb"]').click();document.getElementById('phone').scrollIntoView()})},
    async isMain(p){return p.evaluate(()=>!!document.querySelector('#phone .fab'))},
    async setTime(){return -1},timeVisible:async()=>false},
+ v11:{file:D+'yawm-prayers-v11.html',root:'#phone',scroller:'#phone .scroll',
+   async setup(p){await p.evaluate(()=>document.getElementById('phone').scrollIntoView())},
+   async startOnb(p){await p.evaluate(()=>{document.querySelector('[data-view="onb"]').click();document.getElementById('phone').scrollIntoView()})},
+   async isMain(p){return p.evaluate(()=>!!document.querySelector('#phone .fab'))},
+   async setTime(){return -1},timeVisible:async()=>false},
 };
 
 const PERSONAS=[
@@ -41,10 +46,10 @@ const PERSONAS=[
 const TASKS=[
  {id:'T3',name:'علّم الشغلة اللي هسه «خلصت»',kw:[['خلّصت',4],['صلّيت',3],['تم',1]],success:'doneMark'},
  {id:'T4',name:'أضف مهمة: اتصل بالمصلّح باچر',kw:[['مهمة',3],['أضف',2],['+',1],['المهام',2]],type:'اتصل بالمصلّح باچر',submit:['حطّها','احفظ','حفظ'],success:'textAfter',want:'المصلّح'},
- {id:'T5',name:'سوّي منبّه 05:45 كل يوم',kw:[['منبّه',4],['المنبّه',3],['جديد',2],['+',1],['أضف',1]],type:'منبّه الساعة 05:45',typeOnly:['شنو'],time:345,submit:['احفظ','حطّها','حفظ'],success:'time0545'},
+ {id:'T5',name:'سوّي منبّه 05:45 كل يوم',kw:[['منبّه',4],['المنبّه',3],['جديد',2],['+',1],['أضف',1]],type:'منبّه الساعة 05:45',typeOnly:['شنو'],time:345,need:['كل يوم'],submit:['احفظ','حطّها','حفظ'],success:'alarmDaily'},
  {id:'T6',name:'شوكت أنام الليلة وشوكت أصحى؟',kw:[['تنام',3],['النوم',3],['الليلة',2],['الليل',2],['تصحى',2]],success:'sleepSeen'},
- {id:'T8',name:'أضف «قراءة كتاب بعد العشاء» كل يوم',kw:[['كل يوم',4],['يومك',3],['فقرة',2],['ثابتة',2],['أضف',2],['+',1]],type:'قراءة كتاب بعد العشاء',typeOnly:['شنو'],submit:['حطّها','احفظ','حفظ'],success:'routine'},
- {id:'T7',name:'أول مرة: من الترحيب لحد يومي',kw:[['التالي',4],['يلا',4],['نبني',2],['وريني',4],['تمام',3],['هذا يومي',4],['ابدأ',3],['جاهز',2]],success:'main',onb:true},
+ {id:'T8',name:'أضف «قراءة كتاب بعد العشاء» كل يوم',kw:[['كل يوم',4],['يومك',3],['فقرة',2],['ثابتة',2],['أضف',2],['+',1]],type:'قراءة كتاب بعد العشاء',typeOnly:['شنو'],need:['كل يوم'],submit:['حطّها','احفظ','حفظ'],success:'routine'},
+ {id:'T7',name:'أول مرة: من الترحيب لحد يومي',kw:[['اسمح بالتنبيهات',3],['التالي',4],['يلا',4],['نبني',2],['وريني',4],['تمام',3],['هذا يومي',4],['ابدأ',3],['جاهز',2]],success:'main',onb:true},
 ];
 
 async function candidates(p,a){
@@ -56,12 +61,15 @@ async function candidates(p,a){
   const els=[...document.querySelector(root).querySelectorAll(SEL)].filter(vis);
   const uniq=els;
   return uniq.map((e,i)=>{e.setAttribute('data-pid',i);return {pid:i,tag:e.tagName,text:(e.innerText||e.getAttribute('aria-label')||e.placeholder||e.value||'').replace(/\s+/g,' ').trim(),
+    pressed:e.getAttribute('aria-pressed')==='true'||e.getAttribute('aria-checked')==='true',
+    disabled:e.disabled||e.getAttribute('aria-disabled')==='true'||+getComputedStyle(e).opacity<0.6,
     input:e.tagName==='INPUT'&&(!e.type||e.type==='text'||e.type==='search'),ph:(e.placeholder||'')+' '+(e.labels&&e.labels[0]?e.labels[0].innerText:''),val:e.value||''}});
  },{root:a.root});
 }
 const rootText=(p,a)=>p.evaluate(r=>{const el=document.querySelector(r);const t=el.innerText;const iv=[...el.querySelectorAll('input')].map(i=>i.value).join(' ');return {t,iv}},a.root);
 const visibleText=(p,a)=>p.evaluate(r=>{const R=document.querySelector(r).getBoundingClientRect();const w=document.createTreeWalker(document.querySelector(r),NodeFilter.SHOW_TEXT);let s='',n;
   while(n=w.nextNode()){const rg=document.createRange();rg.selectNodeContents(n);const b=rg.getBoundingClientRect();if(b.height>0&&b.bottom>Math.max(R.top,0)&&b.top<Math.min(R.bottom,innerHeight))s+=n.textContent+' '}return s.replace(/\s+/g,' ')},a.root);
+const rowHas=(p,a,x,y)=>p.evaluate(([r,x,y])=>[...document.querySelector(r).querySelectorAll('*')].some(e=>{const t=e.innerText||'';return t.length<70&&t.includes(x)&&t.includes(y)}),[a.root,x,y]);
 const doneCount=s=>(s.match(/تم|ألغي|✓|خلصت/g)||[]).length;
 
 async function check(task,p,a,ctx){
@@ -69,9 +77,9 @@ async function check(task,p,a,ctx){
  switch(task.success){
   case 'doneMark':return doneCount(t)>ctx.before;
   case 'textAfter':return ctx.submitted&&!iv.includes(task.want)&&(t.includes(task.want)||/انحطّت|انضافت/.test(t));
-  case 'time0545':return ctx.submitted||ctx.timeSet?(t.includes('05:45')&&!iv.includes('05:45')):false;
+  case 'alarmDaily':return (ctx.submitted||ctx.timeSet)&&!iv.includes('05:45')&&await rowHas(p,a,'05:45','كل يوم');
   case 'sleepSeen':{const v=await visibleText(p,a);return v.includes('21:00')&&v.includes('04:28')}
-  case 'routine':return !!ctx.routine||(ctx.submitted&&!iv.includes('كتاب')&&/كتاب|انحطّت/.test(t));
+  case 'routine':return !!ctx.routine||(ctx.submitted&&!iv.includes('كتاب')&&await rowHas(p,a,'كتاب','كل يوم'));
   case 'main':return a.isMain(p);
  }
 }
@@ -92,7 +100,9 @@ async function runOne(browser,vk,persona,task){
   // type when the right field is on screen
   const field=c.find(x=>x.input&&!ctx.typed&&task.type&&(!task.typeOnly||task.typeOnly.some(w=>x.ph.includes(w))));
   if(field){await page.click(`[data-pid="${field.pid}"]`);await page.keyboard.type(task.type,{delay:5});ctx.typed=true;typing++;log.push('كتب: '+task.type);await page.waitForTimeout(250);continue}
-  if(task.time&&!ctx.timeSet&&await a.timeVisible(page)){const n=await a.setTime(page,task.time);if(n>=0){taps+=n;ctx.timeSet=true;log.push(`ضبط الساعة بـ ${n} ضغطات`);if(await check(task,page,a,ctx)){result='ok';break}}}
+  if(task.time&&!ctx.timeSet&&await a.timeVisible(page)){const n=await a.setTime(page,task.time);if(n>=0){taps+=n;ctx.timeSet=true;log.push(`ضبط الساعة بـ ${n} ضغطات`);if(await check(task,page,a,ctx)){result='ok';break}continue}}
+  if((ctx.typed||ctx.timeSet)&&task.need){const nd=c.find(x=>!x.input&&!x.pressed&&!clicked.has(x.text)&&task.need.some(w=>x.text===w));
+   if(nd){taps++;clicked.add(nd.text);log.push('اختار: «'+nd.text+'»');await page.click(`[data-pid="${nd.pid}"]`).catch(()=>{});await page.waitForTimeout(250);continue}}
   let best=null,bs=0;
   for(const x of c){
    if(x.input)continue;
@@ -103,12 +113,15 @@ async function runOne(browser,vk,persona,task){
    if(!task.onb&&clicked.has(x.text)&&!(ctx.typed&&(task.submit||[]).some(w=>x.text.includes(w))))s-=10;
    if(s>bs||(s===bs&&best&&x.text.length<best.text.length)){bs=s;best=x}
   }
+  if(best&&bs>=1&&best.disabled&&task.onb){const opt=c.find(x=>!x.input&&!x.disabled&&x!==best&&!/رجوع|تخطّى|سكّر/.test(x.text)&&!clicked.has(x.text));
+   if(opt){taps++;clicked.add(opt.text);log.push('اختار جواب: «'+opt.text.slice(0,30)+'»');await page.click(`[data-pid="${opt.pid}"]`).catch(()=>{});await page.waitForTimeout(300);continue}}
   if(best&&bs>=1){
    taps++;clicked.add(best.text);log.push('ضغط: «'+best.text.slice(0,40)+'»');
    if((task.submit||[]).some(w=>best.text.includes(w)))ctx.submitted=true;
    if(task.id==='T8'&&/يومك|فقرة ثابتة|عدّل يومك/.test(best.text))ctx.routine='entry';
    await page.click(`[data-pid="${best.pid}"]`).catch(()=>{});await page.waitForTimeout(380);
-   if(await check(task,page,a,ctx)){result='ok';break}
+   if(await check(task,page,a,ctx)){result=ctx.routine==='entry'?'entry':'ok';break}
+   if(ctx.submitted&&['alarmDaily','routine','textAfter'].includes(task.success)){const {iv}=await rootText(page,a);if(!task.type||!iv.includes(task.type.split(' ')[0])){result='wrong';break}}
    if(taps>=persona.patience){result='gave_up';break}
    continue;
   }

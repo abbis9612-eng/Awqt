@@ -2,6 +2,9 @@ package com.dcc.yawm.shared.data
 
 import com.dcc.yawm.shared.alarm.AlertPrefs
 import com.dcc.yawm.shared.day.DEFAULT_BEDTIME
+import com.dcc.yawm.shared.day.DefaultWorkdays
+import com.dcc.yawm.shared.day.Thing
+import com.dcc.yawm.shared.day.migrateToThings
 import com.dcc.yawm.shared.day.DayCustomization
 import com.dcc.yawm.shared.day.MyDayPlan
 import com.dcc.yawm.shared.day.Role
@@ -12,6 +15,7 @@ import com.dcc.yawm.shared.prayer.GeoPoint
 import com.dcc.yawm.shared.prayer.HighLatitudeRule
 import com.dcc.yawm.shared.prayer.MosqueAdjustments
 import com.dcc.yawm.shared.prayer.PrayerSettings
+import kotlinx.datetime.DayOfWeek
 
 /**
  * Everything the user chooses. The defaults are the owner's city until the first-run screen
@@ -45,6 +49,10 @@ data class UserSettings(
     val focusUntil: Long? = null,
     /** When focus started, to count focus time for the week. */
     val focusFrom: Long? = null,
+    /** Everything the user wants to do («يومك بين الصلوات»); replaces [myDay] items and [tasks] on screen. */
+    val things: List<Thing> = emptyList(),
+    /** The days «أيام الدوام» means. */
+    val workDays: Set<DayOfWeek> = DefaultWorkdays,
 )
 
 enum class Theme { AUTO, LIGHT, DARK }
@@ -71,6 +79,8 @@ private const val TASKS = "tasks.v1"
 private const val ALERTS = "alerts.v2"
 private const val FOCUS = "focus.until"
 private const val FOCUS_FROM = "focus.from"
+private const val THINGS = "things.v1"
+private const val WORK_DAYS = "work.days"
 private const val AUTO = "auto"
 
 internal fun encodeSettings(s: UserSettings): Map<String, String> {
@@ -102,6 +112,8 @@ internal fun encodeSettings(s: UserSettings): Map<String, String> {
         ALERTS to encodeAlerts(s.alerts),
         FOCUS to (s.focusUntil?.toString() ?: ""),
         FOCUS_FROM to (s.focusFrom?.toString() ?: ""),
+        THINGS to encodeThings(s.things),
+        WORK_DAYS to encodeDays(s.workDays),
     )
 }
 
@@ -148,5 +160,8 @@ internal fun decodeSettings(m: Map<String, String>): UserSettings {
         alerts = decodeAlerts(m[ALERTS]),
         focusUntil = m[FOCUS]?.toLongOrNull(),
         focusFrom = m[FOCUS_FROM]?.toLongOrNull(),
+        // Never saved before (the update to «يومك بين الصلوات»): the old tasks and day become things.
+        things = if (m.containsKey(THINGS)) decodeThings(m[THINGS]) else migrateToThings(decodeTasks(m[TASKS]), decodeMyDay(m[MY_DAY])),
+        workDays = decodeDays(m[WORK_DAYS]) ?: decodeMyDay(m[MY_DAY])?.workDays ?: d.workDays,
     )
 }

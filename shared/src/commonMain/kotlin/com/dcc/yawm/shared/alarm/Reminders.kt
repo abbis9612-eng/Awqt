@@ -2,12 +2,12 @@ package com.dcc.yawm.shared.alarm
 
 import com.dcc.yawm.shared.data.UserSettings
 import com.dcc.yawm.shared.day.DayResolver
-import com.dcc.yawm.shared.day.ResolvedDay
-import com.dcc.yawm.shared.day.Slot
-import com.dcc.yawm.shared.day.isFreeKey
-import com.dcc.yawm.shared.day.placeTasks
-import com.dcc.yawm.shared.day.plainTitle
-import com.dcc.yawm.shared.day.tasksOn
+import com.dcc.yawm.shared.day.PartSpan
+import com.dcc.yawm.shared.day.Remind
+import com.dcc.yawm.shared.day.Thing
+import com.dcc.yawm.shared.day.daySpans
+import com.dcc.yawm.shared.day.partOf
+import com.dcc.yawm.shared.day.thingsOn
 import com.dcc.yawm.shared.day.toLocalDateTime
 import com.dcc.yawm.shared.prayer.DayPrayerTimes
 import com.dcc.yawm.shared.prayer.Prayer
@@ -25,7 +25,9 @@ import kotlin.time.Instant
 
 /*
  * Every notification of the next 48 hours, after one set of rules (owner, 2026-10-29), so many
- * alerts and tasks never turn into noise:
+ * alerts and tasks never turn into noise. Since «يومك بين الصلوات» (2026-11-02) the things of a
+ * part come together in one notification when the part opens, and a thing with its own clock
+ * time rings at that time.
  *  1. Things due in the same minute become one notification, titled by the most important.
  *  2. A sound at most once in two minutes; the next one shows without sound.
  *  3. While asleep (bedtime to waking) only alarms ring.
@@ -104,20 +106,20 @@ fun upcomingReminders(settings: UserSettings, now: Instant, hours: Int = SCHEDUL
             val title = if (day.plan.qiyam) "وقت الصحيان لصلاة الليل" else "وقت الصحيان قبل الفجر"
             due += Due(Line(ReminderKind.WAKE, "wake", title, "الفجر ${clockText(times(d.plus(1, DateTimeUnit.DAY))[Prayer.FAJR], zone)}"), wakeAt)
         }
-        for (a in prefs.alarms) if (a.on && d.dayOfWeek in a.days) {
+        for (a in prefs.alarms) if (a.ringsOn(d)) {
             due += Due(Line(ReminderKind.ALARM, "alarm:${a.id}", a.label.ifBlank { "منبّه" }, "الساعة ${clockText(instant(d, a.minute), zone)}"), instant(d, a.minute))
         }
-        if (settings.blockReminders) itemLines(day, d, settings, ::instant, zone, due)
-        taskLines(day, d, today, if (d == today) nowLocal.hour * 60 + nowLocal.minute else 0, settings, ::instant, zone, due)
+        val spans = daySpans(t, day.plan.bedtime)
+        val mine = thingsOn(d, today, settings.things, settings.workDays)
+        val nowMin = if (d == today) nowLocal.hour * 60 + nowLocal.minute else null
+        if (settings.blockReminders) thingLines(mine, spans, d, nowMin, ::instant, zone, due)
         if (prefs.morningSummary) {
-            val n = tasksOn(d, today, settings.tasks).count { !it.done }
-            val first = day.blocks.firstOrNull { it.start >= day.times.sunrise && !it.isPrayer && !isFreeKey(it.key) }
-            val body = (if (n > 0) "اليوم عندك $n مهام." else "اليوم بلا مهام.") + (first?.let { " أول شغلة: ${plainTitle(it.key, it.title)}." } ?: "")
+            val open = mine.filter { !it.doneOn(d) }
+            val body = if (open.isEmpty()) "اليوم بلا شغلات." else "اليوم عندك ${open.size} شغلات: " + open.take(3).joinToString("، ") { it.title } + (if (open.size > 3) "…" else ".")
             due += Due(Line(ReminderKind.SUMMARY, "summary", "يومك", body), instant(d, day.times.sunrise))
         }
         if (prefs.eveningReview) {
-            val mine = tasksOn(d, today, settings.tasks)
-            val body = "خلصت ${mine.count { it.done }} من ${mine.size} مهام. تنام ${clockText(instant(d, day.plan.bedtime), zone)} وتصحى ${clockText(wakeAt, zone)}."
+            val body = "خلصت ${mine.count { it.doneOn(d) }} من ${mine.size} شغلات. تنام ${clockText(instant(d, day.plan.bedtime), zone)} وتصحى ${clockText(wakeAt, zone)}."
             due += Due(Line(ReminderKind.REVIEW, "review", "محاسبة الليل", body), instant(d, day.plan.bedtime - 30))
         }
     }
@@ -147,35 +149,21 @@ fun upcomingReminders(settings: UserSettings, now: Instant, hours: Int = SCHEDUL
     return ruled.filter { it.at > now && it.at <= end }.distinctBy { it.id }.sortedBy { it.at }
 }
 
-private fun itemLines(day: ResolvedDay, d: LocalDate, s: UserSettings, instant: (LocalDate, Int) -> Instant, zone: TimeZone, due: MutableList<Due>) {
-    val prefs = s.alerts
-    for (raw in day.blocks) {
-        if (raw.isPrayer || isFreeKey(raw.key)) continue
-        val b = raw.copy(title = plainTitle(raw.key, raw.title))
-        // The wake alarm already rings when the night prayer starts.
-        if (b.key == "qiyam" && s.wakeAlarm) continue
-        val start = instant(d, b.start)
-        val stop = instant(d, b.end)
-        when (val a = prefs.itemAlert(b.key)) {
-            ItemAlert.START -> due += Due(Line(ReminderKind.START, b.key, "هسه: ${b.title}", "لحد ${clockText(stop, zone)}"), start, until = stop)
-            ItemAlert.BEFORE5, ItemAlert.BEFORE10 -> {
-                val m = if (a == ItemAlert.BEFORE5) 5 else 10
-                due += Due(Line(ReminderKind.BEFORE, b.key, "بعد $m دقايق: ${b.title}", "تبدي ${clockText(start, zone)}"), instant(d, b.start - m), until = stop)
-            }
-            ItemAlert.OFF -> {}
-        }
-        if (prefs.endAlert && b.key != "qiyam") due += Due(Line(ReminderKind.END, b.key, "خلص: ${b.title}", ""), stop)
+/**
+ * One line per part that has open things with «بأول القسم», at the part's start, carrying their
+ * names; a thing with «بوكتها» and a clock time rings at that time. A thing for any time today
+ * goes with the part of now.
+ */
+private fun thingLines(things: List<Thing>, spans: List<PartSpan>, d: LocalDate, now: Int?, instant: (LocalDate, Int) -> Instant, zone: TimeZone, due: MutableList<Due>) {
+    val open = things.filter { !it.doneOn(d) }
+    for (span in spans) {
+        val here = open.filter { it.remind == Remind.START && partOf(it, spans, now) == span.part }
+        if (here.isEmpty()) continue
+        due += Due(Line(ReminderKind.START, "part:${span.part.name}", span.part.label, here.joinToString(" · ") { it.title }), instant(d, span.start), until = instant(d, span.end))
     }
-}
-
-private fun taskLines(day: ResolvedDay, d: LocalDate, today: LocalDate, from: Int, s: UserSettings, instant: (LocalDate, Int) -> Instant, zone: TimeZone, due: MutableList<Due>) {
-    val mine = tasksOn(d, today, s.tasks)
-    if (mine.isEmpty()) return
-    val all = day.blocks.map { Slot(it.key, it.start, it.end) }
-    val placed = placeTasks(mine, all.filter { isFreeKey(it.key) }, from, all)
-    for (p in placed) {
-        val at = p.start ?: continue
-        if (p.task.done) continue
-        due += Due(Line(ReminderKind.TASK, "task:${p.task.id}", "مهمة: ${p.task.title}", "${p.task.minutes} دقيقة · الساعة ${clockText(instant(d, at), zone)}"), instant(d, at))
+    for (x in open) {
+        val at = x.at ?: continue
+        if (x.remind != Remind.AT) continue
+        due += Due(Line(ReminderKind.TASK, "thing:${x.id}", x.title, "الساعة ${clockText(instant(d, at), zone)}"), instant(d, at))
     }
 }

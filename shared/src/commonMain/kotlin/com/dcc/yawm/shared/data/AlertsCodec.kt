@@ -13,7 +13,7 @@ import kotlinx.datetime.DayOfWeek
  *   D itemDefault endAlert style morning evening
  *   O key alert                       a per-item reminder
  *   P prayer alert                    a per-prayer choice
- *   M id label minute days on         an alarm of the user's (days as ISO numbers 1..7)
+ *   M id label minute days on [onceOn] an alarm of the user's (days as ISO numbers 1..7; onceOn an ISO date)
  */
 
 private const val RS = '\u001E'
@@ -25,7 +25,7 @@ fun encodeAlerts(a: AlertPrefs): String = buildList {
     add(listOf("D", a.itemDefault.name, a.endAlert.toString(), a.style.name, a.morningSummary.toString(), a.eveningReview.toString()))
     for ((k, v) in a.itemOverrides) add(listOf("O", k, v.name))
     for ((p, v) in a.prayer) add(listOf("P", p.name, v.name))
-    for (m in a.alarms) add(listOf("M", m.id, cleanTitle(m.label), m.minute.toString(), m.days.map { it.ordinal + 1 }.sorted().joinToString(","), m.on.toString()))
+    for (m in a.alarms) add(listOf("M", m.id, cleanTitle(m.label), m.minute.toString(), m.days.map { it.ordinal + 1 }.sorted().joinToString(","), m.on.toString()) + listOfNotNull(m.onceOn?.toString()))
 }.joinToString(RS.toString()) { it.joinToString(US.toString()) }
 
 fun decodeAlerts(s: String?): AlertPrefs {
@@ -49,11 +49,12 @@ fun decodeAlerts(s: String?): AlertPrefs {
                 val p = enumOf<Prayer>(f[1]) ?: continue
                 enumOf<PrayerAlert>(f[2])?.let { prayer[p] = it }
             }
-            "M" -> if (f.size == 6) {
+            "M" -> if (f.size == 6 || f.size == 7) {
                 val minute = f[3].toIntOrNull()?.takeIf { it in 0 until 1440 } ?: continue
                 if (f[1].isEmpty()) continue
                 val days = f[4].split(",").mapNotNull { it.toIntOrNull() }.filter { it in 1..7 }.map { DayOfWeek.entries[it - 1] }.toSet()
-                alarms += UserAlarm(f[1], f[2], minute, days, f[5] != "false")
+                val once = f.getOrNull(6)?.let { runCatching { kotlinx.datetime.LocalDate.parse(it) }.getOrNull() }
+                alarms += UserAlarm(f[1], f[2], minute, days, f[5] != "false", once)
             }
         }
     }

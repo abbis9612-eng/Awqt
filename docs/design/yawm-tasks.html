@@ -1,0 +1,634 @@
+<title>يوم · مهام</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap">
+<style>
+/* «مهام», developed: the owner's favourite of the warm set, made more practical. Ivory and clay,
+   square checks, a turning crescent for "now", numbered choices. Three ways to run the same list. */
+:root{
+  --pg:#EFEBE3; --pg-card:#FBF9F4; --pg-ink:#26231E; --pg-grey:#625C51; --pg-line:#DDD6C9;
+  --sans:"IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --mono:"IBM Plex Mono","IBM Plex Sans Arabic",ui-monospace,monospace;
+  --serif:"Noto Naskh Arabic","IBM Plex Sans Arabic",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pg:#151412;--pg-card:#1F1D1A;--pg-ink:#EEE9E0;--pg-grey:#ABA397;--pg-line:#35312C;color-scheme:dark}}
+:root[data-theme="dark"]{--pg:#151412;--pg-card:#1F1D1A;--pg-ink:#EEE9E0;--pg-grey:#ABA397;--pg-line:#35312C;color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{background:var(--pg);color:var(--pg-ink);font-family:var(--sans);font-size:17px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:30px 60px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--pg)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--pg-ink);outline-offset:3px}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+
+.wrap{max-width:1560px;margin:0 auto;display:grid;gap:24px}
+.wrap>*{min-width:0}
+.intro{display:grid;gap:10px;max-width:840px}
+.intro .k{font-weight:500;color:var(--pg-grey);font-size:15px}
+.intro h1{font-family:var(--serif);font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1.45;margin:0;text-wrap:balance}
+.intro p{margin:0;font-size:18px;max-width:66ch}
+.bar{display:grid;gap:12px;background:var(--pg-card);border:1.5px solid var(--pg-line);border-radius:20px;padding:12px 14px}
+.picks{display:flex;flex-wrap:wrap;gap:8px}
+.pick{min-height:48px;padding:0 16px;border-radius:14px;border:1.5px solid var(--pg-line);background:var(--pg);font-weight:500;font-size:16px;display:inline-flex;align-items:center;gap:8px}
+.pick b{font-family:var(--mono);font-size:14px;font-weight:600;opacity:.75}
+.pick[aria-pressed="true"]{background:var(--pg-ink);color:var(--pg);border-color:var(--pg-ink)}
+.row2{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.seg2,.jumps{display:flex;flex-wrap:wrap;gap:6px}
+.seg2 button,.jumps button{min-height:44px;padding:0 12px;border-radius:12px;background:var(--pg);border:1.5px solid var(--pg-line);font-size:15px;font-weight:500}
+.seg2 button[aria-pressed="true"],.jumps button[aria-pressed="true"]{background:var(--pg-ink);color:var(--pg);border-color:var(--pg-ink)}
+.timebar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--pg-card);border:1.5px solid var(--pg-line);border-radius:18px;padding:6px 12px;box-shadow:0 10px 30px -18px rgba(0,0,0,.35)}
+.timeline{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.play{width:50px;height:50px;border-radius:50%;background:var(--pg-ink);color:var(--pg);display:grid;place-items:center;flex:none}
+.play svg{width:20px;height:20px;fill:currentColor}
+.tl-clock{font-family:var(--mono);font-size:24px;font-weight:500;min-width:3.4ch}
+.tl-part{font-size:15px;color:var(--pg-grey);min-width:6em}
+.scrub{flex:1;min-width:200px;height:46px;-webkit-appearance:none;appearance:none;background:transparent;direction:ltr}
+.scrub::-webkit-slider-runnable-track{height:8px;border-radius:5px;background:linear-gradient(to right,#3A352E 0 19%,#B9532F 20% 87%,#3A352E 88%)}
+.scrub::-moz-range-track{height:8px;border-radius:5px;background:linear-gradient(to right,#3A352E 0 19%,#B9532F 20% 87%,#3A352E 88%)}
+.scrub::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-9px;border-radius:50%;background:#fff;border:3px solid var(--pg-ink)}
+.scrub::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--pg-ink)}
+@media (max-width:520px){.timeline{gap:8px}.timeline .scrub{flex-basis:100%;order:3;height:40px}}
+
+.one{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:40px;align-items:start}
+@media (max-width:940px){.one{grid-template-columns:minmax(0,1fr)}}
+.all{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:34px 24px}
+.cell{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;justify-items:center;min-width:0}
+.cell>h3{margin:0;font-family:var(--serif);font-size:23px;font-weight:700;line-height:1.5}
+.cell>p{margin:-8px 0 0;font-size:15px;color:var(--pg-grey);text-align:center;max-width:36ch}
+.device{width:min(100%,402px);justify-self:center;background:#0B0A09;border-radius:54px;padding:10px;box-shadow:0 40px 80px -40px rgba(0,0,0,.5),inset 0 0 0 1.5px #2A2724}
+.all .device{width:min(100%,378px)}
+.notes{display:grid;gap:14px;align-content:start}
+.notes h2{font-family:var(--serif);font-size:30px;font-weight:700;line-height:1.45;margin:0}
+.notes .lead{margin:-4px 0 0;font-size:18px;max-width:58ch}
+.try{display:grid;gap:6px;padding:16px 18px;border-radius:18px;background:var(--pg-card);border:1.5px solid var(--pg-line)}
+.try b{font-size:17px}
+.try ol{margin:0;padding-inline-start:22px;display:grid;gap:4px;font-size:16px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.fact{padding:14px 16px;border-radius:16px;background:var(--pg-card);border:1.5px solid var(--pg-line);display:grid;gap:4px}
+.fact b{font-size:16px;font-weight:600}
+.fact span{font-size:16px;color:var(--pg-grey);line-height:1.7}
+.tablewrap{overflow-x:auto;border-radius:18px;border:1.5px solid var(--pg-line);background:var(--pg-card)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:16px;line-height:1.65}
+th,td{text-align:start;padding:12px 14px;border-bottom:1.5px solid var(--pg-line);vertical-align:top}
+th{font-size:15px;color:var(--pg-grey)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap;font-family:var(--mono);font-size:15px}
+.rec{padding:20px;border-radius:22px;background:var(--pg-ink);color:var(--pg);display:grid;gap:8px;max-width:920px}
+.rec b{font-family:var(--serif);font-size:22px;font-weight:700}
+.rec p{margin:0;font-size:17px}
+.foot{font-size:15px;color:var(--pg-grey);max-width:88ch;margin:0}
+
+/* ================= phone ================= */
+.ph{--bg:#FAF8F3;--card:#FFFFFF;--ink:#29261F;--grey:#655F54;--line:#E5DFD3;--clay:#B4532F;--clayon:#FFFFFF;--clayT:#9C4424;--soft:#F3E8DC;--cbc:#A39B8D;
+  --amb:#7A5200;--ambbg:#FBF0DA;--ambline:#EBD3A4;--tom:#4D5568;--tomon:#FFFFFF;
+  position:relative;height:820px;max-height:calc(100vh - 40px);min-height:660px;border-radius:44px;overflow:hidden;background:var(--bg);color:var(--ink);isolation:isolate;display:flex;flex-direction:column;font-family:var(--sans)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ph{--bg:#1F1D1A;--card:#29261F;--ink:#EEE9E0;--grey:#ADA598;--line:#3A3631;--clay:#E0896A;--clayon:#24130B;--clayT:#E89A7C;--soft:#3A2D24;--cbc:#746C61;
+  --amb:#F2C46A;--ambbg:#352B19;--ambline:#5A4826;--tom:#9AA6C2;--tomon:#12151D;color-scheme:dark}}
+:root[data-theme="dark"] .ph{--bg:#1F1D1A;--card:#29261F;--ink:#EEE9E0;--grey:#ADA598;--line:#3A3631;--clay:#E0896A;--clayon:#24130B;--clayT:#E89A7C;--soft:#3A2D24;--cbc:#746C61;
+  --amb:#F2C46A;--ambbg:#352B19;--ambline:#5A4826;--tom:#9AA6C2;--tomon:#12151D;color-scheme:dark}
+.all .ph{height:760px}
+.status{height:44px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:8px 30px 0;font-size:15px;font-weight:600}
+.ic{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.scroller{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;min-height:0;padding:4px 16px 210px;display:flex;flex-direction:column;gap:12px}
+.scroller::-webkit-scrollbar{display:none}
+.scroller>*{flex:none}
+.spin{display:inline-block;width:1.15em;text-align:center;color:var(--clayT);font-family:var(--mono)}
+
+/* header */
+.th{display:flex;justify-content:space-between;align-items:end;gap:10px}
+.th h2{margin:0;font-family:var(--serif);font-size:34px;font-weight:700;line-height:1.35}
+.th small{display:block;font-size:15px;color:var(--grey)}
+.cnt{font-family:var(--mono);font-size:14px;color:var(--grey);text-align:end;line-height:1.4}
+.cnt b{display:block;font-size:26px;color:var(--ink);font-weight:500}
+/* part rail: how each part of today went */
+.rail{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+.rail button{min-height:52px;border-radius:12px;display:grid;align-content:center;justify-items:center;gap:3px;padding:4px 2px;color:var(--grey);font-size:14px;line-height:1.2}
+.rail button i{display:block;width:100%;max-width:44px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.rail button i b{display:block;height:100%;background:var(--clay)}
+.rail button.past{color:var(--ink)}
+.rail button.cur{background:var(--soft);color:var(--clayT);font-weight:600}
+.rail button.pend i b{background:var(--amb)}
+
+/* cards */
+.tcard{border:1.5px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden}
+.tcard.cur{border-color:var(--clay);box-shadow:0 0 0 4px color-mix(in srgb,var(--clay) 12%,transparent)}
+.tch{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 14px;min-height:54px;border-bottom:1px solid var(--line)}
+.tch .nm{flex:1;font-weight:600;font-size:16.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tch em{font-style:normal;font-family:var(--mono);font-size:14px;color:var(--grey)}
+.tch .plus{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:var(--clayT)}
+.tcard.cur .tch{background:var(--soft);display:grid;grid-template-columns:auto 1fr auto;padding:10px 14px 8px;row-gap:6px}
+.tcard.cur .tch .left{font-family:var(--mono);font-size:14px;color:var(--clayT)}
+.tcard.cur .tbar{grid-column:1/-1;height:4px;border-radius:2px;background:color-mix(in srgb,var(--clay) 18%,transparent);overflow:hidden}
+.tcard.cur .tbar i{display:block;height:100%;background:var(--clay);border-radius:2px;transition:width .4s}
+.tcard.fold .tch{border-bottom:0}
+.tcard.fold .tch+*{border-top:1px solid var(--line)}
+/* prayer row: not a task, its own pill */
+.prow{display:flex;align-items:center;gap:10px;min-height:58px;padding:0 8px 0 14px;border-bottom:1px solid var(--line)}
+.prow .tt{flex:1;font-weight:600;font-size:16.5px}
+.prow .tt small{font-family:var(--mono);font-size:13.5px;color:var(--grey);font-weight:400}
+.pray{min-height:44px;padding:0 16px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:6px;transition:background .2s}
+.pray[aria-pressed="true"]{background:var(--soft);color:var(--clayT)}
+.pray .ic{width:16px;height:16px;stroke-width:2.6}
+/* a task row: square check + title button; swipe either way */
+.sw{position:relative;overflow:hidden;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.sw .u{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-weight:600;font-size:15px;opacity:0}
+.sw .u span{display:flex;gap:6px;align-items:center}
+.sw.drag .u,.sw.gone .u{opacity:1}
+.sw.r .u{background:var(--clay);color:var(--clayon)}
+.sw.l .u{background:var(--tom);color:var(--tomon)}
+.sw .o{position:relative;background:var(--card);transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.sw.drag .o{transition:none}
+.ti{display:flex;align-items:center;min-height:56px;border-bottom:1px solid var(--line)}
+.sw:last-child .ti,.tcard>.ti:last-child{border-bottom:0}
+.ck{width:52px;height:56px;flex:none;display:grid;place-items:center}
+.ck i{width:24px;height:24px;border-radius:7px;border:2px solid var(--cbc);display:grid;place-items:center;transition:background .18s,border-color .18s,transform .18s}
+.ck svg{width:15px;height:15px;stroke:var(--clayon);stroke-width:3;fill:none;stroke-dasharray:16;stroke-dashoffset:16;transition:stroke-dashoffset .24s .04s}
+.done .ck i{background:var(--clay);border-color:var(--clay);animation:pop .28s cubic-bezier(.3,1.6,.5,1)}
+.done .ck svg{stroke-dashoffset:0}
+@keyframes pop{40%{transform:scale(1.15)}}
+.ck:active i{transform:scale(.85)}
+.tb{flex:1;min-width:0;min-height:56px;display:flex;align-items:center;gap:8px;text-align:start;padding-inline-end:12px}
+.tb .tt{flex:1;font-size:17px;line-height:1.45}
+.done .tb .tt{color:var(--grey);text-decoration:line-through;text-decoration-thickness:1.5px}
+.tag{font-size:13.5px;font-weight:600;color:var(--clayT);background:var(--soft);border-radius:6px;padding:1px 7px;line-height:1.6;white-space:nowrap}
+.mt{font-size:13.5px;color:var(--grey);font-family:var(--mono);white-space:nowrap}
+.addrow{display:flex;align-items:center;gap:10px;min-height:52px;width:100%;padding:0 16px;color:var(--grey);font-size:16px;border-top:1px solid var(--line)}
+.addrow .ic{width:18px;height:18px;color:var(--clayT)}
+.donefold{display:flex;align-items:center;gap:8px;min-height:48px;width:100%;padding:0 16px;color:var(--grey);font-size:15px;border-top:1px solid var(--line)}
+.donefold .ic{width:16px;height:16px;color:var(--clayT);stroke-width:2.6}
+/* decision inside the card */
+.decide{padding:12px 14px;border-bottom:1.5px dashed var(--line);display:grid;gap:6px;background:var(--bg)}
+.decide p{margin:0;font-size:16px}
+.decide .opts{display:grid;gap:6px}
+.decide button{min-height:48px;display:flex;align-items:center;gap:10px;border-radius:12px;padding:0 10px;text-align:start;font-size:16px;border:1.5px solid var(--line);background:var(--card)}
+.decide button .k{font-family:var(--mono);width:26px;height:26px;border-radius:7px;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13.5px;color:var(--grey);flex:none}
+.decide button:first-child{border-color:var(--clay)}
+.decide button:first-child .k{border-color:var(--clay);color:var(--clayT)}
+/* carried over from earlier parts */
+.carry{border:1.5px solid var(--ambline);background:var(--ambbg);border-radius:18px;overflow:hidden}
+.carry .tch{border-bottom:1px solid var(--ambline);color:var(--amb)}
+.carry .tch .nm{color:var(--amb)}
+.carry .ti{border-color:var(--ambline);background:var(--ambbg)}
+.carry .sw .o{background:var(--ambbg)}
+.carry .allbtn{min-height:44px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:600;color:var(--amb);border:1.5px solid var(--ambline);background:var(--card)}
+.carry .donefold{border-color:var(--ambline);color:var(--amb)}
+.carry .mini{display:flex;gap:4px;padding-inline-end:8px}
+.carry .mini button{min-height:48px;min-width:52px;padding:0 10px;border-radius:10px;font-size:14px;font-weight:600;color:var(--amb);border:1.5px solid var(--ambline);background:var(--card)}
+.pastfold{display:flex;align-items:center;gap:10px;min-height:50px;width:100%;padding:0 14px;border-radius:14px;background:var(--card);border:1.5px solid var(--line);color:var(--grey);font-size:15px;text-align:start}
+.pastfold .ic{width:18px;height:18px;color:var(--clayT);stroke-width:2.4}
+.nightc{border:1.5px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden}
+.nightc .sl{display:flex;justify-content:space-between;padding:12px 16px;font-family:var(--mono)}
+.nightc .sl small{display:block;font-family:var(--sans);font-size:14px;color:var(--grey)}
+.nightc .sl b{font-size:24px;font-weight:500}
+.al{display:flex;align-items:center;gap:10px;min-height:56px;padding:0 6px 0 16px;border-top:1px solid var(--line)}
+.al .tt{flex:1;font-size:16px}
+.al .tt small{display:block;font-size:13.5px;color:var(--grey)}
+.tog{width:60px;height:48px;display:grid;place-items:center;flex:none}
+.tog i{width:50px;height:30px;border-radius:16px;background:var(--line);position:relative;transition:background .2s}
+.tog i::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25);transition:inset-inline-start .22s cubic-bezier(.3,1.4,.5,1)}
+.tog[aria-checked="true"] i{background:var(--clay)}
+.tog[aria-checked="true"] i::after{inset-inline-start:23px}
+
+/* composer with a live reading of what you typed */
+.composer{position:absolute;inset:auto 0 0 0;z-index:8;padding:10px 14px 16px;background:linear-gradient(to top,var(--bg) 82%,transparent);display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+.preview{display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+.preview .read{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:14.5px;color:var(--grey)}
+.preview .read .lbl{flex-basis:100%;line-height:1.5;padding-inline:6px}
+.preview .read button{min-height:44px;padding:0 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-size:15px;font-weight:500;display:inline-flex;gap:6px;align-items:center}
+.preview .read button[aria-expanded="true"]{border-color:var(--clay);color:var(--clayT)}
+.preview .opts{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.preview .opts button{flex:none;min-height:44px;padding:0 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);font-size:15px}
+.preview .opts button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tbox{border:1.5px solid var(--grey);border-radius:16px;background:var(--card);padding:0 6px 0 12px;display:flex;align-items:center;gap:8px;min-height:58px}
+.tbox::before{content:">";font-family:var(--mono);color:var(--clayT);font-weight:600}
+.tbox input{flex:1;min-width:0;border:0;background:transparent;outline:none;font-size:17px;min-height:52px;color:var(--ink)}
+.tbox input::placeholder{color:var(--grey)}
+.tbox .go{width:44px;height:44px;border-radius:12px;background:var(--clay);color:var(--clayon);display:grid;place-items:center;flex:none}
+.tbox .go[aria-disabled="true"]{opacity:.35}
+.tbox .go .ic{stroke-width:2.6}
+.kbd{display:flex;gap:12px;font-size:13.5px;color:var(--grey);padding:0 6px;font-family:var(--mono);flex-wrap:wrap}
+
+/* toast with undo */
+.toast{position:absolute;inset:auto 14px 150px 14px;z-index:45;background:var(--ink);color:var(--bg);border-radius:14px;padding:6px 6px 6px 16px;font-weight:500;font-size:15.5px;display:flex;align-items:center;gap:10px;animation:rise .22s ease-out;min-height:56px}
+.toast span{flex:1}
+.toast button{min-height:44px;padding:0 14px;border-radius:10px;color:var(--bg);font-weight:700;border:1.5px solid color-mix(in srgb,var(--bg) 40%,transparent)}
+@keyframes rise{from{transform:translateY(16px);opacity:0}}
+
+/* detail sheet */
+.scrim{position:absolute;inset:0;z-index:40;background:rgba(10,8,6,.45);display:flex;align-items:flex-end;animation:fade .15s}
+@keyframes fade{from{opacity:0}}
+.sheet{width:100%;max-height:92%;overflow-y:auto;background:var(--bg);border-radius:26px 26px 0 0;padding:10px 16px 20px;display:grid;gap:12px;animation:up .26s cubic-bezier(.2,.9,.25,1.05)}
+@keyframes up{from{transform:translateY(50%)}}
+.grab{justify-self:center;width:40px;height:5px;border-radius:3px;background:var(--line)}
+.sheet .name{width:100%;min-height:58px;border:1.5px solid var(--line);border-radius:14px;background:var(--card);padding:0 14px;font-size:20px;font-family:var(--serif);font-weight:600;outline:none;color:var(--ink)}
+.sheet .name:focus{border-color:var(--clay)}
+.sheet .q{margin:2px 0 -6px;font-size:14.5px;color:var(--grey);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{min-height:44px;padding:0 13px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-size:15px}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.timepick{display:flex;align-items:center;gap:8px}
+.timepick button{width:48px;height:48px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-size:20px}
+.timepick b{font-family:var(--mono);font-size:24px;font-weight:500;min-width:4ch;text-align:center}
+.sheet .acts{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:4px}
+.sheet .acts button{min-height:56px;border-radius:14px;font-size:17px;font-weight:600}
+.sheet .acts .main{background:var(--clay);color:var(--clayon)}
+.sheet .acts .del{border:1.5px solid var(--line);color:#B42318}
+:root[data-theme="dark"] .sheet .acts .del{color:#FF8A80}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sheet .acts .del{color:#FF8A80}}
+
+/* B · tabs by part */
+.ptabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px}
+.ptabs button{flex:none;min-height:56px;padding:0 12px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);display:grid;justify-items:center;align-content:center;line-height:1.25;font-size:14.5px;color:var(--grey)}
+.ptabs button b{font-family:var(--mono);font-size:13.5px;font-weight:500}
+.ptabs button.cur{color:var(--clayT);border-color:var(--clay)}
+.ptabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tabhead{display:flex;justify-content:space-between;align-items:baseline;margin:4px 2px -2px}
+.tabhead b{font-family:var(--serif);font-size:24px}
+.tabhead span{font-size:14.5px;color:var(--grey)}
+
+/* C · next up */
+.next{border-radius:22px;background:var(--card);border:1.5px solid var(--clay);box-shadow:0 0 0 4px color-mix(in srgb,var(--clay) 12%,transparent);padding:16px;display:grid;gap:10px}
+.next .lb{display:flex;align-items:center;justify-content:space-between;font-size:14.5px;color:var(--grey)}
+.next .lb b{color:var(--clayT);font-weight:600;display:flex;align-items:center;gap:4px}
+.next h3{margin:0;font-family:var(--serif);font-size:32px;line-height:1.45;font-weight:700;text-wrap:balance}
+.next .sub{margin:-6px 0 0;font-size:15px;color:var(--grey)}
+.next .do{min-height:62px;border-radius:16px;background:var(--clay);color:var(--clayon);font-size:19px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
+.next .do .ic{stroke-width:2.6}
+.next .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.next .two button{min-height:52px;border-radius:14px;border:1.5px solid var(--line);font-size:16px;font-weight:600}
+.qhead{display:flex;justify-content:space-between;align-items:baseline;margin:6px 4px -4px;font-size:15px;color:var(--grey)}
+.qhead b{color:var(--ink);font-size:16.5px}
+.qdiv{font-size:14px;color:var(--grey);padding:8px 16px 4px;border-top:1px solid var(--line);background:var(--bg);font-weight:500}
+
+/* lock screen */
+.lock{flex:1;background:linear-gradient(170deg,#2A2420,#141210);color:#F3EEE6;padding:24px 14px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+.lock .clock{font-family:var(--mono);font-size:76px;font-weight:400;text-align:center;line-height:1.1}
+.lock .date{text-align:center;font-size:16px;color:#C9C1B5;margin-bottom:10px}
+.nt{background:#FBF9F4;color:#29261F;border-radius:22px;padding:12px 14px;display:grid;gap:8px}
+.nt .ap{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#655F54}
+.nt .ap i{width:22px;height:22px;border-radius:7px;background:#B4532F;color:#fff;display:grid;place-items:center;font-style:normal;font-size:13px}
+.nt b{font-size:17px}
+.nt p{margin:0;font-size:15.5px;line-height:1.6;color:#3D3930}
+.nt .na{display:flex;gap:6px}
+.nt .na button{flex:1;min-height:46px;border-radius:12px;background:#EFE7DC;color:#29261F;font-weight:600;font-size:15px}
+
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="k">نموذج · تطوير تصميم «مهام» · السليمانية، الإثنين 2 تشرين الثاني 2026</span>
+    <h1>«مهام»، مطوّر وأقوى وأعملي</h1>
+    <p>راجعت تصميم «مهام» نقطة نقطة. طلعت 10 أشياء ناقصة، وصلّحتها كلها. وسويته بثلاث طرق تختار منها: <b>قائمة</b> (نفس اللي عجبك بس أقوى)، <b>أقسام</b> (كل قسم بصفحة)، و<b>التالي</b> (شغلة وحدة كبيرة وبعدها الباقي).</p>
+  </header>
+
+  <div class="bar">
+    <div class="picks" id="picks"></div>
+    <div class="row2">
+      <div class="seg2" id="views"><button data-v="app" aria-pressed="true">التطبيق</button><button data-v="lock" aria-pressed="false">شاشة القفل</button></div>
+      <div class="seg2" id="themes"><button data-t="light" aria-pressed="false">فاتح</button><button data-t="dark" aria-pressed="false">داكن</button><button data-t="" aria-pressed="true">حسب التلفون</button></div>
+    </div>
+    <div class="jumps" id="jumps"></div>
+  </div>
+  <div class="timebar"><div class="timeline">
+    <button class="play" id="play" aria-label="شغّل اليوم"></button>
+    <span class="tl-clock num" id="clockL">15:10</span><span class="tl-part" id="partL">بعد العصر</span>
+    <input class="scrub" id="scrub" type="range" min="0" max="1439" step="1" value="910" aria-label="وكت اليوم">
+  </div></div>
+  <div id="stage"></div>
+
+  <section class="notes" aria-labelledby="fix">
+    <h2 id="fix">شنو كان ناقص بـ«مهام»، وشلون صلّحته</h2>
+    <div class="tablewrap"><table><thead><tr><th>#</th><th>المشكلة</th><th>الحل</th></tr></thead><tbody>
+      <tr><td>01</td><td>الشغلة اللي فات قسمها وما خلصت تختفي.</td><td>بطاقة صفرة «باقية من قبل» فوك، وبيها زرين: «هسه» أو «باچر».</td></tr>
+      <tr><td>02</td><td>الصلاة كانت مربع مثل أي شغلة.</td><td>الصلاة سطر خاص بزر «صلّيت»، مو مربع.</td></tr>
+      <tr><td>03</td><td>شريط العدّاد (9 قطع) ما يكول شي.</td><td>سكة الأقسام الست: كل قسم شكد خلص منه، والقسم اللي إنت بيه مميز. تضغطه ينزلك عليه.</td></tr>
+      <tr><td>04</td><td>سؤال «1 2 3» يطلع قبل وكته ويدفع القائمة لجوّه.</td><td>يطلع داخل بطاقة القسم، بس قبل نص ساعة من نهايته، ويسأل عن كل اللي باقي مرة وحدة.</td></tr>
+      <tr><td>05</td><td>اللي خلصته يبقى بالقائمة ويزحمها.</td><td>ينطوي بسطر «✓ خلّصت 2»، تفتحه إذا تريد.</td></tr>
+      <tr><td>06</td><td>ماكو تراجع إذا غلطت.</td><td>كل خلّصت ونقل يطلع بعده «تراجع».</td></tr>
+      <tr><td>07</td><td>السحب كان باتجاه واحد.</td><td>تسحب لليمين = خلّصت، تسحب لليسار = باچر.</td></tr>
+      <tr><td>08</td><td>المربع اللي تكتب بيه ما يكلك شنو فهم.</td><td>وإنت تكتب يطلعلك: «راح تنحط: بعد المغرب · مرة وحدة · بلا تنبيه»، وتصلّح أي شي بضغطة قبل الحفظ.</td></tr>
+      <tr><td>09</td><td>ماكو مكان تعدّل الشغلة.</td><td>تضغط اسمها تنفتح ورقة: الاسم، وين، يتكرر، التنبيه بساعة، خلّصت، احذف.</td></tr>
+      <tr><td>10</td><td>الأقسام الجاية ما بيها زر إضافة.</td><td>كل بطاقة بيها «+» تضيف بيها مباشرة لهذاك القسم.</td></tr>
+    </tbody></table></div>
+    <div class="rec"><b>رأيي الصريح</b>
+      <p><b>قائمة</b> تكون الشاشة الرئيسية: نفس اللي عجبك، وبيها كل التصليحات.</p>
+      <p>و<b>التالي</b> نخليه زر «ركّز» فوك، للي يريد يشوف شغلة وحدة بس.</p>
+      <p><b>أقسام</b> زين للتخطيط لباچر، بس للاستخدام اليومي «قائمة» أسرع.</p></div>
+    <p class="foot">هذا نموذج للشكل والاستخدام بس، والتطبيق ما تغيّر. الصلاة والنوم وصلاة الليل نفس الحساب. كل الأزرار 44 أو أكثر، والكتابة مفحوصة للقراءة بالفاتح والداكن.</p>
+  </section>
+</div>
+
+<script>
+(()=>{
+const SLEEP=1260,WAKE=268;
+const PARTS=[
+ {k:'fajr',name:'بعد الفجر',sh:'الفجر',pr:'الفجر',s:287,e:381,end:'الشروق'},
+ {k:'morning',name:'الصبح',sh:'الصبح',pr:null,s:381,e:703,end:'الظهر'},
+ {k:'dhuhr',name:'بعد الظهر',sh:'الظهر',pr:'الظهر',s:703,e:879,end:'العصر'},
+ {k:'asr',name:'بعد العصر',sh:'العصر',pr:'العصر',s:879,e:1022,end:'المغرب'},
+ {k:'maghrib',name:'بعد المغرب',sh:'المغرب',pr:'المغرب',s:1022,e:1106,end:'العشاء'},
+ {k:'isha',name:'بعد العشاء',sh:'العشاء',pr:'العشاء',s:1106,e:SLEEP,end:'النوم'},
+];
+const SEED=()=>[
+  {id:1,t:'أذكار الصبح وقرآن',p:'fajr',rep:'daily',done:true},
+  {id:2,t:'فطور ويّا الأهل',p:'morning',done:true},
+  {id:3,t:'الدوام',p:'morning',at:480,end:840,rep:'work',done:true},
+  {id:11,t:'قيلولة قصيرة',p:'dhuhr',rep:'daily',done:false},
+  {id:4,t:'رياضة',p:'asr',rep:'daily',rem:'start',done:false},
+  {id:5,t:'اتصل بالمحاسب',p:'asr',done:false},
+  {id:6,t:'اشتري أغراض البيت',p:'asr',done:false},
+  {id:7,t:'وقت ويّا الأهل',p:'maghrib',rep:'daily',done:false},
+  {id:8,t:'دراسة',p:'isha',rep:'work',rem:'start',done:false},
+  {id:10,t:'زيارة خالي',p:'tomorrow',done:false},
+  {id:12,t:'جدّد إجازة السوق',p:'later',done:false}];
+const S={m:910,c:'list',view:'app',all:false,prayed:new Set(['fajr','dhuhr']),wake:true,things:SEED(),alarms:[{id:1,l:'الدواء',at:420,rep:'daily',on:true}],
+ showDone:{},showPast:false,tab:null,skip:[],detail:null,sure:false,draft:'',dPart:null,dRep:null,dRem:null,pick:null,toast:null,toastIn:null,undo:null,dismissed:{}};
+const REPN={once:'مرة وحدة',daily:'كل يوم',work:'أيام الدوام'};
+const REMN={none:'بلا تنبيه',start:'بأول القسم',at:'بساعة'};
+const pad=n=>String(n).padStart(2,'0');
+const clk=m=>{m=((Math.round(m)%1440)+1440)%1440;return pad(Math.floor(m/60))+':'+pad(m%60)};
+const hm=m=>{m=Math.max(0,Math.round(m));return Math.floor(m/60)+':'+pad(m%60)};
+const num=s=>`<span class="num">${s}</span>`;
+const dur=m=>{m=Math.round(m);const h=Math.floor(m/60),r=m%60;const hs=h===0?'':h===1?'ساعة':h===2?'ساعتين':h+' ساعات';const ms=r===0?'':r<=10?r+' دقائق':r+' دقيقة';return hs&&ms?hs+' و'+ms:(hs||ms||'أقل من دقيقة')};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const P=k=>PARTS.find(p=>p.k===k);
+const partAt=m=>PARTS.find(p=>m>=p.s&&m<p.e);
+const PNAME=k=>({tomorrow:'باچر',later:'بعدين'}[k]||P(k).name);
+const countW=n=>n===1?'شغلة وحدة':n===2?'شغلتين':n+' شغلات';
+let HIJRI='22 جمادى الأولى';
+try{HIJRI=new Intl.DateTimeFormat('ar-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'long'}).format(new Date(2026,10,2,12))}catch(e){}
+document.documentElement.lang='ar';
+function now(){const m=S.m,cur=partAt(m);
+  if(cur)return {kind:'part',cur,name:cur.name,left:cur.e-m,prog:(m-cur.s)/(cur.e-cur.s),end:cur.end,endAt:cur.e};
+  if(m>=WAKE&&m<PARTS[0].s)return {kind:'qiyam',cur:null,name:'وكت صلاة الليل',left:PARTS[0].s-m,prog:(m-WAKE)/(PARTS[0].s-WAKE),end:'الفجر',endAt:PARTS[0].s};
+  const gone=m>=SLEEP?m-SLEEP:m+1440-SLEEP,total=WAKE+1440-SLEEP;
+  return {kind:'night',cur:null,name:'الليل',left:total-gone,prog:gone/total,end:'الصحيان',endAt:WAKE}}
+const ended=p=>p.e<=S.m&&S.m>=PARTS[0].s;           // the part is over today
+const inPart=k=>S.things.filter(x=>x.p===k);
+const carry=()=>PARTS.filter(ended).flatMap(p=>inPart(p.k).filter(x=>!x.done));
+const today=()=>S.things.filter(x=>x.p!=='tomorrow'&&x.p!=='later');
+const ICONS={plus:'<path d="M12 5v14M5 12h14"/>',check:'<path d="M5 12.5l4.4 4.4L19 7.4"/>',go:'<path d="M5 12h13M13 6l6 6-6 6"/>',
+ chev:'<path d="M15 6l-6 6 6 6"/>',moon:'<path d="M15 3.5a8.5 8.5 0 1 0 5.6 11.6A6.8 6.8 0 0 1 15 3.5z"/>',arrow:'<path d="M19 12H5M11 6l-6 6 6 6"/>',
+ alarm:'<circle cx="12" cy="13" r="7.5"/><path d="M12 9v4.2l2.6 1.6M4 6.2L7 3.5M20 6.2L17 3.5"/>',bell:'<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5h4"/>',repeat:'<path d="M4 11V9.5A3.5 3.5 0 0 1 7.5 6H19M16 3l3 3-3 3M20 13v1.5a3.5 3.5 0 0 1-3.5 3.5H5M8 21l-3-3 3-3"/>'};
+const ic=n=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||''}</svg>`;
+const SPIN='<span class="spin" aria-hidden="true">◐</span>';
+const CKSVG='<i><svg viewBox="0 0 16 16"><path d="M3.5 8.4l2.8 2.8L12.5 5"/></svg></i>';
+const meta=x=>{const a=[];if(x.at!=null)a.push(clk(x.at)+(x.end?'–'+clk(x.end):''));if(x.rep&&x.rep!=='once')a.push(REPN[x.rep]);return a.length?`<span class="mt">${a.join(' · ')}</span>`:''};
+function row(x,opts={}){
+  const tag=opts.next?'<span class="tag">التالي</span>':'';
+  const extra=opts.carry?`<span class="mini"><button data-act="tonow" data-id="${x.id}">هسه</button><button data-act="totom" data-id="${x.id}">باچر</button></span>`:'';
+  return `<div class="sw ${x.done?'done':''}" data-swipe="${x.id}"><div class="u"><span>${ic('check')} خلّصت</span><span>باچر ${ic('arrow')}</span></div><div class="o"><div class="ti">
+    <button class="ck" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}" aria-label="خلّصت ${esc(x.t)}">${CKSVG}</button>
+    <button class="tb" data-act="open" data-id="${x.id}"><span class="tt">${esc(x.t)}</span>${tag}${opts.carry?'':meta(x)}</button>${extra}</div></div></div>`}
+function prayRow(p){const ok=S.prayed.has(p.k);
+  return `<div class="prow"><span class="tt">صلاة ${p.pr} &nbsp;<small class="num">${clk(p.s)}</small></span><button class="pray" data-act="pray" data-k="${p.k}" aria-pressed="${ok}">${ok?ic('check')+' صلّيت':'صلّيت'}</button></div>`}
+function partList(p,{cur=false}={}){
+  const l=inPart(p.k),open=l.filter(x=>!x.done),done=l.filter(x=>x.done);const first=open[0];
+  const showD=S.showDone[p.k];
+  let h=p.pr?prayRow(p):'';
+  h+=open.map(x=>row(x,{next:cur&&x===first&&(!p.pr||S.prayed.has(p.k))})).join('');
+  if(done.length)h+=showD?done.map(x=>row(x)).join('')+`<button class="donefold" data-act="dfold" data-k="${p.k}">${ic('check')} خفّي اللي خلّصته</button>`
+    :`<button class="donefold" data-act="dfold" data-k="${p.k}">${ic('check')} خلّصت ${done.length===1?'وحدة':done.length}${open.length?'':' · كلشي خلص'}</button>`;
+  return {h,open}}
+function header(){const t=today(),dn=t.filter(x=>x.done).length;
+  return `<div class="th"><div><h2>اليوم</h2><small>الإثنين 2 تشرين الثاني · ${HIJRI}</small></div><div class="cnt"><b class="num">${dn}/${t.length}</b>خلّصت</div></div>`}
+function rail(onPick){const n=now();
+  return `<nav class="rail" aria-label="أقسام اليوم">${PARTS.map(p=>{const l=inPart(p.k),d=l.filter(x=>x.done).length;const pct=l.length?Math.round(100*d/l.length):(ended(p)?100:0);
+    const st=n.cur===p?'cur':ended(p)?'past':'';const pend=ended(p)&&d<l.length?'pend':'';
+    return `<button class="${st} ${pend}" data-act="${onPick}" data-k="${p.k}" aria-label="${p.name}، ${d} من ${l.length}"><span>${p.sh}</span><i><b style="width:${pct}%"></b></i></button>`}).join('')}</nav>`}
+function carryCard(){const c=carry();if(!c.length)return '';const many=c.length>2&&!S.showCarry;const shown=many?c.slice(0,2):c;
+  return `<section class="carry" aria-label="باقية من قبل"><div class="tch"><span class="nm">باقية من قبل · ${countW(c.length)}</span>${c.length>1?`<button class="allbtn" data-act="carryall">كلها لباچر</button>`:''}</div>
+    ${shown.map(x=>row(x,{carry:true})).join('')}${many?`<button class="donefold" data-act="carrymore">و${countW(c.length-2)} ثانية · اعرضها</button>`:''}</section>`}
+function nightCard(){
+  return `<section class="nightc"><div class="tch"><span class="nm">☾ الليلة</span></div><div class="sl"><div><small>تنام</small><b>${clk(SLEEP)}</b></div><div style="text-align:end"><small>تصحى لصلاة الليل</small><b>${clk(WAKE)}</b></div></div>
+    <div class="al"><span class="tt">منبّه الصحيان<small>يتحرك ويّا الفجر كل يوم</small></span><button class="tog" role="switch" aria-checked="${S.wake}" aria-label="منبّه الصحيان" data-act="wake"><i></i></button></div>
+    ${S.alarms.map(a=>`<div class="al"><span class="tt">${esc(a.l)} ${num(clk(a.at))}<small>${REPN[a.rep]}</small></span><button class="tog" role="switch" aria-checked="${a.on}" aria-label="${esc(a.l)}" data-act="alsw" data-id="${a.id}"><i></i></button></div>`).join('')}
+    <button class="addrow" data-act="addalarm">${ic('plus')} منبّه جديد</button></section>`}
+function laterCards(){let h='';
+  for(const [k,nm] of [['tomorrow','باچر'],['later','بعدين']]){const l=inPart(k);if(!l.length)continue;
+    h+=`<section class="tcard fold"><div class="tch"><span class="nm">${nm}</span><em>${l.length}</em><button class="plus" data-act="addto" data-k="${k}" aria-label="أضف ${nm}">${ic('plus')}</button></div>${l.map(x=>row(x)).join('')}</section>`}
+  return h}
+function decide(p,open,left){if(!open.length||left>30||S.dismissed[p.k])return '';const nx=PARTS[PARTS.indexOf(p)+1];
+  return `<div class="decide"><p>باقي ${dur(left)} على ${p.end}، و${countW(open.length)} ما خلصت. شنو نسوي بيها؟</p><div class="opts">
+    ${nx?`<button data-act="moveall" data-k="${p.k}" data-to="${nx.k}"><span class="k">1</span>انقلها لـ${nx.name}</button>`:''}
+    <button data-act="moveall" data-k="${p.k}" data-to="tomorrow"><span class="k">${nx?2:1}</span>انقلها لباچر</button>
+    <button data-act="dismiss" data-k="${p.k}"><span class="k">${nx?3:2}</span>خليها، ألحگها</button></div></div>`}
+
+/* ---------- V1 · قائمة ---------- */
+function vList(){const n=now();let h=header()+rail('jump')+carryCard();
+  const past=PARTS.filter(ended);
+  if(past.length)h+=`<button class="pastfold" data-act="pastfold" aria-expanded="${S.showPast}">${ic('check')} ${S.showPast?'خفّي اللي فات':'اللي فات: '+past.map(p=>p.sh).join('، ')}</button>`;
+  if(S.showPast)h+=past.map(p=>`<section class="tcard fold" id="sec-${p.k}"><div class="tch"><span class="nm">${p.name}</span><em>${clk(p.s)}</em></div>${partList(p).h}</section>`).join('');
+  if(n.cur){const p=n.cur,{h:inner,open}=partList(p,{cur:true});
+    h+=`<section class="tcard cur" id="sec-${p.k}"><div class="tch">${SPIN}<span class="nm">هسه · ${p.name}</span><span class="left num">باقي ${hm(n.left)}</span><span class="tbar"><i style="width:${Math.round(n.prog*100)}%"></i></span></div>
+      ${decide(p,open,n.left)}${inner}<button class="addrow" data-act="addto" data-k="${p.k}">${ic('plus')} أضف شي ${p.name}</button></section>`}
+  else h+=`<section class="tcard cur"><div class="tch">${SPIN}<span class="nm">هسه · ${n.name}</span><span class="left num">باقي ${hm(n.left)}</span><span class="tbar"><i style="width:${Math.round(n.prog*100)}%"></i></span></div>
+      <div class="al"><span class="tt">منبّه الصحيان ${num(clk(WAKE))}<small>لصلاة الليل قبل الفجر</small></span><button class="tog" role="switch" aria-checked="${S.wake}" aria-label="منبّه الصحيان" data-act="wake"><i></i></button></div></section>`;
+  for(const p of PARTS.filter(q=>q.s>S.m||(n.kind!=='part'&&S.m<PARTS[0].s))){const l=inPart(p.k);
+    h+=`<section class="tcard fold" id="sec-${p.k}"><div class="tch"><span class="nm">${p.name}</span><em>${clk(p.s)}</em><button class="plus" data-act="addto" data-k="${p.k}" aria-label="أضف ${p.name}">${ic('plus')}</button></div>${l.map(x=>row(x)).join('')}</section>`}
+  h+=nightCard()+laterCards();
+  return h}
+
+/* ---------- V2 · أقسام ---------- */
+function vTabs(){const n=now();const sel=S.tab||(n.cur?n.cur.k:'fajr');
+  let h=header()+carryCard();
+  h+=`<div class="ptabs" role="tablist">${PARTS.map(p=>{const l=inPart(p.k);return `<button role="tab" class="${n.cur===p?'cur':''}" data-act="tab" data-k="${p.k}" aria-pressed="${sel===p.k}">${p.sh}<b class="num">${l.filter(x=>x.done).length}/${l.length}</b></button>`}).join('')}
+    <button role="tab" data-act="tab" data-k="tomorrow" aria-pressed="${sel==='tomorrow'}">باچر<b class="num">${inPart('tomorrow').length}</b></button></div>`;
+  if(sel==='tomorrow'){h+=`<div class="tabhead"><b>باچر</b><span>الثلاثاء</span></div><section class="tcard">${inPart('tomorrow').map(x=>row(x)).join('')||''}<button class="addrow" data-act="addto" data-k="tomorrow">${ic('plus')} أضف لباچر</button></section>`;return h+nightCard()}
+  const p=P(sel),isCur=n.cur===p,{h:inner,open}=partList(p,{cur:isCur});
+  const st=isCur?`هسه · باقي ${num(hm(n.left))}`:ended(p)?'فات':`يبدي بعد ${dur(p.s-S.m)}`;
+  h+=`<div class="tabhead"><b>${p.name}</b><span>${num(clk(p.s))}–${num(clk(p.e))} · ${st}</span></div>
+    <section class="tcard ${isCur?'cur':''}">${isCur?`<div class="tch">${SPIN}<span class="nm">إنت هنا</span><span class="left num">باقي ${hm(n.left)}</span><span class="tbar"><i style="width:${Math.round(n.prog*100)}%"></i></span></div>`:''}
+    ${isCur?decide(p,open,n.left):''}${inner}<button class="addrow" data-act="addto" data-k="${p.k}">${ic('plus')} أضف شي ${p.name}</button></section>`;
+  return h+nightCard()}
+
+/* ---------- V3 · التالي ---------- */
+function queue(){const n=now();const q=[];
+  if(n.cur&&n.cur.pr&&!S.prayed.has(n.cur.k))q.push({kind:'pray',p:n.cur,t:'صلاة '+n.cur.pr});
+  for(const x of carry())q.push({kind:'thing',x,t:x.t,from:'باقية من قبل'});
+  if(n.cur)for(const x of inPart(n.cur.k))if(!x.done)q.push({kind:'thing',x,t:x.t});
+  const key=it=>it.kind+(it.x?it.x.id:it.p.k);const sk=q.filter(it=>S.skip.includes(key(it)));
+  return q.filter(it=>!sk.includes(it)).concat(sk)}
+function vNext(){const n=now();const q=queue();let h=header();
+  if(q.length){const it=q[0];
+    h+=`<section class="next"><div class="lb"><b>${SPIN} التالي</b><span>${n.cur?n.cur.name+' · باقي '+num(hm(n.left)):''}</span></div>
+      <h3>${esc(it.t)}</h3><p class="sub">${it.from?it.from+' · ':''}${q.length>1?'وبعدها '+countW(q.length-1):'آخر شي بهالقسم'}</p>
+      <button class="do" data-act="ndone">${ic('check')} ${it.kind==='pray'?'صلّيت':'خلّصت'}</button>
+      <div class="two">${it.kind==='thing'?`<button data-act="nskip">بعدين</button><button data-act="totom" data-id="${it.x.id}">باچر</button>`:`<button data-act="later">ذكّرني بعد ربع ساعة</button><button data-act="nskip">بعدين</button>`}</div></section>`;
+    if(q.length>1)h+=`<div class="qhead"><b>بعدها</b><span>${q.length-1}</span></div><section class="tcard">${q.slice(1).map(it=>it.kind==='pray'?prayRow(it.p):row(it.x)).join('')}</section>`;
+  }else{const nx=PARTS.find(p=>p.s>S.m);
+    h+=`<section class="next"><div class="lb"><b>${SPIN} ${n.name}</b><span>باقي ${num(hm(n.left))}</span></div><h3>${n.cur?'خلّصت كل شي هسه':'ارتاح'}</h3>
+      <p class="sub">${nx?`الجاي ${nx.name} الساعة ${num(clk(nx.s))}${inPart(nx.k).length?': '+inPart(nx.k).map(x=>esc(x.t)).join('، '):''}`:`تصحى ${num(clk(WAKE))} لصلاة الليل`}</p></section>`}
+  for(const p of PARTS.filter(q=>q.s>S.m)){const l=inPart(p.k);if(!l.length&&!p.pr)continue;
+    h+=`<section class="tcard fold"><div class="tch"><span class="nm">${p.name}</span><em>${clk(p.s)}</em><button class="plus" data-act="addto" data-k="${p.k}" aria-label="أضف ${p.name}">${ic('plus')}</button></div>${l.map(x=>row(x)).join('')}</section>`}
+  return h+nightCard()}
+
+/* ---------- composer: reads your words as you type ---------- */
+const WORDS=[['بعد الفجر','fajr'],['الفجر','fajr'],['الصبح','morning'],['بعد الظهر','dhuhr'],['الظهر','dhuhr'],['بعد العصر','asr'],['العصر','asr'],['بعد المغرب','maghrib'],['المغرب','maghrib'],['بعد العشاء','isha'],['العشاء','isha'],['باچر','tomorrow'],['باجر','tomorrow'],['بعدين','later']];
+function parse(raw){let part=null,title=raw,rep=null,alarm=false;
+  if(/كل يوم|يومياً|يوميا/.test(title)){rep='daily';title=title.replace(/كل يوم|يومياً|يوميا/,' ')}
+  if(/أيام الدوام/.test(title)){rep='work';title=title.replace('أيام الدوام',' ')}
+  if(/منبّه|منبه|صحّيني|صحيني/.test(title)){alarm=true;title=title.replace(/منبّه|منبه|صحّيني|صحيني/,' ')}
+  for(const [w,k] of WORDS){if(title.includes(w)){part=part||k;title=title.replace(w,' ')}}
+  const tm=title.match(/(?:الساعة\s*)?(\d{1,2})[:.](\d{2})/);let at=null;
+  if(tm){at=(+tm[1])*60+(+tm[2]);title=title.replace(tm[0],' ').replace('الساعة',' ')}
+  title=title.replace(/\s+/g,' ').trim();if(at!=null&&!part){const q=partAt(at);part=q?q.k:'isha'}
+  return {title,part,at,rep,alarm}}
+function draft(){const p=parse(S.draft);const part=S.dPart||p.part||(partAt(S.m)||PARTS[0]).k;
+  return {p,part,rep:S.dRep||p.rep||(p.alarm?'daily':'once'),rem:S.dRem||(p.at!=null?'at':'none'),at:p.at!=null?p.at:(p.alarm?345:null)}}
+function previewHTML(){if(!S.draft.trim()&&!S.dPart)return '';const d=draft();
+  if(d.p.alarm)return `<div class="read"><span class="lbl">راح أسوي:</span><button data-act="pk" data-v="alarm" aria-expanded="false">${ic('alarm')} منبّه ${num(clk(d.at))}</button><button data-act="pk" data-v="rep" aria-expanded="${S.pick==='rep'}">${REPN[d.rep]}</button></div>${S.pick==='rep'?opts('rep',['daily','work','once'],d.rep,REPN):''}`;
+  const where=[...PARTS.map(p=>p.k),'tomorrow','later'];
+  return `<div class="read"><span class="lbl">راح تنحط:</span><button data-act="pk" data-v="part" aria-expanded="${S.pick==='part'}">${PNAME(d.part)}</button><button data-act="pk" data-v="rep" aria-expanded="${S.pick==='rep'}">${ic('repeat')} ${REPN[d.rep]}</button><button data-act="pk" data-v="rem" aria-expanded="${S.pick==='rem'}">${ic('bell')} ${d.rem==='at'&&d.at!=null?clk(d.at):REMN[d.rem]}</button></div>
+    ${S.pick==='part'?opts('part',where,d.part,Object.fromEntries(where.map(k=>[k,PNAME(k)]))):''}${S.pick==='rep'?opts('rep',['once','daily','work'],d.rep,REPN):''}${S.pick==='rem'?opts('rem',d.at!=null?['none','start','at']:['none','start'],d.rem,REMN):''}`}
+const opts=(f,list,cur,names)=>`<div class="opts">${list.map(k=>`<button data-act="setd" data-f="${f}" data-v="${k}" aria-pressed="${k===cur}">${names[k]}</button>`).join('')}</div>`;
+function composer(){return `<div class="composer"><div class="preview">${previewHTML()}</div>
+  <form class="tbox" data-form="add"><input name="q" value="${esc(S.draft)}" placeholder="أضف شغلة… مثلاً: رياضة بعد العصر كل يوم" aria-label="أضف شغلة" autocomplete="off"><button class="go" type="submit" aria-label="حطّها" ${S.draft.trim()?'':'aria-disabled="true"'}>${ic('check')}</button></form>
+  <div class="kbd"><span>اسحب ← باچر</span><span>اسحب → خلّصت</span><span>اضغط الاسم للتعديل</span></div></div>`}
+function refreshComposer(ph,keepFocus=true){const pv=ph.querySelector('.preview');if(pv)pv.innerHTML=previewHTML();const go=ph.querySelector('.go');if(go)go.setAttribute('aria-disabled',S.draft.trim()?'false':'true');
+  if(keepFocus){const i=ph.querySelector('.tbox input');if(i){i.focus({preventScroll:true});i.setSelectionRange(i.value.length,i.value.length)}}}
+
+/* ---------- detail sheet ---------- */
+function detailHTML(){const x=S.things.find(t=>t.id===S.detail);if(!x)return '';
+  const where=[...PARTS.map(p=>p.k),'tomorrow','later'];
+  return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-label="${esc(x.t)}"><span class="grab"></span>
+    <input class="name" data-act="rename" value="${esc(x.t)}" aria-label="اسم الشغلة">
+    <p class="q">وين؟</p><div class="chips">${where.map(k=>`<button data-act="dset" data-f="p" data-v="${k}" aria-pressed="${x.p===k}">${PNAME(k)}</button>`).join('')}</div>
+    <p class="q">يتكرر؟</p><div class="chips">${['once','daily','work'].map(k=>`<button data-act="dset" data-f="rep" data-v="${k}" aria-pressed="${(x.rep||'once')===k}">${REPN[k]}</button>`).join('')}</div>
+    <p class="q">نبّهني؟</p><div class="chips">${['none','start','at'].map(k=>`<button data-act="dset" data-f="rem" data-v="${k}" aria-pressed="${(x.rem||'none')===k}">${REMN[k]}</button>`).join('')}</div>
+    ${x.rem==='at'?`<div class="timepick"><button data-act="dtime" data-v="-15" aria-label="أبكر ربع ساعة">−</button><b class="num">${clk(x.at!=null?x.at:(P(x.p)||PARTS[3]).s)}</b><button data-act="dtime" data-v="15" aria-label="أتأخر ربع ساعة">+</button></div>`:''}
+    <div class="acts"><button class="main" data-act="tick" data-id="${x.id}">${x.done?'رجّعها، ما خلصت':'✓ خلّصت'}</button><button class="del" data-act="del" data-id="${x.id}">${S.sure?'متأكد؟':'احذف'}</button></div></div></div>`}
+
+/* ---------- lock screen ---------- */
+function vLock(){const n=now();const p=n.cur;const open=p?inPart(p.k).filter(x=>!x.done):[];
+  return `<div class="lock"><div class="clock num">${clk(S.m)}</div><div class="date">الإثنين 2 تشرين الثاني</div>
+    ${p&&p.pr&&!S.prayed.has(p.k)?`<div class="nt"><div class="ap"><i>☾</i>يوم · ${num(clk(p.s))}</div><b>صلاة ${p.pr}</b><div class="na"><button data-act="pray" data-k="${p.k}">صلّيت</button><button data-act="later">بعد ربع ساعة</button></div></div>`:''}
+    ${p?`<div class="nt"><div class="ap"><i>☾</i>يوم · ${p.name}</div><b>${open.length?countW(open.length)+' '+p.name:'خلّصت كل شي '+p.name}</b><p>${open.map(x=>'☐ '+esc(x.t)).join('<br>')}</p>
+      ${open[0]?`<div class="na"><button data-act="tick" data-id="${open[0].id}">✓ خلّصت «${esc(open[0].t)}»</button><button data-act="totom" data-id="${open[0].id}">باچر</button></div>`:''}</div>`:''}
+    ${carry().length?`<div class="nt"><div class="ap"><i>☾</i>يوم</div><b>باقية من قبل</b><p>${carry().map(x=>esc(x.t)).join('، ')}</p><div class="na"><button data-act="tonow" data-id="${carry()[0].id}">سويها هسه</button><button data-act="totom" data-id="${carry()[0].id}">باچر</button></div></div>`:''}
+    ${!p?`<div class="nt"><div class="ap"><i>☾</i>يوم · ${num(clk(WAKE))}</div><b>منبّه الصحيان</b><p>لصلاة الليل قبل الفجر</p><div class="na"><button data-act="later">غفوة 5 دقايق</button><button data-act="wake">${S.wake?'طفّيه':'شغّله'}</button></div></div>`:''}</div>`}
+
+/* ---------- render ---------- */
+const VIEWS={list:vList,tabs:vTabs,next:vNext};
+const INFO={
+ list:{name:'قائمة',sub:'نفس «مهام» اللي عجبك، مطوّر',
+  lead:'يومك قائمة وحدة. فوك سكة الأقسام الست، تبيّن شكد خلص من كل قسم. تحتها «باقية من قبل» إذا فاتتك شغلة. بعدها بطاقة «هسه» بالطيني، وتحتها الأقسام الجاية، والليلة، وباچر.',
+  tryit:['اسحب «رياضة» لليمين: تخلص. اسحبها لليسار: تروح لباچر.','بعد ما تخلّص اضغط «تراجع» بالشريط الأسود.','اضغط اسم «اتصل بالمحاسب» تنفتح ورقة التعديل.','اكتب تحت «زيارة خالي بعد المغرب كل يوم» وشوف شنو فهم. اضغط «بعد المغرب» وغيّرها.','اختار الساعة 16:30 من فوك: يطلعلك سؤال «شنو نسوي بالباقي؟».']},
+ tabs:{name:'أقسام',sub:'كل قسم بصفحة، تتنقل بيناتها',
+  lead:'فوك أزرار الأقسام الست وباچر، وعلى كل واحد شكد خلص منه (2/3). تضغط القسم تشوف شغلاته بس. يفتح تلقائياً على القسم اللي إنت بيه.',
+  tryit:['اضغط «المغرب» فوك، وبعدها «باچر».','أضف شي لباچر من «+ أضف لباچر».','ارجع لـ«العصر» وخلّص شغلة.']},
+ next:{name:'التالي',sub:'شغلة وحدة كبيرة، وبعدها الباقي',
+  lead:'فوك بطاقة كبيرة بيها الشي اللي لازم تسويه هسه: الصلاة أول، بعدها اللي فاتك، بعدها شغلات القسم. «خلّصت» تطلعلك اللي بعدها، «بعدين» تأجّلها لآخر الدور.',
+  tryit:['اضغط «خلّصت» كم مرة وشوف الدور يمشي.','اضغط «بعدين» على شغلة: تروح لآخر الدور.','لما تخلص كلشي، يكلك شنو الجاي.']},
+};
+const stage=document.getElementById('stage');let lastM=null,tt;
+function phone(c){
+  const body=S.view==='lock'?vLock():`<div class="scroller">${VIEWS[c]()}</div>${composer()}${S.detail&&(!S.all||S.toastIn===c)?detailHTML():''}`;
+  const toast=S.toast&&(!S.all||S.toastIn===c)?`<div class="toast" role="status"><span>${S.toast}</span>${S.undo?'<button data-act="undo">تراجع</button>':''}</div>`:'';
+  return `<div class="device"><div class="ph" data-c="${c}" aria-label="تصميم ${INFO[c].name}"><div class="status">${num(clk(S.m))}<span>السليمانية</span></div>${body}${toast}</div></div>`}
+function notes(c){const I=INFO[c];return `<aside class="notes"><h2>${I.name} · ${I.sub}</h2><p class="lead">${I.lead}</p><div class="try"><b>جرّب بإيدك</b><ol>${I.tryit.map(t=>`<li>${t}</li>`).join('')}</ol></div></aside>`}
+function render(){
+  const keep={};stage.querySelectorAll('.ph').forEach(ph=>{const s=ph.querySelector('.scroller');if(s)keep[ph.dataset.c]=s.scrollTop});
+  const ae=document.activeElement,refocus=ae&&ae.closest&&ae.closest('.ph')&&ae.matches('.tbox input,.name')?{c:ae.closest('.ph').dataset.c,sel:ae.matches('.name')?'.name':'.tbox input',pos:ae.selectionStart}:null;
+  stage.className=S.all?'all':'one';
+  stage.innerHTML=S.all?Object.keys(VIEWS).map(c=>`<div class="cell"><h3>${INFO[c].name}</h3><p>${INFO[c].sub}</p>${phone(c)}</div>`).join(''):phone(S.c)+notes(S.c);
+  const jumped=lastM!==S.m;lastM=S.m;
+  stage.querySelectorAll('.ph').forEach(ph=>{const c=ph.dataset.c,s=ph.querySelector('.scroller');if(!s)return;s.scrollTop=(keep[c]!=null&&!jumped)?keep[c]:0});
+  if(refocus){const f=stage.querySelector(`.ph[data-c="${refocus.c}"] ${refocus.sel}`);if(f){f.focus({preventScroll:true});try{f.setSelectionRange(refocus.pos,refocus.pos)}catch(e){}}}
+  document.getElementById('clockL').textContent=clk(S.m);document.getElementById('partL').textContent=now().name;
+  const sc=document.getElementById('scrub');if(+sc.value!==Math.round(S.m))sc.value=Math.round(S.m)}
+function toast(msg,c,undo){S.toast=msg;S.toastIn=c;S.undo=undo||null;render();clearTimeout(tt);tt=setTimeout(()=>{S.toast=null;S.undo=null;render()},undo?4500:2200)}
+const snap=x=>({id:x.id,p:x.p,done:x.done,rep:x.rep});
+function finish(id,c,el){const x=S.things.find(t=>t.id===id);if(!x)return;const before=snap(x);x.done=!x.done;
+  if(el){const sw=el.closest('.sw');if(sw)sw.classList.toggle('done',x.done)}
+  setTimeout(()=>x.done?toast(`خلّصت «${esc(x.t)}»`,c,[before]):render(),el?340:0)}
+function moveTo(ids,to,c,label){const before=[];for(const id of ids){const x=S.things.find(t=>t.id===id);before.push(snap(x));x.p=to;if(to==='tomorrow'||to==='later')x.done=false}
+  toast(label||`انتقلت لـ${PNAME(to)}`,c,before)}
+
+stage.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const ph=b.closest('.ph');if(!ph)return;const c=ph.dataset.c,a=b.dataset.act,id=+b.dataset.id;
+  if(a==='close'&&e.target!==b)return;
+  switch(a){
+    case 'tick':S.detail=null;finish(id,c,b);break;
+    case 'pray':{const k=b.dataset.k;S.prayed.has(k)?S.prayed.delete(k):S.prayed.add(k);render();break}
+    case 'wake':S.wake=!S.wake;b.setAttribute('aria-checked',S.wake);setTimeout(render,240);break;
+    case 'alsw':{const al=S.alarms.find(x=>x.id==b.dataset.id);al.on=!al.on;b.setAttribute('aria-checked',al.on);setTimeout(render,240);break}
+    case 'open':S.detail=id;S.sure=false;S.toastIn=c;render();break;
+    case 'close':S.detail=null;render();break;
+    case 'dset':{const x=S.things.find(t=>t.id===S.detail);const f=b.dataset.f,v=b.dataset.v;x[f]=v;if(f==='rem'&&v==='at'&&x.at==null)x.at=(P(x.p)||PARTS[3]).s+30;render();break}
+    case 'dtime':{const x=S.things.find(t=>t.id===S.detail);x.at=((x.at??(P(x.p)||PARTS[3]).s)+ +b.dataset.v+1440)%1440;render();break}
+    case 'del':if(S.sure){const x=S.things.find(t=>t.id===id);S.things=S.things.filter(t=>t.id!==id);S.detail=null;S.sure=false;toast(`انحذفت «${esc(x.t)}»`,c,[{...x,_deleted:true}])}else{S.sure=true;render()}break;
+    case 'dfold':S.showDone[b.dataset.k]=!S.showDone[b.dataset.k];render();break;
+    case 'pastfold':S.showPast=!S.showPast;render();break;
+    case 'jump':{const t=ph.querySelector('#sec-'+b.dataset.k)||ph.querySelector('.tcard.cur');if(!t&&PARTS.some(p=>p.k===b.dataset.k&&ended(p))){S.showPast=true;render();const t2=stage.querySelector(`.ph[data-c="${c}"] #sec-${b.dataset.k}`);t2&&t2.scrollIntoView({block:'start'});break}
+      t&&t.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});break}
+    case 'tab':S.tab=b.dataset.k;render();break;
+    case 'tonow':{const n=now();moveTo([id],n.cur?n.cur.k:'fajr',c,'انتقلت لهسه');break}
+    case 'totom':moveTo([id],'tomorrow',c);break;
+    case 'moveall':{const ids=inPart(b.dataset.k).filter(x=>!x.done).map(x=>x.id);moveTo(ids,b.dataset.to,c,`${countW(ids.length)} انتقلت لـ${PNAME(b.dataset.to)}`);break}
+    case 'carryall':{const ids=carry().map(x=>x.id);moveTo(ids,'tomorrow',c,`${countW(ids.length)} انتقلت لباچر`);break}
+    case 'carrymore':S.showCarry=true;render();break;
+    case 'dismiss':S.dismissed[b.dataset.k]=true;render();break;
+    case 'undo':{for(const s of S.undo||[]){if(s._new){S.things=S.things.filter(t=>t.id!==s.id);continue}if(s._deleted){const {_deleted,...x}=s;S.things.push(x);continue}const x=S.things.find(t=>t.id===s.id);if(x)Object.assign(x,s)}S.toast=null;S.undo=null;render();break}
+    case 'ndone':{const it=queue()[0];if(!it)break;if(it.kind==='pray'){S.prayed.add(it.p.k);toast('صلّيت ✓',c)}else{const before=snap(it.x);it.x.done=true;toast(`خلّصت «${esc(it.x.t)}»`,c,[before])}break}
+    case 'nskip':{const it=queue()[0];const key=it.kind+(it.x?it.x.id:it.p.k);S.skip=S.skip.filter(k=>k!==key).concat(key);render();break}
+    case 'addto':S.dPart=b.dataset.k;S.pick=null;refreshComposer(ph);break;
+    case 'addalarm':S.draft='منبّه الساعة 05:45 كل يوم';S.dPart=null;S.pick=null;ph.querySelector('.tbox input').value=S.draft;refreshComposer(ph);break;
+    case 'pk':S.pick=S.pick===b.dataset.v?null:b.dataset.v;refreshComposer(ph);break;
+    case 'setd':{const f=b.dataset.f,v=b.dataset.v;if(f==='part')S.dPart=v;if(f==='rep')S.dRep=v;if(f==='rem')S.dRem=v;S.pick=null;refreshComposer(ph);break}
+    case 'later':toast('تمام، أذكّرك بعد ربع ساعة',c);break;
+  }
+});
+stage.addEventListener('input',e=>{const t=e.target;const ph=t.closest('.ph');if(!ph)return;
+  if(t.matches('.tbox input')){S.draft=t.value;S.dRep=null;S.dRem=null;S.pick=null;if(!t.value.trim())S.dPart=S.dPart;refreshComposer(ph)}
+  if(t.matches('.name')){const x=S.things.find(q=>q.id===S.detail);if(x)x.t=t.value}});
+stage.addEventListener('submit',e=>{const f=e.target.closest('form[data-form="add"]');if(!f)return;e.preventDefault();const ph=f.closest('.ph'),c=ph.dataset.c;
+  if(!S.draft.trim())return;const d=draft();
+  if(d.p.alarm){S.alarms.push({id:Date.now(),l:d.p.title||'منبّه',at:d.at,rep:d.rep,on:true});S.draft='';S.dPart=null;toast(`المنبّه ${clk(d.at)} · ${REPN[d.rep]}`,c);return}
+  if(!d.p.title)return;const x={id:Date.now(),t:d.p.title,p:d.part,at:d.p.at,rep:d.rep,rem:d.rem,done:false};S.things.push(x);
+  S.draft='';S.dPart=null;S.dRep=null;S.dRem=null;S.pick=null;toast(`انحطّت «${esc(x.t)}» · ${PNAME(x.p)}`,c,[{...x,_new:true}]);
+  const i=stage.querySelector(`.ph[data-c="${c}"] .tbox input`);i&&i.focus({preventScroll:true})});
+/* swipe: right = done, left = tomorrow */
+let drag=null;
+stage.addEventListener('pointerdown',e=>{const sw=e.target.closest('[data-swipe]');if(!sw)return;if(e.target.closest('.ck,.mini'))return;drag={sw,x:e.clientX,y:e.clientY,dx:0,on:false}});
+stage.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(!drag.on){if(Math.abs(dx)>10&&Math.abs(dx)>Math.abs(dy)){drag.on=true;drag.sw.classList.add('drag')}else if(Math.abs(dy)>10){drag=null;return}else return}
+  drag.dx=dx;drag.sw.classList.toggle('r',dx>0);drag.sw.classList.toggle('l',dx<0);drag.sw.querySelector('.o').style.transform=`translateX(${dx}px)`;e.preventDefault()});
+const endDrag=e=>{if(!drag)return;const {sw,dx,on}=drag;drag=null;if(!on)return;
+  const blockClick=ev=>{ev.stopPropagation();ev.preventDefault()};sw.addEventListener('click',blockClick,{capture:true,once:true});setTimeout(()=>sw.removeEventListener('click',blockClick,{capture:true}),50);
+  sw.classList.remove('drag');const o=sw.querySelector('.o');const c=sw.closest('.ph').dataset.c,id=+sw.dataset.swipe;
+  if(Math.abs(dx)>90){sw.classList.add('gone');o.style.transform=`translateX(${dx>0?110:-110}%)`;setTimeout(()=>{dx>0?finish(id,c,null):moveTo([id],'tomorrow',c)},200)}else o.style.transform=''};
+stage.addEventListener('pointerup',endDrag);stage.addEventListener('pointercancel',endDrag);
+/* the turning crescent */
+const PH=['◐','◓','◑','◒'];let pi=0;
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches)setInterval(()=>{pi=(pi+1)%4;document.querySelectorAll('.spin').forEach(s=>s.textContent=PH[pi])},280);
+
+/* board controls */
+const picks=document.getElementById('picks');
+picks.innerHTML=Object.entries(INFO).map(([k,I],i)=>`<button class="pick" data-c="${k}" aria-pressed="${k===S.c}"><b>${'ABC'[i]}</b>${I.name}</button>`).join('')+`<button class="pick" data-c="all" aria-pressed="false">الثلاثة سوا</button>`;
+picks.addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;if(b.dataset.c==='all')S.all=true;else{S.all=false;S.c=b.dataset.c}S.detail=null;lastM=null;
+  picks.querySelectorAll('[data-c]').forEach(x=>x.setAttribute('aria-pressed',x===b));render()});
+document.getElementById('views').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;S.view=b.dataset.v;S.detail=null;
+  document.querySelectorAll('#views button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()});
+document.getElementById('themes').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;const v=b.dataset.t;if(v)document.documentElement.setAttribute('data-theme',v);else document.documentElement.removeAttribute('data-theme');
+  document.querySelectorAll('#themes button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+const JUMPS=[[200,'الليل'],[300,'الفجر'],[560,'الصبح'],[760,'الظهر'],[910,'العصر'],[995,'قبل المغرب'],[1060,'المغرب'],[1180,'العشاء']];
+const jumps=document.getElementById('jumps');
+jumps.innerHTML=JUMPS.map(([m,l])=>`<button data-m="${m}" aria-pressed="${m===S.m}"><span class="num">${clk(m)}</span> ${l}</button>`).join('')+`<button data-reset="1">رجّع الأمثلة</button>`;
+jumps.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;stop();
+  if(b.dataset.reset){S.things=SEED();S.prayed=new Set(['fajr','dhuhr']);S.dismissed={};S.skip=[];render();return}
+  S.m=+b.dataset.m;S.tab=null;S.skip=[];jumps.querySelectorAll('[data-m]').forEach(x=>x.setAttribute('aria-pressed',x===b));render()});
+const scrub=document.getElementById('scrub');
+scrub.addEventListener('input',()=>{S.m=+scrub.value;S.tab=null;jumps.querySelectorAll('[data-m]').forEach(x=>x.setAttribute('aria-pressed','false'));render()});
+let playing=null;const PLAY='<svg viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg>',PAUSE='<svg viewBox="0 0 24 24"><rect x="6.5" y="5" width="4" height="14" rx="1"/><rect x="13.5" y="5" width="4" height="14" rx="1"/></svg>';
+const playBtn=document.getElementById('play');playBtn.innerHTML=PLAY;
+function stop(){if(playing){clearInterval(playing);playing=null;playBtn.innerHTML=PLAY;playBtn.setAttribute('aria-label','شغّل اليوم')}}
+playBtn.addEventListener('click',()=>{if(playing){stop();return}playBtn.innerHTML=PAUSE;playBtn.setAttribute('aria-label','وقّف');S.detail=null;
+  playing=setInterval(()=>{S.m=(S.m+10)%1440;S.tab=null;render()},140)});
+render();
+})();
+</script>

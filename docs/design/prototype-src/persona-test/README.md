@@ -8,3 +8,6 @@ control whose words match the goal, and gives up when out of taps. `audit.js` me
 Run from a folder of your choice: `node run.js` and `node audit.js` (Playwright; the prototypes are read
 from `docs/design/`). Results are hypotheses, not real-user evidence; every "ok" was checked against its
 screenshot, and wrong placements counted as failures (see DECISIONS.md, 2026-11-02).
+
+`node run.js v11 v12` runs only the named designs. Results so far: `results-2026-11-02.json` (v8-v10),
+`results-2026-11-02-v11.json`, `results-2026-11-02-v12.json`.

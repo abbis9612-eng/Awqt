@@ -1,13 +1,13 @@
 const {chromium}=require('playwright');
 const CFG={v8:{root:'#screen',setup:"(()=>{const s=document.getElementById('scrub');s.value=910;s.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('screen').scrollIntoView()})()"},
- v9:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"},v10:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"},v11:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"}};
+ v9:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"},v10:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"},v11:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"},v12:{root:'#phone',setup:"document.getElementById('phone').scrollIntoView()"}};
 (async()=>{const b=await chromium.launch();
 for(const [k,c] of Object.entries(CFG)){
  const p=await b.newPage({viewport:{width:420,height:1000}});
  await p.goto('file://'+process.cwd()+'/'+k+'.html');await p.waitForTimeout(1000);await p.evaluate(c.setup);await p.waitForTimeout(400);
  const r=await p.evaluate(root=>{
   const R=document.querySelector(root).getBoundingClientRect();const H=Math.min(R.bottom,innerHeight), T=Math.max(R.top,0);
-  const lum=c=>{const m=c.match(/[\d.]+/g);if(!m)return null;const [r,g,b,a]=m.map(Number);if(a===0)return null;const f=x=>{x/=255;return x<=.03928?x/12.92:((x+.055)/1.055)**2.4};return .2126*f(r)+.7152*f(g)+.0722*f(b)};
+  const lum=c=>{let m=c.match(/[\d.]+/g);if(!m)return null;if(c.startsWith('color(srgb'))m=m.map((v,i)=>i<3?v*255:v);const [r,g,b,a]=m.map(Number);if(a===0)return null;const f=x=>{x/=255;return x<=.03928?x/12.92:((x+.055)/1.055)**2.4};return .2126*f(r)+.7152*f(g)+.0722*f(b)};
   const bgOf=e=>{for(let n=e;n;n=n.parentElement){const cs=getComputedStyle(n);const m=cs.backgroundColor.match(/[\d.]+/g);if(m&&(m[3]===undefined||+m[3]>0.5))return cs.backgroundColor}return 'rgb(255,255,255)'};
   const sel='button,[role=button],[role=switch],[role=checkbox],[role=tab],a[href],input';
   const inView=e=>{const b=e.getBoundingClientRect();return b.width>1&&b.height>1&&b.bottom>T&&b.top<H&&b.right>R.left&&b.left<R.right};

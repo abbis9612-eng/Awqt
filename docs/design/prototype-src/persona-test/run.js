@@ -1,6 +1,7 @@
 // Persona walkthrough harness: each simulated person sees only what is on the phone screen,
 // taps the control whose words best match their goal, scrolls within their patience, and gives up
-// when they run out of taps. Same tasks, same clock (15:10), three designs.
+// when they run out of taps. Same tasks, same clock (15:10), every design.
+// `node run.js v11 v12` runs only those designs.
 const {chromium}=require('playwright');
 const fs=require('fs');
 const OUT=process.cwd();
@@ -30,6 +31,11 @@ const ADAPTERS={
    async isMain(p){return p.evaluate(()=>!!document.querySelector('#phone .fab'))},
    async setTime(){return -1},timeVisible:async()=>false},
  v11:{file:D+'yawm-prayers-v11.html',root:'#phone',scroller:'#phone .scroll',
+   async setup(p){await p.evaluate(()=>document.getElementById('phone').scrollIntoView())},
+   async startOnb(p){await p.evaluate(()=>{document.querySelector('[data-view="onb"]').click();document.getElementById('phone').scrollIntoView()})},
+   async isMain(p){return p.evaluate(()=>!!document.querySelector('#phone .fab'))},
+   async setTime(){return -1},timeVisible:async()=>false},
+ v12:{file:D+'yawm-v12.html',root:'#phone',scroller:'#phone .scroll',
    async setup(p){await p.evaluate(()=>document.getElementById('phone').scrollIntoView())},
    async startOnb(p){await p.evaluate(()=>{document.querySelector('[data-view="onb"]').click();document.getElementById('phone').scrollIntoView()})},
    async isMain(p){return p.evaluate(()=>!!document.querySelector('#phone .fab'))},
@@ -141,7 +147,8 @@ async function runOne(browser,vk,persona,task){
   fs.writeFileSync(`${k}.html`,'<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>'+fs.readFileSync(a.file,'utf8')+'</body></html>');
  }
  const b=await chromium.launch();const rows=[];
- for(const vk of Object.keys(ADAPTERS))for(const pe of PERSONAS)for(const t of TASKS){rows.push(await runOne(b,vk,pe,t));process.stdout.write('.')}
+ const ONLY=process.argv.slice(2);
+ for(const vk of Object.keys(ADAPTERS).filter(k=>!ONLY.length||ONLY.includes(k)))for(const pe of PERSONAS)for(const t of TASKS){rows.push(await runOne(b,vk,pe,t));process.stdout.write('.')}
  await b.close();
  fs.writeFileSync('results.json',JSON.stringify(rows,null,1));
  console.log('\n'+rows.map(r=>`${r.v}\t${r.p}\t${r.t}\t${r.result}\ttaps=${r.taps}\tscroll=${r.scrolls}\t${r.toast}\t| ${r.log.join(' → ')}${r.errs.length?' ERR '+r.errs.join(';'):''}`).join('\n'));

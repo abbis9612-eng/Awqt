@@ -1,0 +1,846 @@
+[
+ {
+  "v": "v11",
+  "p": "P1",
+  "t": "T3",
+  "result": "ok",
+  "taps": 1,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «خلّصت رياضة»"
+  ],
+  "toast": "تم ✓",
+  "errs": [],
+  "shot": "shot-v11-P1-T3.png"
+ },
+ {
+  "v": "v11",
+  "p": "P1",
+  "t": "T4",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «+ أضف»",
+   "كتب: اتصل بالمصلّح باچر",
+   "ضغط: «حطّها»"
+  ],
+  "toast": "انحطّت: باچر",
+  "errs": [],
+  "shot": "shot-v11-P1-T4.png"
+ },
+ {
+  "v": "v11",
+  "p": "P1",
+  "t": "T5",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «+ أضف»",
+   "كتب: منبّه الساعة 05:45",
+   "ضغط: «احفظ المنبّه»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P1-T5.png"
+ },
+ {
+  "v": "v11",
+  "p": "P1",
+  "t": "T6",
+  "result": "ok",
+  "taps": 0,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "نزل لتحت"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P1-T6.png"
+ },
+ {
+  "v": "v11",
+  "p": "P1",
+  "t": "T8",
+  "result": "lost",
+  "taps": 1,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «رياضة ↻ كل يوم»",
+   "نزل لتحت",
+   "ما لكه شي يناسبه"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P1-T8.png"
+ },
+ {
+  "v": "v11",
+  "p": "P1",
+  "t": "T7",
+  "result": "ok",
+  "taps": 3,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 8,
+  "log": [
+   "ضغط: «التالي»",
+   "ضغط: «التالي»",
+   "ضغط: «وريني يومي»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P1-T7.png"
+ },
+ {
+  "v": "v11",
+  "p": "P2",
+  "t": "T3",
+  "result": "ok",
+  "taps": 1,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «خلّصت رياضة»"
+  ],
+  "toast": "تم ✓",
+  "errs": [],
+  "shot": "shot-v11-P2-T3.png"
+ },
+ {
+  "v": "v11",
+  "p": "P2",
+  "t": "T4",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «+ أضف»",
+   "كتب: اتصل بالمصلّح باچر",
+   "ضغط: «حطّها»"
+  ],
+  "toast": "انحطّت: باچر",
+  "errs": [],
+  "shot": "shot-v11-P2-T4.png"
+ },
+ {
+  "v": "v11",
+  "p": "P2",
+  "t": "T5",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «+ أضف»",
+   "كتب: منبّه الساعة 05:45",
+   "ضغط: «احفظ المنبّه»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P2-T5.png"
+ },
+ {
+  "v": "v11",
+  "p": "P2",
+  "t": "T6",
+  "result": "ok",
+  "taps": 0,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "نزل لتحت"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P2-T6.png"
+ },
+ {
+  "v": "v11",
+  "p": "P2",
+  "t": "T8",
+  "result": "lost",
+  "taps": 1,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «رياضة ↻ كل يوم»",
+   "نزل لتحت",
+   "ما لكه شي يناسبه"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P2-T8.png"
+ },
+ {
+  "v": "v11",
+  "p": "P2",
+  "t": "T7",
+  "result": "ok",
+  "taps": 3,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 8,
+  "log": [
+   "ضغط: «التالي»",
+   "ضغط: «التالي»",
+   "ضغط: «وريني يومي»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P2-T7.png"
+ },
+ {
+  "v": "v11",
+  "p": "P3",
+  "t": "T3",
+  "result": "ok",
+  "taps": 1,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «خلّصت رياضة»"
+  ],
+  "toast": "تم ✓",
+  "errs": [],
+  "shot": "shot-v11-P3-T3.png"
+ },
+ {
+  "v": "v11",
+  "p": "P3",
+  "t": "T4",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «+ أضف»",
+   "كتب: اتصل بالمصلّح باچر",
+   "ضغط: «حطّها»"
+  ],
+  "toast": "انحطّت: باچر",
+  "errs": [],
+  "shot": "shot-v11-P3-T4.png"
+ },
+ {
+  "v": "v11",
+  "p": "P3",
+  "t": "T5",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «+ أضف»",
+   "كتب: منبّه الساعة 05:45",
+   "ضغط: «احفظ المنبّه»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P3-T5.png"
+ },
+ {
+  "v": "v11",
+  "p": "P3",
+  "t": "T6",
+  "result": "ok",
+  "taps": 0,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "نزل لتحت"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P3-T6.png"
+ },
+ {
+  "v": "v11",
+  "p": "P3",
+  "t": "T8",
+  "result": "lost",
+  "taps": 1,
+  "scrolls": 4,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «رياضة ↻ كل يوم»",
+   "نزل لتحت",
+   "نزل لتحت",
+   "نزل لتحت",
+   "نزل لتحت",
+   "ما لكه شي يناسبه"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P3-T8.png"
+ },
+ {
+  "v": "v11",
+  "p": "P3",
+  "t": "T7",
+  "result": "ok",
+  "taps": 3,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 8,
+  "log": [
+   "ضغط: «التالي»",
+   "ضغط: «التالي»",
+   "ضغط: «وريني يومي»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P3-T7.png"
+ },
+ {
+  "v": "v11",
+  "p": "P4",
+  "t": "T3",
+  "result": "ok",
+  "taps": 1,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «خلّصت رياضة»"
+  ],
+  "toast": "تم ✓",
+  "errs": [],
+  "shot": "shot-v11-P4-T3.png"
+ },
+ {
+  "v": "v11",
+  "p": "P4",
+  "t": "T4",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «+ أضف»",
+   "كتب: اتصل بالمصلّح باچر",
+   "ضغط: «حطّها»"
+  ],
+  "toast": "انحطّت: باچر",
+  "errs": [],
+  "shot": "shot-v11-P4-T4.png"
+ },
+ {
+  "v": "v11",
+  "p": "P4",
+  "t": "T5",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «+ أضف»",
+   "كتب: منبّه الساعة 05:45",
+   "ضغط: «احفظ المنبّه»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P4-T5.png"
+ },
+ {
+  "v": "v11",
+  "p": "P4",
+  "t": "T6",
+  "result": "ok",
+  "taps": 0,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "نزل لتحت"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P4-T6.png"
+ },
+ {
+  "v": "v11",
+  "p": "P4",
+  "t": "T8",
+  "result": "lost",
+  "taps": 1,
+  "scrolls": 2,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «رياضة ↻ كل يوم»",
+   "نزل لتحت",
+   "نزل لتحت",
+   "ما لكه شي يناسبه"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P4-T8.png"
+ },
+ {
+  "v": "v11",
+  "p": "P4",
+  "t": "T7",
+  "result": "ok",
+  "taps": 3,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 8,
+  "log": [
+   "ضغط: «التالي»",
+   "ضغط: «التالي»",
+   "ضغط: «وريني يومي»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v11-P4-T7.png"
+ },
+ {
+  "v": "v12",
+  "p": "P1",
+  "t": "T3",
+  "result": "ok",
+  "taps": 1,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «خلّصت رياضة»"
+  ],
+  "toast": "تم ✓",
+  "errs": [],
+  "shot": "shot-v12-P1-T3.png"
+ },
+ {
+  "v": "v12",
+  "p": "P1",
+  "t": "T4",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «أضف»",
+   "كتب: اتصل بالمصلّح باچر",
+   "ضغط: «حطّها · باچر»"
+  ],
+  "toast": "انحطّت: باچر",
+  "errs": [],
+  "shot": "shot-v12-P1-T4.png"
+ },
+ {
+  "v": "v12",
+  "p": "P1",
+  "t": "T5",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «منبّه»",
+   "كتب: منبّه الساعة 05:45",
+   "ضغط: «احفظ المنبّه»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P1-T5.png"
+ },
+ {
+  "v": "v12",
+  "p": "P1",
+  "t": "T6",
+  "result": "ok",
+  "taps": 0,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "نزل لتحت"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P1-T6.png"
+ },
+ {
+  "v": "v12",
+  "p": "P1",
+  "t": "T8",
+  "result": "lost",
+  "taps": 2,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «رياضة كل يوم ينبّهك»",
+   "ضغط: «كل يوم»",
+   "نزل لتحت",
+   "ما لكه شي يناسبه"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P1-T8.png"
+ },
+ {
+  "v": "v12",
+  "p": "P1",
+  "t": "T7",
+  "result": "ok",
+  "taps": 3,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 9,
+  "log": [
+   "ضغط: «التالي»",
+   "ضغط: «التالي»",
+   "ضغط: «وريني يومي»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P1-T7.png"
+ },
+ {
+  "v": "v12",
+  "p": "P2",
+  "t": "T3",
+  "result": "ok",
+  "taps": 1,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «خلّصت رياضة»"
+  ],
+  "toast": "تم ✓",
+  "errs": [],
+  "shot": "shot-v12-P2-T3.png"
+ },
+ {
+  "v": "v12",
+  "p": "P2",
+  "t": "T4",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «أضف»",
+   "كتب: اتصل بالمصلّح باچر",
+   "ضغط: «حطّها · باچر»"
+  ],
+  "toast": "انحطّت: باچر",
+  "errs": [],
+  "shot": "shot-v12-P2-T4.png"
+ },
+ {
+  "v": "v12",
+  "p": "P2",
+  "t": "T5",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «منبّه»",
+   "كتب: منبّه الساعة 05:45",
+   "ضغط: «احفظ المنبّه»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P2-T5.png"
+ },
+ {
+  "v": "v12",
+  "p": "P2",
+  "t": "T6",
+  "result": "ok",
+  "taps": 0,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "نزل لتحت"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P2-T6.png"
+ },
+ {
+  "v": "v12",
+  "p": "P2",
+  "t": "T8",
+  "result": "lost",
+  "taps": 2,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «رياضة كل يوم ينبّهك»",
+   "ضغط: «كل يوم»",
+   "نزل لتحت",
+   "ما لكه شي يناسبه"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P2-T8.png"
+ },
+ {
+  "v": "v12",
+  "p": "P2",
+  "t": "T7",
+  "result": "ok",
+  "taps": 3,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 9,
+  "log": [
+   "ضغط: «التالي»",
+   "ضغط: «التالي»",
+   "ضغط: «وريني يومي»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P2-T7.png"
+ },
+ {
+  "v": "v12",
+  "p": "P3",
+  "t": "T3",
+  "result": "ok",
+  "taps": 1,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «خلّصت رياضة»"
+  ],
+  "toast": "تم ✓",
+  "errs": [],
+  "shot": "shot-v12-P3-T3.png"
+ },
+ {
+  "v": "v12",
+  "p": "P3",
+  "t": "T4",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «أضف»",
+   "كتب: اتصل بالمصلّح باچر",
+   "ضغط: «حطّها · باچر»"
+  ],
+  "toast": "انحطّت: باچر",
+  "errs": [],
+  "shot": "shot-v12-P3-T4.png"
+ },
+ {
+  "v": "v12",
+  "p": "P3",
+  "t": "T5",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «منبّه»",
+   "كتب: منبّه الساعة 05:45",
+   "ضغط: «احفظ المنبّه»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P3-T5.png"
+ },
+ {
+  "v": "v12",
+  "p": "P3",
+  "t": "T6",
+  "result": "ok",
+  "taps": 0,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "نزل لتحت"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P3-T6.png"
+ },
+ {
+  "v": "v12",
+  "p": "P3",
+  "t": "T8",
+  "result": "lost",
+  "taps": 2,
+  "scrolls": 4,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «رياضة كل يوم ينبّهك»",
+   "ضغط: «كل يوم»",
+   "نزل لتحت",
+   "نزل لتحت",
+   "نزل لتحت",
+   "نزل لتحت",
+   "ما لكه شي يناسبه"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P3-T8.png"
+ },
+ {
+  "v": "v12",
+  "p": "P3",
+  "t": "T7",
+  "result": "ok",
+  "taps": 3,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 9,
+  "log": [
+   "ضغط: «التالي»",
+   "ضغط: «التالي»",
+   "ضغط: «وريني يومي»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P3-T7.png"
+ },
+ {
+  "v": "v12",
+  "p": "P4",
+  "t": "T3",
+  "result": "ok",
+  "taps": 1,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «خلّصت رياضة»"
+  ],
+  "toast": "تم ✓",
+  "errs": [],
+  "shot": "shot-v12-P4-T3.png"
+ },
+ {
+  "v": "v12",
+  "p": "P4",
+  "t": "T4",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «أضف»",
+   "كتب: اتصل بالمصلّح باچر",
+   "ضغط: «حطّها · باچر»"
+  ],
+  "toast": "انحطّت: باچر",
+  "errs": [],
+  "shot": "shot-v12-P4-T4.png"
+ },
+ {
+  "v": "v12",
+  "p": "P4",
+  "t": "T5",
+  "result": "ok",
+  "taps": 2,
+  "scrolls": 0,
+  "typing": 1,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «منبّه»",
+   "كتب: منبّه الساعة 05:45",
+   "ضغط: «احفظ المنبّه»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P4-T5.png"
+ },
+ {
+  "v": "v12",
+  "p": "P4",
+  "t": "T6",
+  "result": "ok",
+  "taps": 0,
+  "scrolls": 1,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "نزل لتحت"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P4-T6.png"
+ },
+ {
+  "v": "v12",
+  "p": "P4",
+  "t": "T8",
+  "result": "lost",
+  "taps": 2,
+  "scrolls": 2,
+  "typing": 0,
+  "choicesSeen": 0,
+  "log": [
+   "ضغط: «رياضة كل يوم ينبّهك»",
+   "ضغط: «كل يوم»",
+   "نزل لتحت",
+   "نزل لتحت",
+   "ما لكه شي يناسبه"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P4-T8.png"
+ },
+ {
+  "v": "v12",
+  "p": "P4",
+  "t": "T7",
+  "result": "ok",
+  "taps": 3,
+  "scrolls": 0,
+  "typing": 0,
+  "choicesSeen": 9,
+  "log": [
+   "ضغط: «التالي»",
+   "ضغط: «التالي»",
+   "ضغط: «وريني يومي»"
+  ],
+  "toast": "",
+  "errs": [],
+  "shot": "shot-v12-P4-T7.png"
+ }
+]

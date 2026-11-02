@@ -1,0 +1,696 @@
+<title>يوم · سماء الأوقات</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@700;800;900&display=swap">
+<style>
+/* «سماء الأوقات»: the app takes the colour of the sky of the part you are in. Paper and ink around it;
+   all the boldness is spent on the part colours (the "now" slab, the prayer rail, the tiles). */
+:root{
+  --paper:#FFFFFF; --ground:#E9EBF1; --card:#F2F3F7; --ink:#14161F; --grey:#5E6270; --line:#DCDFE7; --green:#147A5C;
+  --fajr:#3E3FA8; --morning:#0F6CB6; --dhuhr:#F4B41A; --asr:#C2501A; --maghrib:#B8322C; --isha:#1E2A6E; --night:#0C1233;
+  --fajr-t:#3E3FA8; --morning-t:#0F6CB6; --dhuhr-t:#8A5A00; --asr-t:#B4471A; --maghrib-t:#B8322C; --isha-t:#1E2A6E; --night-t:#1E2A6E;
+  --frame:#0B0C10; --shadow:0 1px 0 rgba(20,22,31,.06),0 8px 24px -12px rgba(20,22,31,.25);
+  --display:"Noto Kufi Arabic","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --text:"IBM Plex Sans Arabic","Noto Sans Arabic",Tahoma,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1018; --ground:#05060A; --card:#1A1D28; --ink:#F2F3F7; --grey:#A3A8B8; --line:#2A2E3C; --green:#4FD1A5;
+  --fajr-t:#8E90FF; --morning-t:#5DB2F5; --dhuhr-t:#F4B41A; --asr-t:#FF8A4C; --maghrib-t:#FF6B62; --isha-t:#8E9CFF; --night-t:#8E9CFF;
+  --shadow:0 0 0 1px #232736; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1018; --ground:#05060A; --card:#1A1D28; --ink:#F2F3F7; --grey:#A3A8B8; --line:#2A2E3C; --green:#4FD1A5;
+  --fajr-t:#8E90FF; --morning-t:#5DB2F5; --dhuhr-t:#F4B41A; --asr-t:#FF8A4C; --maghrib-t:#FF6B62; --isha-t:#8E9CFF; --night-t:#8E9CFF;
+  --shadow:0 0 0 1px #232736; color-scheme:dark}
+
+/* one class per part: --c the sky, --on the text on it, --t the part colour as text on paper */
+.p-fajr{--c:var(--fajr);--on:#FFFFFF;--t:var(--fajr-t)}
+.p-morning{--c:var(--morning);--on:#FFFFFF;--t:var(--morning-t)}
+.p-dhuhr{--c:var(--dhuhr);--on:#1B1300;--t:var(--dhuhr-t)}
+.p-asr{--c:var(--asr);--on:#FFFFFF;--t:var(--asr-t)}
+.p-maghrib{--c:var(--maghrib);--on:#FFFFFF;--t:var(--maghrib-t)}
+.p-isha{--c:var(--isha);--on:#FFFFFF;--t:var(--isha-t)}
+.p-night{--c:var(--night);--on:#FFFFFF;--t:var(--night-t)}
+.p-tomorrow{--c:#4D5568;--on:#FFFFFF;--t:var(--grey)}
+.p-later{--c:#4D5568;--on:#FFFFFF;--t:var(--grey)}
+
+*{box-sizing:border-box}
+html{direction:rtl}
+body{background:var(--ground);color:var(--ink);font-family:var(--text);font-size:17px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+
+/* ---------- the page around the phone ---------- */
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:28px}
+.wrap>*{min-width:0}
+header.intro{display:grid;gap:8px;max-width:760px}
+header.intro .kicker{font-weight:600;color:var(--grey);font-size:15px}
+header.intro h1{font-family:var(--display);font-weight:900;font-size:clamp(30px,5vw,46px);line-height:1.35;margin:0;text-wrap:balance}
+header.intro p{margin:0;font-size:18px;color:var(--ink);max-width:62ch}
+.controls{display:grid;gap:12px}
+.ctl{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.ctl>b{font-size:15px;color:var(--grey);min-width:6.5em}
+.try{min-height:48px;padding:0 16px;border-radius:14px;background:var(--paper);border:2px solid var(--line);font-weight:600;font-size:16px;display:inline-flex;align-items:center;gap:8px;transition:transform .08s}
+.try:active{transform:scale(.96)}
+.try[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.try .sw8{width:14px;height:14px;border-radius:5px;background:var(--c)}
+.stage{display:grid;grid-template-columns:auto minmax(0,1fr);gap:36px;align-items:start}
+@media (max-width:900px){.stage{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- phone ---------- */
+.device{width:min(100%,410px);justify-self:center;background:var(--frame);border-radius:52px;padding:10px;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
+#phone{position:relative;height:820px;max-height:calc(100vh - 40px);min-height:640px;border-radius:42px;overflow:hidden;background:var(--paper);color:var(--ink);
+  display:flex;flex-direction:column;isolation:isolate}
+.status{height:40px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:6px 26px 0;font-size:15px;font-weight:600}
+.scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:4px 16px 120px;display:grid;gap:16px;align-content:start;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+
+/* icons: filled, heavy, one family */
+.ic{width:24px;height:24px;flex:none;fill:currentColor;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ic .s{fill:none}
+.tile{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;flex:none;background:var(--c);color:var(--on)}
+.tile.sm{width:40px;height:40px;border-radius:13px}
+.tile.sm .ic{width:22px;height:22px}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:2px}
+.top h2{font-family:var(--display);font-weight:900;font-size:28px;line-height:1.3;margin:0}
+.top small{display:block;font-size:15px;color:var(--grey);font-weight:500;line-height:1.5}
+.iconbtn{width:52px;height:52px;border-radius:16px;background:var(--card);display:grid;place-items:center;transition:transform .08s}
+.iconbtn:active{transform:scale(.92)}
+
+/* the prayer rail: six parts of today, the one you are in filled with its sky */
+.rail{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.stop{position:relative;min-height:84px;border-radius:16px;display:grid;justify-items:center;align-content:center;gap:2px;padding:8px 2px;overflow:hidden;
+  background:color-mix(in srgb,var(--c) 10%,var(--paper));color:var(--t);transition:background .45s,color .45s,transform .08s}
+.stop:active{transform:scale(.94)}
+.stop .nm{font-size:14px;font-weight:700;line-height:1.3}
+.stop .tm{font-size:14px;font-weight:600;line-height:1.3}
+.stop.past{background:var(--card);color:var(--grey)}
+.stop.now{background:var(--c);color:var(--on)}
+.stop.now::after{content:"";position:absolute;inset:auto 0 0 0;height:6px;background:color-mix(in srgb,var(--on) 30%,transparent)}
+.stop .prog{position:absolute;inset:auto 0 0 auto;height:6px;background:var(--on);z-index:1}
+.stop .ok{position:absolute;top:5px;inset-inline-start:6px;width:16px;height:16px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center}
+.stop .ok svg{width:11px;height:11px;stroke-width:3.6}
+
+/* the now slab: the signature */
+.slab{border-radius:28px;background:var(--c);color:var(--on);padding:20px 18px 18px;display:grid;gap:14px;transition:background .5s,color .5s;box-shadow:0 18px 36px -22px var(--c)}
+.slab .eyebrow{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px}
+.slab .eyebrow i{width:10px;height:10px;border-radius:50%;background:currentColor;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.slab h3{font-family:var(--display);font-weight:900;font-size:46px;line-height:1.3;margin:-6px 0 0}
+.slab .left{font-size:20px;line-height:1.55;margin:0;font-weight:500}
+.slab .left b{font-weight:700}
+.bar{height:12px;border-radius:8px;background:color-mix(in srgb,var(--on) 26%,transparent);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--on);border-radius:8px;transition:width .5s}
+.ends{display:flex;justify-content:space-between;font-size:15px;font-weight:600;margin-top:-6px}
+.pray{min-height:60px;border-radius:18px;background:var(--paper);color:var(--ink);display:flex;align-items:center;gap:12px;padding:6px 8px 6px 16px;text-align:start;transition:transform .08s}
+.pray:active{transform:scale(.97)}
+.pray .tile{--c:var(--cc);--on:#fff}
+.pray>span:not(.tile){flex:1;font-size:18px;font-weight:700;line-height:1.4}
+.pray>span:not(.tile) small{display:block;font-size:15px;font-weight:500;color:var(--grey)}
+.pray em{font-style:normal;min-height:44px;padding:0 16px;border-radius:13px;display:grid;place-items:center;font-weight:700;font-size:17px;background:var(--ink);color:var(--paper)}
+.pray[aria-pressed="true"] em{background:var(--green);color:#fff}
+
+/* things */
+.list{display:grid;gap:8px}
+.thing{display:flex;align-items:center;min-height:64px;border-radius:18px;background:var(--paper);color:var(--ink);box-shadow:var(--shadow)}
+.card .thing{background:var(--card);box-shadow:none}
+.tick{width:60px;height:64px;flex:none;display:grid;place-items:center}
+.tick i{width:32px;height:32px;border-radius:50%;border:3px solid var(--t);display:grid;place-items:center;transition:background .12s,transform .12s}
+.slab .tick i{border-color:var(--c)}
+.p-dhuhr .slab .tick i,.slab.p-dhuhr .tick i{border-color:#8A5A00}
+.tick i svg{width:18px;height:18px;stroke-width:3.4;color:#fff;opacity:0}
+.thing.done .tick i{background:var(--green);border-color:var(--green)}
+.thing.done .tick i svg{opacity:1}
+.tick:active i{transform:scale(.85)}
+.tname{flex:1;min-height:64px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:2px;padding:8px 0 8px 14px;text-align:start;min-width:0}
+.tname b{font-size:18px;font-weight:600;line-height:1.45}
+.thing.done .tname b{color:var(--grey);text-decoration:line-through;text-decoration-thickness:2px}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.badge{font-size:14px;font-weight:600;line-height:1;padding:5px 8px;border-radius:8px;background:color-mix(in srgb,var(--t) 13%,transparent);color:var(--t);display:inline-flex;gap:4px;align-items:center}
+.badge .ic{width:14px;height:14px;stroke-width:2.8}
+.addhere{min-height:56px;border-radius:18px;border:2.5px dashed color-mix(in srgb,var(--on) 55%,transparent);color:var(--on);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .08s}
+.card .addhere{border-color:var(--line);color:var(--t)}
+.addhere:active{transform:scale(.97)}
+.addhere .ic{width:20px;height:20px;stroke-width:3}
+
+/* the other parts */
+.card{border-radius:24px;background:var(--paper);padding:14px;display:grid;gap:10px;box-shadow:var(--shadow);border:2px solid var(--line)}
+.card .head{display:flex;align-items:center;gap:12px}
+.card h4{flex:1;margin:0;font-family:var(--display);font-weight:800;font-size:21px;line-height:1.35}
+.card h4 small{display:block;font-family:var(--text);font-size:15px;font-weight:500;color:var(--grey)}
+.card .when{font-size:20px;font-weight:700;color:var(--t)}
+.empty{min-height:52px;border-radius:16px;background:var(--card);color:var(--grey);font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
+.fold{min-height:60px;border-radius:18px;background:var(--card);display:flex;align-items:center;gap:12px;padding:0 16px;font-weight:600;font-size:16px;text-align:start;color:var(--grey)}
+.fold .ok2{width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;flex:none}
+.fold .ok2 .ic{width:18px;height:18px;stroke-width:3.2}
+
+/* night */
+.nightcard{background:var(--night);color:#fff;border:0}
+.nightcard h4 small{color:#C6CBE6}
+.nightcard .when{color:#fff}
+.sleepline{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;background:rgba(255,255,255,.08);border-radius:18px;padding:12px 14px}
+.sleepline div{display:grid;line-height:1.35}
+.sleepline div:last-child{text-align:end}
+.sleepline small{font-size:15px;color:#C6CBE6;font-weight:500}
+.sleepline b{font-size:26px;font-weight:700}
+.sleepline .zz{color:#C6CBE6;font-weight:600;font-size:15px;text-align:center;line-height:1.3}
+.alarm{display:flex;align-items:center;gap:12px;min-height:68px;border-radius:18px;background:rgba(255,255,255,.08);padding:6px 6px 6px 8px}
+.alarm .t{font-size:30px;font-weight:700;padding-inline-start:10px;line-height:1}
+.alarm .l{flex:1;display:grid;line-height:1.4;font-weight:600;font-size:17px}
+.alarm .l small{font-size:15px;color:#C6CBE6;font-weight:500}
+.alarm.off .t,.alarm.off .l{opacity:.55}
+.sw{width:64px;height:56px;display:grid;place-items:center;flex:none}
+.sw i{width:56px;height:34px;border-radius:20px;background:#4A4F6A;position:relative;transition:background .15s}
+.sw i::after{content:"";position:absolute;top:4px;inset-inline-start:4px;width:26px;height:26px;border-radius:50%;background:#fff;transition:inset-inline-start .15s}
+.sw[aria-checked="true"] i{background:#4FD1A5}
+.sw[aria-checked="true"] i::after{inset-inline-start:26px}
+.nightcard .addhere{border-color:rgba(255,255,255,.4);color:#fff}
+
+/* dock: two big buttons, always in the same place */
+.dock{position:absolute;inset:auto 0 0 0;padding:14px 16px 18px;display:flex;gap:10px;background:linear-gradient(to top,var(--paper) 70%,transparent);z-index:5}
+.fab{flex:1;min-height:62px;border-radius:20px;background:var(--c);color:var(--on);font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 12px 24px -14px var(--c);transition:transform .08s,background .45s,color .45s}
+.fab .ic{stroke-width:3}
+.alarmbtn{min-height:62px;padding:0 18px;border-radius:20px;background:var(--ink);color:var(--paper);font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px;transition:transform .08s}
+.fab:active,.alarmbtn:active{transform:scale(.96)}
+
+/* sheets */
+.scrim{position:absolute;inset:0;background:rgba(8,9,14,.5);z-index:20;display:flex;align-items:flex-end;animation:fade .15s}
+.sheet{width:100%;max-height:92%;overflow-y:auto;background:var(--paper);border-radius:30px 30px 0 0;padding:10px 16px 22px;display:grid;gap:14px;animation:up .22s cubic-bezier(.2,.9,.3,1.1)}
+@keyframes up{from{transform:translateY(40%)}}
+@keyframes fade{from{opacity:0}}
+.grab{justify-self:center;width:48px;height:5px;border-radius:3px;background:var(--line)}
+.sheet h3{margin:0;font-family:var(--display);font-weight:900;font-size:25px;line-height:1.35}
+.hint{margin:-6px 0 0;font-size:16px;color:var(--grey);line-height:1.7}
+.field{width:100%;min-height:62px;border-radius:18px;border:2.5px solid var(--line);background:var(--card);padding:0 16px;font-size:20px;font-weight:600;outline:none}
+.field:focus{border-color:var(--ink)}
+.q{margin:4px 0 -4px;font-size:17px;font-weight:700}
+.where{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.wt{min-height:76px;border-radius:18px;background:color-mix(in srgb,var(--c) 10%,var(--paper));color:var(--t);display:grid;justify-items:center;align-content:center;gap:4px;font-weight:700;font-size:14px;line-height:1.3;padding:6px 2px;border:2.5px solid transparent;transition:transform .08s}
+.wt:active{transform:scale(.94)}
+.wt[aria-pressed="true"]{background:var(--c);color:var(--on);border-color:var(--ink)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;background:var(--card);border-radius:18px;padding:4px}
+.seg button{min-height:52px;border-radius:14px;font-weight:700;font-size:16px;color:var(--grey);line-height:1.3;padding:0 4px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.big{min-height:62px;border-radius:20px;background:var(--c,var(--ink));color:var(--on,var(--paper));font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .08s}
+.big:active{transform:scale(.97)}
+.big[aria-disabled="true"]{opacity:.4}
+.big.ink{--c:var(--ink);--on:var(--paper)}
+.ghost{min-height:56px;border-radius:18px;background:var(--card);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px}
+.danger{color:#C0262D}
+:root[data-theme="dark"] .danger{color:#FF7A7A}
+.clockpick{display:flex;align-items:center;justify-content:center;gap:14px}
+.clockpick .v{font-size:58px;font-weight:700;line-height:1;min-width:4.2ch;text-align:center}
+.clockpick button{width:60px;height:60px;border-radius:50%;background:var(--card);display:grid;place-items:center}
+.clockpick button .ic{stroke-width:3}
+.quick{display:flex;gap:8px;justify-content:center}
+.quick button{min-height:48px;padding:0 16px;border-radius:14px;background:var(--card);font-weight:600;font-size:15px}
+.rings{margin:0;padding:12px 14px;border-radius:16px;background:var(--card);font-size:16px;line-height:1.6}
+.shead{display:flex;align-items:center;gap:12px}
+.shead div{flex:1;min-width:0}
+.shead small{display:block;color:var(--grey);font-size:15px;font-weight:500}
+.navrow{display:flex;align-items:center;gap:12px;min-height:68px;border-radius:18px;background:var(--card);padding:8px 12px;text-align:start;width:100%}
+.navrow span{flex:1;display:grid;line-height:1.4;font-weight:700;font-size:17px}
+.navrow small{font-weight:500;font-size:15px;color:var(--grey)}
+.navrow .chev{flex:none;color:var(--grey)}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.days button{min-height:48px;border-radius:12px;background:var(--card);font-weight:700;font-size:14px;line-height:1.2}
+.days button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+.toast{position:absolute;inset:auto 16px 100px 16px;z-index:30;background:var(--ink);color:var(--paper);border-radius:18px;padding:14px 16px;font-weight:700;font-size:17px;display:flex;align-items:center;gap:10px;animation:up .2s ease-out}
+.toast .ok2{width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;flex:none}
+.toast .ok2 .ic{width:16px;height:16px;stroke-width:3.4}
+
+/* lock screen */
+.lock{flex:1;background:var(--night);color:#fff;padding:30px 16px 16px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+.lock .clock{font-size:84px;font-weight:600;text-align:center;line-height:1.1}
+.lock .date{text-align:center;font-size:17px;color:#C6CBE6;margin-bottom:10px}
+.notif{background:#FFFFFF;color:#14161F;border-radius:24px;padding:14px;display:grid;gap:10px}
+.notif .app{display:flex;align-items:center;gap:8px;font-size:14px;color:#5E6270;font-weight:600}
+.notif .app i{width:22px;height:22px;border-radius:7px;background:#14161F;color:#fff;font-style:normal;display:grid;place-items:center;font-size:13px;font-family:var(--display)}
+.notif .nb{display:flex;gap:12px;align-items:center}
+.notif .nb b{font-size:19px;line-height:1.4;display:block}
+.notif .nb p{margin:0;font-size:16px;line-height:1.55;color:#3A3D48}
+.notif .acts{display:flex;gap:8px}
+.notif .acts span{flex:1;min-height:48px;border-radius:14px;background:#F2F3F7;display:grid;place-items:center;font-weight:700;font-size:15px;color:#14161F;text-align:center;padding:0 6px;line-height:1.3}
+.widget{border-radius:26px;background:var(--c);color:var(--on);padding:16px;display:grid;gap:8px;margin-top:6px}
+.widget .wt2{font-size:14px;font-weight:600;opacity:.9}
+.widget b{font-family:var(--display);font-weight:900;font-size:28px;line-height:1.3}
+.widget p{margin:0;font-size:16px;font-weight:600}
+
+/* first run */
+.onb{display:grid;gap:16px;min-height:100%;align-content:start;padding-top:8px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.steps i{height:8px;border-radius:4px;background:var(--line)}
+.steps i.on{background:var(--ink)}
+.onb h2{font-family:var(--display);font-weight:900;font-size:34px;line-height:1.35;margin:0;text-wrap:balance}
+.onb p.lead{margin:-6px 0 0;font-size:18px;line-height:1.75}
+.sugg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.sg{min-height:72px;border-radius:18px;background:color-mix(in srgb,var(--c) 10%,var(--paper));color:var(--ink);display:flex;align-items:center;gap:10px;padding:8px 10px;text-align:start;border:2.5px solid transparent}
+.sg span{flex:1;display:grid;line-height:1.35;font-weight:700;font-size:16px}
+.sg small{font-weight:600;font-size:14px;color:var(--t)}
+.sg[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 22%,var(--paper))}
+.sg[aria-pressed="true"] small{color:var(--ink)}
+.sg .mark{width:28px;height:28px;border-radius:50%;border:2.5px solid var(--t);display:grid;place-items:center;flex:none}
+.sg .mark svg{width:16px;height:16px;stroke-width:3.4;color:#fff;opacity:0}
+.sg[aria-pressed="true"] .mark{background:var(--green);border-color:var(--green)}
+.sg[aria-pressed="true"] .mark svg{opacity:1}
+.skip{justify-self:end;min-height:48px;padding:0 14px;border-radius:14px;font-weight:700;color:var(--grey)}
+
+/* notes beside the phone */
+.notes{display:grid;gap:18px;align-content:start}
+.notes h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.4;margin:0}
+.why{display:grid;gap:2px;padding:14px 16px;border-radius:18px;background:var(--paper);border:2px solid var(--line)}
+.why b{font-size:18px;line-height:1.5}
+.why span{font-size:16px;color:var(--grey);line-height:1.75}
+.tablewrap{overflow-x:auto;border-radius:18px;border:2px solid var(--line);background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:16px;line-height:1.6}
+th,td{text-align:start;padding:12px 14px;border-bottom:1.5px solid var(--line);vertical-align:top}
+th{font-size:15px;color:var(--grey);font-weight:700}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+.legend span{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 12px 0 6px;border-radius:12px;background:var(--paper);border:2px solid var(--line);font-weight:600;font-size:15px}
+.legend i{width:28px;height:28px;border-radius:9px;background:var(--c)}
+.foot{font-size:15px;color:var(--grey);max-width:80ch;margin:0}
+
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="kicker">نموذج v12 · التصميم الجديد كله · مثال: السليمانية، الإثنين 2 تشرين الثاني 2026</span>
+    <h1>يومك بلون سماه</h1>
+    <p>كل قسم من اليوم إله لون سماه: الفجر نيلي، الصبح أزرق، الظهر ذهبي، العصر برتقالي، المغرب أحمر، العشاء كحلي. التطبيق ياخذ لون الوكت اللي إنت بيه، فتعرف وين إنت من أول نظرة.</p>
+  </header>
+
+  <div class="controls">
+    <div class="ctl" id="times"><b>غيّر الساعة</b></div>
+    <div class="ctl"><b>الشاشة</b>
+      <button class="try" data-view="app" aria-pressed="true">التطبيق</button>
+      <button class="try" data-view="lock" aria-pressed="false">شاشة القفل</button>
+      <button class="try" data-view="onb" aria-pressed="false">أول مرة تفتحه</button>
+      <button class="try" data-view="settings" aria-pressed="false">الإعدادات</button>
+    </div>
+    <div class="ctl"><b>الوضع</b>
+      <button class="try" data-theme-set="light" aria-pressed="false">فاتح</button>
+      <button class="try" data-theme-set="dark" aria-pressed="false">داكن</button>
+      <button class="try" data-theme-set="" aria-pressed="true">حسب التلفون</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="device"><div id="phone" aria-label="نموذج التطبيق"></div></div>
+    <aside class="notes">
+      <h2 id="notesScr">الصفحة الوحيدة</h2>
+      <div id="notes" class="notes"></div>
+    </aside>
+  </div>
+
+  <section class="notes" aria-labelledby="fixh">
+    <h2 id="fixh">اللي كلت عليه، وشنو تغيّر</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>الشي</th><th>قبل (v11)</th><th>هسه (v12)</th></tr></thead>
+      <tbody>
+        <tr><td>الأيقونات</td><td>خطوط رفيعة صغيرة، تضيع بالشاشة</td><td>أيقونات مليانة وعريضة، كل وحدة داخل مربع بلون قسمها. نفس الرسمة بكل مكان.</td></tr>
+        <tr><td>الأزرار</td><td>كلام صغير وحواف رفيعة، ما تعرف شنو ينضغط</td><td>أزرار مليانة، طولها 56 إلى 62. المهم بلون القسم، والثاني بالأسود. أصغر زر بحجم إصبع.</td></tr>
+        <tr><td>المربعات</td><td>خطوط باهتة، كلشي نفس الشكل</td><td>القسم اللي إنت بيه هسه لوح كبير بلونه. الأقسام الجاية بطاقات بيضاء. اللي فات ينطوي بسطر.</td></tr>
+        <tr><td>الوضوح</td><td>كلشي نفس الوزن والحجم</td><td>ثلاث درجات بس: هسه كبير، الجاي متوسط، اللي فات مطوي. أصغر كتابة 14 إلى 15، والنص الأساسي 17 إلى 18.</td></tr>
+        <tr><td>الخط</td><td>نسخ للكلام، وأميري للأرقام</td><td>الكوفي للعناوين مثل ما وافقت، وخط عربي مرسوم للشاشات للكلام والأرقام (IBM Plex Sans Arabic). أوضح بالحجم الصغير.</td></tr>
+        <tr><td>الألوان</td><td>حبر وورق ورمادي</td><td>ست ألوان للأقسام من لون السما بكل وقت، وكلها مفحوصة للقراءة: الكتابة عليها واضحة 4.7 مرات أو أكثر.</td></tr>
+        <tr><td>السرعة</td><td>الضغطة ما تبيّن انها انضغطت</td><td>كل زر يصغر شوية لحظة ما تلمسه، والقوائم تطلع خلال أقل من ربع ثانية. إذا مفعّل «تقليل الحركة» بالتلفون، ماكو حركة.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="legend" id="legend"></div>
+    <p class="foot">هذا نموذج للشكل بس، والتطبيق ما تغيّر. أوقات الصلاة ونومك وصلاة الليل نفس الحساب بالضبط. هذا التصميم يطلع عن هوية «الحبر» القديمة بثلاث أشياء: صار اللون على المربعات والأزرار، مو بالأيقونات بس. والكلام صار بخط IBM Plex Sans Arabic بدل النسخ. والأيقونات انرسمت من جديد مليانة. إذا وافقت، أنقله للتطبيق خطوة خطوة.</p>
+  </section>
+</div>
+
+<script>
+(()=>{
+const ICONS={
+fajr:'<path d="M3.6 18a8.4 8.4 0 0 1 16.8 0z" opacity=".38" stroke="none"/><path class="s" d="M2.5 18.6h19M8.4 21.4h7.2"/><path d="M17.6 2.4l1 2.3 2.4.3-1.8 1.6.5 2.4-2.1-1.3-2.1 1.3.5-2.4-1.8-1.6 2.4-.3z" stroke="none"/>',
+morning:'<path d="M5.4 17.2a6.6 6.6 0 0 1 13.2 0z" stroke="none"/><path class="s" d="M2.5 20.5h19M12 2.8v4.4M9.4 5l2.6-2.4L14.6 5"/>',
+dhuhr:'<circle cx="12" cy="11" r="4.8" stroke="none"/><path class="s" d="M12 2.2v1.4M12 18.4v1.4M3.2 11h1.4M19.4 11h1.4M5.8 4.8l1 1M17.2 16.2l1 1M5.8 17.2l1-1M17.2 5.8l1-1M3 22h18"/>',
+asr:'<circle cx="7" cy="7.4" r="4.2" stroke="none"/><rect x="14.4" y="9" width="2.8" height="10.6" rx="1.2" stroke="none"/><path d="M16.4 18.4h5.6l-1.2 2.2h-4.4z" opacity=".45" stroke="none"/><path class="s" d="M2.5 20.6h12"/>',
+maghrib:'<path d="M5.4 15.6a6.6 6.6 0 0 1 13.2 0z" stroke="none"/><path class="s" d="M2.5 18.8h19M7 22h10M12 2.8v5.2M9.4 5.6L12 8.2l2.6-2.6"/>',
+isha:'<path d="M14.6 3.4A8.8 8.8 0 1 0 21 15.2a7 7 0 0 1-6.4-11.8z" stroke="none"/><path d="M18.6 2.6l.8 1.9 2 .2-1.5 1.3.5 2-1.8-1.1-1.8 1.1.5-2-1.5-1.3 2-.2z" stroke="none"/>',
+night:'<path d="M2.5 19.5V7.5M2.5 15h19v4.5M21.5 15v-2.2a3.2 3.2 0 0 0-3.2-3.2H11v5.4" class="s"/><circle cx="6.8" cy="11.6" r="2.3" stroke="none"/>',
+alarm:'<circle class="s" cx="12" cy="13" r="7.6"/><path class="s" d="M12 9v4.2l2.8 1.8M5.6 21l1.6-2M18.4 21l-1.6-2"/><path d="M2.6 7.2A4.4 4.4 0 0 1 7.6 3z M21.4 7.2A4.4 4.4 0 0 0 16.4 3z"/>',
+plus:'<path class="s" d="M12 4.5v15M4.5 12h15"/>',
+check:'<path class="s" d="M5 12.5l4.6 4.6L19.4 7.4"/>',
+repeat:'<path class="s" d="M4 11V9.6A3.6 3.6 0 0 1 7.6 6H19M16 3l3 3-3 3M20 13v1.4A3.6 3.6 0 0 1 16.4 18H5M8 21l-3-3 3-3"/>',
+bell:'<path d="M5.4 16.8V11a6.6 6.6 0 0 1 13.2 0v5.8l1.8 2.2H3.6z" stroke="none"/><path class="s" d="M9.8 21.2h4.4"/>',
+clock:'<circle class="s" cx="12" cy="12" r="8.6"/><path class="s" d="M12 7.6V12l3 2"/>',
+sliders:'<path class="s" d="M3.5 7h9M18.5 7h2M3.5 17h3M12.5 17h8"/><circle cx="15.5" cy="7" r="2.9"/><circle cx="9.5" cy="17" r="2.9"/>',
+calendar:'<rect class="s" x="3.4" y="5" width="17.2" height="15.6" rx="3.4"/><path class="s" d="M8 2.8v4M16 2.8v4"/><path d="M3.4 8.4A3.4 3.4 0 0 1 6.8 5h10.4a3.4 3.4 0 0 1 3.4 3.4V10H3.4z" stroke="none"/><rect x="13.4" y="13.4" width="4" height="4" rx="1" stroke="none"/>',
+later:'<path class="s" d="M6.5 3h11M6.5 21h11M8 3c0 4.4 4 5.4 4 9s-4 4.6-4 9M16 3c0 4.4-4 5.4-4 9s4 4.6 4 9"/><path d="M8.8 20.2c.8-2.2 3.2-3.2 3.2-4.8 0 1.6 2.4 2.6 3.2 4.8z" stroke="none"/>',
+chev:'<path class="s" d="M14.5 5.5L8 12l6.5 6.5"/>',
+minus:'<path class="s" d="M4.5 12h15"/>',
+week:'<rect class="s" x="3.4" y="4.6" width="17.2" height="16" rx="3.4"/><path class="s" d="M3.4 9.6h17.2"/><circle cx="8.4" cy="14.6" r="1.6" stroke="none"/><circle cx="12" cy="14.6" r="1.6" stroke="none"/><circle cx="15.6" cy="14.6" r="1.6" stroke="none"/>',
+page:'<rect class="s" x="4.6" y="3" width="14.8" height="18" rx="3"/><path class="s" d="M8.4 8.2h7.2M8.4 12h7.2"/><path class="s" d="M8.6 16.2l1.6 1.6 3.2-3.2"/>',
+pin:'<path d="M12 22s-7-6.6-7-12a7 7 0 0 1 14 0c0 5.4-7 12-7 12z" stroke="none"/><circle cx="12" cy="10" r="2.6" fill="var(--c,#fff)" stroke="none"/>',
+lantern:'<path class="s" d="M12 2.4v2M9 6.2h6M8.4 6.2h7.2l1.2 4-1.2 7.6H8.4l-1.2-7.6zM9 21h6"/><path d="M12 9.6c1.5 1.6 1.8 3 1 4.2-.5.6-1.5.6-2 0-.8-1.2-.5-2.6 1-4.2z" stroke="none"/>'
+};
+const ic=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||''}</svg>`;
+const pad=n=>String(n).padStart(2,'0');
+const clk=m=>{m=((m%1440)+1440)%1440;return pad(Math.floor(m/60))+':'+pad(m%60)};
+const num=s=>`<span class="num">${s}</span>`;
+const dur=m=>{const h=Math.floor(m/60),r=m%60;const hs=h===0?'':h===1?'ساعة':h===2?'ساعتين':h+' ساعات';const ms=r===0?'':r<=10?r+' دقائق':r+' دقيقة';return hs&&ms?hs+' و'+ms:(hs||ms||'أقل من دقيقة')};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let HIJRI='22 جمادى الأولى';
+try{HIJRI=new Intl.DateTimeFormat('ar-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'long'}).format(new Date(2026,10,2,12))}catch(e){}
+document.documentElement.lang='ar';
+
+/* Monday 2 November 2026, Sulaymaniyah (docs/reference/reference-2026.csv): same numbers as v11. */
+const SLEEP=1260, WAKE=268;
+const PARTS=[
+ {k:'fajr',name:'بعد الفجر',s:287,e:381,pr:'الفجر',rail:'الفجر',endName:'الشروق'},
+ {k:'morning',name:'الصبح',s:381,e:703,pr:null,rail:'الشروق',endName:'الظهر'},
+ {k:'dhuhr',name:'بعد الظهر',s:703,e:879,pr:'الظهر',rail:'الظهر',endName:'العصر'},
+ {k:'asr',name:'بعد العصر',s:879,e:1022,pr:'العصر',rail:'العصر',endName:'المغرب'},
+ {k:'maghrib',name:'بعد المغرب',s:1022,e:1106,pr:'المغرب',rail:'المغرب',endName:'العشاء'},
+ {k:'isha',name:'بعد العشاء',s:1106,e:SLEEP,pr:'العشاء',rail:'العشاء',endName:'النوم'},
+];
+const TIMES=[[300,'05:00'],[570,'09:30'],[750,'12:30'],[910,'15:10'],[1065,'17:45'],[1170,'19:30'],[1300,'21:40']];
+const S={now:910,view:'app',sheet:null,sel:null,showPast:false,onb:1,
+ prayed:new Set(['fajr','dhuhr']),
+ things:[
+  {id:1,t:'أذكار الصبح وقرآن',p:'fajr',rep:'daily',done:true},
+  {id:2,t:'فطور ويّا الأهل',p:'morning',done:true},
+  {id:3,t:'الدوام',p:'morning',at:480,end:840,rep:'work',done:true},
+  {id:11,t:'قيلولة قصيرة',p:'dhuhr',rep:'daily',done:false},
+  {id:4,t:'رياضة',p:'asr',remind:'start',rep:'daily',done:false},
+  {id:5,t:'اتصل بالمحاسب',p:'asr',done:false},
+  {id:6,t:'اشتري أغراض البيت',p:'asr',done:false},
+  {id:7,t:'وقت ويّا الأهل',p:'maghrib',rep:'daily',done:false},
+  {id:8,t:'دراسة',p:'isha',remind:'start',rep:'work',done:false},
+  {id:9,t:'جدّد إجازة السوق',p:'later',done:false},
+  {id:10,t:'زيارة خالي',p:'tomorrow',done:false},
+ ],
+ alarms:[{id:1,l:'الدواء',at:420,rep:'daily',on:true}],
+ draft:'',draftPart:null,draftRemind:null,draftRep:null,draftAt:null,draftMode:null,wake:true,toast:null,
+ workDays:new Set([0,1,2,3,4]),bed:SLEEP,work:true};
+const REPN={once:'مرة وحدة',daily:'كل يوم',work:'أيام الدوام'};
+const DAYN=['سبت','أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة'];
+const partAt=m=>PARTS.find(p=>m>=p.s&&m<p.e);
+const phone=document.getElementById('phone');
+const status=()=>`<div class="status">${num(clk(S.now))}<span>السليمانية</span></div>`;
+const tile=(k,cls='')=>`<span class="tile ${cls} p-${k}">${ic(k)}</span>`;
+
+function thingRow(x){
+  const meta=[x.at!=null?`<span class="badge">${ic('clock')}${num(clk(x.at)+(x.end?'–'+clk(x.end):''))}</span>`:'',
+    x.rep&&x.rep!=='once'?`<span class="badge">${ic('repeat')}${REPN[x.rep]}</span>`:'',
+    x.remind?`<span class="badge">${ic('bell')}ينبّهك</span>`:''].join('');
+  return `<div class="thing ${x.done?'done':''}">
+    <button class="tick" role="checkbox" aria-checked="${x.done}" data-act="tick" data-id="${x.id}" aria-label="خلّصت ${esc(x.t)}"><i>${ic('check')}</i></button>
+    <button class="tname" data-act="open" data-id="${x.id}"><b>${esc(x.t)}</b>${meta?`<span class="meta">${meta}</span>`:''}</button></div>`;
+}
+const inPart=k=>S.things.filter(x=>x.p===k);
+
+function rail(cur,asleep){
+  return `<nav class="rail" aria-label="صلوات اليوم">${PARTS.map(p=>{
+    const st=asleep?(S.now>=SLEEP?'past':''):(p===cur?'now':(p.s<cur.s?'past':''));
+    const prog=st==="now"?Math.max(0,Math.min(100,Math.round(100*(S.now-p.s)/(p.e-p.s)))):0;
+    return `<button class="stop p-${p.k} ${st}" data-act="goto" data-k="${p.k}" aria-label="${p.rail} ${clk(p.s)}${st==='now'?'، إنت هنا':''}">
+      ${S.prayed.has(p.k)&&st==='past'?`<span class="ok">${ic('check')}</span>`:''}
+      ${ic(p.k)}<span class="nm">${p.rail}</span><span class="tm">${num(clk(p.s))}</span>
+      ${st==='now'?`<span class="prog" style="width:${prog}%"></span>`:''}</button>`}).join('')}</nav>`;
+}
+
+function nightCard(){
+  const alarmRow=a=>`<div class="alarm ${a.on?'':'off'}"><span class="t">${num(clk(a.at))}</span>
+    <span class="l">${esc(a.l)}<small>${a.id==='wake'?'يتحرك ويّا الفجر كل يوم':REPN[a.rep]}</small></span>
+    <button class="sw" role="switch" aria-checked="${a.on}" aria-label="${esc(a.l)} ${clk(a.at)}" data-act="alsw" data-id="${a.id}"><i></i></button></div>`;
+  return `<section class="card nightcard p-night" id="part-night">
+    <div class="head"><span class="tile" style="background:#2B3470">${ic('night')}</span><h4>الليل والمنبّهات<small>نومك محسوب على وكت الفجر</small></h4></div>
+    <div class="sleepline"><div><small>تنام</small><b>${num(clk(S.bed))}</b></div><span class="zz">7 ساعات و28 دقيقة</span><div><small>تصحى لصلاة الليل</small><b>${num(clk(WAKE))}</b></div></div>
+    ${alarmRow({id:'wake',l:'منبّه الصحيان',at:WAKE,rep:'daily',on:S.wake})}${S.alarms.map(alarmRow).join('')}
+    <button class="addhere" data-act="addalarm">${ic('plus')} منبّه جديد</button></section>`;
+}
+
+function partCard(p){
+  const l=inPart(p.k);
+  return `<section class="card p-${p.k}" id="part-${p.k}"><div class="head">${tile(p.k)}<h4>${p.name}<small>${p.pr?'صلاة '+p.pr:'من الشروق'} لحد ${p.endName}</small></h4><span class="when">${num(clk(p.s))}</span></div>
+    ${l.length?`<div class="list">${l.map(thingRow).join('')}</div>`:`<button class="empty" data-act="add" data-p="${p.k}">${ic('plus')} فاضي، اضغط حتى تضيف</button>`}</section>`;
+}
+
+function appView(){
+  const cur=partAt(S.now), asleep=!cur;
+  let slab;
+  if(asleep){
+    const total=(WAKE-SLEEP+1440)%1440, gone=(S.now-SLEEP+1440)%1440;
+    slab=`<section class="slab p-night" id="now"><span class="eyebrow"><i></i>هسه</span><h3>الليل</h3>
+      <p class="left">باقي <b>${dur(total-gone)}</b> للصحيان، لصلاة الليل.</p>
+      <div class="bar"><i style="width:${Math.round(100*gone/total)}%"></i></div>
+      <div class="ends"><span>نمت ${num(clk(SLEEP))}</span><span>تصحى ${num(clk(WAKE))}</span></div>
+      <button class="pray" data-act="wake" aria-pressed="${S.wake}" style="--cc:#2B3470"><span class="tile sm">${ic('alarm')}</span><span>منبّه الصحيان<small>${num(clk(WAKE))}</small></span><em>${S.wake?'شغّال':'طافي'}</em></button></section>`;
+  }else{
+    const p=cur, prog=Math.round(100*(S.now-p.s)/(p.e-p.s)), list=inPart(p.k), prayed=S.prayed.has(p.k);
+    slab=`<section class="slab p-${p.k}" id="now"><span class="eyebrow"><i></i>هسه</span><h3>${p.name}</h3>
+      <p class="left">باقي <b>${dur(p.e-S.now)}</b> على ${p.endName}</p>
+      <div class="bar"><i style="width:${prog}%"></i></div>
+      <div class="ends"><span>${p.pr||'الشروق'} ${num(clk(p.s))}</span><span>${p.endName} ${num(clk(p.e))}</span></div>
+      ${p.pr?`<button class="pray" data-act="pray" data-k="${p.k}" aria-pressed="${prayed}" style="--cc:var(--${p.k})"><span class="tile sm p-${p.k}">${ic(p.k)}</span><span>صلاة ${p.pr}<small>${num(clk(p.s))}</small></span><em>${prayed?'صلّيت ✓':'صلّيت'}</em></button>`:''}
+      ${list.length?`<div class="list">${list.map(thingRow).join('')}</div>`:''}
+      <button class="addhere" data-act="add" data-p="${p.k}">${ic('plus')} أضف شي ${p.name}</button></section>`;
+  }
+  const idx=asleep?(S.now>=SLEEP?PARTS.length:-1):PARTS.indexOf(cur);
+  const future=asleep?(S.now<WAKE+60?PARTS:[]):PARTS.slice(idx+1);
+  const past=asleep?(S.now>=SLEEP?PARTS:[]):PARTS.slice(0,idx);
+  const pastBlock=past.length?`<button class="fold" data-act="past" aria-expanded="${S.showPast}"><span class="ok2">${ic('check')}</span><span style="flex:1">${S.showPast?'خفّي اللي فات':'اللي فات: '+past.map(p=>p.name).join('، ')}</span>${ic('chev')}</button>
+    ${S.showPast?past.map(partCard).join(''):''}`:'';
+  const tom=inPart('tomorrow'), later=inPart('later');
+  const extra=(k,name,icon,l)=>l.length?`<section class="card p-${k}"><div class="head"><span class="tile p-${k}">${ic(icon)}</span><h4>${name}</h4></div><div class="list">${l.map(thingRow).join('')}</div></section>`:'';
+  const nowK=asleep?'night':cur.k;
+  return `${status()}<div class="scroll">
+    <div class="top"><div><h2>الإثنين</h2><small>2 تشرين الثاني · ${HIJRI}</small></div>
+      <button class="iconbtn" data-act="settings" aria-label="الإعدادات">${ic('sliders')}</button></div>
+    ${rail(cur,asleep)}
+    ${slab}
+    ${future.map(partCard).join('')}
+    ${nightCard()}
+    ${pastBlock}
+    ${extra('tomorrow','باچر','calendar',tom)}
+    ${extra('later','بعدين','later',later)}
+  </div>
+  <div class="dock p-${nowK}"><button class="fab" data-act="add">${ic('plus')} أضف</button><button class="alarmbtn" data-act="addalarm">${ic('alarm')} منبّه</button></div>`;
+}
+
+/* quick add: the words say where; the tiles show what they understood */
+const WORDS=[['بعد الفجر','fajr'],['الفجر','fajr'],['الصبح','morning'],['الصباح','morning'],['بعد الظهر','dhuhr'],['الظهر','dhuhr'],['بعد العصر','asr'],['العصر','asr'],['بعد المغرب','maghrib'],['المغرب','maghrib'],['بعد العشاء','isha'],['العشاء','isha'],['الليل','isha'],['باچر','tomorrow'],['باجر','tomorrow'],['بكرة','tomorrow'],['بعدين','later']];
+function parse(raw){
+  let part=null,title=raw,rep=null,alarm=false;
+  if(/كل يوم|يومياً|يوميا/.test(title)){rep='daily';title=title.replace(/كل يوم|يومياً|يوميا/,' ')}
+  if(/أيام الدوام/.test(title)){rep='work';title=title.replace('أيام الدوام',' ')}
+  if(/منبّه|منبه|صحّيني|صحيني/.test(title)){alarm=true;title=title.replace(/منبّه|منبه|صحّيني|صحيني/,' ')}
+  for(const [w,k] of WORDS){if(title.includes(w)){part=part||k;title=title.replace(w,' ')}}
+  const tm=title.match(/(?:الساعة\s*)?(\d{1,2})[:٫.](\d{2})/);let at=null;
+  if(tm){at=(+tm[1])*60+(+tm[2]);title=title.replace(tm[0],' ');title=title.replace('الساعة',' ')}
+  else{const th=title.match(/الساعة\s*(\d{1,2})(?!\d)/);if(th){at=(+th[1])*60;title=title.replace(th[0],' ')}}
+  title=title.replace(/\s+/g,' ').trim();
+  if(at!=null&&!part){const p=partAt(at);part=p?p.k:'isha'}
+  return {title,part,at,rep,alarm};
+}
+const PNAME=k=>({tomorrow:'باچر',later:'بعدين'}[k]||PARTS.find(p=>p.k===k).name);
+const PICON=k=>({tomorrow:'calendar',later:'later'}[k]||k);
+const WHERE=['fajr','morning','dhuhr','asr','maghrib','isha','tomorrow','later'];
+function draftState(){
+  const p=parse(S.draft), isAlarm=S.draftMode==='alarm'||p.alarm;
+  const at=S.draftAt!=null?S.draftAt:(p.at!=null?p.at:(isAlarm?420:null));
+  const rep=S.draftRep||p.rep||(isAlarm?'daily':'once');
+  return {p,isAlarm,at,rep,passed:at!=null&&at<=S.now};
+}
+const seg=(act,opts,cur)=>`<div class="seg" role="group">${opts.map(([k,l])=>`<button data-act="${act}" data-v="${k}" aria-pressed="${k===cur}">${l}</button>`).join('')}</div>`;
+const whereGrid=(act,cur,skip,id)=>`<div class="where">${WHERE.filter(k=>k!==skip).map(k=>`<button class="wt p-${k}" data-act="${act}" data-v="${k}" ${id?`data-id="${id}"`:''} aria-pressed="${k===cur}">${ic(PICON(k))}${PNAME(k)}</button>`).join('')}</div>`;
+function addUnder(){
+  const d=draftState();
+  if(d.isAlarm)return `<p class="q">يرن الساعة</p>
+    <div class="clockpick"><button data-act="dat" data-v="-5" aria-label="أبكر 5 دقايق">${ic('minus')}</button><span class="v num">${clk(d.at)}</span><button data-act="dat" data-v="5" aria-label="أتأخر 5 دقايق">${ic('plus')}</button></div>
+    <div class="quick"><button data-act="dat" data-v="-60">أبكر ساعة</button><button data-act="dat" data-v="60">أتأخر ساعة</button></div>
+    <p class="q">يتكرر؟</p>${seg('drep',[['daily','كل يوم'],['work','أيام الدوام'],['once','مرة وحدة']],d.rep)}
+    <p class="rings">${d.passed?'الساعة '+clk(d.at)+' فاتت اليوم، فأول مرة يرن <b>باچر</b> الصبح.':'أول مرة يرن <b>اليوم</b> الساعة '+clk(d.at)+'.'}</p>
+    <button class="big ink" data-act="save">${ic('alarm')} احفظ المنبّه</button>`;
+  const p=d.p, part=S.draftPart||p.part||(partAt(S.now)||PARTS[0]).k, rem=S.draftRemind||(p.at!=null?'time':'none');
+  return `<p class="q">وين؟</p>${whereGrid('dpart',part)}
+    ${p.at!=null?`<p class="rings">بساعة ثابتة: <b class="num">${clk(p.at)}</b></p>`:''}
+    ${part==='later'?'':`<p class="q">يتكرر؟</p>${seg('drep',[['once','مرة وحدة'],['daily','كل يوم'],['work','أيام الدوام']],d.rep)}`}
+    <p class="q">نبّهني؟</p>${seg('drem',[['none','لا'],['start',part==='later'||part==='tomorrow'?'أول اليوم':'بأول القسم'],...(p.at!=null?[['time','بوكتها']]:[])],rem)}
+    <button class="big p-${part}" data-act="save" ${p.title?'':'aria-disabled="true"'}>${ic('check')} حطّها · ${PNAME(part)}</button>`;
+}
+function sheetView(){
+  if(S.sheet==='add')return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-label="أضف"><span class="grab"></span>
+    <h3 id="sh">${S.draftMode==='alarm'?'منبّه جديد':'شنو تريد تسوي؟'}</h3>
+    <label for="draft" class="hint">${S.draftMode==='alarm'?'اسم المنبّه إذا تريد، مثلاً: الدواء':'اكتبها مثل ما تحجي: «زيارة خالي بعد المغرب»، «قرآن بعد الفجر كل يوم»، «منبّه الساعة 05:45»'}</label>
+    <input id="draft" class="field" data-act="draft" value="${esc(S.draft)}" placeholder="${S.draftMode==='alarm'?'شنو المنبّه؟':'شنو تريد تسوي؟'}" autocomplete="off">
+    <div id="under" style="display:grid;gap:14px">${addUnder()}</div></div></div>`;
+  if(S.sheet==='open'){
+    const x=S.things.find(t=>t.id===S.sel);
+    return `<div class="scrim" data-act="close"><div class="sheet p-${x.p}" role="dialog" aria-label="${esc(x.t)}"><span class="grab"></span>
+      <div class="shead"><span class="tile p-${x.p}">${ic(PICON(x.p))}</span><div><h3>${esc(x.t)}</h3><small>${PNAME(x.p)}${x.at!=null?' · الساعة '+clk(x.at)+(x.end?' إلى '+clk(x.end):''):''}</small></div></div>
+      <button class="big ${x.done?'ink':''}" data-act="tick" data-id="${x.id}">${x.done?'رجّعها، ما خلصت':ic('check')+' خلّصت'}</button>
+      <p class="q">انقلها لـ</p>${whereGrid('move',null,x.p,x.id)}
+      <p class="q">يتكرر؟</p>${seg('trep',[['once','مرة وحدة'],['daily','كل يوم'],['work','أيام الدوام']],x.rep||'once')}
+      <p class="q">نبّهني؟</p>${seg('trem',[['none','لا'],['start','بأول القسم']],x.remind?'start':'none')}
+      <button class="ghost danger" data-act="del" data-id="${x.id}">${S.sure===x.id?'اضغط مرة ثانية حتى تنحذف':'احذفها'}</button></div></div>`;
+  }
+  return '';
+}
+
+function settingsView(){
+  const row=(k,icon,a,b)=>`<button class="navrow" data-act="soon"><span class="tile sm p-${k}">${ic(icon)}</span><span>${a}<small>${b}</small></span>${ic('chev','chev')}</button>`;
+  return `${status()}<div class="scroll">
+    <div class="top"><div><h2>الإعدادات</h2><small>كلشي يبقى بتلفونك</small></div><button class="iconbtn" data-act="back" aria-label="رجوع لليوم">${ic('chev')}</button></div>
+    <div class="list">
+      ${row('isha','alarm','المنبّهات والتنبيهات','الصحيان 04:28 · الدواء 07:00 · تنبيه الصلاة')}
+      ${row('night','night','الليل والنوم','تنام 21:00 · صلاة الليل إذا يكفي نومك')}
+      ${row('morning','week','الأسبوع','شكد خلّصت كل يوم')}
+      ${row('maghrib','page','محاسبة المساء','دقيقة وحدة قبل النوم')}
+      ${row('fajr','pin','مدينتك والحساب','السليمانية · الهيئة المصرية · العصر شافعي')}
+    </div>
+    <p class="q">أيام الدوام</p>
+    <div class="days" role="group" aria-label="أيام الدوام">${DAYN.map((d,i)=>`<button data-act="wday" data-v="${i}" aria-pressed="${S.workDays.has(i)}">${d}</button>`).join('')}</div>
+  </div>`;
+}
+
+function lockView(){
+  const cur=partAt(S.now), k=cur?cur.k:'night', list=cur?inPart(cur.k).filter(x=>!x.done):[];
+  const prog=cur?Math.round(100*(S.now-cur.s)/(cur.e-cur.s)):0;
+  return `<div class="lock">
+    <div class="clock num">${clk(S.now)}</div><div class="date">الإثنين 2 تشرين الثاني</div>
+    ${cur?`<div class="notif"><div class="app"><i>ي</i>يوم · ${num(clk(cur.s))}</div>
+      <div class="nb"><span class="tile p-${k}">${ic(k)}</span><div><b>${cur.name}</b><p>${list.length?list.map(x=>esc(x.t)).join(' · '):'ماكو شي بهالقسم'}</p></div></div>
+      <div class="acts">${list[0]?`<span>خلّصت «${esc(list[0].t)}»</span>`:''}<span>افتح</span></div></div>
+    ${cur.pr?`<div class="notif"><div class="app"><i>ي</i>يوم · ${num(clk(cur.s))}</div><div class="nb"><span class="tile p-${k}">${ic(k)}</span><div><b>وكت صلاة ${cur.pr}</b><p>${num(clk(cur.s))}</p></div></div><div class="acts"><span>صلّيت</span></div></div>`:''}
+    <div class="widget p-${k}"><span class="wt2">الأداة على الشاشة الرئيسية (لاحقاً)</span><b>${cur.name}</b>
+      <div class="bar"><i style="width:${prog}%"></i></div><p>${cur.endName} ${num(clk(cur.e))} · ${list.length} شغلات باقية</p></div>`
+    :`<div class="notif"><div class="app"><i>ي</i>يوم · ${num(clk(WAKE))}</div><div class="nb"><span class="tile" style="background:#2B3470;color:#fff">${ic('alarm')}</span><div><b>منبّه الصحيان ${num(clk(WAKE))}</b><p>لصلاة الليل قبل الفجر</p></div></div><div class="acts"><span>غفوة 5 دقايق</span><span>صحيت</span></div></div>`}
+  </div>`;
+}
+
+const SUGG=[['قرآن','fajr'],['مشي','morning'],['قيلولة قصيرة','dhuhr'],['رياضة','asr'],['وقت ويّا الأهل','maghrib'],['قراءة','isha']];
+let picked=new Set(['رياضة','وقت ويّا الأهل']);
+function onbView(){
+  const steps=`<div class="steps" aria-label="الخطوة ${S.onb} من 3">${[1,2,3].map(i=>`<i class="${i<=S.onb?'on':''}"></i>`).join('')}</div>`;
+  const skip=`<button class="skip" data-act="onbdone">تخطّى</button>`;
+  let b='';
+  if(S.onb===1)b=`${skip}<h2>هلا بيك بـ«يوم»</h2><p class="lead">يرتّب يومك بين الصلوات، ويذكّرك بوكت كل شي. كلشي يبقى بتلفونك، بلا حساب وبلا إعلانات.</p>
+    ${rail(PARTS[3],false)}
+    <button class="navrow" data-act="soon"><span class="tile sm p-fajr">${ic('pin')}</span><span>مدينتك<small>السليمانية، من موقعك التقريبي</small></span><b style="color:var(--fajr-t)">غيّر</b></button>
+    <button class="big ink" data-act="onbnext">التالي</button>`;
+  if(S.onb===2)b=`${skip}<h2>شوكت تنام؟</h2><p class="lead">حتى نحسب نومك وصلاة الليل.</p>
+    <div class="clockpick"><button data-act="bed" data-v="-15" aria-label="أبكر ربع ساعة">${ic('minus')}</button><span class="v num">${clk(S.bed)}</span><button data-act="bed" data-v="15" aria-label="أتأخر ربع ساعة">${ic('plus')}</button></div>
+    <p class="q">عندك دوام أو دراسة بساعة ثابتة؟</p>${seg('work',[['yes','إي، 08:00 إلى 14:00'],['no','لا']],S.work?'yes':'no')}
+    <button class="big ink" data-act="onbnext">التالي</button>`;
+  if(S.onb===3)b=`${skip}<h2>تريد شي كل يوم؟</h2><p class="lead">اضغط اللي يعجبك. تكدر تضيف وتغيّر بعدين.</p>
+    <div class="sugg">${SUGG.map(([t,k])=>`<button class="sg p-${k}" data-act="sugg" data-v="${t}" aria-pressed="${picked.has(t)}"><span class="mark">${ic('check')}</span><span>${t}<small>${PNAME(k)}</small></span>${ic(k)}</button>`).join('')}</div>
+    <button class="ghost" data-act="soon">${ic('bell')} اسمح بالتنبيهات</button>
+    <button class="big ink" data-act="onbdone">وريني يومي</button>`;
+  return `${status()}<div class="scroll"><div class="onb">${steps}${b}</div></div>`;
+}
+
+const NOTES={
+ app:['الصفحة الوحيدة',[
+  ['لون الوكت','اللوح الكبير فوك ياخذ لون القسم اللي إنت بيه. غيّر الساعة من فوك وشوف: الصبح أزرق، الظهر ذهبي، العصر برتقالي، المغرب أحمر، العشاء كحلي، والليل أسود مزرق.'],
+  ['سكة الصلوات','ست مربعات بأول الصفحة: يومك كله بنظرة. اللي فات رمادي وعليه ✓ إذا صلّيت، واللي إنت بيه مليان بلونه وتحته خط يمشي ويّا الوكت. اضغط أي مربع ينزلك لقسمه.'],
+  ['زر «صلّيت» واضح','أبيض على لون القسم، بنفس المكان كل مرة. لما تضغطه يصير أخضر.'],
+  ['دائرة كبيرة لكل شغلة','الدائرة بحجم إصبع. تضغطها تصير خضرة وعليها ✓، والشغلة تنشطب.'],
+  ['زرين تحت دايماً','«+ أضف» بلون الوكت، و«منبّه» بالأسود. ما تحتاج تدور.'],
+  ['الليل بلوح غامق','وكت نومك وصحيانك بأرقام كبيرة، والمنبّهات بمفاتيح كبيرة تشغّل وتطفي.']]],
+ lock:['شاشة القفل',[
+  ['إشعار واحد بأول كل قسم','بمربع لونه لون القسم، فتعرف من بعيد شنو الإشعار. وتكدر تكول «خلّصت» من الإشعار.'],
+  ['منبّه الصحيان','بالليل: الإشعار يكلك وكت الصحيان، وبيه «غفوة» و«صحيت».'],
+  ['الأداة (لاحقاً)','نفس اللوح الملوّن بصغير على الشاشة الرئيسية. مسجلة «لاحقاً»، والقرار إلك.']]],
+ onb:['أول مرة',[
+  ['3 خطوات بس','مدينتك، شوكت تنام وعندك دوام، وشنو تريد كل يوم. و«تخطّى» بكل خطوة.'],
+  ['تشوف سكة صلواتك من أول شاشة','حتى تعرف شنو التطبيق قبل ما تجاوب على أي سؤال.'],
+  ['الاقتراحات مربعات ملوّنة','كل اقتراح بلون قسمه، تضغطه يتعلّم بـ✓ أخضر.']]],
+ settings:['الإعدادات',[
+  ['خمس صفوف بس','كل صف بمربع ملوّن وأيقونة، وتحته سطر يكلك شنو مضبوط هسه.'],
+  ['أيام الدوام','أزرار أيام كبيرة. المعلّم أسود.']]],
+};
+function renderNotes(){
+  const [scr,list]=NOTES[S.view];
+  document.getElementById('notesScr').textContent='الشاشة اللي تشوفها: '+scr;
+  document.getElementById('notes').innerHTML=list.map(([a,b])=>`<div class="why"><b>${a}</b><span>${b}</span></div>`).join('');
+}
+function render(resetScroll){
+  const sc=phone.querySelector('.scroll'), top=sc?sc.scrollTop:0;
+  phone.innerHTML=(S.view==='lock'?lockView():S.view==='onb'?onbView():S.view==='settings'?settingsView():appView()+sheetView())
+    +(S.toast?`<div class="toast" role="status"><span class="ok2">${ic('check')}</span>${S.toast}</div>`:'');
+  const sc2=phone.querySelector('.scroll'); if(sc2&&!resetScroll)sc2.scrollTop=top;
+  renderNotes();
+}
+let tt;function toast(m){S.toast=m;render();clearTimeout(tt);tt=setTimeout(()=>{S.toast=null;render()},2400)}
+const refreshUnder=()=>{const u=document.getElementById('under');if(u)u.innerHTML=addUnder();const h=document.getElementById('sh');if(h)h.textContent=draftState().isAlarm?'منبّه جديد':'شنو تريد تسوي؟'};
+
+phone.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b)return;
+  const a=b.dataset.act, id=+b.dataset.id;
+  if(a==='close'&&e.target!==b)return;
+  const th=()=>S.things.find(x=>x.id===id);
+  switch(a){
+    case 'tick':{const x=th();x.done=!x.done;if(S.sheet==='open')S.sheet=null;if(x.done)toast('تم ✓ خلّصت «'+esc(x.t)+'»');else render();break}
+    case 'open':S.sel=id;S.sure=null;S.sheet='open';render();break;
+    case 'pray':{const k=b.dataset.k;S.prayed.has(k)?S.prayed.delete(k):S.prayed.add(k);render();break}
+    case 'wake':S.wake=!S.wake;render();break;
+    case 'past':S.showPast=!S.showPast;render();break;
+    case 'goto':{const k=b.dataset.k;const cur=partAt(S.now);const past=cur&&PARTS.findIndex(p=>p.k===k)<PARTS.indexOf(cur);
+      if(past&&!S.showPast){S.showPast=true;render()}
+      const el=phone.querySelector(cur&&cur.k===k?'#now':'#part-'+k)||phone.querySelector('#now');
+      el&&el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});break}
+    case 'add':case 'addalarm':S.sheet='add';S.draft='';S.draftPart=b.dataset.p||null;S.draftRemind=null;S.draftRep=null;S.draftAt=null;S.draftMode=a==='addalarm'?'alarm':null;render();setTimeout(()=>{const i=document.getElementById('draft');i&&i.focus()},60);break;
+    case 'dpart':S.draftPart=b.dataset.v;refreshUnder();break;
+    case 'drem':S.draftRemind=b.dataset.v;refreshUnder();break;
+    case 'drep':S.draftRep=b.dataset.v;refreshUnder();break;
+    case 'dat':{const d=draftState();S.draftAt=(d.at+ +b.dataset.v+1440)%1440;refreshUnder();break}
+    case 'alsw':{if(b.dataset.id==='wake')S.wake=!S.wake;else{const al=S.alarms.find(x=>x.id==b.dataset.id);al.on=!al.on}render();break}
+    case 'save':{const d=draftState(),p=d.p;
+      if(d.isAlarm){S.alarms.push({id:Date.now(),l:p.title||'منبّه',at:d.at,rep:d.rep,on:true});S.sheet=null;
+        toast('المنبّه '+clk(d.at)+' · '+REPN[d.rep]+(d.passed?' · أول مرة باچر':''));break}
+      if(!p.title)return;const part=S.draftPart||p.part||(partAt(S.now)||PARTS[0]).k;
+      const rem=S.draftRemind||(p.at!=null?'time':'none');
+      S.things.push({id:Date.now(),t:p.title,p:part,at:p.at,rep:part==='later'?'once':d.rep,remind:rem==='none'?null:rem,done:false});S.sheet=null;
+      toast('انحطّت: '+PNAME(part)+(p.at!=null?' · '+clk(p.at):'')+(d.rep!=='once'&&part!=='later'?' · '+REPN[d.rep]:''));break}
+    case 'move':{th().p=b.dataset.v;S.sheet=null;toast('انتقلت لـ'+PNAME(b.dataset.v));break}
+    case 'trep':{const x=S.things.find(t=>t.id===S.sel);x.rep=b.dataset.v;render();break}
+    case 'trem':{const x=S.things.find(t=>t.id===S.sel);x.remind=b.dataset.v==='none'?null:'start';render();break}
+    case 'del':if(S.sure===id){S.things=S.things.filter(x=>x.id!==id);S.sheet=null;S.sure=null;toast('انحذفت')}else{S.sure=id;render()}break;
+    case 'settings':setView('settings');break;
+    case 'back':setView('app');break;
+    case 'wday':{const v=+b.dataset.v;S.workDays.has(v)?S.workDays.delete(v):S.workDays.add(v);render();break}
+    case 'soon':toast('بالنسخة الكاملة تنفتح صفحتها');break;
+    case 'sugg':{const v=b.dataset.v;picked.has(v)?picked.delete(v):picked.add(v);render();break}
+    case 'bed':S.bed=Math.min(23*60+30,Math.max(19*60+30,S.bed+ +b.dataset.v));render();break;
+    case 'work':S.work=b.dataset.v==='yes';render();break;
+    case 'onbnext':S.onb++;render(true);break;
+    case 'onbdone':setView('app');break;
+    case 'close':S.sheet=null;render();break;
+  }
+});
+phone.addEventListener('input',e=>{if(e.target.dataset.act==='draft'){S.draft=e.target.value;S.draftPart=null;S.draftRemind=null;S.draftRep=null;S.draftAt=null;refreshUnder()}});
+phone.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.act==='draft'){e.preventDefault();phone.querySelector('[data-act="save"]').click()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.sheet){S.sheet=null;render()}});
+
+function setView(v){S.view=v;S.sheet=null;if(v==='onb')S.onb=1;
+  document.querySelectorAll('.try[data-view]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.view===v));render(true)}
+document.querySelectorAll('.try[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+const times=document.getElementById('times');
+times.insertAdjacentHTML('beforeend',TIMES.map(([m,l])=>{const p=partAt(m);return `<button class="try p-${p?p.k:'night'}" data-t="${m}" aria-pressed="${m===S.now}"><i class="sw8"></i><span class="num">${l}</span> ${p?p.name:'الليل'}</button>`}).join(''));
+times.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>{
+  S.now=+b.dataset.t;S.showPast=false;
+  times.querySelectorAll('[data-t]').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  if(S.view==='onb'||S.view==='settings')setView('app');else render(true);
+}));
+document.querySelectorAll('[data-theme-set]').forEach(b=>b.addEventListener('click',()=>{
+  const v=b.dataset.themeSet; if(v)document.documentElement.setAttribute('data-theme',v);else document.documentElement.removeAttribute('data-theme');
+  document.querySelectorAll('[data-theme-set]').forEach(x=>x.setAttribute('aria-pressed',x===b));
+}));
+document.getElementById('legend').innerHTML=PARTS.map(p=>`<span class="p-${p.k}"><i></i>${p.name}</span>`).join('')+`<span class="p-night"><i></i>الليل</span>`;
+render(true);
+})();
+</script>

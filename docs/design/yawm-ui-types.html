@@ -1,0 +1,627 @@
+<title>يوم · ست واجهات</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@700;800;900&display=swap">
+<style>
+/* Six different ways to use the same day: a dial, swipe cards, a calendar, a chat, a bento board,
+   one thing at a time. The page is neutral; each phone has its own layout, interaction and palette. */
+:root{
+  --pg:#ECEDEF; --pg-card:#FFFFFF; --pg-ink:#16171B; --pg-grey:#5C5F66; --pg-line:#D9DBE0;
+  --kufi:"Noto Kufi Arabic","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --plex:"IBM Plex Sans Arabic","Noto Sans Arabic",Tahoma,sans-serif;
+  --fajr:#3E3FA8; --morning:#0F6CB6; --dhuhr:#F4B41A; --asr:#C2501A; --maghrib:#B8322C; --isha:#1E2A6E; --night:#0C1233;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pg:#08090B;--pg-card:#15171C;--pg-ink:#EEEFF2;--pg-grey:#A3A6AE;--pg-line:#2A2D35;color-scheme:dark}}
+:root[data-theme="dark"]{--pg:#08090B;--pg-card:#15171C;--pg-ink:#EEEFF2;--pg-grey:#A3A6AE;--pg-line:#2A2D35;color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{background:var(--pg);color:var(--pg-ink);font-family:var(--plex);font-size:17px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--pg-ink);outline-offset:3px}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:1500px;margin:0 auto;display:grid;gap:26px}
+.wrap>*{min-width:0}
+.intro{display:grid;gap:8px;max-width:800px}
+.intro .k{font-weight:600;color:var(--pg-grey);font-size:15px}
+.intro h1{font-family:var(--kufi);font-weight:900;font-size:clamp(30px,5vw,44px);line-height:1.35;margin:0;text-wrap:balance}
+.intro p{margin:0;font-size:18px;max-width:64ch}
+.controls{display:grid;gap:12px}
+.ctl{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.ctl>b{font-size:15px;color:var(--pg-grey);min-width:6em}
+.try{min-height:48px;padding:0 14px;border-radius:14px;background:var(--pg-card);border:2px solid var(--pg-line);font-weight:600;font-size:16px;display:inline-flex;align-items:center;gap:8px}
+.try[aria-pressed="true"]{background:var(--pg-ink);color:var(--pg);border-color:var(--pg-ink)}
+.try .ic{width:20px;height:20px}
+.one{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:36px;align-items:start}
+@media (max-width:920px){.one{grid-template-columns:minmax(0,1fr)}}
+.all{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:30px 22px}
+.cell{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;justify-items:center;min-width:0}
+.cell>h3{margin:0;font-family:var(--kufi);font-weight:800;font-size:21px;line-height:1.4}
+.cell>p{margin:-6px 0 0;font-size:15px;color:var(--pg-grey);text-align:center;max-width:34ch}
+.device{width:min(100%,400px);justify-self:center;background:#0A0B0E;border-radius:50px;padding:9px;box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}
+.all .device{width:min(100%,370px)}
+.notes{display:grid;gap:14px;align-content:start}
+.notes h2{font-family:var(--kufi);font-weight:900;font-size:28px;line-height:1.4;margin:0}
+.notes .lead{margin:-6px 0 0;font-size:18px}
+.box{display:grid;gap:4px;padding:14px 16px;border-radius:18px;background:var(--pg-card);border:2px solid var(--pg-line)}
+.box b{font-size:17px}
+.box span,.box li{font-size:16px;color:var(--pg-grey)}
+.box ul{margin:0;padding-inline-start:20px}
+.tablewrap{overflow-x:auto;border-radius:18px;border:2px solid var(--pg-line);background:var(--pg-card)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:16px;line-height:1.6}
+th,td{text-align:start;padding:12px 14px;border-bottom:1.5px solid var(--pg-line);vertical-align:top}
+th{font-size:15px;color:var(--pg-grey)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.rec{padding:18px;border-radius:22px;background:var(--pg-ink);color:var(--pg);display:grid;gap:6px;max-width:900px}
+.rec b{font-family:var(--kufi);font-size:20px;font-weight:800}
+.rec p{margin:0;font-size:17px}
+.foot{font-size:15px;color:var(--pg-grey);max-width:85ch;margin:0}
+
+/* ===== phone basics, shared by all six ===== */
+.ph{position:relative;height:800px;max-height:calc(100vh - 30px);min-height:640px;border-radius:41px;overflow:hidden;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;isolation:isolate;font-family:var(--plex)}
+.all .ph{height:740px}
+.status{height:38px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:6px 26px 0;font-size:15px;font-weight:600}
+.scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;min-height:0}
+.scroll::-webkit-scrollbar{display:none}
+.ic{width:24px;height:24px;flex:none;fill:currentColor;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ic .s{fill:none}
+.chk{width:30px;height:30px;border-radius:50%;border:2.5px solid var(--accT);display:grid;place-items:center;flex:none}
+.chk svg{width:17px;height:17px;stroke-width:3.4;color:var(--on);opacity:0}
+.done .chk{background:var(--acc);border-color:var(--acc)}
+.done .chk svg{opacity:1}
+.done .tt{color:var(--grey);text-decoration:line-through;text-decoration-thickness:2px}
+.btn{min-height:56px;border-radius:18px;background:var(--acc);color:var(--on);font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 18px;transition:transform .08s}
+.btn:active{transform:scale(.96)}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.toast{position:absolute;inset:auto 16px 96px 16px;z-index:30;background:var(--ink);color:var(--bg);border-radius:16px;padding:14px 16px;font-weight:700;font-size:17px;animation:up .2s ease-out}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:20;display:flex;align-items:flex-end}
+.sheet{width:100%;max-height:90%;overflow-y:auto;background:var(--bg);color:var(--ink);border-radius:28px 28px 0 0;padding:12px 16px 20px;display:grid;gap:12px;animation:up .2s ease-out}
+.sheet h3{margin:0;font-family:var(--kufi);font-weight:800;font-size:23px;line-height:1.4}
+.field{width:100%;min-height:58px;border-radius:16px;border:2px solid var(--line);background:var(--card);padding:0 16px;font-size:19px;font-weight:600;outline:none;color:var(--ink)}
+.field:focus{border-color:var(--accT)}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{min-height:48px;padding:0 14px;border-radius:14px;background:var(--soft);color:var(--ink);font-weight:700;font-size:15px}
+.pill[aria-pressed="true"]{background:var(--acc);color:var(--on)}
+.q{margin:0;font-weight:700;font-size:16px}
+
+/* ===== 1. الساعة: a 24-hour dial ===== */
+.ph[data-u="dial"]{--bg:#FFFFFF;--card:#F3F4FB;--ink:#12153A;--grey:#585C78;--line:#DFE2F2;--acc:#3B45C4;--on:#FFFFFF;--accT:#3B45C4;--soft:#ECEEFB}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ph[data-u="dial"]{--bg:#0D0F1F;--card:#171A33;--ink:#ECEEFB;--grey:#A5A9C7;--line:#262A4A;--acc:#8E96FF;--on:#0D0F1F;--accT:#9EA5FF;--soft:#1B1F3D}}
+:root[data-theme="dark"] .ph[data-u="dial"]{--bg:#0D0F1F;--card:#171A33;--ink:#ECEEFB;--grey:#A5A9C7;--line:#262A4A;--acc:#8E96FF;--on:#0D0F1F;--accT:#9EA5FF;--soft:#1B1F3D}
+.dial .scroll{padding:0 16px 100px;display:flex;flex-direction:column;gap:12px}
+.dhead{display:flex;justify-content:space-between;align-items:baseline}
+.dhead h2{margin:0;font-family:var(--kufi);font-weight:900;font-size:24px}
+.dhead small{color:var(--grey);font-size:15px}
+.dialsvg{width:min(100%,340px);height:auto;aspect-ratio:1/1;flex:none;align-self:center;display:block}
+.dialsvg .arc{fill:none;stroke-width:30;cursor:pointer;transition:stroke-width .15s}
+.dialsvg .arc.sel{stroke-width:40}
+.dialsvg .tick{stroke:var(--line);stroke-width:2}
+.dialsvg .lbl{font-size:14px;font-weight:700;fill:var(--grey);font-family:var(--plex)}
+.dialsvg .mark{fill:var(--ink);stroke:var(--bg);stroke-width:4}
+.dialsvg .marklbl{font-size:14px;font-weight:700;fill:var(--bg);font-family:var(--plex)}
+.dialsvg .hub{fill:var(--ink)}
+.dialsvg text{direction:rtl}
+.dialsvg .c1{font-family:var(--kufi);font-weight:900;font-size:24px;fill:var(--ink)}
+.dialsvg .c2{font-size:15px;font-weight:600;fill:var(--grey);font-family:var(--plex)}
+.panel{flex:none;background:var(--card);border-radius:24px;padding:14px;display:grid;gap:10px}
+.panel .ph2{display:flex;align-items:center;gap:10px}
+.panel .ph2 i{width:14px;height:14px;border-radius:50%;flex:none}
+.panel h4{margin:0;flex:1;font-family:var(--kufi);font-weight:800;font-size:21px;line-height:1.4}
+.panel h4 small{display:block;font-family:var(--plex);font-size:15px;font-weight:500;color:var(--grey)}
+.row{display:flex;align-items:center;gap:12px;min-height:56px;width:100%;text-align:start;border-radius:16px;background:var(--bg);padding:0 12px;font-size:17px;font-weight:600}
+.row .tt{flex:1}
+.row .meta{font-size:14px;color:var(--grey);font-weight:600}
+.fabbar{position:absolute;inset:auto 0 0 0;padding:16px 16px 16px;display:flex;gap:8px;z-index:5;background:linear-gradient(to top,var(--bg) 72%,transparent)}
+.fabbar .btn{flex:1}
+
+/* ===== 2. بطاقات: one full card per part, swipe sideways ===== */
+.ph[data-u="cards"]{--bg:#0B0B0F;--card:#1A1A20;--ink:#F4F4F6;--grey:#A9A9B3;--line:#2B2B33;--acc:#F4F4F6;--on:#0B0B0F;--accT:#F4F4F6;--soft:#24242C;color-scheme:dark}
+.cards .jump{display:flex;gap:4px;padding:4px 12px 10px;overflow-x:auto;scrollbar-width:none;flex:none}
+.cards .jump button{flex:1 0 auto;min-height:48px;padding:0 10px;border-radius:14px;background:var(--soft);color:var(--grey);font-weight:700;font-size:14px}
+.cards .jump button[aria-current="true"]{background:var(--ink);color:var(--bg)}
+.deck{flex:1;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 16px 16px;scrollbar-width:none;min-height:0}
+.deck::-webkit-scrollbar{display:none}
+.pc{flex:0 0 calc(100% - 22px);scroll-snap-align:center;border-radius:30px;background:var(--c);color:var(--o);padding:20px 16px 16px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;scrollbar-width:none}
+.pc .when{font-size:16px;font-weight:700;opacity:.92;display:flex;justify-content:space-between}
+.pc h3{margin:0;font-family:var(--kufi);font-weight:900;font-size:44px;line-height:1.25}
+.pc .state{font-size:18px;font-weight:600;margin:-4px 0 0}
+.pc .pbar{height:10px;border-radius:6px;background:color-mix(in srgb,var(--o) 28%,transparent);overflow:hidden}
+.pc .pbar i{display:block;height:100%;background:var(--o)}
+.pc .bigrow{display:flex;align-items:center;gap:12px;min-height:62px;border-radius:18px;background:var(--wcard);color:#14161F;padding:0 12px;text-align:start;font-size:18px;font-weight:700;width:100%}
+.pc .bigrow .tt{flex:1}
+.pc .bigrow .chk{border-color:#14161F}
+.pc .bigrow.done .chk{background:#147A5C;border-color:#147A5C}
+.pc .bigrow.done .chk svg{color:#fff}
+.pc .bigrow.done .tt{color:#5E6270}
+.pc .bigrow em{font-style:normal;font-size:15px;min-height:44px;padding:0 14px;border-radius:12px;background:#14161F;color:#fff;display:grid;place-items:center}
+.pc .bigrow[aria-pressed="true"] em{background:#147A5C}
+.pc .addc{min-height:54px;border-radius:18px;border:2.5px dashed color-mix(in srgb,var(--o) 55%,transparent);color:var(--o);font-weight:700;font-size:17px}
+.pc .nothing{font-size:17px;opacity:.9;margin:0}
+.p-fajr{--c:var(--fajr);--o:#fff;--wcard:#fff}.p-morning{--c:var(--morning);--o:#fff;--wcard:#fff}.p-dhuhr{--c:var(--dhuhr);--o:#1B1300;--wcard:#fff}
+.p-asr{--c:var(--asr);--o:#fff;--wcard:#fff}.p-maghrib{--c:var(--maghrib);--o:#fff;--wcard:#fff}.p-isha{--c:var(--isha);--o:#fff;--wcard:#fff}.p-night{--c:#1B1F3A;--o:#fff;--wcard:#fff}
+
+/* ===== 3. تقويم: the day as hours, like a calendar ===== */
+.ph[data-u="cal"]{--bg:#FFFFFF;--card:#F3F6F4;--ink:#111B17;--grey:#56645E;--line:#E2E8E5;--acc:#11715A;--on:#FFFFFF;--accT:#0E6650;--soft:#E2F0EA;--nowc:#C62828;--nowo:#FFFFFF}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ph[data-u="cal"]{--bg:#0C1411;--card:#14201B;--ink:#E7F1ED;--grey:#9AAEA6;--line:#1F2D27;--acc:#3CC29A;--on:#04150F;--accT:#5FD3AE;--soft:#16302A;--nowc:#FF6B62;--nowo:#1A0505}}
+:root[data-theme="dark"] .ph[data-u="cal"]{--bg:#0C1411;--card:#14201B;--ink:#E7F1ED;--grey:#9AAEA6;--line:#1F2D27;--acc:#3CC29A;--on:#04150F;--accT:#5FD3AE;--soft:#16302A;--nowc:#FF6B62;--nowo:#1A0505}
+.cal .chead{display:flex;justify-content:space-between;align-items:center;padding:0 16px 10px;border-bottom:1.5px solid var(--line);flex:none}
+.cal .chead h2{margin:0;font-family:var(--kufi);font-weight:900;font-size:24px;line-height:1.3}
+.cal .chead small{display:block;color:var(--grey);font-size:15px}
+.cal .chead .btn{min-height:48px;font-size:16px;padding:0 14px;border-radius:14px}
+.grid{position:relative;margin:0 0 100px}
+.hr{position:absolute;inset-inline:0;border-top:1px solid var(--line);font-size:14px;color:var(--grey);font-weight:600}
+.hr>span{position:absolute;top:-11px;inset-inline-start:10px;background:var(--bg);padding:0 4px}
+.prl{position:absolute;inset-inline:52px 8px;border-top:2.5px solid var(--pcol);z-index:2}
+.prl button{position:absolute;top:-23px;inset-inline-start:0;min-height:44px;padding:0 10px;border-radius:10px;background:var(--pcol);color:var(--pon);font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px;line-height:1}
+.prl button .ic{width:15px;height:15px;stroke-width:3}
+.ev{position:absolute;inset-inline:60px 12px;border-radius:12px;background:var(--soft);border-inline-start:5px solid var(--acc);display:flex;align-items:center;gap:10px;padding:0 10px;text-align:start;font-size:16px;font-weight:600;z-index:1;overflow:hidden;min-height:48px}
+.ev .tt{flex:1;line-height:1.3}
+.ev small{color:var(--grey);font-size:14px;font-weight:600}
+.ev .chk{width:26px;height:26px}
+.nowl{position:absolute;inset-inline:44px 0;border-top:2.5px solid var(--nowc);z-index:3;pointer-events:none}
+.nowl::before{content:"";position:absolute;top:-7px;inset-inline-start:-6px;width:12px;height:12px;border-radius:50%;background:var(--nowc)}
+.nowl>span{position:absolute;top:-12px;inset-inline-end:8px;background:var(--nowc);color:var(--nowo);font-size:14px;font-weight:700;border-radius:8px;padding:0 8px;line-height:22px}
+.nightband{position:absolute;inset-inline:52px 8px;border-radius:12px;background:var(--night);color:#fff;padding:8px 12px;font-size:15px;font-weight:600;z-index:1}
+
+/* ===== 4. محادثة: the day as a chat (warm colours, like Claude's) ===== */
+.ph[data-u="chat"]{--bg:#F4F0E8;--card:#FFFFFF;--ink:#2A2521;--grey:#6B6158;--line:#E3DACD;--acc:#B4532F;--on:#FFFFFF;--accT:#9C4424;--soft:#F1E1D3}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ph[data-u="chat"]{--bg:#1E1C19;--card:#292622;--ink:#F1EBE2;--grey:#ABA196;--line:#38332D;--acc:#E0896A;--on:#24130B;--accT:#E89A7C;--soft:#3A2B23}}
+:root[data-theme="dark"] .ph[data-u="chat"]{--bg:#1E1C19;--card:#292622;--ink:#F1EBE2;--grey:#ABA196;--line:#38332D;--acc:#E0896A;--on:#24130B;--accT:#E89A7C;--soft:#3A2B23}
+.chat .chd{display:flex;align-items:center;gap:10px;padding:0 16px 10px;border-bottom:1.5px solid var(--line);flex:none}
+.chat .av{width:44px;height:44px;border-radius:14px;background:var(--acc);color:var(--on);display:grid;place-items:center;font-family:var(--kufi);font-weight:900;font-size:20px}
+.chat .chd b{display:block;font-size:18px;line-height:1.3}
+.chat .chd small{color:var(--grey);font-size:14px}
+.msgs{padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:86%;padding:10px 14px;border-radius:20px;font-size:17px;line-height:1.65;background:var(--card);border:1.5px solid var(--line);align-self:flex-end;border-end-end-radius:6px}
+.msg.me{align-self:flex-start;background:var(--acc);color:var(--on);border-color:var(--acc);border-end-end-radius:20px;border-end-start-radius:6px}
+.msg b{font-weight:700}
+.msg .big{font-family:var(--kufi);font-weight:900;font-size:26px;line-height:1.35;display:block}
+.msg .ck{display:flex;align-items:center;gap:10px;min-height:52px;width:100%;text-align:start;font-size:17px;font-weight:600;border-top:1.5px solid var(--line)}
+.msg .ck:first-of-type{border-top:0}
+.msg .ck .tt{flex:1}
+.replies{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-end;justify-content:flex-end;max-width:92%}
+.replies button{min-height:46px;padding:0 14px;border-radius:999px;border:2px solid var(--accT);color:var(--accT);font-weight:700;font-size:15px;background:var(--bg)}
+.composer{flex:none;padding:8px 12px 14px;border-top:1.5px solid var(--line);display:grid;gap:8px;background:var(--bg)}
+.sugs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.sugs button{flex:none;min-height:44px;padding:0 12px;border-radius:999px;background:var(--soft);color:var(--ink);font-weight:600;font-size:14px}
+.inrow{display:flex;gap:8px}
+.inrow input{flex:1;min-width:0;min-height:54px;border-radius:999px;border:2px solid var(--line);background:var(--card);padding:0 18px;font-size:17px;outline:none;color:var(--ink)}
+.inrow input:focus{border-color:var(--accT)}
+.inrow .send{width:54px;height:54px;border-radius:50%;background:var(--acc);color:var(--on);display:grid;place-items:center;flex:none}
+.inrow .send .ic{transform:scaleX(-1)}
+
+/* ===== 5. لوحة: a board of tiles ===== */
+.ph[data-u="bento"]{--bg:#0A0A0C;--card:#17171C;--ink:#F2F2F5;--grey:#A1A1AA;--line:#26262D;--acc:#F2F2F5;--on:#0A0A0C;--accT:#F2F2F5;--soft:#222229;color-scheme:dark}
+.bento .scroll{padding:0 12px 100px}
+.bento .bh{display:flex;justify-content:space-between;align-items:baseline;padding:0 4px 10px}
+.bento .bh h2{margin:0;font-family:var(--kufi);font-weight:900;font-size:24px}
+.bento .bh small{color:var(--grey);font-size:15px}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tile{border-radius:24px;background:var(--card);padding:14px;display:grid;gap:6px;align-content:start;text-align:start;min-height:120px;color:var(--ink)}
+.tile.wide{grid-column:span 2}
+.tile .tl{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--grey)}
+.tile .tl .ic{width:20px;height:20px;color:var(--tc,var(--grey))}
+.tile .v{font-family:var(--kufi);font-weight:900;font-size:30px;line-height:1.25}
+.tile .v.sm{font-size:22px}
+.tile .s{font-size:15px;color:var(--grey);font-weight:500;line-height:1.5}
+.tile.hero{background:var(--c);color:var(--o);min-height:200px}
+.tile.hero .tl,.tile.hero .s{color:var(--o);opacity:.92}
+.tile.hero .v{font-size:40px}
+.tile.hero .pbar{height:10px;border-radius:6px;background:color-mix(in srgb,var(--o) 28%,transparent);overflow:hidden;margin-top:4px}
+.tile.hero .pbar i{display:block;height:100%;background:var(--o)}
+.tile.hero .pr{margin-top:6px;min-height:52px;border-radius:16px;background:#fff;color:#14161F;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:space-between;padding:0 6px 0 14px}
+.tile.hero .pr em{font-style:normal;min-height:42px;padding:0 14px;border-radius:12px;background:#14161F;color:#fff;display:grid;place-items:center;font-size:15px}
+.tile.hero .pr[aria-pressed="true"] em{background:#147A5C}
+.tile .meter{display:flex;gap:4px;margin-top:4px}
+.tile .meter i{flex:1;height:10px;border-radius:5px;background:var(--soft)}
+.tile .meter i.on{background:#4FD1A5}
+.tile .tgl{justify-self:start;min-height:44px;padding:0 14px;border-radius:12px;background:var(--soft);font-weight:700;font-size:15px}
+.tile .tgl[aria-pressed="true"]{background:#4FD1A5;color:#06291D}
+.tile .row{background:var(--soft);min-height:54px}
+.tile .row .chk{border-color:#4FD1A5}
+.tile .row.done .chk{background:#4FD1A5;border-color:#4FD1A5}
+.tile .row.done .chk svg{color:#06291D}
+.ph[data-u="bento"] .btn{background:#F2F2F5;color:#0A0A0C}
+
+/* ===== 6. شغلة وحدة: one thing on the screen ===== */
+.ph[data-u="focus"]{--bg:#FFFFFF;--card:#F2F2F2;--ink:#000000;--grey:#4A4A4A;--line:#000000;--acc:#000000;--on:#FFFFFF;--accT:#000000;--soft:#EFEFEF}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ph[data-u="focus"]{--bg:#000000;--card:#151515;--ink:#FFFFFF;--grey:#B5B5B5;--line:#FFFFFF;--acc:#FFFFFF;--on:#000000;--accT:#FFFFFF;--soft:#1C1C1C}}
+:root[data-theme="dark"] .ph[data-u="focus"]{--bg:#000000;--card:#151515;--ink:#FFFFFF;--grey:#B5B5B5;--line:#FFFFFF;--acc:#FFFFFF;--on:#000000;--accT:#FFFFFF;--soft:#1C1C1C}
+.focus .fbody{flex:1;display:flex;flex-direction:column;padding:6px 20px 20px;gap:14px;min-height:0;overflow-y:auto;scrollbar-width:none}
+.focus .ftop{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:16px;border-bottom:2px solid var(--line);padding-bottom:10px}
+.focus .ftop span:last-child{color:var(--grey)}
+.focus .count{display:flex;gap:6px}
+.focus .count i{flex:1;height:8px;background:var(--soft)}
+.focus .count i.on{background:var(--ink)}
+.focus .lab{font-size:16px;font-weight:700;color:var(--grey);margin:18px 0 -10px}
+.focus .what{font-family:var(--kufi);font-weight:900;font-size:46px;line-height:1.3;margin:0;text-wrap:balance}
+.focus .sub{font-size:18px;color:var(--grey);margin:-6px 0 0}
+.focus .grow{flex:1;min-height:12px}
+.focus .main{min-height:76px;border-radius:8px;background:var(--acc);color:var(--on);font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center;gap:10px}
+.focus .main .ic{stroke-width:3;width:28px;height:28px}
+.focus .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.focus .sec{min-height:58px;border-radius:8px;border:2px solid var(--line);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:6px}
+.focus .next{border:2px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:2px}
+.focus .next small{color:var(--grey);font-size:15px;font-weight:600}
+.focus .next b{font-size:18px}
+.allday{display:grid;gap:6px}
+.allday .row{background:var(--card)}
+.allday h4{margin:8px 0 0;font-size:16px;color:var(--grey)}
+
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}.deck{scroll-behavior:auto}}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="k">نفس اليوم ونفس الشغلات (السليمانية، الإثنين 2 تشرين الثاني)، بست طرق مختلفة بالكامل</span>
+    <h1>ست واجهات، كل وحدة طريقة غير</h1>
+    <p>هنا ماكو بس لون يتغيّر. كل واجهة إلها ترتيب وطريقة استخدام: ساعة دائرية، بطاقات تسحبها، تقويم بالساعات، محادثة، لوحة مربعات، وشغلة وحدة بالشاشة. جرّب كل وحدة بإيدك.</p>
+  </header>
+  <div class="controls">
+    <div class="ctl" id="upick"><b>الواجهة</b></div>
+    <div class="ctl" id="times"><b>غيّر الساعة</b></div>
+    <div class="ctl"><b>الوضع</b>
+      <button class="try" data-theme-set="light" aria-pressed="false">فاتح</button>
+      <button class="try" data-theme-set="dark" aria-pressed="false">داكن</button>
+      <button class="try" data-theme-set="" aria-pressed="true">حسب التلفون</button>
+    </div>
+  </div>
+  <div id="stage"></div>
+  <section class="notes" aria-labelledby="cmp">
+    <h2 id="cmp">مقارنة</h2>
+    <div class="tablewrap"><table><thead><tr><th>الواجهة</th><th>شلون تستخدمها</th><th>أقوى شي بيها</th><th>أضعف شي</th><th>تناسب</th></tr></thead><tbody id="cmpBody"></tbody></table></div>
+    <div class="rec"><b>رأيي الصريح</b>
+      <p><b>الساعة</b> هي الأكثر تميّز. محد يسويها، وتربط اليوم بالصلاة بشكل يفهمه الكل بنظرة. أنصح بيها كواجهة رئيسية.</p>
+      <p><b>المحادثة</b> أسهل شي للإضافة: تكتب مثل ما تحجي. تكدر تصير طريقة «أضف» داخل أي واجهة.</p>
+      <p><b>الشغلة الوحدة</b> ممتازة للي يتشتت. تكدر تصير زر «ركّز» داخل الساعة.</p>
+      <p>يعني اقتراحي: الساعة للرئيسية، والمحادثة للإضافة، والشغلة الوحدة للتركيز. بس القرار إلك.</p></div>
+    <p class="foot">هذي نماذج للشكل بس، والتطبيق ما تغيّر. نفس الحساب: الصلاة والنوم وصلاة الليل. كل الأزرار بحجم إصبع، والكتابة مفحوصة للقراءة بالفاتح والداكن. المحادثة بألوان دافية مثل كلاود، بلا اسمه ولا شعاره. اللي تختاره نكمّله على باقي الشاشات قبل ما ينتقل للتطبيق.</p>
+  </section>
+</div>
+
+<script>
+(()=>{
+const ICONS={
+fajr:'<path d="M3.6 18a8.4 8.4 0 0 1 16.8 0z" opacity=".38" stroke="none"/><path class="s" d="M2.5 18.6h19M8.4 21.4h7.2"/><path d="M17.6 2.4l1 2.3 2.4.3-1.8 1.6.5 2.4-2.1-1.3-2.1 1.3.5-2.4-1.8-1.6 2.4-.3z" stroke="none"/>',
+morning:'<path d="M5.4 17.2a6.6 6.6 0 0 1 13.2 0z" stroke="none"/><path class="s" d="M2.5 20.5h19M12 2.8v4.4M9.4 5l2.6-2.4L14.6 5"/>',
+dhuhr:'<circle cx="12" cy="11" r="4.8" stroke="none"/><path class="s" d="M12 2.2v1.4M12 18.4v1.4M3.2 11h1.4M19.4 11h1.4M5.8 4.8l1 1M17.2 16.2l1 1M5.8 17.2l1-1M17.2 5.8l1-1M3 22h18"/>',
+asr:'<circle cx="7" cy="7.4" r="4.2" stroke="none"/><rect x="14.4" y="9" width="2.8" height="10.6" rx="1.2" stroke="none"/><path d="M16.4 18.4h5.6l-1.2 2.2h-4.4z" opacity=".45" stroke="none"/><path class="s" d="M2.5 20.6h12"/>',
+maghrib:'<path d="M5.4 15.6a6.6 6.6 0 0 1 13.2 0z" stroke="none"/><path class="s" d="M2.5 18.8h19M7 22h10M12 2.8v5.2M9.4 5.6L12 8.2l2.6-2.6"/>',
+isha:'<path d="M14.6 3.4A8.8 8.8 0 1 0 21 15.2a7 7 0 0 1-6.4-11.8z" stroke="none"/><path d="M18.6 2.6l.8 1.9 2 .2-1.5 1.3.5 2-1.8-1.1-1.8 1.1.5-2-1.5-1.3 2-.2z" stroke="none"/>',
+night:'<path d="M2.5 19.5V7.5M2.5 15h19v4.5M21.5 15v-2.2a3.2 3.2 0 0 0-3.2-3.2H11v5.4" class="s"/><circle cx="6.8" cy="11.6" r="2.3" stroke="none"/>',
+alarm:'<circle class="s" cx="12" cy="13" r="7.6"/><path class="s" d="M12 9v4.2l2.8 1.8M5.6 21l1.6-2M18.4 21l-1.6-2"/><path d="M2.6 7.2A4.4 4.4 0 0 1 7.6 3z M21.4 7.2A4.4 4.4 0 0 0 16.4 3z"/>',
+plus:'<path class="s" d="M12 4.5v15M4.5 12h15"/>',
+check:'<path class="s" d="M5 12.5l4.6 4.6L19.4 7.4"/>',
+send:'<path d="M3.4 11.2L20 3.6c.6-.3 1.2.3.9.9L13.3 21.1c-.3.7-1.3.6-1.5-.1l-1.9-6.3a1 1 0 0 0-.6-.6L3 12.2c-.7-.2-.8-1.2-.1-1.5z" stroke="none"/>',
+list:'<path class="s" d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.6" stroke="none"/><circle cx="4.5" cy="12" r="1.6" stroke="none"/><circle cx="4.5" cy="18" r="1.6" stroke="none"/>',
+calendar:'<rect class="s" x="3.4" y="5" width="17.2" height="15.6" rx="3.4"/><path class="s" d="M8 2.8v4M16 2.8v4"/><path d="M3.4 8.4A3.4 3.4 0 0 1 6.8 5h10.4a3.4 3.4 0 0 1 3.4 3.4V10H3.4z" stroke="none"/><rect x="13.4" y="13.4" width="4" height="4" rx="1" stroke="none"/>',
+dial:'<circle class="s" cx="12" cy="12" r="8.8"/><path class="s" d="M12 12l4-5"/><circle cx="12" cy="12" r="2" stroke="none"/>',
+cards:'<rect class="s" x="6" y="3.5" width="12" height="17" rx="2.6"/><path class="s" d="M3 6.5v11M21 6.5v11"/>',
+chat:'<path d="M4 5.6A2.6 2.6 0 0 1 6.6 3h10.8A2.6 2.6 0 0 1 20 5.6v8.8a2.6 2.6 0 0 1-2.6 2.6H10l-4.6 4v-4H6.6A2.6 2.6 0 0 1 4 14.4z" class="s"/>',
+bento:'<rect class="s" x="3.4" y="3.4" width="17.2" height="7.6" rx="2"/><rect class="s" x="3.4" y="13.8" width="7.4" height="6.8" rx="2"/><rect class="s" x="13.4" y="13.8" width="7.2" height="6.8" rx="2"/>',
+focus:'<circle class="s" cx="12" cy="12" r="8.8"/><circle class="s" cx="12" cy="12" r="4.4"/><circle cx="12" cy="12" r="1.4" stroke="none"/>',
+later:'<path class="s" d="M14.5 5.5L8 12l6.5 6.5"/>'
+};
+const ic=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||''}</svg>`;
+const pad=n=>String(n).padStart(2,'0');
+const clk=m=>{m=((m%1440)+1440)%1440;return pad(Math.floor(m/60))+':'+pad(m%60)};
+const num=s=>`<span class="num">${s}</span>`;
+const hm=m=>Math.floor(m/60)+':'+pad(m%60);
+const dur=m=>{const h=Math.floor(m/60),r=m%60;const hs=h===0?'':h===1?'ساعة':h===2?'ساعتين':h+' ساعات';const ms=r===0?'':r<=10?r+' دقائق':r+' دقيقة';return hs&&ms?hs+' و'+ms:(hs||ms||'أقل من دقيقة')};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let HIJRI='22 جمادى الأولى';
+try{HIJRI=new Intl.DateTimeFormat('ar-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'long'}).format(new Date(2026,10,2,12))}catch(e){}
+document.documentElement.lang='ar';
+
+/* Monday 2 November 2026, Sulaymaniyah (docs/reference/reference-2026.csv) */
+const SLEEP=1260,WAKE=268;
+const PARTS=[
+ {k:'fajr',name:'بعد الفجر',s:287,e:381,pr:'الفجر',rail:'الفجر',endName:'الشروق',col:'#3E3FA8',on:'#FFFFFF'},
+ {k:'morning',name:'الصبح',s:381,e:703,pr:null,rail:'الشروق',endName:'الظهر',col:'#0F6CB6',on:'#FFFFFF'},
+ {k:'dhuhr',name:'بعد الظهر',s:703,e:879,pr:'الظهر',rail:'الظهر',endName:'العصر',col:'#F4B41A',on:'#1B1300'},
+ {k:'asr',name:'بعد العصر',s:879,e:1022,pr:'العصر',rail:'العصر',endName:'المغرب',col:'#C2501A',on:'#FFFFFF'},
+ {k:'maghrib',name:'بعد المغرب',s:1022,e:1106,pr:'المغرب',rail:'المغرب',endName:'العشاء',col:'#B8322C',on:'#FFFFFF'},
+ {k:'isha',name:'بعد العشاء',s:1106,e:SLEEP,pr:'العشاء',rail:'العشاء',endName:'النوم',col:'#1E2A6E',on:'#FFFFFF'},
+];
+const UIS={
+ dial:{name:'الساعة',sub:'يومك دائرة بين الصلوات',icon:'dial',
+  how:'دائرة 24 ساعة: كل قسم قوس بلونه، والعقرب على الوكت هسه. تضغط أي قوس تشوف شغلاته تحت.',best:'تشوف يومك كله بنظرة وحدة، وتعرف شكد باقي بدون ما تقرا.',weak:'تحتاج شرح بسيط أول مرة.',fits:'الكل، خصوصاً اللي يحب يشوف الصورة كاملة',
+  from:'وجوه الساعات الذكية، ودائرة النشاط بتطبيقات الصحة.'},
+ cards:{name:'بطاقات',sub:'قسم واحد بالشاشة، تسحب للجاي',icon:'cards',
+  how:'كل قسم بطاقة كبيرة بلونه. تسحب يمين ويسار بين الأقسام، أو تضغط اسم القسم فوك.',best:'كبيرة وواضحة جداً، وكلشي بإصبع واحد.',weak:'ما تشوف اليوم كله مرة وحدة.',fits:'الكبار، واللي تقنيته ضعيفة',
+  from:'«القصص» بتطبيقات التواصل، والبطاقات اللي تنسحب.'},
+ cal:{name:'تقويم',sub:'الساعات من فوك لجوّه',icon:'calendar',
+  how:'اليوم مقسوم ساعات مثل التقويم. الصلوات خطوط ملوّنة، والشغلات مربعات بمكانها، والخط الأحمر هو هسه.',best:'دقيق، وتشوف وين عندك وكت فاضي.',weak:'كثير تفاصيل، ويحتاج تنزل لتحت.',fits:'الموظف والطالب اللي يومه بساعات',
+  from:'تطبيقات التقويم وعرض اليوم بيها.'},
+ chat:{name:'محادثة',sub:'تحجي ويّا يومك',icon:'chat',
+  how:'التطبيق يحجي وياك: هسه شنو، شكد باقي، وشنو عندك. وإنت تكتب مثل ما تحجي: «منبّه الساعة 05:45» أو «زيارة خالي بعد المغرب».',best:'أسهل شي للإضافة، ماكو أزرار تدوّر عليها.',weak:'بيه كتابة، والقراءة أبطأ من النظر.',fits:'اللي يحب يكتب، والشباب',
+  from:'تطبيقات المحادثة، وألوان كلاود الدافية.'},
+ bento:{name:'لوحة',sub:'مربعات، كل مربع معلومة',icon:'bento',
+  how:'شاشة وحدة مقسومة مربعات: هسه، الصلاة الجاية، نومك الليلة، المنبّهات، شكد خلّصت، وباچر.',best:'كل المعلومات بشاشة وحدة بلا نزول.',weak:'المربعات الصغيرة ممكن تكون مزدحمة.',fits:'اللي يريد يعرف كلشي بلحظة',
+  from:'لوحات الأدوات بالتلفونات الحديثة (ودجت).'},
+ focus:{name:'شغلة وحدة',sub:'بس اللي لازم تسويه هسه',icon:'focus',
+  how:'الشاشة بيها شغلة وحدة بس، بخط كبير. «خلّصت» تطلعلك اللي بعدها، و«بعدين» تأجّلها.',best:'ماكو تشتيت، أوضح شي ممكن.',weak:'ما تشوف الباقي إلا بضغطة.',fits:'اللي يتشتت، أو يريد يركّز',
+  from:'تطبيقات التركيز البسيطة، وشاشات الحبر الإلكتروني.'},
+};
+const TIMES=[[300,'05:00'],[750,'12:30'],[910,'15:10'],[1065,'17:45'],[1300,'21:40']];
+const S={now:910,u:'dial',all:false,sel:null,prayed:new Set(['fajr','dhuhr']),wake:true,sheet:null,sheetIn:null,draft:'',draftPart:null,draftRep:null,toast:null,toastIn:null,
+ things:[
+  {id:1,t:'أذكار الصبح وقرآن',p:'fajr',rep:'daily',done:true},
+  {id:2,t:'فطور ويّا الأهل',p:'morning',done:true},
+  {id:3,t:'الدوام',p:'morning',at:480,end:840,rep:'work',done:true},
+  {id:11,t:'قيلولة قصيرة',p:'dhuhr',rep:'daily',done:false},
+  {id:4,t:'رياضة',p:'asr',rep:'daily',done:false},
+  {id:5,t:'اتصل بالمحاسب',p:'asr',done:false},
+  {id:6,t:'اشتري أغراض البيت',p:'asr',done:false},
+  {id:7,t:'وقت ويّا الأهل',p:'maghrib',rep:'daily',done:false},
+  {id:8,t:'دراسة',p:'isha',rep:'work',done:false},
+  {id:10,t:'زيارة خالي',p:'tomorrow',done:false},
+ ],
+ alarms:[{id:1,l:'الدواء',at:420,rep:'daily',on:true}],
+ chat:[],skip:[],showAll:false,tilesOpen:false};
+const REPN={once:'مرة وحدة',daily:'كل يوم',work:'أيام الدوام'};
+const partAt=m=>PARTS.find(p=>m>=p.s&&m<p.e);
+const P=k=>PARTS.find(p=>p.k===k);
+const inPart=k=>S.things.filter(x=>x.p===k);
+const PNAME=k=>({tomorrow:'باچر',later:'بعدين'}[k]||P(k).name);
+const ck=()=>`<span class="chk">${ic('check')}</span>`;
+const status=()=>`<div class="status">${num(clk(S.now))}<span>السليمانية</span></div>`;
+function nowInfo(){const cur=partAt(S.now);
+  if(!cur){const total=(WAKE-SLEEP+1440)%1440,gone=(S.now-SLEEP+1440)%1440;return {cur:null,name:'الليل',left:total-gone,prog:gone/total,end:'الصحيان',endAt:WAKE}}
+  return {cur,name:cur.name,left:cur.e-S.now,prog:(S.now-cur.s)/(cur.e-cur.s),end:cur.endName,endAt:cur.e}}
+
+/* ---------- 1. dial ---------- */
+const ang=m=>((m%1440)/1440)*360+180;
+const pt=(m,r)=>{const a=ang(m)*Math.PI/180;return [160+r*Math.sin(a),160-r*Math.cos(a)]};
+function arcPath(s,e,r){const [x1,y1]=pt(s,r),[x2,y2]=pt(e,r);const large=((e-s+1440)%1440)>720?1:0;return `M${x1.toFixed(1)} ${y1.toFixed(1)} A${r} ${r} 0 ${large} 1 ${x2.toFixed(1)} ${y2.toFixed(1)}`}
+function dialView(){
+  const n=nowInfo(),sel=S.sel||(n.cur?n.cur.k:'night');
+  const arcs=PARTS.map(p=>`<path class="arc ${sel===p.k?'sel':''}" d="${arcPath(p.s,p.e-2,112)}" stroke="${p.col}" data-act="sel" data-k="${p.k}" role="button" aria-label="${p.name}"><title>${p.name}</title></path>`).join('')
+    +`<path class="arc ${sel==='night'?'sel':''}" d="${arcPath(SLEEP,WAKE+1440-2,112)}" stroke="#2B2F55" data-act="sel" data-k="night" role="button" aria-label="الليل"><title>الليل</title></path>`
+    +`<path d="${arcPath(WAKE,PARTS[0].s,112)}" stroke="#7E86C9" stroke-width="30" fill="none" opacity=".55"/>`;
+  const labels=PARTS.map(p=>{const [x,y]=pt(p.s,148);return `<text class="lbl" x="${x.toFixed(1)}" y="${(y+5).toFixed(1)}" text-anchor="middle">${clk(p.s)}</text>`}).join('')
+    +(()=>{const [x,y]=pt(SLEEP,148);return `<text class="lbl" x="${x.toFixed(1)}" y="${(y+5).toFixed(1)}" text-anchor="middle">${clk(SLEEP)}</text>`})();
+  const [hx,hy]=pt(S.now,112);
+  let panel;
+  if(sel==='night'){panel=`<div class="panel"><div class="ph2"><i style="background:#2B2F55"></i><h4>الليل<small>تنام ${num(clk(SLEEP))} وتصحى ${num(clk(WAKE))} لصلاة الليل</small></h4></div>
+    <button class="row" data-act="wake" aria-pressed="${S.wake}">${ic('alarm')}<span class="tt">منبّه الصحيان ${num(clk(WAKE))}</span><span class="meta">${S.wake?'شغّال':'طافي'}</span></button>
+    ${S.alarms.map(a=>`<div class="row">${ic('alarm')}<span class="tt">${esc(a.l)} ${num(clk(a.at))}</span><span class="meta">${REPN[a.rep]}</span></div>`).join('')}</div>`}
+  else{const p=P(sel),prayed=S.prayed.has(p.k);
+    panel=`<div class="panel"><div class="ph2"><i style="background:${p.col}"></i><h4>${p.name}<small>${p.pr?'صلاة '+p.pr:'من الشروق'} ${num(clk(p.s))} لحد ${p.endName} ${num(clk(p.e))}</small></h4></div>
+    ${p.pr?`<button class="row ${prayed?'done':''}" data-act="pray" data-k="${p.k}" aria-pressed="${prayed}">${ck()}<span class="tt">صلّيت ${p.pr}</span></button>`:''}
+    ${inPart(p.k).map(x=>`<button class="row ${x.done?'done':''}" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}">${ck()}<span class="tt">${esc(x.t)}</span>${x.rep&&x.rep!=='once'?`<span class="meta">${REPN[x.rep]}</span>`:''}</button>`).join('')||'<p style="margin:0;color:var(--grey)">فاضي</p>'}</div>`}
+  return `${status()}<div class="scroll"><div class="dhead"><h2>الإثنين</h2><small>2 تشرين الثاني · ${HIJRI}</small></div>
+    <svg class="dialsvg" viewBox="-22 -22 364 364" role="img" aria-label="ساعة اليوم">
+      ${arcs}${labels}
+      <circle class="mark" cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="13"/>
+      <text class="c2" x="160" y="128" text-anchor="middle">هسه</text>
+      <text class="c1" x="160" y="166" text-anchor="middle">${n.name}</text>
+      <text class="c2" x="160" y="198" text-anchor="middle">باقي ${hm(n.left)} على ${n.end}</text></svg>
+    ${panel}</div>
+    <div class="fabbar"><button class="btn" data-act="add">${ic('plus')} أضف</button><button class="btn ghost" data-act="sel" data-k="night">${ic('alarm')} منبّه</button></div>`;
+}
+
+/* ---------- 2. cards ---------- */
+function cardsView(){
+  const n=nowInfo();const cur=n.cur?n.cur.k:'night';
+  const card=p=>{const isNow=p.k===cur;const prayed=S.prayed.has(p.k);
+    const state=isNow?`باقي <b>${dur(n.left)}</b> على ${p.endName}`:(p.s>S.now?`يبدي بعد ${dur(p.s-S.now)}`:'فات');
+    return `<section class="pc p-${p.k}" data-k="${p.k}" aria-label="${p.name}"><div class="when"><span>${isNow?'هسه':p.s>S.now?'الجاي':'فات'}</span><span>${num(clk(p.s))} – ${num(clk(p.e))}</span></div>
+      <h3>${p.name}</h3><p class="state">${state}</p>${isNow?`<div class="pbar"><i style="width:${Math.round(100*n.prog)}%"></i></div>`:''}
+      ${p.pr?`<button class="bigrow" data-act="pray" data-k="${p.k}" aria-pressed="${prayed}"><span class="tt">صلاة ${p.pr}</span><em>${prayed?'صلّيت ✓':'صلّيت'}</em></button>`:''}
+      ${inPart(p.k).map(x=>`<button class="bigrow ${x.done?'done':''}" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}">${ck()}<span class="tt">${esc(x.t)}</span></button>`).join('')||'<p class="nothing">ماكو شي. وكتك فاضي.</p>'}
+      <button class="addc" data-act="add" data-p="${p.k}">+ أضف هنا</button></section>`};
+  const night=`<section class="pc p-night" data-k="night" aria-label="الليل"><div class="when"><span>${cur==='night'?'هسه':'الليلة'}</span><span>${num(clk(SLEEP))} – ${num(clk(WAKE))}</span></div><h3>الليل</h3>
+    <p class="state">تنام <b>${num(clk(SLEEP))}</b> وتصحى <b>${num(clk(WAKE))}</b> لصلاة الليل</p>
+    <button class="bigrow" data-act="wake" aria-pressed="${S.wake}"><span class="tt">منبّه الصحيان ${num(clk(WAKE))}</span><em>${S.wake?'شغّال':'طافي'}</em></button>
+    ${S.alarms.map(a=>`<div class="bigrow"><span class="tt">${esc(a.l)} ${num(clk(a.at))}</span><em>${REPN[a.rep]}</em></div>`).join('')}
+    <button class="addc" data-act="add" data-alarm="1">+ منبّه جديد</button></section>`;
+  return `${status()}<div class="jump" role="tablist">${PARTS.map(p=>`<button data-act="jump" data-k="${p.k}" aria-current="${p.k===cur}">${p.rail}</button>`).join('')}<button data-act="jump" data-k="night" aria-current="${cur==='night'}">الليل</button></div>
+    <div class="deck" data-cur="${cur}">${PARTS.map(card).join('')}${night}</div>`;
+}
+
+/* ---------- 3. calendar ---------- */
+const CAL0=240,CAL1=1350,PX=1.3;
+const y=m=>(m-CAL0)*PX;
+function calView(){
+  let h='';for(let m=300;m<=1320;m+=60)h+=`<div class="hr" style="top:${y(m)}px"><span><span class="num">${clk(m)}</span></span></div>`;
+  const prl=PARTS.map(p=>`<div class="prl" style="top:${y(p.s)}px;--pcol:${p.col};--pon:${p.on}">${p.pr?`<button data-act="pray" data-k="${p.k}" aria-pressed="${S.prayed.has(p.k)}">${S.prayed.has(p.k)?ic('check'):''}${p.pr} ${num(clk(p.s))}</button>`:`<button tabindex="-1">الشروق ${num(clk(p.s))}</button>`}</div>`).join('');
+  let ev='';
+  for(const p of PARTS){let off=26;
+    for(const x of inPart(p.k)){
+      if(x.at!=null){const top=y(x.at)+4,hgt=Math.max(48,y(x.end||x.at+45)-y(x.at)-8);
+        ev+=`<button class="ev ${x.done?'done':''}" style="top:${top}px;height:${hgt}px" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}">${ck()}<span class="tt">${esc(x.t)}<br><small class="num">${clk(x.at)}–${clk(x.end||x.at+45)}</small></span></button>`}
+      else{const top=y(p.s)+off;off+=52;
+        ev+=`<button class="ev ${x.done?'done':''}" style="top:${top}px;height:48px" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}">${ck()}<span class="tt">${esc(x.t)}</span></button>`}}}
+  const night=`<div class="nightband" style="top:${y(SLEEP)+6}px">النوم ${num(clk(SLEEP))} · الصحيان ${num(clk(WAKE))} لصلاة الليل</div>`;
+  const nowl=S.now>=CAL0&&S.now<=CAL1?`<div class="nowl" style="top:${y(S.now)}px"><span><span class="num">${clk(S.now)}</span></span></div>`:'';
+  return `${status()}<div class="chead"><div><h2>الإثنين</h2><small>2 تشرين الثاني · ${HIJRI}</small></div><button class="btn" data-act="add">${ic('plus')} أضف</button></div>
+    <div class="scroll calscroll"><div class="grid" style="height:${y(CAL1)+20}px">${h}${prl}${ev}${night}${nowl}</div></div>`;
+}
+
+/* ---------- 4. chat ---------- */
+function chatIntro(){
+  const n=nowInfo();const out=[];
+  const greet=S.now<720?'صباح الخير':'مسا الخير';
+  if(!n.cur){out.push(`<div class="msg">${greet}. هسه <span class="big">الليل</span>باقي <b>${dur(n.left)}</b> للصحيان، الساعة ${num(clk(WAKE))}، لصلاة الليل.</div>`);
+    out.push(`<div class="replies"><button data-act="wake">${S.wake?'منبّه الصحيان شغّال ✓':'شغّل منبّه الصحيان'}</button></div>`);return out.join('')}
+  const p=n.cur;
+  out.push(`<div class="msg">${greet}. هسه <span class="big">${p.name}</span>باقي <b>${dur(n.left)}</b> على ${p.endName} (${num(clk(p.e))}).</div>`);
+  if(p.pr)out.push(S.prayed.has(p.k)?`<div class="msg me">صلّيت ${p.pr} ✓</div>`:`<div class="msg">صلّيت ${p.pr}؟</div><div class="replies"><button data-act="pray" data-k="${p.k}">صلّيت ✓</button><button data-act="chatsay" data-v="بعد شوية">بعد شوية</button></div>`);
+  const l=inPart(p.k);
+  if(l.length)out.push(`<div class="msg">عندك ${l.length===1?'شغلة وحدة':l.length===2?'شغلتين':l.length+' شغلات'} ${p.name}:${l.map(x=>`<button class="ck ${x.done?'done':''}" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}">${ck()}<span class="tt">${esc(x.t)}</span></button>`).join('')}</div>`);
+  else out.push(`<div class="msg">ماكو شي ${p.name}. وكتك فاضي.</div>`);
+  const nx=PARTS[PARTS.indexOf(p)+1];
+  out.push(`<div class="msg">${nx?`بعدها ${nx.name} الساعة ${num(clk(nx.s))}${inPart(nx.k).length?': '+inPart(nx.k).map(x=>esc(x.t)).join('، '):''}. `:''}الليلة تنام ${num(clk(SLEEP))} وتصحى ${num(clk(WAKE))} لصلاة الليل.</div>`);
+  return out.join('');
+}
+function chatView(){
+  return `${status()}<div class="chd"><span class="av">ي</span><div><b>يوم</b><small>يرتّب يومك بين الصلوات</small></div></div>
+    <div class="scroll chatscroll"><div class="msgs">${chatIntro()}${S.chat.join('')}</div></div>
+    <div class="composer"><div class="sugs">${['منبّه الساعة 05:45 كل يوم','زيارة خالي بعد المغرب','قراءة بعد العشاء كل يوم','شنو عندي باچر؟'].map(s=>`<button data-act="chatsay" data-v="${s}">${s}</button>`).join('')}</div>
+      <form class="inrow" data-form="chat"><input name="m" placeholder="اكتب شي… مثلاً: اتصل بالمحاسب باچر" aria-label="اكتب رسالة" autocomplete="off"><button class="send" type="submit" aria-label="أرسل">${ic('send')}</button></form></div>`;
+}
+function chatSay(text){
+  text=text.trim();if(!text)return;
+  S.chat.push(`<div class="msg me">${esc(text)}</div>`);
+  if(/باچر؟|باجر؟|شنو عندي/.test(text)){const l=inPart('tomorrow');S.chat.push(`<div class="msg">باچر الثلاثاء: ${l.length?l.map(x=>'<b>'+esc(x.t)+'</b>').join('، ')+'، ':''}وكل شي يتكرر يومياً (رياضة، وقت ويّا الأهل، قيلولة).</div>`);return}
+  if(text==='بعد شوية'){S.chat.push(`<div class="msg">تمام. أذكّرك بعد ربع ساعة.</div>`);return}
+  const p=parse(text);
+  if(p.alarm){const at=p.at!=null?p.at:420,rep=p.rep||'daily';S.alarms.push({id:Date.now(),l:p.title||'منبّه',at,rep,on:true});
+    S.chat.push(`<div class="msg">تم ✓ المنبّه <b class="num">${clk(at)}</b> ${REPN[rep]}.${at<=S.now?' أول مرة يرن باچر.':''}</div>`);return}
+  if(!p.title){S.chat.push(`<div class="msg">ما فهمت شنو تريد تضيف. اكتب الشغلة، مثلاً «رياضة بعد العصر».</div>`);return}
+  const part=p.part||(partAt(S.now)||PARTS[0]).k;const x={id:Date.now(),t:p.title,p:part,at:p.at,rep:p.rep||'once',done:false};S.things.push(x);
+  S.chat.push(`<div class="msg">تم ✓ حطّيت «<b>${esc(x.t)}</b>» ${PNAME(part)}${x.rep!=='once'?'، '+REPN[x.rep]:''}.</div><div class="replies"><button data-act="cfix" data-id="${x.id}" data-v="daily">خليها كل يوم</button><button data-act="cfix" data-id="${x.id}" data-v="tomorrow">لا، باچر</button></div>`);
+}
+
+/* ---------- 5. bento ---------- */
+function bentoView(){
+  const n=nowInfo();const p=n.cur;const all=S.things.filter(x=>x.p!=='tomorrow'&&x.p!=='later');const dn=all.filter(x=>x.done).length;
+  const next=PARTS.find(q=>q.pr&&q.s>S.now);
+  const hero=p?`<div class="tile wide hero p-${p.k}"><span class="tl">${ic(p.k)} هسه</span><span class="v">${p.name}</span><span class="s">باقي ${dur(n.left)} على ${p.endName} ${num(clk(p.e))}</span><div class="pbar"><i style="width:${Math.round(100*n.prog)}%"></i></div>
+      ${p.pr?`<button class="pr" data-act="pray" data-k="${p.k}" aria-pressed="${S.prayed.has(p.k)}">صلاة ${p.pr} ${num(clk(p.s))}<em>${S.prayed.has(p.k)?'صلّيت ✓':'صلّيت'}</em></button>`:''}</div>`
+    :`<div class="tile wide hero p-night"><span class="tl">${ic('night')} هسه</span><span class="v">الليل</span><span class="s">باقي ${dur(n.left)} للصحيان ${num(clk(WAKE))}</span><div class="pbar"><i style="width:${Math.round(100*n.prog)}%"></i></div></div>`;
+  const cur=p?inPart(p.k):[];
+  return `${status()}<div class="scroll"><div class="bh"><h2>الإثنين</h2><small>2 تشرين الثاني</small></div><div class="tiles">
+    ${hero}
+    <div class="tile" style="--tc:${next?next.col:'#8E9CFF'}"><span class="tl">${ic(next?next.k:'fajr')} الصلاة الجاية</span><span class="v">${next?next.pr:'الفجر'}</span><span class="s">${next?num(clk(next.s))+' · بعد '+hm(next.s-S.now):num(clk(PARTS[0].s))+' باچر'}</span></div>
+    <button class="tile" data-act="tiles" aria-expanded="${S.tilesOpen}" style="--tc:#4FD1A5"><span class="tl">${ic('check')} اليوم</span><span class="v num">${dn}/${all.length}</span><span class="s">خلّصت</span><span class="meter">${all.map(x=>`<i class="${x.done?'on':''}"></i>`).join('')}</span></button>
+    ${p&&cur.length?`<div class="tile wide"><span class="tl">${ic('list')} شغلات ${p.name}</span>${cur.map(x=>`<button class="row ${x.done?'done':''}" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}">${ck()}<span class="tt">${esc(x.t)}</span></button>`).join('')}</div>`:''}
+    ${S.tilesOpen?`<div class="tile wide"><span class="tl">${ic('list')} كل شغلات اليوم</span>${all.map(x=>`<button class="row ${x.done?'done':''}" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}">${ck()}<span class="tt">${esc(x.t)}</span><span class="meta">${PNAME(x.p)}</span></button>`).join('')}</div>`:''}
+    <div class="tile" style="--tc:#8E9CFF"><span class="tl">${ic('night')} الليلة</span><span class="v sm num">${clk(SLEEP)}</span><span class="s">تنام، وتصحى ${num(clk(WAKE))} لصلاة الليل</span></div>
+    <div class="tile" style="--tc:#F4B41A"><span class="tl">${ic('alarm')} المنبّهات</span><span class="v sm">${S.alarms.length+1}</span><button class="tgl" data-act="wake" aria-pressed="${S.wake}">الصحيان ${S.wake?'شغّال':'طافي'}</button></div>
+    <div class="tile wide" style="--tc:#5DB2F5"><span class="tl">${ic('calendar')} باچر</span><span class="s">${inPart('tomorrow').map(x=>esc(x.t)).join('، ')||'ماكو شي'}، والشغلات اليومية</span></div>
+  </div></div><div class="fabbar"><button class="btn" data-act="add">${ic('plus')} أضف</button></div>`;
+}
+
+/* ---------- 6. focus ---------- */
+function focusQueue(){const n=nowInfo();if(!n.cur)return [];const p=n.cur;const q=[];
+  if(p.pr&&!S.prayed.has(p.k))q.push({kind:'pray',k:p.k,t:'صلاة '+p.pr});
+  for(const x of inPart(p.k))if(!x.done)q.push({kind:'thing',id:x.id,t:x.t});
+  const sk=q.filter(x=>S.skip.includes(x.kind+(x.id||x.k)));return q.filter(x=>!sk.includes(x)).concat(sk)}
+function focusView(){
+  const n=nowInfo();const q=focusQueue();const total=n.cur?(n.cur.pr?1:0)+inPart(n.cur.k).length:0;const left=q.length;
+  let body;
+  if(S.showAll){body=`<div class="allday">${PARTS.map(p=>`<h4>${p.name} · ${num(clk(p.s))}</h4>${inPart(p.k).map(x=>`<button class="row ${x.done?'done':''}" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}">${ck()}<span class="tt">${esc(x.t)}</span></button>`).join('')||'<span style="color:var(--grey)">فاضي</span>'}`).join('')}</div>
+    <div class="grow"></div><button class="sec" data-act="showall">رجوع لشغلة وحدة</button>`}
+  else if(!n.cur){body=`<p class="lab">هسه</p><h2 class="what">نام</h2><p class="sub">تصحى ${num(clk(WAKE))} لصلاة الليل. باقي ${dur(n.left)}.</p><div class="grow"></div>
+    <button class="main" data-act="wake">${ic('alarm')} منبّه الصحيان ${S.wake?'شغّال':'طافي'}</button>`}
+  else if(!q.length){const nx=PARTS[PARTS.indexOf(n.cur)+1];
+    body=`<p class="lab">${n.cur.name}</p><h2 class="what">خلّصت كل شي</h2><p class="sub">ارتاح. باقي ${dur(n.left)} على ${n.cur.endName}.</p><div class="grow"></div>
+    ${nx?`<div class="next"><small>الجاي · ${nx.name} ${num(clk(nx.s))}</small><b>${inPart(nx.k).map(x=>esc(x.t)).join('، ')||'وكت فاضي'}</b></div>`:''}
+    <div class="two"><button class="sec" data-act="showall">${ic('list')} اليوم كله</button><button class="sec" data-act="add">${ic('plus')} أضف</button></div>`}
+  else{const it=q[0];
+    body=`<div class="count" aria-label="${total-left+1} من ${total}">${Array.from({length:total},(_,i)=>`<i class="${i<total-left?'on':''}"></i>`).join('')}</div>
+    <p class="lab">${it.kind==='pray'?'أول شي':'الشغلة اللي هسه'}</p><h2 class="what">${esc(it.t)}</h2><p class="sub">${left===1?'آخر شغلة':'وبعدها '+(left-1)+(left-1===1?' شغلة':' شغلات')} ${n.cur.name}</p>
+    <div class="grow"></div>
+    <button class="main" data-act="fdone">${ic('check')} ${it.kind==='pray'?'صلّيت':'خلّصت'}</button>
+    <div class="two"><button class="sec" data-act="fskip">بعدين</button><button class="sec" data-act="showall">${ic('list')} اليوم كله</button></div>
+    <button class="sec" data-act="add">${ic('plus')} أضف شغلة</button>`}
+  return `${status()}<div class="fbody"><div class="ftop"><span>${n.name}</span><span>باقي ${num(hm(n.left))}</span></div>${body}</div>`;
+}
+
+/* ---------- shared quick add (every interface except chat) ---------- */
+const WORDS=[['بعد الفجر','fajr'],['الفجر','fajr'],['الصبح','morning'],['بعد الظهر','dhuhr'],['الظهر','dhuhr'],['بعد العصر','asr'],['العصر','asr'],['بعد المغرب','maghrib'],['المغرب','maghrib'],['بعد العشاء','isha'],['العشاء','isha'],['باچر','tomorrow'],['باجر','tomorrow']];
+function parse(raw){let part=null,title=raw,rep=null,alarm=false;
+  if(/كل يوم|يومياً|يوميا/.test(title)){rep='daily';title=title.replace(/كل يوم|يومياً|يوميا/,' ')}
+  if(/منبّه|منبه|صحّيني|صحيني/.test(title)){alarm=true;title=title.replace(/منبّه|منبه|صحّيني|صحيني/,' ')}
+  for(const [w,k] of WORDS){if(title.includes(w)){part=part||k;title=title.replace(w,' ')}}
+  const tm=title.match(/(?:الساعة\s*)?(\d{1,2})[:.](\d{2})/);let at=null;
+  if(tm){at=(+tm[1])*60+(+tm[2]);title=title.replace(tm[0],' ').replace('الساعة',' ')}
+  title=title.replace(/\s+/g,' ').trim();if(at!=null&&!part){const q=partAt(at);part=q?q.k:'isha'}
+  return {title,part,at,rep,alarm}}
+function sheetView(){
+  if(S.sheet!=='add')return '';
+  const p=parse(S.draft),part=S.draftPart||p.part||(partAt(S.now)||PARTS[0]).k,rep=S.draftRep||p.rep||'once';
+  return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-label="أضف"><h3>${p.alarm?'منبّه جديد':'شنو تريد تسوي؟'}</h3>
+    <input class="field" data-act="draft" value="${esc(S.draft)}" placeholder="مثلاً: زيارة خالي بعد المغرب" aria-label="شنو تريد تسوي؟" autocomplete="off">
+    ${p.alarm?`<p class="q">يرن ${num(clk(p.at!=null?p.at:420))} · ${REPN[p.rep||'daily']}</p>`:`<p class="q">وين؟</p><div class="pills">${[...PARTS.map(q=>q.k),'tomorrow'].map(k=>`<button class="pill" data-act="dpart" data-v="${k}" aria-pressed="${k===part}">${PNAME(k)}</button>`).join('')}</div>
+    <p class="q">يتكرر؟</p><div class="pills">${['once','daily','work'].map(k=>`<button class="pill" data-act="drep" data-v="${k}" aria-pressed="${k===rep}">${REPN[k]}</button>`).join('')}</div>`}
+    <button class="btn" data-act="save">${ic('check')} ${p.alarm?'احفظ المنبّه':'حطّها · '+PNAME(part)}</button></div></div>`;
+}
+
+/* ---------- rendering ---------- */
+const VIEWS={dial:dialView,cards:cardsView,cal:calView,chat:chatView,bento:bentoView,focus:focusView};
+const stage=document.getElementById('stage');
+let lastNow=null;
+function phoneHTML(u){
+  const mine=!S.all||S.sheetIn===u;
+  return `<div class="device"><div class="ph ${u}" data-u="${u}" aria-label="واجهة ${UIS[u].name}">${VIEWS[u]()}${S.sheet&&mine?sheetView():''}${S.toast&&(!S.all||S.toastIn===u)?`<div class="toast" role="status">${S.toast}</div>`:''}</div></div>`;
+}
+function notesHTML(u){const D=UIS[u];
+  return `<aside class="notes"><h2>${D.name} · ${D.sub}</h2><p class="lead">${D.how}</p>
+    <div class="box"><b>أقوى شي بيها</b><span>${D.best}</span></div><div class="box"><b>أضعف شي</b><span>${D.weak}</span></div>
+    <div class="box"><b>تناسب</b><span>${D.fits}</span></div><div class="box"><b>الفكرة مأخوذة من</b><span>${D.from}</span></div></aside>`}
+function render(){
+  const keep={};stage.querySelectorAll('.ph').forEach(ph=>{const s=ph.querySelector('.scroll,.deck,.fbody');if(s)keep[ph.dataset.u]={t:s.scrollTop,l:s.scrollLeft}});
+  stage.className=S.all?'all':'one';
+  stage.innerHTML=S.all?Object.keys(UIS).map(u=>`<div class="cell"><h3>${UIS[u].name}</h3><p>${UIS[u].sub}</p>${phoneHTML(u)}</div>`).join(''):phoneHTML(S.u)+notesHTML(S.u);
+  const timeChanged=lastNow!==S.now;lastNow=S.now;
+  stage.querySelectorAll('.ph').forEach(ph=>{const u=ph.dataset.u,k=keep[u];
+    const s=ph.querySelector('.scroll,.deck,.fbody');
+    if(k&&!timeChanged&&s){s.scrollTop=k.t;s.scrollLeft=k.l}
+    else{
+      if(u==='cards')jumpTo(ph,ph.querySelector('.deck').dataset.cur);
+      if(u==='cal'){const c=ph.querySelector('.calscroll');c.scrollTop=Math.max(0,y(S.now)-180)}
+    }
+    if(u==='chat'){const c=ph.querySelector('.chatscroll');c.scrollTop=c.scrollHeight}
+  });
+}
+function jumpTo(ph,k){const deck=ph.querySelector('.deck'),card=deck.querySelector(`[data-k="${k}"]`),first=deck.firstElementChild;if(!card)return;
+  deck.scrollLeft=card.offsetLeft-first.offsetLeft}
+let tt;function toast(m,u){S.toast=m;S.toastIn=u;render();clearTimeout(tt);tt=setTimeout(()=>{S.toast=null;render()},2000)}
+
+stage.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const ph=b.closest('.ph');if(!ph)return;const u=ph.dataset.u;
+  const a=b.dataset.act,id=+b.dataset.id;if(a==='close'&&e.target!==b)return;
+  switch(a){
+    case 'tick':{const x=S.things.find(t=>t.id===id);x.done=!x.done;x.done?toast('تم ✓ خلّصت «'+esc(x.t)+'»',u):render();break}
+    case 'pray':{const k=b.dataset.k;S.prayed.has(k)?S.prayed.delete(k):S.prayed.add(k);render();break}
+    case 'wake':S.wake=!S.wake;render();break;
+    case 'sel':S.sel=b.dataset.k;render();break;
+    case 'jump':jumpTo(ph,b.dataset.k);ph.querySelectorAll('.jump button').forEach(x=>x.setAttribute('aria-current',x===b));break;
+    case 'tiles':S.tilesOpen=!S.tilesOpen;render();break;
+    case 'fdone':{const it=focusQueue()[0];if(it.kind==='pray')S.prayed.add(it.k);else S.things.find(t=>t.id===it.id).done=true;toast('تم ✓',u);break}
+    case 'fskip':{const it=focusQueue()[0];const key=it.kind+(it.id||it.k);S.skip=S.skip.filter(x=>x!==key).concat(key);render();break}
+    case 'showall':S.showAll=!S.showAll;render();break;
+    case 'chatsay':chatSay(b.dataset.v);render();break;
+    case 'cfix':{const x=S.things.find(t=>t.id===id);if(b.dataset.v==='daily'){x.rep='daily';S.chat.push('<div class="msg">صارت كل يوم ✓</div>')}else{x.p='tomorrow';S.chat.push('<div class="msg">نقلتها لباچر ✓</div>')}render();break}
+    case 'add':Object.assign(S,{sheet:'add',sheetIn:u,draft:b.dataset.alarm?'منبّه الساعة 05:45':'',draftPart:b.dataset.p||null,draftRep:null});render();
+      setTimeout(()=>{const i=stage.querySelector(`.ph[data-u="${u}"] .field`);i&&i.focus({preventScroll:true})},60);break;
+    case 'dpart':S.draftPart=b.dataset.v;render();break;
+    case 'drep':S.draftRep=b.dataset.v;render();break;
+    case 'save':{const p=parse(S.draft);
+      if(p.alarm){const at=p.at!=null?p.at:420;S.alarms.push({id:Date.now(),l:p.title||'منبّه',at,rep:p.rep||'daily',on:true});S.sheet=null;toast('المنبّه '+clk(at)+' ✓',u);break}
+      if(!p.title)return;const part=S.draftPart||p.part||(partAt(S.now)||PARTS[0]).k;
+      S.things.push({id:Date.now(),t:p.title,p:part,at:p.at,rep:S.draftRep||p.rep||'once',done:false});S.sheet=null;toast('انحطّت: '+PNAME(part),u);break}
+    case 'close':S.sheet=null;render();break;
+  }
+});
+stage.addEventListener('input',e=>{if(e.target.dataset.act!=='draft')return;S.draft=e.target.value;const ph=e.target.closest('.ph');const pos=e.target.selectionStart;
+  const tmp=document.createElement('div');tmp.innerHTML=sheetView();const nsc=tmp.firstElementChild;nsc.querySelector('.sheet').style.animation='none';
+  ph.querySelector('.scrim').replaceWith(nsc);const f=ph.querySelector('.field');f.focus({preventScroll:true});f.setSelectionRange(pos,pos)});
+stage.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.act==='draft'){e.preventDefault();e.target.closest('.ph').querySelector('[data-act="save"]').click()}});
+stage.addEventListener('submit',e=>{const f=e.target.closest('[data-form="chat"]');if(!f)return;e.preventDefault();const v=f.m.value;chatSay(v);render();
+  const i=stage.querySelector('.ph[data-u="chat"] input');i&&i.focus({preventScroll:true})});
+stage.addEventListener('scroll',e=>{const d=e.target;if(!d.classList||!d.classList.contains('deck'))return;
+  const mid=d.getBoundingClientRect().left+d.clientWidth/2;let best=null,bd=1e9;d.querySelectorAll('.pc').forEach(c=>{const r=c.getBoundingClientRect();const dd=Math.abs(r.left+r.width/2-mid);if(dd<bd){bd=dd;best=c}});
+  if(best)d.closest('.ph').querySelectorAll('.jump button').forEach(x=>x.setAttribute('aria-current',x.dataset.k===best.dataset.k))},true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.sheet){S.sheet=null;render()}});
+
+const upick=document.getElementById('upick');
+upick.insertAdjacentHTML('beforeend',Object.entries(UIS).map(([k,D])=>`<button class="try" data-u="${k}" aria-pressed="${k===S.u}">${ic(D.icon)}${D.name}</button>`).join('')+`<button class="try" data-u="all" aria-pressed="false">كلهم سوا</button>`);
+upick.querySelectorAll('[data-u]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.u==='all')S.all=true;else{S.all=false;S.u=b.dataset.u}
+  S.sheet=null;lastNow=null;upick.querySelectorAll('[data-u]').forEach(x=>x.setAttribute('aria-pressed',x===b));render()}));
+const times=document.getElementById('times');
+times.insertAdjacentHTML('beforeend',TIMES.map(([m,l])=>{const p=partAt(m);return `<button class="try" data-t="${m}" aria-pressed="${m===S.now}"><span class="num">${l}</span> ${p?p.name:'الليل'}</button>`}).join(''));
+times.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>{S.now=+b.dataset.t;S.sel=null;S.skip=[];S.chat=[];times.querySelectorAll('[data-t]').forEach(x=>x.setAttribute('aria-pressed',x===b));render()}));
+document.querySelectorAll('[data-theme-set]').forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.themeSet;if(v)document.documentElement.setAttribute('data-theme',v);else document.documentElement.removeAttribute('data-theme');
+  document.querySelectorAll('[data-theme-set]').forEach(x=>x.setAttribute('aria-pressed',x===b))}));
+document.getElementById('cmpBody').innerHTML=Object.values(UIS).map(D=>`<tr><td>${D.name}</td><td>${D.how}</td><td>${D.best}</td><td>${D.weak}</td><td>${D.fits}</td></tr>`).join('');
+render();
+})();
+</script>

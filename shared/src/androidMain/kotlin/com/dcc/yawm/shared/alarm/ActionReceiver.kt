@@ -40,7 +40,16 @@ class ActionReceiver : BroadcastReceiver() {
                         val at = Instant.fromEpochMilliseconds(intent.getLongExtra(AlarmReceiver.AT, System.currentTimeMillis()))
                         val date = at.toLocalDateTime(zone).date
                         val key = intent.getStringExtra(AlarmReceiver.KEY).orEmpty()
-                        if (key.startsWith("task:")) {
+                        if (key.startsWith("thing:")) {
+                            val id = key.removePrefix("thing:")
+                            val things = s.things.map { t ->
+                                if (t.id != id) t
+                                else if (intent.getStringExtra(WHAT) == TOMORROW) t.copy(date = date.plus(1, DateTimeUnit.DAY), repeat = com.dcc.yawm.shared.day.Repeat.ONCE)
+                                else t.toggled(date)
+                            }
+                            data.settings.save(s.copy(things = things))
+                            AlarmScheduler.reschedule(app)
+                        } else if (key.startsWith("task:")) {
                             val taskId = key.removePrefix("task:")
                             val tasks = s.tasks.map { t ->
                                 if (t.id != taskId) t

@@ -126,7 +126,8 @@ internal object Notifications {
                 n.addAction(action(context, "أجّلها لباچر", ActionReceiver.TOMORROW, extras, id * 4 + 2))
             }
             kind == ReminderKind.ADHAN || kind == ReminderKind.PRAYER -> n.addAction(action(context, "صلّيت", ActionReceiver.DONE, extras, id * 4 + 1))
-            kind == ReminderKind.START || kind == ReminderKind.BEFORE || kind == ReminderKind.END -> if (key.isNotEmpty()) {
+            // A part's notification lists its things; it opens the day (no single «done»).
+            kind == ReminderKind.START || kind == ReminderKind.BEFORE || kind == ReminderKind.END -> if (key.isNotEmpty() && !key.startsWith("part:")) {
                 n.addAction(action(context, "خلّصت", ActionReceiver.DONE, extras, id * 4 + 1))
                 n.addAction(action(context, "بعد 5 دقايق", ActionReceiver.SNOOZE, extras, id * 4 + 2))
             }

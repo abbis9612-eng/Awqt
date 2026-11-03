@@ -1,0 +1,403 @@
+<title>يوم · المشهد الحي</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+/* The live scene of the city, done properly: crisp at the phone's real pixel density, layered for depth,
+   every motion tied to meaning, paused when unseen or when the phone asks for less motion. */
+:root{
+  --pg:#0E0F13; --pg-card:#171920; --pg-ink:#F3F1EC; --pg-grey:#A7AAB6; --pg-line:#2A2D38; --gold:#E0BE6A;
+  --baloo:"Baloo Bhaijaan 2","Tajawal",Tahoma,sans-serif; --taj:"Tajawal",Tahoma,sans-serif; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{background:var(--pg);color:var(--pg-ink);font-family:var(--taj);font-size:17px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:34px 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--pg)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:1500px;margin:0 auto;display:grid;gap:26px}
+.wrap>*{min-width:0}
+.intro{display:grid;gap:10px;max-width:900px}
+.intro .k{font-weight:700;color:var(--gold);font-size:15px}
+.intro h1{font-family:var(--baloo);font-weight:800;font-size:clamp(32px,5.5vw,54px);line-height:1.25;margin:0}
+.intro p{margin:0;font-size:18px;color:#D6D8E0;max-width:70ch}
+.timebar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--pg-card);border:1.5px solid var(--pg-line);border-radius:18px;padding:6px 12px;box-shadow:0 10px 30px -18px rgba(0,0,0,.6);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.play{width:50px;height:50px;border-radius:50%;background:var(--gold);color:#241900;display:grid;place-items:center;flex:none}
+.play svg{width:20px;height:20px;fill:currentColor}
+.tl-clock{font-family:var(--baloo);font-size:24px;font-weight:700;min-width:3.4ch}
+.tl-part{font-size:15px;color:var(--pg-grey);min-width:6em}
+.scrub{flex:1;min-width:200px;height:46px;-webkit-appearance:none;appearance:none;background:transparent;direction:ltr}
+.scrub::-webkit-slider-runnable-track{height:8px;border-radius:5px;background:linear-gradient(to right,#1B1A33 0 19%,#5A4E8C 20%,#E3A06B 26%,#7FB2DE 40% 55%,#E3BB78 62%,#D4553A 71%,#2A2552 77%,#1B1A33 88%)}
+.scrub::-moz-range-track{height:8px;border-radius:5px;background:linear-gradient(to right,#1B1A33 0 19%,#5A4E8C 20%,#E3A06B 26%,#7FB2DE 40% 55%,#E3BB78 62%,#D4553A 71%,#2A2552 77%,#1B1A33 88%)}
+.scrub::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-9px;border-radius:50%;background:#fff;border:3px solid var(--gold)}
+.scrub::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--gold)}
+.jumps{display:flex;flex-wrap:wrap;gap:6px}
+.jumps button{min-height:44px;padding:0 12px;border-radius:12px;background:var(--pg-card);border:1.5px solid var(--pg-line);font-size:15px;font-weight:500}
+.jumps button[aria-pressed="true"]{background:var(--gold);color:#241900;border-color:var(--gold)}
+@media (max-width:560px){.timebar .scrub{flex-basis:100%;order:3;height:40px}}
+.stage{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:40px 24px;align-items:start}
+.cell{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;justify-items:center;min-width:0}
+.cell header{display:grid;gap:2px;text-align:center}
+.cell h2{margin:0;font-family:var(--baloo);font-size:28px;font-weight:800;line-height:1.3}
+.cell header span{font-size:15px;color:var(--pg-grey)}
+.device{width:min(100%,390px);justify-self:center;background:#050506;border-radius:54px;padding:10px;box-shadow:0 40px 80px -40px rgba(0,0,0,.8),inset 0 0 0 1.5px #2A2A2E}
+.why{display:grid;gap:8px;width:min(100%,430px)}
+.why .box{background:var(--pg-card);border:1.5px solid var(--pg-line);border-radius:18px;padding:14px 16px;display:grid;gap:4px}
+.why b{font-size:16px}
+.why li{font-size:16px;color:var(--pg-grey);line-height:1.7}
+.why ul{margin:0;padding-inline-start:20px;display:grid;gap:2px}
+section.cmp{display:grid;gap:14px}
+section.cmp h2{font-family:var(--baloo);font-size:30px;margin:0;line-height:1.35}
+section.cmp>p{margin:-6px 0 0;color:var(--pg-grey);font-size:16.5px;max-width:80ch}
+.pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--pg-card);border:1.5px solid var(--pg-line);border-radius:20px;padding:10px}
+.pair figure{margin:0;display:grid;gap:4px;text-align:center}
+.pair img,.pair canvas{width:100%;height:auto;border-radius:16px;display:block;aspect-ratio:373/420;object-fit:cover;object-position:top}
+.pair figcaption{font-size:14px;color:var(--pg-grey);font-weight:700}
+.pair .t{grid-column:1/-1;font-weight:800;font-size:15px;text-align:center}
+.tablewrap{overflow-x:auto;border-radius:18px;border:1.5px solid var(--pg-line);background:var(--pg-card)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:16px;line-height:1.6}
+th,td{text-align:start;padding:11px 14px;border-bottom:1.5px solid var(--pg-line);vertical-align:top}
+th{font-size:15px;color:var(--pg-grey)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.foot{font-size:15px;color:var(--pg-grey);max-width:92ch;margin:0}
+
+/* phone */
+.ph{position:relative;height:800px;max-height:calc(100vh - 40px);min-height:660px;border-radius:44px;overflow:hidden;isolation:isolate;font-family:var(--baloo);background:#0B0F1C;color:#fff}
+.scene{position:absolute;inset:0 0 auto 0;height:60%;z-index:0}
+.scene canvas{width:100%;height:100%;display:block}
+.status{position:relative;z-index:3;height:44px;display:flex;justify-content:space-between;align-items:center;padding:8px 30px 0;font-size:15px;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.45)}
+.hud{position:absolute;z-index:3;inset:44px 0 auto 0;padding:4px 22px 18px;display:grid;justify-items:start;gap:0;background:radial-gradient(70% 62% at 72% 46%,rgba(4,8,22,.42),rgba(4,8,22,0) 100%),linear-gradient(180deg,rgba(4,6,16,.44) 0%,rgba(4,6,16,.24) 72%,transparent 100%);pointer-events:none}
+.hud small{font-size:15px;font-weight:700;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+.hud b{font-size:26px;font-weight:800;line-height:1.3;margin-top:6px;text-shadow:0 1px 10px rgba(0,0,0,.45)}
+.hud .cd{font-size:76px;font-weight:800;line-height:1;letter-spacing:-1px;text-shadow:0 2px 18px rgba(0,0,0,.35)}
+.hud .cap{font-size:19px;font-weight:800;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.prog{margin-top:8px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;background:rgba(6,8,18,.62);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:3px 12px 3px 4px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.prog i{display:block;width:90px;height:6px;border-radius:3px;background:rgba(255,255,255,.22);overflow:hidden}
+.prog i b{display:block;height:100%;background:var(--gold);border-radius:3px}
+.ic{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* the emerald sheet */
+.msheet{position:absolute;inset-inline:0;bottom:0;z-index:4;height:44%;background:linear-gradient(180deg,#123528,#0B231B 40%);color:#F4ECD6;border-radius:30px 30px 0 0;display:flex;flex-direction:column;box-shadow:0 -24px 40px -24px rgba(0,0,0,.8);transition:height .45s cubic-bezier(.3,1.25,.5,1)}
+.msheet::before{content:"";position:absolute;inset:0 22px auto;height:1px;background:linear-gradient(90deg,transparent,rgba(224,190,106,.85),transparent)}
+.msheet.up{height:80%}
+.msheet .handle{flex:none;display:grid;justify-items:center;padding:8px 0 2px;min-height:40px;width:100%;touch-action:none}
+.msheet .handle i{width:46px;height:5px;border-radius:3px;background:rgba(224,190,106,.5)}
+.msheet .in{flex:1;overflow-y:auto;scrollbar-width:none;padding:0 16px 18px;display:flex;flex-direction:column;gap:6px;min-height:0}
+.msheet .in::-webkit-scrollbar{display:none}
+.msheet .in>*{flex:none}
+.hd{display:flex;align-items:center;gap:8px;padding-bottom:4px}
+.hd b{flex:1;font-size:22px;font-weight:800}
+.hd em{font-style:normal;font-size:15px;color:#C2D6CA;font-weight:700}
+.pray{min-height:48px;padding:0 18px;border-radius:24px;background:var(--gold);color:#241900;font-size:16px;font-weight:800;display:inline-flex;align-items:center;gap:6px;transition:border-radius .35s cubic-bezier(.3,1.4,.5,1),transform .2s}
+.pray:active{transform:scale(.95)}
+.pray[aria-pressed="true"]{background:transparent;color:var(--gold);border:2px solid var(--gold);border-radius:14px}
+.addb{width:48px;height:48px;position:relative;display:grid;place-items:center;color:#241900;flex:none}
+.addb svg.s{position:absolute;inset:0;width:100%;height:100%}
+.addb svg.s path{fill:var(--gold)}
+.addb .ic{position:relative;width:22px;height:22px;stroke-width:3}
+.li{display:flex;align-items:center;gap:10px;min-height:58px;border-bottom:1px solid rgba(224,190,106,.18);width:100%;text-align:start}
+.li .tt{flex:1;font-size:18px;font-weight:700;line-height:1.4}
+.li .mt{font-size:14px;color:#C2D6CA;font-weight:700}
+.done .tt{text-decoration:line-through;opacity:.7}
+.mk{width:44px;height:44px;flex:none;display:grid;place-items:center}
+.mk svg{width:30px;height:30px;overflow:visible}
+.mk .o2{fill:none;stroke:#C2D6CA;stroke-width:2.2;transition:d .5s cubic-bezier(.3,1.5,.5,1),fill .3s,stroke .3s}
+.mk .c{fill:none;stroke:#241900;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .3s .12s}
+.done .mk .o2{fill:var(--gold);stroke:var(--gold)}
+.done .mk .c{stroke-dashoffset:0}
+.msheet h4{margin:8px 0 0;font-size:15px;color:#C2D6CA;font-weight:800}
+.toast{position:absolute;inset:auto 16px 18px 16px;z-index:45;border-radius:18px;padding:6px 6px 6px 16px;font-weight:700;font-size:16px;display:flex;align-items:center;gap:10px;min-height:56px;background:#F4ECD6;color:#0B231B;animation:rise .25s ease-out}
+.toast span{flex:1}
+.toast button{min-height:44px;padding:0 14px;border-radius:12px;font-weight:700;border:1.5px solid currentColor}
+@keyframes rise{from{transform:translateY(16px);opacity:0}}
+/* focus */
+.focus{background:radial-gradient(120% 70% at 50% 30%,#163A2E,#0B1F18 60%,#071510)}
+.focus .scene{height:100%}
+.focus .fx{position:absolute;inset:auto 0 0 0;z-index:3;padding:0 22px 22px;display:grid;gap:10px;text-align:center}
+.focus .fx small{font-size:15px;font-weight:800;color:var(--gold)}
+.focus .fx h3{margin:0;font-size:34px;font-weight:800;line-height:1.3;color:#F4ECD6}
+.focus .fx p{margin:-4px 0 0;font-size:16px;color:#C2D6CA;font-weight:700}
+.focus .fx .do{min-height:62px;border-radius:20px;background:var(--gold);color:#241900;font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}
+.focus .fx .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.focus .fx .two button{min-height:52px;border-radius:16px;border:1.5px solid rgba(224,190,106,.45);color:#F4ECD6;font-size:16px;font-weight:700}
+.focus .ftop{position:relative;z-index:3;text-align:center;padding:2px 22px;display:grid}
+.focus .ftop b{font-size:22px;font-weight:800;color:#F4ECD6}
+.focus .ftop .cd{font-size:52px;font-weight:800;line-height:1.05;color:#fff}
+.focus .ftop span{font-size:15px;font-weight:700;color:#C2D6CA}
+
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="k">نموذج · السليمانية، الإثنين 2 تشرين الثاني 2026</span>
+    <h1>المشهد الحي، بشكل أوضح وأعمق</h1>
+    <p>نفس فكرة البحيرة اللي عجبتك، بس مرسومة بدقة شاشة تلفونك. سما بغيوم ودرب التبانة، وجبال يضويها جانب الشمس، وأضواء المدينة، وماي يعكس كلشي ويتكسّر. والشمس هي نجمتنا. كل حركة إلها معنى، والمشهد يوقف لما ما تشوفه.</p>
+  </header>
+  <div class="timebar">
+    <button class="play" id="play" aria-label="شغّل اليوم"></button>
+    <span class="tl-clock num" id="clockL">15:10</span><span class="tl-part" id="partL">بعد العصر</span>
+    <input class="scrub" id="scrub" type="range" min="0" max="1439" step="1" value="910" aria-label="وكت اليوم">
+  </div>
+  <div class="jumps" id="jumps"></div>
+  <div class="stage" id="stage"></div>
+
+  <section class="cmp" aria-labelledby="cmph"><h2 id="cmph">قارن بعينك: ملفك ونسختي بنفس الساعات</h2>
+    <p>اليمين صورة من ملفك (نموذج البحيرة)، واليسار مشهدي بنفس الوكت بدون كتابة، حتى تقارن الرسم نفسه. النسخة الحية بالكتابة هي اللي فوك.</p>
+    <div class="pairs" id="pairs"></div>
+    <div class="tablewrap"><table><thead><tr><th>الناحية</th><th>ملفك</th><th>نسختي</th></tr></thead><tbody>
+      <tr><td>الحدّة بالتلفون</td><td>الرسم بحجم ثابت ومنفوخ، فيطلع مغبّش شوية</td><td>بدقة الشاشة الحقيقية، حاد</td></tr>
+      <tr><td>العمق</td><td>جبلين وضباب</td><td>ثلاث طبقات جبال، وضو الشمس على حافة الجبل، وغيوم تتلوّن، ودرب التبانة بالليل</td></tr>
+      <tr><td>الماي</td><td>خطوط تتموّج</td><td>انعكاس للمشهد كله يتكسّر، ولمعة الشمس على الماي، والماي يغمق كل ما تبعد</td></tr>
+      <tr><td>معنى الحركة</td><td>كلشي يتحرك نفس الشي طول الوكت</td><td>الماي هادي، ويتحرك أكثر قبل الصلاة. وتطلع حلقات بالماي آخر 10 دقايق. والنجمة تتحول لما يتغيّر القسم</td></tr>
+      <tr><td>القراءة</td><td>الأرقام فوك رسوم تتحرك بنموذجين</td><td>الأرقام دايماً على سما معتّمة شوية</td></tr>
+      <tr><td>التلفون والبطارية</td><td>يرسم كلشي 60 مرة بالثانية دايماً</td><td>الثابت ينرسم مرة بالدقيقة، والحركة 30 مرة بالثانية، ويوقف لما ما تشوفه</td></tr>
+      <tr><td>تقليل الحركة</td><td>ما يحترمه</td><td>صورة ثابتة تتحدث كل دقيقة</td></tr>
+    </tbody></table></div>
+  </section>
+  <p class="foot">نموذج للشكل، والتطبيق ما تغيّر. الجبل والمدينة مرسومين بالكود بشكل مبسّط، مو صورة. بالتطبيق الحقيقي نكدر نرسم الماي والسما بكارت الشاشة (شيدر بأندرويد 13 وفوك) حتى يصير أنعم وأخف، وأتأكد من التفاصيل الرسمية قبل ما نبدي.</p>
+</div>
+
+<script>
+(()=>{
+/* ---------------- the day ---------------- */
+const SLEEP=1260,WAKE=268;
+const PARTS=[
+ {k:'fajr',name:'بعد الفجر',pr:'الفجر',s:287,e:381,end:'الشروق'},
+ {k:'morning',name:'الصبح',pr:null,s:381,e:703,end:'الظهر'},
+ {k:'dhuhr',name:'بعد الظهر',pr:'الظهر',s:703,e:879,end:'العصر'},
+ {k:'asr',name:'بعد العصر',pr:'العصر',s:879,e:1022,end:'المغرب'},
+ {k:'maghrib',name:'بعد المغرب',pr:'المغرب',s:1022,e:1106,end:'العشاء'},
+ {k:'isha',name:'بعد العشاء',pr:'العشاء',s:1106,e:SLEEP,end:'النوم'},
+];
+const SEED=()=>[{id:1,t:'أذكار الصبح وقرآن',p:'fajr',rep:'daily',done:true},{id:2,t:'فطور ويّا الأهل',p:'morning',done:true},{id:3,t:'الدوام',p:'morning',done:true},
+ {id:11,t:'قيلولة قصيرة',p:'dhuhr',done:false},{id:4,t:'رياضة',p:'asr',rep:'daily',done:false},{id:5,t:'اتصل بالمحاسب',p:'asr',done:false},{id:6,t:'اشتري أغراض البيت',p:'asr',done:false},
+ {id:7,t:'وقت ويّا الأهل',p:'maghrib',rep:'daily',done:false},{id:8,t:'دراسة',p:'isha',done:false}];
+const S={m:910,prayed:new Set(['fajr','dhuhr']),things:SEED(),up:false,skip:[],toast:null,toastIn:null,undo:null,playing:false};
+const pad=n=>String(n).padStart(2,'0');
+const clk=m=>{m=((Math.round(m)%1440)+1440)%1440;return pad(Math.floor(m/60))+':'+pad(m%60)};
+const hm=m=>{m=Math.max(0,Math.round(m));return Math.floor(m/60)+':'+pad(m%60)};
+const num=s=>`<span class="num">${s}</span>`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const partAt=m=>PARTS.find(p=>m>=p.s&&m<p.e);
+const inPart=k=>S.things.filter(x=>x.p===k);
+const ended=p=>p.e<=S.m&&S.m>=PARTS[0].s;
+const carry=()=>PARTS.filter(ended).flatMap(p=>inPart(p.k).filter(x=>!x.done));
+const countW=n=>n===1?'شغلة وحدة':n===2?'شغلتين':n+' شغلات';
+document.documentElement.lang='ar';
+function now(m=S.m){const cur=partAt(m);
+  if(cur)return {cur,name:cur.name,left:cur.e-m,prog:(m-cur.s)/(cur.e-cur.s),end:cur.end,endAt:cur.e,len:cur.e-cur.s};
+  if(m>=WAKE&&m<PARTS[0].s)return {cur:null,name:'وكت صلاة الليل',left:PARTS[0].s-m,prog:(m-WAKE)/(PARTS[0].s-WAKE),end:'الفجر',endAt:PARTS[0].s,len:PARTS[0].s-WAKE};
+  const gone=m>=SLEEP?m-SLEEP:m+1440-SLEEP,total=WAKE+1440-SLEEP;
+  return {cur:null,name:'الليل',left:total-gone,prog:gone/total,end:'الصحيان',endAt:WAKE,len:total}}
+const keyNow=()=>{const n=now();return n.cur?n.cur.k:'night'};
+/* minutes until the next prayer starts (for the anticipation ripples) */
+function toNextPrayer(m=S.m){const nx=PARTS.find(p=>p.pr&&p.s>m);return nx?nx.s-m:(PARTS[0].s+1440-m)}
+
+/* ---------------- shapes ---------------- */
+const SH={fajr:{n:8,a:.2,k:3,r:0},morning:{n:12,a:.1,k:2,r:0},dhuhr:{n:16,a:.06,k:1,r:0},asr:{n:10,a:.17,k:2.6,r:0},maghrib:{n:6,a:.12,k:1,r:0},isha:{n:8,a:.24,k:3.4,r:22.5},night:{n:8,a:.24,k:3.4,r:22.5}};
+function geoPts(o,pts=120){const a=[];for(let i=0;i<pts;i++){const t=i/pts*Math.PI*2+o.r*Math.PI/180;a.push([Math.cos(t)*(1-o.a*(1-Math.pow(Math.abs(Math.cos(o.n*t/2)),o.k))),Math.sin(t)*(1-o.a*(1-Math.pow(Math.abs(Math.cos(o.n*t/2)),o.k)))])}return a}
+function geo(o,R=126,cx=150,cy=cx,pts=180){let d='';for(let i=0;i<=pts;i++){const t=i/pts*Math.PI*2+o.r*Math.PI/180;const f=1-o.a*(1-Math.pow(Math.abs(Math.cos(o.n*t/2)),o.k));const r=R*f;d+=(i?'L':'M')+(cx+r*Math.cos(t)).toFixed(2)+' '+(cy+r*Math.sin(t)).toFixed(2)}return d+'Z'}
+const CB_O=geo({n:4,a:0,k:1,r:0},13,17),CB_D=geo({n:8,a:.2,k:3,r:0},15,17);
+
+/* ---------------- sky colour ---------------- */
+const STOPS=[[0,'#03050F','#0B1230'],[240,'#04071A','#141B45'],[287,'#0B1040','#4B3F86'],[345,'#1C2E6E','#C9748A'],[381,'#24529A','#F2A66B'],[470,'#1A56A6','#9FCBEF'],
+ [703,'#1556A8','#8DC3EE'],[879,'#285FA8','#E3BB78'],[985,'#33478F','#EE8A4E'],[1022,'#26285E','#D4553A'],[1062,'#15193F','#5A3360'],[1106,'#0B0F2E','#22244E'],[1200,'#05081A','#10163A'],[1440,'#03050F','#0B1230']];
+const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const mixA=(A,B,t)=>A.map((v,i)=>Math.round(v+(B[i]-v)*t));
+const rgb=(a,al=1)=>`rgba(${a[0]},${a[1]},${a[2]},${al})`;
+function skyAt(m){m=((m%1440)+1440)%1440;let i=0;while(i<STOPS.length-2&&STOPS[i+1][0]<=m)i++;const [m0,t0,b0]=STOPS[i],[m1,t1,b1]=STOPS[i+1];const t=(m-m0)/(m1-m0);return {top:mixA(hx(t0),hx(t1),t),bot:mixA(hx(b0),hx(b1),t)}}
+const nightOf=m=>m<300||m>1100?1:m<381?Math.max(0,(381-m)/81):m>1022?Math.min(1,(m-1022)/78):0;
+function sunState(m){/* altitude 0..1 by day, moon by night; x from east (right) to west (left) */
+  if(m>=372&&m<=1030){const t=Math.min(1,Math.max(0,(m-381)/641));return {up:true,t,alt:Math.sin(Math.PI*t)}}
+  const mm=m<1022?m+1440:m,t=(mm-1022)/((381+1440)-1022);return {up:false,t,alt:Math.sin(Math.PI*Math.min(1,Math.max(0,t)))}}
+/* a tiny deterministic random */
+const rnd=(i)=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+
+/* ---------------- the scene engine ---------------- */
+class Scene{
+  constructor(cv,mode){this.cv=cv;this.mode=mode;this.ctx=cv.getContext('2d');this.base=document.createElement('canvas');this.up=document.createElement('canvas');this.lastMin=null;this.visible=true;this.ripples=[];this.lastRing=0;this.morph=null;this.lastKey=null;this.resize()}
+  resize(){const r=this.cv.getBoundingClientRect();const dpr=Math.min(3,window.devicePixelRatio||1);this.cssW=Math.max(1,r.width);this.cssH=Math.max(1,r.height);
+    for(const c of [this.cv,this.base,this.up]){c.width=Math.round(this.cssW*dpr);c.height=Math.round(this.cssH*dpr)}
+    this.k=this.cssW/400*dpr;this.W=400;this.H=this.cssH/this.cssW*400;this.horizon=this.mode==='focus'?this.H*.62:this.H*.66;this.lastMin=null}
+  /* everything that only changes with the minute: sky, milky way, mountains, city */
+  drawBase(m){const c=this.base.getContext('2d');c.setTransform(this.k,0,0,this.k,0,0);const {W,H,horizon:hz}=this;const k=skyAt(m),nt=nightOf(m),s=sunState(m);
+    /* by day the sun crosses the whole sky; by night the moon keeps to the left so it never sits behind the numbers */
+    const sx=s.up?W*(.88-.76*s.t):W*(.40-.28*s.t),sy=s.up?hz-18-(hz*.36)*s.alt:hz-40-(hz*.28)*s.alt;this.sun={x:sx,y:sy,up:s.up,alt:s.alt};
+    const g=c.createLinearGradient(0,0,0,hz);g.addColorStop(0,rgb(k.top));g.addColorStop(.62,rgb(mixA(k.top,k.bot,.35)));g.addColorStop(1,rgb(k.bot));c.fillStyle=g;c.fillRect(0,0,W,hz+2);
+    /* light scattered around the sun: warm and wide when low, white and tight when high */
+    if(s.up){const warm=1-s.alt;const sg=c.createRadialGradient(sx,sy,0,sx,sy,120+warm*160);sg.addColorStop(0,`rgba(255,${Math.round(236-warm*60)},${Math.round(200-warm*110)},${.55+warm*.2})`);sg.addColorStop(1,'rgba(255,200,120,0)');c.fillStyle=sg;c.fillRect(0,0,W,hz)}
+    /* milky way and stars */
+    if(nt>.05){c.save();c.globalAlpha=nt*.35;c.translate(W*.55,hz*.45);c.rotate(-.5);for(let i=0;i<260;i++){const x=(rnd(i)-.5)*W*1.4,y=(rnd(i+500)-.5)*40*(1+rnd(i+900));c.fillStyle=`rgba(220,225,255,${.2+rnd(i+77)*.5})`;c.fillRect(x,y,1,1)}
+      const mw=c.createLinearGradient(0,-36,0,36);mw.addColorStop(0,'rgba(180,190,255,0)');mw.addColorStop(.5,'rgba(180,190,255,.16)');mw.addColorStop(1,'rgba(180,190,255,0)');c.fillStyle=mw;c.fillRect(-W,-36,W*2,72);c.restore();
+      for(let i=0;i<70;i++){const x=rnd(i+40)*W,y=rnd(i+140)*hz*.85;c.fillStyle=`rgba(255,250,235,${(nt*(.35+rnd(i+240)*.6)).toFixed(2)})`;c.beginPath();c.arc(x,y,rnd(i+340)<.15?1.4:.8,0,7);c.fill()}}
+    /* three ridges: far (hazy), mid (Goyzha), near (city hills); the side facing the sun catches light */
+    const ridge=(base,amp,f1,f2,ph,col,rim)=>{c.beginPath();c.moveTo(0,hz);const pts=[];for(let x=0;x<=W;x+=4){const y=base-(Math.sin(x*f1+ph)*amp+Math.sin(x*f2+ph*2)*amp*.35+Math.max(0,amp*1.4-Math.abs(x-W*.32)*.18));pts.push([x,y]);c.lineTo(x,y)}c.lineTo(W,hz);c.closePath();c.fillStyle=col;c.fill();
+      if(rim&&s.up){c.save();c.strokeStyle=`rgba(255,${Math.round(220-60*(1-s.alt))},150,${(.18+.4*(1-s.alt)).toFixed(2)})`;c.lineWidth=1.4;c.beginPath();pts.forEach(([x,y],i)=>{i?c.lineTo(x,y):c.moveTo(x,y)});c.stroke();c.restore()}};
+    const far=mixA(k.bot,mixA(k.top,[8,10,24],.3),.45);
+    ridge(hz-62,16,.012,.031,.4,rgb(far),true);
+    ridge(hz-34,14,.02,.05,1.7,rgb(mixA(k.top,[6,8,18],.55)),true);
+    ridge(hz-12,7,.035,.09,2.6,rgb(mixA(k.top,[3,4,10],.78)),false);
+    /* the city on the shore: houses, a mosque with two minarets */
+    c.fillStyle=rgb(mixA(k.top,[2,3,8],.85));
+    for(let i=0;i<26;i++){const x=i*16+rnd(i+60)*6,w=10+rnd(i+70)*10,h=6+rnd(i+80)*12;c.fillRect(x,hz-h,w,h+2)}
+    const mx=W*.74;c.beginPath();c.arc(mx,hz-14,15,Math.PI,0);c.fill();c.fillRect(mx-20,hz-14,40,16);
+    for(const dx of[-26,26]){c.fillRect(mx+dx-2.5,hz-58,5,58);c.beginPath();c.moveTo(mx+dx-4,hz-58);c.lineTo(mx+dx+4,hz-58);c.lineTo(mx+dx,hz-68);c.closePath();c.fill()}
+    this.lights=[];if(nt>.08){for(let i=0;i<90;i++){const x=rnd(i+600)*W,y=hz-2-rnd(i+700)*16;this.lights.push([x,y,rnd(i+800)])}}
+    this.nt=nt;this.sky=k}
+  draw(tSec,m,reduce){const key=keyNow();if(this.lastMin!==m){this.drawBase(m);this.lastMin=m}
+    if(this.lastKey!==key){if(this.lastKey&&!reduce)this.morph={from:SH[this.lastKey],to:SH[key],t0:tSec};this.lastKey=key}
+    const {W,H,horizon:hz}=this;const u=this.up.getContext('2d');u.setTransform(this.k,0,0,this.k,0,0);u.clearRect(0,0,W,H);u.drawImage(this.base,0,0,W,H);
+    const nt=this.nt,sun=this.sun,T=reduce?0:tSec;
+    /* drifting clouds lit by the sky */
+    const cloudCol=sun.up?mixA([255,255,255],[255,170,140],1-sun.alt):[60,66,96];
+    for(let ci=0;ci<3;ci++){const cx=((ci*170+T*(4+ci*2))%(W+260))-130,cy=hz*(.18+ci*.13),sc=.7+ci*.25;
+      for(let p=0;p<6;p++){const px=cx+(p-2.5)*22*sc,py=cy+Math.sin(p*1.7)*6*sc,r=(18+rnd(p+ci*10)*16)*sc;const g=u.createRadialGradient(px,py,0,px,py,r);g.addColorStop(0,rgb(cloudCol,(sun.up?.32:.22)));g.addColorStop(1,rgb(cloudCol,0));u.fillStyle=g;u.beginPath();u.arc(px,py,r,0,7);u.fill()}}
+    /* twinkling stars and a rare shooting star */
+    if(nt>.05&&!reduce){for(let i=0;i<24;i++){const x=rnd(i+40)*W,y=rnd(i+140)*hz*.85;const tw=.5+.5*Math.sin(T*2.2+i*1.7);u.fillStyle=`rgba(255,250,235,${(nt*tw*.8).toFixed(2)})`;u.beginPath();u.arc(x,y,1.1,0,7);u.fill()}
+      const ph=(T%13)/1.2;if(ph<1){const x=W*.85-ph*W*.5,y=hz*.12+ph*hz*.18;const g=u.createLinearGradient(x,y,x+50,y-18);g.addColorStop(0,`rgba(255,245,220,${nt*.9})`);g.addColorStop(1,'rgba(255,245,220,0)');u.strokeStyle=g;u.lineWidth=1.6;u.beginPath();u.moveTo(x,y);u.lineTo(x+50,y-18);u.stroke()}}
+    /* soft god rays when the sun is low */
+    if(sun.up&&sun.alt<.45&&!reduce){u.save();u.translate(sun.x,sun.y);u.rotate(T*.03);for(let i=0;i<9;i++){u.rotate(Math.PI*2/9);const g=u.createLinearGradient(0,0,0,170);g.addColorStop(0,`rgba(255,226,170,${(.16*(1-sun.alt/.45)).toFixed(3)})`);g.addColorStop(1,'rgba(255,226,170,0)');u.fillStyle=g;u.beginPath();u.moveTo(-3,0);u.lineTo(3,0);u.lineTo(26,170);u.lineTo(-26,170);u.closePath();u.fill()}u.restore()}
+    /* the sun is our star medallion (by night it takes the moon's place, paler) */
+    let shp=SH[key];if(this.morph){const p=Math.min(1,(tSec-this.morph.t0)/0.9);const e=1-Math.pow(1-p,3);shp=null;this.mp=e;if(p>=1)this.morph=null}
+    this.medal(u,sun.x,sun.y,sun.up?26:20,shp,T,sun.up);
+    /* city lights that breathe a little */
+    if(nt>.08){for(const [x,y,r] of this.lights){u.fillStyle=`rgba(255,${Math.round(205+r*30)},120,${(nt*(.55+.35*Math.sin(T*1.3+r*20))).toFixed(2)})`;u.fillRect(x,y,1.3,1.3)}}
+    /* mist in the valley */
+    const mist=u.createLinearGradient(0,hz-40,0,hz);mist.addColorStop(0,'rgba(255,240,225,0)');mist.addColorStop(.6,`rgba(255,236,215,${(.07+(1-nt)*.08).toFixed(3)})`);mist.addColorStop(1,'rgba(255,240,225,0)');u.fillStyle=mist;u.fillRect(Math.sin(T*.2)*20-30,hz-40,W+60,40);
+    /* compose: the scene above the shore */
+    const c=this.ctx;c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,this.cv.width,this.cv.height);c.drawImage(this.up,0,0);
+    c.setTransform(this.k,0,0,this.k,0,0);
+    /* the lake: the scene mirrored, broken into rows that ripple; calmer far away, livelier before a prayer */
+    const near=toNextPrayer(S.m);const urgency=near<=20?1-near/20:0;const amp=(1.2+urgency*2.2)*(reduce?0:1);const speed=1.4+urgency*1.6;
+    const dpr=this.k*400/this.cssW;const row=2;
+    for(let y=hz;y<H;y+=row){const d=y-hz;const src=hz-d*1.05;if(src<0)break;const dx=Math.sin(d*.22-T*speed)*amp*(1+d*.025)+Math.sin(d*.07+T*.7)*amp*.6;
+      c.drawImage(this.up,0,Math.round(src*this.k),this.up.width,Math.ceil(row*this.k),dx-8,y,W+16,row)}
+    const lg=c.createLinearGradient(0,hz,0,H);lg.addColorStop(0,rgb(mixA(this.sky.bot,[10,20,40],.4),.28));lg.addColorStop(1,rgb([6,12,24],.82));c.fillStyle=lg;c.fillRect(0,hz,W,H-hz);
+    /* sun glitter on the water */
+    if(!reduce){const gx=sun.x;const bright=sun.up?(.5+.5*sun.alt):.35*nt;for(let i=0;i<40;i++){const y=hz+4+rnd(i)*(H-hz-8);const spread=4+(y-hz)*.35;const x=gx+(rnd(i+50)-.5)*spread*2+Math.sin(T*2+i)*3;const a=bright*(.35+.65*Math.max(0,Math.sin(T*3+i*2.3)));
+      c.fillStyle=`rgba(255,${sun.up?236:225},${sun.up?180:200},${a.toFixed(2)})`;c.fillRect(x,y,2.2-((y-hz)/(H-hz)),1)}}
+    /* the shore line */
+    c.fillStyle='rgba(0,0,0,.35)';c.fillRect(0,hz-.5,W,1.2);
+    /* rings on the water in the last 10 minutes before a prayer */
+    if(!reduce&&near<=10){if(tSec-this.lastRing>2.6){this.ripples.push({t0:tSec});this.lastRing=tSec}}
+    this.ripples=this.ripples.filter(r=>tSec-r.t0<4);
+    for(const r of this.ripples){const p=(tSec-r.t0)/4;c.strokeStyle=`rgba(255,231,174,${((1-p)*.6).toFixed(2)})`;c.lineWidth=1.2;c.beginPath();c.ellipse(sun.x,hz+(H-hz)*.32,10+p*120,(10+p*120)*.18,0,0,7);c.stroke()}
+  }
+  medal(u,x,y,R,shp,T,day){const key=keyNow();const target=SH[key];let pts;
+    if(this.morph&&this.mp!=null){const A=geoPts(this.morph.from),B=geoPts(this.morph.to);pts=A.map((p,i)=>[p[0]+(B[i][0]-p[0])*this.mp,p[1]+(B[i][1]-p[1])*this.mp])}else pts=geoPts(target);
+    const halo=u.createRadialGradient(x,y,0,x,y,R*3.4);halo.addColorStop(0,day?'rgba(255,240,200,.75)':'rgba(240,226,180,.4)');halo.addColorStop(1,'rgba(255,220,150,0)');u.fillStyle=halo;u.beginPath();u.arc(x,y,R*3.4,0,7);u.fill();
+    const draw=(s,rot)=>{u.beginPath();pts.forEach(([px,py],i)=>{const cs=Math.cos(rot),sn=Math.sin(rot);const X=x+(px*cs-py*sn)*s,Y=y+(px*sn+py*cs)*s;i?u.lineTo(X,Y):u.moveTo(X,Y)});u.closePath()};
+    const rot=T*.12;draw(R,rot);const g=u.createRadialGradient(x-R*.3,y-R*.3,R*.1,x,y,R);g.addColorStop(0,day?'#FFF6D8':'#F3E6C0');g.addColorStop(1,day?'#E9C25C':'#C9A859');u.fillStyle=g;u.fill();u.lineWidth=1.4;u.strokeStyle='rgba(120,88,16,.9)';u.stroke();
+    draw(R*.66,-rot*1.4);u.strokeStyle='rgba(120,88,16,.6)';u.lineWidth=1;u.stroke()}
+}
+
+/* ---------------- the hourglass (focus) ---------------- */
+class Glass{
+  constructor(cv){this.cv=cv;this.ctx=cv.getContext('2d');this.resize();this.grains=Array.from({length:70},(_,i)=>({o:rnd(i)}))}
+  resize(){const r=this.cv.getBoundingClientRect();const dpr=Math.min(3,window.devicePixelRatio||1);this.cv.width=Math.round(r.width*dpr);this.cv.height=Math.round(r.height*dpr);this.k=r.width/400*dpr;this.H=r.height/r.width*400}
+  draw(tSec,m,reduce){const c=this.ctx;c.setTransform(this.k,0,0,this.k,0,0);const W=400,H=this.H;c.clearRect(0,0,W,H);const n=now();const left=Math.max(0,Math.min(1,1-n.prog));const T=reduce?0:tSec;
+    const cx=W/2,top=H*.25,mid=H*.435,bot=H*.62,hw=70,neck=5;
+    /* glow and a faint star behind */
+    const gl=c.createRadialGradient(cx,mid,0,cx,mid,190);gl.addColorStop(0,'rgba(224,190,106,.18)');gl.addColorStop(1,'rgba(224,190,106,0)');c.fillStyle=gl;c.fillRect(0,0,W,H);
+    const sp=geoPts(SH[keyNow()]);c.save();c.globalAlpha=.12;c.beginPath();sp.forEach(([x,y],i)=>{const X=cx+x*170,Y=mid+y*170;i?c.lineTo(X,Y):c.moveTo(X,Y)});c.closePath();c.strokeStyle='#E0BE6A';c.lineWidth=1.5;c.stroke();c.restore();
+    const bulb=(dir)=>{c.beginPath();const y0=dir<0?top:bot,y1=mid;c.moveTo(cx-hw,y0);c.bezierCurveTo(cx-hw,y0+(y1-y0)*.55,cx-neck-4,y1-(y1-y0)*.12,cx-neck,y1);c.lineTo(cx+neck,y1);c.bezierCurveTo(cx+neck+4,y1-(y1-y0)*.12,cx+hw,y0+(y1-y0)*.55,cx+hw,y0);c.closePath()};
+    /* sand: top keeps what is left, bottom what has passed */
+    c.save();bulb(-1);c.clip();const tl=top+(mid-top)*(1-left);const sg=c.createLinearGradient(0,tl,0,mid);sg.addColorStop(0,'#F4D27A');sg.addColorStop(1,'#C9962E');c.fillStyle=sg;c.beginPath();c.moveTo(cx-hw,tl+6);c.quadraticCurveTo(cx,tl+20,cx+hw,tl+6);c.lineTo(cx+hw,mid);c.lineTo(cx-hw,mid);c.closePath();c.fill();c.restore();
+    c.save();bulb(1);c.clip();const bh=(bot-mid)*(1-left);const bl=bot-bh;const bg=c.createLinearGradient(0,bl,0,bot);bg.addColorStop(0,'#F4D27A');bg.addColorStop(1,'#B9861F');c.fillStyle=bg;c.beginPath();c.moveTo(cx-hw,bot);c.lineTo(cx-hw,bl+bh*.5);c.quadraticCurveTo(cx,bl-10,cx+hw,bl+bh*.5);c.lineTo(cx+hw,bot);c.closePath();c.fill();c.restore();
+    /* the falling stream */
+    if(left>0&&left<1){c.fillStyle='rgba(244,210,122,.9)';c.fillRect(cx-.9,mid,1.8,(bl-mid)+4);if(!reduce){for(const g of this.grains){const p=(T*.9+g.o)%1;c.fillStyle=`rgba(255,226,150,${(1-p).toFixed(2)})`;c.fillRect(cx+(g.o-.5)*3,mid+p*(bl-mid),1.4,1.4)}}}
+    /* glass and highlights */
+    for(const d of[-1,1]){bulb(d);c.strokeStyle='rgba(244,236,214,.55)';c.lineWidth=1.6;c.stroke();bulb(d);c.save();c.clip();const hl=c.createLinearGradient(cx-hw,0,cx+hw,0);hl.addColorStop(0,'rgba(255,255,255,.14)');hl.addColorStop(.25,'rgba(255,255,255,0)');hl.addColorStop(.8,'rgba(255,255,255,0)');hl.addColorStop(1,'rgba(255,255,255,.08)');c.fillStyle=hl;c.fillRect(cx-hw,top,hw*2,bot-top);c.restore()}
+    /* gold caps */
+    for(const y of[top-8,bot]){const cg=c.createLinearGradient(0,y,0,y+8);cg.addColorStop(0,'#F4D27A');cg.addColorStop(1,'#A87D1E');c.fillStyle=cg;c.beginPath();c.roundRect(cx-hw-14,y,hw*2+28,8,4);c.fill()}
+  }
+}
+
+/* ---------------- UI ---------------- */
+const stage=document.getElementById('stage');const engines=[];let tt;
+function li(x){return `<button class="li ${x.done?'done':''}" data-act="tick" data-id="${x.id}" role="checkbox" aria-checked="${x.done}"><span class="mk"><svg viewBox="0 0 34 34" aria-hidden="true"><path class="o2" style="d:path('${x.done?CB_D:CB_O}')"/><path class="c" d="M11 17.5l4 4 8-8.5"/></svg></span><span class="tt">${esc(x.t)}</span>${x.rep==='daily'?'<span class="mt">كل يوم</span>':''}</button>`}
+function homeOverlay(){const n=now(),p=n.cur;const list=p?inPart(p.k):[];const c=carry();
+  return `<div class="hud"><small>الإثنين 2 تشرين الثاني · 22 جمادى الأولى</small><b>${n.name}</b><span class="cd num">${hm(n.left)}</span><span class="cap">باقي على ${n.end} · ${num(clk(n.endAt))}</span>
+    <span class="prog"><i><b style="width:${Math.round(n.prog*100)}%"></b></i>مضى ${Math.round(n.prog*100)}% من الوكت</span></div>
+    <div class="msheet ${S.up?'up':''}"><button class="handle" data-act="toggle" aria-label="${S.up?'نزّل الورقة':'اسحب الورقة لفوك'}" aria-expanded="${S.up}"><i></i></button>
+      <div class="in"><div class="hd"><b>${p?p.name:n.name}</b>${p?`<em class="num">${list.filter(x=>x.done).length}/${list.length}</em>`:''}${p&&p.pr?`<button class="pray" data-act="pray" data-k="${p.k}" aria-pressed="${S.prayed.has(p.k)}">${S.prayed.has(p.k)?'✓ صلّيت':'صلّيت '+p.pr}</button>`:''}
+        <button class="addb" data-act="add" aria-label="أضف"><svg class="s" viewBox="0 0 300 300" aria-hidden="true"><path d="${geo(SH.fajr,148)}"/></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
+      ${list.map(li).join('')}${c.length?`<h4>باقية من قبل</h4>${c.map(li).join('')}`:''}
+      ${PARTS.filter(q=>q.s>S.m&&inPart(q.k).length).map(q=>`<h4>${q.name} · ${num(clk(q.s))}</h4>${inPart(q.k).map(li).join('')}`).join('')}
+      ${!p?`<h4>تصحى ${num(clk(WAKE))} لصلاة الليل</h4>`:''}</div></div>`}
+function queue(){const n=now();const q=[];if(n.cur&&n.cur.pr&&!S.prayed.has(n.cur.k))q.push({kind:'pray',p:n.cur,t:'صلاة '+n.cur.pr});
+  for(const x of carry())q.push({kind:'thing',x,t:x.t});if(n.cur)for(const x of inPart(n.cur.k))if(!x.done)q.push({kind:'thing',x,t:x.t});
+  const key=it=>it.kind+(it.x?it.x.id:it.p.k);const sk=q.filter(it=>S.skip.includes(key(it)));return q.filter(it=>!sk.includes(it)).concat(sk)}
+function focusOverlay(){const n=now();const q=queue();const it=q[0];
+  return `<div class="ftop"><b>${n.name}</b><span class="cd num">${hm(n.left)}</span><span>الرمل فوك هو الوكت الباقي على ${n.end}</span></div>
+    <div class="fx">${it?`<small>التالي</small><h3>${esc(it.t)}</h3><p>${q.length>1?'وبعدها '+countW(q.length-1):'آخر شي هسه'}</p>
+      <button class="do" data-act="fdone">✓ ${it.kind==='pray'?'صلّيت':'خلّصت'}</button><div class="two"><button data-act="fskip">بعدين</button><button data-act="fback">رجوع لليوم</button></div>`
+      :`<small>خلّصت كلشي هسه</small><h3>ارتاح شوية</h3><p>${(PARTS.find(p=>p.s>S.m)||{}).name?'الجاي '+PARTS.find(p=>p.s>S.m).name+' '+clk(PARTS.find(p=>p.s>S.m).s):'تصحى '+clk(WAKE)}</p>`}</div>`}
+function buildStage(){stage.innerHTML=`
+  <div class="cell"><header><h2>الرئيسية</h2><span>البحيرة، ونجمتنا هي الشمس</span></header>
+    <div class="device"><div class="ph" data-d="home"><div class="scene"><canvas aria-hidden="true"></canvas></div><div class="status">${num(clk(S.m))}<span>السليمانية</span></div><div class="ov"></div></div></div>
+    <div class="why"><div class="box"><b>شنو الأحسن هنا</b><ul>
+      <li><b>حاد بتلفونك:</b> يرسم بدقة الشاشة الحقيقية.</li>
+      <li><b>عمق:</b> ثلاث طبقات جبال، وضو الشمس على حافتها، وغيوم تتلوّن ويّا الوكت، ودرب التبانة بالليل.</li>
+      <li><b>ماي حقيقي أكثر:</b> المشهد كله ينعكس ويتكسّر، ولمعة الشمس تلمع على الماي.</li>
+      <li><b>حركة بمعنى:</b> الماي هادي، ويتحرك أكثر آخر 20 دقيقة قبل الصلاة، وتطلع حلقات آخر 10 دقايق. والنجمة تتحول بنعومة لما يتغيّر القسم.</li>
+      <li><b>الأرقام واضحة دايماً:</b> السما وراها معتّمة شوية.</li></ul></div></div></div>
+  <div class="cell"><header><h2>ركّز</h2><span>الساعة الرملية</span></header>
+    <div class="device"><div class="ph focus" data-d="focus"><div class="scene"><canvas aria-hidden="true"></canvas></div><div class="status">${num(clk(S.m))}<span>السليمانية</span></div><div class="ov"></div></div></div>
+    <div class="why"><div class="box"><b>شنو الأحسن هنا</b><ul>
+      <li>الرمل فوك هو الوكت الباقي بالضبط، واللي نزل هو اللي مضى.</li>
+      <li>زجاج بلمعة، وأغطية ذهب، ونجمة القسم تضوي وراها.</li>
+      <li>الساعة بالنص، والكلام فوكها وتحتها، فما يتزاحمون.</li></ul></div></div></div>`;
+  engines.length=0;
+  stage.querySelectorAll('.ph').forEach(ph=>{const cv=ph.querySelector('canvas');const e=ph.dataset.d==='focus'?new Glass(cv):new Scene(cv,'home');e.ph=ph;engines.push(e)});
+  renderOverlays();observe()}
+function renderOverlays(){const keep=stage.querySelector('.msheet .in')?.scrollTop||0;
+  stage.querySelectorAll('.ph').forEach(ph=>{ph.querySelector('.status').innerHTML=`${num(clk(S.m))}<span>السليمانية</span>`;const ov=ph.querySelector('.ov');ov.innerHTML=(ph.dataset.d==='focus'?focusOverlay():homeOverlay())+(S.toast&&S.toastIn===ph.dataset.d?`<div class="toast" role="status"><span>${S.toast}</span>${S.undo?'<button data-act="undo">تراجع</button>':''}</div>`:'')});
+  const i=stage.querySelector('.msheet .in');if(i)i.scrollTop=keep;
+  document.getElementById('clockL').textContent=clk(S.m);document.getElementById('partL').textContent=now().name;const sc=document.getElementById('scrub');if(+sc.value!==Math.round(S.m))sc.value=Math.round(S.m)}
+function toast(msg,d,undo){S.toast=msg;S.toastIn=d;S.undo=undo||null;renderOverlays();clearTimeout(tt);tt=setTimeout(()=>{S.toast=null;S.undo=null;renderOverlays()},undo?4000:2200)}
+stage.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const ph=b.closest('.ph');const d=ph.dataset.d,a=b.dataset.act;
+  switch(a){
+    case 'tick':{const x=S.things.find(t=>t.id==b.dataset.id);const v=!x.done;b.classList.toggle('done',v);const o=b.querySelector('.o2');if(o)o.style.d=`path('${v?CB_D:CB_O}')`;x.done=v;setTimeout(()=>v?toast(`خلّصت «${esc(x.t)}»`,d,[{id:x.id,done:false}]):renderOverlays(),400);break}
+    case 'pray':{const k=b.dataset.k;S.prayed.has(k)?S.prayed.delete(k):S.prayed.add(k);renderOverlays();break}
+    case 'undo':for(const u of S.undo||[]){const x=S.things.find(t=>t.id===u.id);if(x)Object.assign(x,u)}S.toast=null;S.undo=null;renderOverlays();break;
+    case 'toggle':S.up=!S.up;renderOverlays();break;
+    case 'add':toast('بالنسخة الكاملة تنفتح ورقة الإضافة',d);break;
+    case 'fdone':{const it=queue()[0];if(!it)break;if(it.kind==='pray')S.prayed.add(it.p.k);else it.x.done=true;toast(it.kind==='pray'?'صلّيت ✓':`خلّصت «${esc(it.t)}»`,d,it.kind==='thing'?[{id:it.x.id,done:false}]:null);break}
+    case 'fskip':{const it=queue()[0];if(!it)break;const key=it.kind+(it.x?it.x.id:it.p.k);S.skip=S.skip.filter(k=>k!==key).concat(key);renderOverlays();break}
+    case 'fback':toast('ترجع للرئيسية',d);break;
+  }});
+
+/* ---------------- the loop: 30 fps, only while visible, still when asked ---------------- */
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+function observe(){if(!('IntersectionObserver' in window))return;const io=new IntersectionObserver(es=>es.forEach(en=>{const e=engines.find(x=>x.ph.contains(en.target));if(e)e.visible=en.isIntersecting}),{threshold:.05});engines.forEach(e=>io.observe(e.cv))}
+let last=0,lastStaticMin=null;
+function loop(ts){requestAnimationFrame(loop);if(document.hidden)return;const reduce=RM.matches;
+  if(reduce){if(lastStaticMin===S.m)return;lastStaticMin=S.m;engines.forEach(e=>e.draw(0,S.m,true));return}
+  if(ts-last<33)return;last=ts;lastStaticMin=null;engines.forEach(e=>{if(e.visible)e.draw(ts/1000,S.m,false)})}
+window.addEventListener('resize',()=>{engines.forEach(e=>e.resize());lastStaticMin=null});
+
+/* ---------------- comparison ---------------- */
+const HIS={400:'{{HIS_DAWN}}',910:'{{HIS_ASR}}',1300:'{{HIS_NIGHT}}'};
+function buildPairs(){const el=document.getElementById('pairs');el.innerHTML=[[400,'الشروق 06:40'],[910,'العصر 15:10'],[1300,'الليل 21:40']].map(([m,l])=>`<div class="pair"><span class="t">${l}</span><figure><img src="${HIS[m]}" alt="ملفك، ${l}"><figcaption>ملفك</figcaption></figure><figure><canvas data-m="${m}" aria-label="نسختي، ${l}"></canvas><figcaption>نسختي</figcaption></figure></div>`).join('');
+  el.querySelectorAll('canvas').forEach(cv=>{const m=+cv.dataset.m;const sc=new Scene(cv,'home');const keep=S.m;S.m=m;sc.draw(3,m,true);S.m=keep})}
+
+/* ---------------- board controls ---------------- */
+const JUMPS=[[300,'الفجر'],[400,'الشروق'],[600,'الصبح'],[760,'الظهر'],[910,'العصر'],[1005,'قبل المغرب'],[1040,'المغرب'],[1180,'العشاء'],[1300,'الليل']];
+const jumps=document.getElementById('jumps');
+jumps.innerHTML=JUMPS.map(([m,l])=>`<button data-m="${m}" aria-pressed="${m===S.m}"><span class="num">${clk(m)}</span> ${l}</button>`).join('');
+jumps.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;stopPlay();S.m=+b.dataset.m;jumps.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));lastStaticMin=null;renderOverlays()});
+const scrub=document.getElementById('scrub');scrub.addEventListener('input',()=>{S.m=+scrub.value;jumps.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed','false'));lastStaticMin=null;renderOverlays()});
+let playing=null;const PLAY='<svg viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg>',PAUSE='<svg viewBox="0 0 24 24"><rect x="6.5" y="5" width="4" height="14" rx="1"/><rect x="13.5" y="5" width="4" height="14" rx="1"/></svg>';
+const playBtn=document.getElementById('play');playBtn.innerHTML=PLAY;
+function stopPlay(){if(playing){clearInterval(playing);playing=null;playBtn.innerHTML=PLAY;playBtn.setAttribute('aria-label','شغّل اليوم')}}
+playBtn.addEventListener('click',()=>{if(playing){stopPlay();return}playBtn.innerHTML=PAUSE;playBtn.setAttribute('aria-label','وقّف');playing=setInterval(()=>{S.m=(S.m+3)%1440;renderOverlays()},90)});
+buildStage();buildPairs();requestAnimationFrame(loop);
+})();
+</script>

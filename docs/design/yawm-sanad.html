@@ -1,0 +1,469 @@
+<title>يوم · سند</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+/* «سند»: a companion, not a reminder. One soul, three faces: the star in your sky, letters, a conversation. */
+:root{
+  --pg:#0E0F13; --pg-card:#171920; --pg-ink:#F3F1EC; --pg-grey:#A7AAB6; --pg-line:#2A2D38; --gold:#E0BE6A;
+  --baloo:"Baloo Bhaijaan 2","Tajawal",Tahoma,sans-serif; --taj:"Tajawal",Tahoma,sans-serif;
+  --naskh:"Noto Naskh Arabic","Tajawal",serif; --ruqaa:"Aref Ruqaa","Noto Naskh Arabic",serif; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{background:var(--pg);color:var(--pg-ink);font-family:var(--taj);font-size:17px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:34px 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--pg)}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:1500px;margin:0 auto;display:grid;gap:26px}
+.wrap>*{min-width:0}
+.intro{display:grid;gap:10px;max-width:920px}
+.intro .k{font-weight:700;color:var(--gold);font-size:15px}
+.intro h1{font-family:var(--baloo);font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1.25;margin:0}
+.intro p{margin:0;font-size:18px;color:#D6D8E0;max-width:72ch}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--pg-card);border:1.5px solid var(--pg-line);border-radius:18px;padding:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;box-shadow:0 10px 30px -18px rgba(0,0,0,.6)}
+.bar b{font-size:15px;color:var(--pg-grey);padding:0 8px;font-weight:700}
+.bar button{min-height:48px;padding:0 14px;border-radius:13px;border:1.5px solid var(--pg-line);font-weight:700;font-size:15.5px;display:inline-flex;align-items:center;gap:8px}
+.bar button small{font-size:14px;color:var(--pg-grey);font-weight:500}
+.bar button[aria-pressed="true"]{background:var(--gold);color:#241900;border-color:var(--gold)}
+.bar button[aria-pressed="true"] small{color:#3A2A00}
+.bar .again{margin-inline-start:auto;border-style:dashed}
+.stage{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:40px 24px;align-items:start}
+.cell{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;justify-items:center;min-width:0}
+.cell header{display:grid;gap:2px;text-align:center}
+.cell h2{margin:0;font-family:var(--baloo);font-size:28px;font-weight:800;line-height:1.3}
+.cell header span{font-size:15.5px;color:var(--pg-grey);max-width:34ch}
+.device{width:min(100%,390px);justify-self:center;background:#050506;border-radius:54px;padding:10px;box-shadow:0 40px 80px -40px rgba(0,0,0,.8),inset 0 0 0 1.5px #2A2A2E}
+.ph{position:relative;height:780px;max-height:calc(100vh - 40px);min-height:660px;border-radius:44px;overflow:hidden;isolation:isolate}
+.status{position:relative;z-index:3;height:44px;display:flex;justify-content:space-between;align-items:center;padding:8px 30px 0;font-size:15px;font-weight:700;font-family:var(--baloo)}
+.in{animation:rise .38s cubic-bezier(.2,1.2,.4,1) both}
+@keyframes rise{from{transform:translateY(10px);opacity:0}}
+.dots{display:inline-flex;gap:5px;align-items:center;height:20px}
+.dots i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.35;animation:dot 1.1s infinite}
+.dots i:nth-child(2){animation-delay:.18s}.dots i:nth-child(3){animation-delay:.36s}
+@keyframes dot{40%{opacity:1;transform:translateY(-3px)}}
+.ans{display:flex;flex-wrap:wrap;gap:8px;padding:10px 16px 18px;flex:none}
+.ans:empty{display:none}
+.ans button{min-height:48px;padding:0 16px;border-radius:24px;font-weight:700;font-size:16.5px}
+.endnote{font-size:14.5px;font-weight:700;padding:4px 16px 16px;flex:none}
+
+/* ---------- A: the star in your sky ---------- */
+.sky{background:#0B0F1C;color:#fff;font-family:var(--baloo)}
+.sky .scene{position:absolute;inset:0 0 auto 0;height:50%;z-index:0}
+.sky .scene canvas{width:100%;height:100%;display:block}
+.sky .status{text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.sky .who{position:absolute;z-index:3;top:46px;inset-inline:0;text-align:center;font-size:17px;font-weight:800;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.sky .who small{display:block;font-size:14px;font-weight:700;opacity:.92}
+.sky .talk{position:absolute;inset:auto 0 0 0;height:56%;z-index:4;display:flex;flex-direction:column;background:linear-gradient(180deg,#2E0D1D,#1B0913 38%);border-radius:30px 30px 0 0;box-shadow:0 -24px 40px -24px rgba(0,0,0,.8)}
+.sky .talk::before{content:"";position:absolute;inset:0 22px auto;height:1px;background:linear-gradient(90deg,transparent,rgba(224,190,106,.85),transparent)}
+.sky .log{flex:1;overflow-y:auto;scrollbar-width:none;padding:18px 18px 6px;display:flex;flex-direction:column;gap:10px;min-height:0}
+.sky .log::-webkit-scrollbar{display:none}
+.sky .log>*{flex:none}
+.sky .s{font-size:19px;font-weight:600;line-height:1.55;color:#F3DCE3}
+.sky .s.last{font-size:23px;font-weight:800;color:#FDF2EE;line-height:1.5}
+.sky .u{align-self:flex-end;color:#F4DFA6;font-weight:800;font-size:16.5px;display:flex;gap:6px;align-items:baseline}
+.sky .u::before{content:"إنت:";font-size:14px;font-weight:700;color:#DFB4C0}
+.sky .typing{color:var(--gold)}
+.sky .ans button{border:1.5px solid var(--gold);color:#F4DFA6}
+.sky .ans button:first-child{background:var(--gold);color:#241900}
+.sky .endnote{color:#DFB4C0}
+.sky .card{background:rgba(255,255,255,.06);border:1px solid rgba(224,190,106,.28);border-radius:18px;padding:12px 14px;color:#FDF2EE}
+
+/* ---------- B: letters ---------- */
+.paper{background:#F6EDE8;color:#2B1420;font-family:var(--naskh)}
+.paper::before{content:"";position:absolute;inset:0;z-index:0;background:repeating-linear-gradient(180deg,transparent 0 33px,rgba(158,31,58,.07) 33px 34px)}
+.paper .status{color:#2B1420;font-family:var(--taj)}
+.paper .head{position:relative;z-index:2;padding:2px 22px 8px;display:flex;align-items:flex-end;gap:12px;border-bottom:1.5px solid rgba(158,31,58,.25)}
+.paper .head b{font-family:var(--ruqaa);font-weight:700;font-size:44px;line-height:1.2;color:#9E1F3A}
+.paper .head span{font-size:15px;color:#5C3A47;padding-bottom:8px;font-weight:600}
+.paper .head svg{width:34px;height:34px;margin-inline-start:auto;margin-bottom:8px}
+.paper .head svg path{fill:#B8862B;transition:d .6s cubic-bezier(.3,1.4,.5,1)}
+.paper .talk{position:absolute;inset:118px 0 0 0;z-index:2;display:flex;flex-direction:column}
+.paper .log{flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 18px 6px;display:flex;flex-direction:column;gap:14px;min-height:0}
+.paper .log::-webkit-scrollbar{display:none}
+.paper .log>*{flex:none}
+.paper .letter{background:#FFFBF8;border:1px solid #E8D3CB;border-radius:6px;padding:14px 16px 10px;box-shadow:0 10px 22px -16px rgba(80,20,40,.45);display:grid;gap:6px}
+.paper .letter:nth-of-type(even){transform:rotate(-.4deg)}
+.paper .letter p{margin:0;font-size:18px;line-height:1.9}
+.paper .letter .sig{font-family:var(--ruqaa);font-size:22px;color:#9E1F3A;justify-self:end;line-height:1.3}
+.paper .u{align-self:flex-start;font-family:var(--ruqaa);font-size:24px;color:#7C1830;line-height:1.4;padding-inline-start:6px}
+.paper .u small{font-family:var(--naskh);font-size:14px;color:#5C3A47;font-weight:600;margin-inline-end:6px}
+.paper .typing{font-size:15px;color:#5C3A47;font-weight:600;display:flex;gap:8px;align-items:center}
+.paper .ans button{border:1.5px solid #9E1F3A;color:#7C1830;background:#FFFBF8;font-family:var(--naskh);font-weight:700}
+.paper .endnote{color:#5C3A47}
+.paper .card{border:1.5px dashed rgba(158,31,58,.35);border-radius:6px;padding:10px 12px;background:#FFF7F2}
+
+/* ---------- C: a conversation ---------- */
+.chat{background:#1B0913;color:#FDF2EE;font-family:var(--baloo)}
+.chat::before{content:"";position:absolute;inset:0;z-index:0;opacity:.07;background-image:radial-gradient(circle at 50% 50%,#E0BE6A 0 1.4px,transparent 1.6px);background-size:26px 26px}
+.chat .top{position:relative;z-index:2;display:flex;align-items:center;gap:12px;padding:4px 18px 12px;border-bottom:1px solid rgba(224,190,106,.2);background:rgba(27,9,19,.9)}
+.chat .av{width:50px;height:50px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#3B1629,#240815);display:grid;place-items:center;flex:none;box-shadow:inset 0 0 0 1.5px rgba(224,190,106,.5)}
+.chat .av svg{width:38px;height:38px;overflow:visible}
+.chat .av path{fill:#E0BE6A;transition:d .6s cubic-bezier(.3,1.4,.5,1)}
+.chat .av.listen svg{animation:breathe 1s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.1)}}
+.chat .top b{display:block;font-size:21px;font-weight:800;line-height:1.3}
+.chat .top span{font-size:14.5px;color:#DFB4C0;font-weight:700}
+.chat .talk{position:absolute;inset:108px 0 0 0;z-index:2;display:flex;flex-direction:column}
+.chat .log{flex:1;overflow-y:auto;scrollbar-width:none;padding:14px 14px 6px;display:flex;flex-direction:column;gap:6px;min-height:0}
+.chat .log::-webkit-scrollbar{display:none}
+.chat .log>*{flex:none}
+.chat .b{max-width:86%;padding:8px 14px;font-size:17px;font-weight:600;line-height:1.55;border-radius:20px}
+.chat .b.s{align-self:flex-start;background:#FDF2EE;color:#2B1420;border-start-start-radius:6px}
+.chat .b.u{align-self:flex-end;background:var(--gold);color:#241900;border-start-end-radius:6px;font-weight:800;margin-block:6px}
+.chat .typing{align-self:flex-start;background:#FDF2EE;color:#7C1830;border-radius:20px;border-start-start-radius:6px;padding:8px 16px}
+.chat .ans{border-top:1px solid rgba(224,190,106,.2);background:rgba(27,9,19,.92);padding-top:10px}
+.chat .ans button{border:1.5px solid var(--gold);color:#F4DFA6}
+.chat .card{align-self:flex-start;max-width:92%;background:#2A0E1D;border:1px solid rgba(224,190,106,.35);border-radius:20px;border-start-start-radius:6px;padding:12px 14px}
+.chat .endnote{color:#DFB4C0;border-top:1px solid rgba(224,190,106,.2);padding-top:10px}
+
+/* ---------- cards, shared shapes, themed per face ---------- */
+.card h5{margin:0 0 6px;font-size:14.5px;font-weight:800;opacity:.92}
+.card ul{margin:0;padding:0;list-style:none;display:grid;gap:4px}
+.card li{display:flex;gap:8px;align-items:center;font-size:16px;font-weight:700}
+.card li i{width:9px;height:9px;border-radius:50%;background:currentColor;flex:none}
+.card .moved{margin-top:8px;font-size:14.5px;font-weight:600;opacity:.92}
+.card .if{display:grid;gap:4px;font-size:16.5px;font-weight:700}
+.card .if span{font-size:14px;font-weight:800;opacity:.9}
+.card .wk{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;height:84px;margin-top:4px}
+.card .wk div{display:grid;gap:3px;justify-items:center;align-content:end;height:100%}
+.card .wk em{display:block;width:100%;border-radius:5px;background:currentColor;opacity:.75}
+.card .wk small{font-size:12.5px;font-weight:700;opacity:.9}
+.card .fam{display:flex;gap:6px;align-items:center;margin-top:8px;font-size:14.5px;font-weight:700}
+.card .fam i{width:12px;height:12px;border-radius:50%;background:#2BB673}
+.card .quote{font-size:19px;font-weight:700;line-height:1.6;margin:0}
+.card .by{font-size:13.5px;font-weight:600;opacity:.9;margin-top:4px}
+.card .big{font-size:26px;font-weight:800;line-height:1.2}
+.paper .card .quote{font-family:var(--ruqaa);font-size:24px;font-weight:400;color:#2B1420}
+.paper .card.why{background:#FFF1BF;border:0;border-radius:2px;position:relative;transform:rotate(1.2deg);box-shadow:0 8px 16px -10px rgba(80,50,0,.5)}
+.paper .card.why::before{content:"";position:absolute;top:-10px;inset-inline-start:40%;width:64px;height:20px;background:rgba(255,255,255,.6);transform:rotate(-3deg)}
+.paper .card li i{background:#9E1F3A}
+.paper .card .wk em{background:#9E1F3A}
+.sky .card .wk em,.chat .card .wk em{background:var(--gold)}
+.voice{display:flex;align-items:center;gap:10px;padding-inline-end:4px}
+.voice button{width:44px;height:44px;border-radius:50%;background:var(--gold);color:#241900;display:grid;place-items:center;flex:none}
+.voice button svg{width:18px;height:18px;fill:currentColor}
+.voice .wave{display:flex;gap:2px;align-items:center;height:30px;flex:1}
+.voice .wave i{width:3px;border-radius:2px;background:#DFB4C0;opacity:.6}
+.voice.play .wave i{animation:wv .9s ease-in-out infinite;opacity:1;background:var(--gold)}
+@keyframes wv{50%{transform:scaleY(.4)}}
+.voice small{font-size:13.5px;color:#DFB4C0;font-weight:700}
+
+/* ---------- the why ---------- */
+.why{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.why .box{background:var(--pg-card);border:1.5px solid var(--pg-line);border-radius:20px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.why h3{margin:0;font-family:var(--baloo);font-size:22px}
+.why ul{margin:0;padding-inline-start:20px;display:grid;gap:4px}
+.why li{font-size:16.5px;color:#D6D8E0;line-height:1.7}
+.why li b{color:var(--pg-ink)}
+.why .src{font-size:14.5px;color:var(--pg-grey)}
+.foot{font-size:15.5px;color:var(--pg-grey);max-width:92ch;margin:0;line-height:1.8}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="k">نموذج · «يوم» برفيق اسمه سند</span>
+    <h1>سند: مو منبّه، رفيق</h1>
+    <p>نفس الروح بثلاث وجوه. سند يعرف يومك ونومك وصلواتك، ويلاحظ لما تفتر، ويسألك ليش، ويعطيك حل صغير تكدر تسويه هسه. صريح بدون قسوة، وما يجاملك. اختار موقف من الشريط وجاوب سند بنفسك، بأي وجه.</p>
+  </header>
+  <div class="bar" id="bar" role="group" aria-label="المواقف">
+    <b>موقف:</b>
+    <button data-sc="morning" aria-pressed="true">الصبح <small class="num">05:40</small></button>
+    <button data-sc="slip" aria-pressed="false">فاتت مرتين <small class="num">16:10</small></button>
+    <button data-sc="slump" aria-pressed="false">أسبوع ثكيل <small class="num">20:30</small></button>
+    <button data-sc="night" aria-pressed="false">آخر الليل <small class="num">21:10</small></button>
+    <button class="again" id="again">من جديد</button>
+  </div>
+  <div class="stage" id="stage">
+    <div class="cell"><header><h2>نجمة بسماك</h2><span>سند هو النجمة. تتنفس بهدوء، وتضوي لما تفرح، وتخفت لما تكون تعبان</span></header>
+      <div class="device"><div class="ph sky" data-face="sky"><div class="scene"><canvas aria-hidden="true"></canvas></div><div class="status"><span class="num clk">05:40</span><span>السليمانية</span></div><div class="who">سند<small class="mood">وياك</small></div><div class="talk"></div></div></div></div>
+    <div class="cell"><header><h2>رسائل</h2><span>سند يكتبلك رسالة بالصبح وبالليل، وكلامك إنت ينلزق قدامك وكت الضعف</span></header>
+      <div class="device"><div class="ph paper" data-face="paper"><div class="status"><span class="num clk">05:40</span><span>السليمانية</span></div><div class="head"><b>سند</b><span class="when">الإثنين، بعد الفجر</span><svg viewBox="0 0 34 34" aria-hidden="true"><path/></svg></div><div class="talk"></div></div></div></div>
+    <div class="cell"><header><h2>محادثة</h2><span>مثل ما تحچي ويّا صديق. وأحلى لحظة: يرجعلك صوتك إنت، اللي سجلته بأول يوم</span></header>
+      <div class="device"><div class="ph chat" data-face="chat"><div class="status"><span class="num clk">05:40</span><span>السليمانية</span></div><div class="top"><span class="av"><svg viewBox="0 0 34 34" aria-hidden="true"><path/></svg></span><div><b>سند</b><span class="st">وياك دايماً</span></div></div><div class="talk"></div></div></div></div>
+  </div>
+
+  <section class="why" aria-label="ليش هيج">
+    <div class="box"><h3>شنو يسوي سند</h3><ul>
+      <li><b>يسأل قبل ما يحكم:</b> «شنو صاير؟». وكل جواب إله حل غير.</li>
+      <li><b>يصغّر بدل ما يلغي:</b> دقيقتين أحسن من ولا شي.</li>
+      <li><b>يربط الشغلة بوكت ومكان:</b> «بعد العصر، ورا الباب».</li>
+      <li><b>يرجعلك كلامك إنت</b> وكت الضعف، مو كلام جاهز.</li>
+      <li><b>يفرح وياك بصدق،</b> ويشوف الزين حتى بالأسبوع الثكيل.</li>
+      <li><b>يدفعك للناس:</b> الأهل، والطبيب إذا التعب طوّل.</li></ul></div>
+    <div class="box"><h3>شنو ما يسويه أبد</h3><ul>
+      <li>ما يفشلك، ولا يحسسك بالذنب، ولا يطلعلك أحمر لأنك قصّرت.</li>
+      <li>ما يسوي دراما إذا انقطعت سلسلة أيامك.</li>
+      <li>ما يجاملك: إذا الخطة ما تمشي، يكلك بلطف.</li>
+      <li>ما يفتي، وما يكتب آية ولا حديث من عنده.</li>
+      <li>ما يخليك لازم بالتلفون: كلامه قصير ويخليك تروح لحياتك.</li></ul></div>
+    <div class="box"><h3>ليش هيج (من البحث)</h3><ul>
+      <li><b>مرة تفوت عادي:</b> تفويت مرة وحدة ما خرّب بناء العادة. <span class="src">Lally وجماعته، 2010</span></li>
+      <li><b>المسامحة تقلل التأجيل:</b> الطلاب اللي سامحوا نفسهم أجّلوا أقل بالامتحان اللي بعده. <span class="src">Wohl وجماعته، 2010</span></li>
+      <li><b>«إذا صار كذا أسوي كذا»</b> ترفع الإنجاز بوضوح، بمراجعة 94 دراسة. <span class="src">Gollwitzer و Sheeran، 2006</span></li>
+      <li><b>الدردشة الطويلة ويّا الآلة</b> ارتبطت بوحدة أكثر عند اللي يستخدمونها هواية. <span class="src">MIT Media Lab، 2025</span></li></ul></div>
+  </section>
+  <p class="foot">نموذج للشكل والإحساس، والتطبيق ما تغيّر. كل كلام سند هنا كتبته أنا كمثال، ويحتاج مراجعتك قبل ما يدخل التطبيق، وما بيه آيات ولا أحاديث. الكلام المكتوب بالملزق مثال، وبالتطبيق تكتبه إنت بأول يوم. الحوار هنا بخيارات، ويشتغل بدون نت. الكتابة الحرة ويّا سند تحتاج ذكاء اصطناعي، وهذا قرارك بعدين. الصوت بالمحادثة شكل بس، ما ينسمع.</p>
+</div>
+
+<script>
+(()=>{
+/* ---------------- the day ---------------- */
+const SLEEP=1260,WAKE=268;
+const PARTS=[
+ {k:'fajr',name:'بعد الفجر',pr:'الفجر',s:287,e:381,end:'الشروق'},
+ {k:'morning',name:'الصبح',pr:null,s:381,e:703,end:'الظهر'},
+ {k:'dhuhr',name:'بعد الظهر',pr:'الظهر',s:703,e:879,end:'العصر'},
+ {k:'asr',name:'بعد العصر',pr:'العصر',s:879,e:1022,end:'المغرب'},
+ {k:'maghrib',name:'بعد المغرب',pr:'المغرب',s:1022,e:1106,end:'العشاء'},
+ {k:'isha',name:'بعد العشاء',pr:'العشاء',s:1106,e:SLEEP,end:'النوم'},
+];
+const SEED=()=>[{id:1,t:'أذكار الصبح وقرآن',p:'fajr',rep:'daily',done:true},{id:2,t:'فطور ويّا الأهل',p:'morning',done:true},{id:3,t:'الدوام',p:'morning',done:true},
+ {id:11,t:'قيلولة قصيرة',p:'dhuhr',done:false},{id:4,t:'رياضة',p:'asr',rep:'daily',done:false},{id:5,t:'اتصل بالمحاسب',p:'asr',done:false},{id:6,t:'اشتري أغراض البيت',p:'asr',done:false},
+ {id:7,t:'وقت ويّا الأهل',p:'maghrib',rep:'daily',done:false},{id:8,t:'دراسة',p:'isha',done:false}];
+const S={m:910,prayed:new Set(['fajr','dhuhr']),things:SEED(),up:false,skip:[],toast:null,toastIn:null,undo:null,playing:false};
+const pad=n=>String(n).padStart(2,'0');
+const clk=m=>{m=((Math.round(m)%1440)+1440)%1440;return pad(Math.floor(m/60))+':'+pad(m%60)};
+const hm=m=>{m=Math.max(0,Math.round(m));return Math.floor(m/60)+':'+pad(m%60)};
+const num=s=>`<span class="num">${s}</span>`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const partAt=m=>PARTS.find(p=>m>=p.s&&m<p.e);
+const inPart=k=>S.things.filter(x=>x.p===k);
+const ended=p=>p.e<=S.m&&S.m>=PARTS[0].s;
+const carry=()=>PARTS.filter(ended).flatMap(p=>inPart(p.k).filter(x=>!x.done));
+const countW=n=>n===1?'شغلة وحدة':n===2?'شغلتين':n+' شغلات';
+document.documentElement.lang='ar';
+function now(m=S.m){const cur=partAt(m);
+  if(cur)return {cur,name:cur.name,left:cur.e-m,prog:(m-cur.s)/(cur.e-cur.s),end:cur.end,endAt:cur.e,len:cur.e-cur.s};
+  if(m>=WAKE&&m<PARTS[0].s)return {cur:null,name:'وكت صلاة الليل',left:PARTS[0].s-m,prog:(m-WAKE)/(PARTS[0].s-WAKE),end:'الفجر',endAt:PARTS[0].s,len:PARTS[0].s-WAKE};
+  const gone=m>=SLEEP?m-SLEEP:m+1440-SLEEP,total=WAKE+1440-SLEEP;
+  return {cur:null,name:'الليل',left:total-gone,prog:gone/total,end:'الصحيان',endAt:WAKE,len:total}}
+const SKIN=()=>'ruby';
+const keyNow=()=>{const n=now();return n.cur?n.cur.k:'night'};
+/* minutes until the next prayer starts (for the anticipation ripples) */
+function toNextPrayer(m=S.m){const nx=PARTS.find(p=>p.pr&&p.s>m);return nx?nx.s-m:(PARTS[0].s+1440-m)}
+
+/* ---------------- shapes ---------------- */
+const SH={fajr:{n:8,a:.2,k:3,r:0},morning:{n:12,a:.1,k:2,r:0},dhuhr:{n:16,a:.06,k:1,r:0},asr:{n:10,a:.17,k:2.6,r:0},maghrib:{n:6,a:.12,k:1,r:0},isha:{n:8,a:.24,k:3.4,r:22.5},night:{n:8,a:.24,k:3.4,r:22.5}};
+function geoPts(o,pts=120){const a=[];for(let i=0;i<pts;i++){const t=i/pts*Math.PI*2+o.r*Math.PI/180;a.push([Math.cos(t)*(1-o.a*(1-Math.pow(Math.abs(Math.cos(o.n*t/2)),o.k))),Math.sin(t)*(1-o.a*(1-Math.pow(Math.abs(Math.cos(o.n*t/2)),o.k)))])}return a}
+function geo(o,R=126,cx=150,cy=cx,pts=180){let d='';for(let i=0;i<=pts;i++){const t=i/pts*Math.PI*2+o.r*Math.PI/180;const f=1-o.a*(1-Math.pow(Math.abs(Math.cos(o.n*t/2)),o.k));const r=R*f;d+=(i?'L':'M')+(cx+r*Math.cos(t)).toFixed(2)+' '+(cy+r*Math.sin(t)).toFixed(2)}return d+'Z'}
+const CB_O=geo({n:4,a:0,k:1,r:0},13,17),CB_D=geo({n:8,a:.2,k:3,r:0},15,17);
+
+/* ---------------- sky colour ---------------- */
+const STOPS=[[0,'#03050F','#0B1230'],[240,'#04071A','#141B45'],[287,'#0B1040','#4B3F86'],[345,'#1C2E6E','#C9748A'],[381,'#24529A','#F2A66B'],[470,'#1A56A6','#9FCBEF'],
+ [703,'#1556A8','#8DC3EE'],[879,'#285FA8','#E3BB78'],[985,'#33478F','#EE8A4E'],[1022,'#26285E','#D4553A'],[1062,'#15193F','#5A3360'],[1106,'#0B0F2E','#22244E'],[1200,'#05081A','#10163A'],[1440,'#03050F','#0B1230']];
+const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const mixA=(A,B,t)=>A.map((v,i)=>Math.round(v+(B[i]-v)*t));
+const rgb=(a,al=1)=>`rgba(${a[0]},${a[1]},${a[2]},${al})`;
+function skyAt(m){m=((m%1440)+1440)%1440;let i=0;while(i<STOPS.length-2&&STOPS[i+1][0]<=m)i++;const [m0,t0,b0]=STOPS[i],[m1,t1,b1]=STOPS[i+1];const t=(m-m0)/(m1-m0);return {top:mixA(hx(t0),hx(t1),t),bot:mixA(hx(b0),hx(b1),t)}}
+const nightOf=m=>m<300||m>1100?1:m<381?Math.max(0,(381-m)/81):m>1022?Math.min(1,(m-1022)/78):0;
+function sunState(m){/* altitude 0..1 by day, moon by night; x from east (right) to west (left) */
+  if(m>=372&&m<=1030){const t=Math.min(1,Math.max(0,(m-381)/641));return {up:true,t,alt:Math.sin(Math.PI*t)}}
+  const mm=m<1022?m+1440:m,t=(mm-1022)/((381+1440)-1022);return {up:false,t,alt:Math.sin(Math.PI*Math.min(1,Math.max(0,t)))}}
+/* a tiny deterministic random */
+const rnd=(i)=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+
+/* ---------------- the scene engine ---------------- */
+class Scene{
+  constructor(cv,mode){this.cv=cv;this.mode=mode;this.ctx=cv.getContext('2d');this.base=document.createElement('canvas');this.up=document.createElement('canvas');this.lastMin=null;this.visible=true;this.ripples=[];this.lastRing=0;this.morph=null;this.lastKey=null;this.resize()}
+  resize(){const r=this.cv.getBoundingClientRect();const dpr=Math.min(3,window.devicePixelRatio||1);this.cssW=Math.max(1,r.width);this.cssH=Math.max(1,r.height);
+    for(const c of [this.cv,this.base,this.up]){c.width=Math.round(this.cssW*dpr);c.height=Math.round(this.cssH*dpr)}
+    this.k=this.cssW/400*dpr;this.W=400;this.H=this.cssH/this.cssW*400;this.horizon=this.mode==='focus'?this.H*.62:this.H*.66;this.lastMin=null}
+  /* everything that only changes with the minute: sky, milky way, mountains, city */
+  drawBase(m){const c=this.base.getContext('2d');c.setTransform(this.k,0,0,this.k,0,0);const {W,H,horizon:hz}=this;const k=skyAt(m),nt=nightOf(m),s=sunState(m);
+    /* by day the sun crosses the whole sky; by night the moon keeps to the left so it never sits behind the numbers */
+    const sx=s.up?W*(.88-.76*s.t):W*(.40-.28*s.t),sy=s.up?hz-18-(hz*.36)*s.alt:hz-40-(hz*.28)*s.alt;this.sun={x:sx,y:sy,up:s.up,alt:s.alt};
+    const g=c.createLinearGradient(0,0,0,hz);g.addColorStop(0,rgb(k.top));g.addColorStop(.62,rgb(mixA(k.top,k.bot,.35)));g.addColorStop(1,rgb(k.bot));c.fillStyle=g;c.fillRect(0,0,W,hz+2);
+    /* light scattered around the sun: warm and wide when low, white and tight when high */
+    if(s.up){const warm=1-s.alt;const sg=c.createRadialGradient(sx,sy,0,sx,sy,120+warm*160);sg.addColorStop(0,`rgba(255,${Math.round(236-warm*60)},${Math.round(200-warm*110)},${.55+warm*.2})`);sg.addColorStop(1,'rgba(255,200,120,0)');c.fillStyle=sg;c.fillRect(0,0,W,hz)}
+    /* milky way and stars */
+    if(nt>.05){c.save();c.globalAlpha=nt*.35;c.translate(W*.55,hz*.45);c.rotate(-.5);for(let i=0;i<260;i++){const x=(rnd(i)-.5)*W*1.4,y=(rnd(i+500)-.5)*40*(1+rnd(i+900));c.fillStyle=`rgba(220,225,255,${.2+rnd(i+77)*.5})`;c.fillRect(x,y,1,1)}
+      const mw=c.createLinearGradient(0,-36,0,36);mw.addColorStop(0,'rgba(180,190,255,0)');mw.addColorStop(.5,'rgba(180,190,255,.16)');mw.addColorStop(1,'rgba(180,190,255,0)');c.fillStyle=mw;c.fillRect(-W,-36,W*2,72);c.restore();
+      for(let i=0;i<70;i++){const x=rnd(i+40)*W,y=rnd(i+140)*hz*.85;c.fillStyle=`rgba(255,250,235,${(nt*(.35+rnd(i+240)*.6)).toFixed(2)})`;c.beginPath();c.arc(x,y,rnd(i+340)<.15?1.4:.8,0,7);c.fill()}}
+    /* three ridges: far (hazy), mid (Goyzha), near (city hills); the side facing the sun catches light */
+    const ridge=(base,amp,f1,f2,ph,col,rim)=>{c.beginPath();c.moveTo(0,hz);const pts=[];for(let x=0;x<=W;x+=4){const y=base-(Math.sin(x*f1+ph)*amp+Math.sin(x*f2+ph*2)*amp*.35+Math.max(0,amp*1.4-Math.abs(x-W*.32)*.18));pts.push([x,y]);c.lineTo(x,y)}c.lineTo(W,hz);c.closePath();c.fillStyle=col;c.fill();
+      if(rim&&s.up){c.save();c.strokeStyle=`rgba(255,${Math.round(220-60*(1-s.alt))},150,${(.18+.4*(1-s.alt)).toFixed(2)})`;c.lineWidth=1.4;c.beginPath();pts.forEach(([x,y],i)=>{i?c.lineTo(x,y):c.moveTo(x,y)});c.stroke();c.restore()}};
+    const far=mixA(k.bot,mixA(k.top,[8,10,24],.3),.45);
+    ridge(hz-62,16,.012,.031,.4,rgb(far),true);
+    ridge(hz-34,14,.02,.05,1.7,rgb(mixA(k.top,[6,8,18],.55)),true);
+    ridge(hz-12,7,.035,.09,2.6,rgb(mixA(k.top,[3,4,10],.78)),false);
+    /* the city on the shore: houses, a mosque with two minarets */
+    c.fillStyle=rgb(mixA(k.top,[2,3,8],.85));
+    for(let i=0;i<26;i++){const x=i*16+rnd(i+60)*6,w=10+rnd(i+70)*10,h=6+rnd(i+80)*12;c.fillRect(x,hz-h,w,h+2)}
+    const mx=W*.74;c.beginPath();c.arc(mx,hz-14,15,Math.PI,0);c.fill();c.fillRect(mx-20,hz-14,40,16);
+    for(const dx of[-26,26]){c.fillRect(mx+dx-2.5,hz-58,5,58);c.beginPath();c.moveTo(mx+dx-4,hz-58);c.lineTo(mx+dx+4,hz-58);c.lineTo(mx+dx,hz-68);c.closePath();c.fill()}
+    this.lights=[];if(nt>.08){for(let i=0;i<90;i++){const x=rnd(i+600)*W,y=hz-2-rnd(i+700)*16;this.lights.push([x,y,rnd(i+800)])}}
+    this.nt=nt;this.sky=k}
+  draw(tSec,m,reduce){const key=keyNow();if(this.lastMin!==m){this.drawBase(m);this.lastMin=m}
+    if(this.lastKey!==key){if(this.lastKey&&!reduce)this.morph={from:SH[this.lastKey],to:SH[key],t0:tSec};this.lastKey=key}
+    const {W,H,horizon:hz}=this;const u=this.up.getContext('2d');u.setTransform(this.k,0,0,this.k,0,0);u.clearRect(0,0,W,H);u.drawImage(this.base,0,0,W,H);
+    const nt=this.nt,sun=this.sun,T=reduce?0:tSec;
+    /* drifting clouds lit by the sky */
+    const cloudCol=sun.up?mixA([255,255,255],[255,170,140],1-sun.alt):[60,66,96];
+    for(let ci=0;ci<3;ci++){const cx=((ci*170+T*(4+ci*2))%(W+260))-130,cy=hz*(.18+ci*.13),sc=.7+ci*.25;
+      for(let p=0;p<6;p++){const px=cx+(p-2.5)*22*sc,py=cy+Math.sin(p*1.7)*6*sc,r=(18+rnd(p+ci*10)*16)*sc;const g=u.createRadialGradient(px,py,0,px,py,r);g.addColorStop(0,rgb(cloudCol,(sun.up?.32:.22)));g.addColorStop(1,rgb(cloudCol,0));u.fillStyle=g;u.beginPath();u.arc(px,py,r,0,7);u.fill()}}
+    /* twinkling stars and a rare shooting star */
+    if(nt>.05&&!reduce){for(let i=0;i<24;i++){const x=rnd(i+40)*W,y=rnd(i+140)*hz*.85;const tw=.5+.5*Math.sin(T*2.2+i*1.7);u.fillStyle=`rgba(255,250,235,${(nt*tw*.8).toFixed(2)})`;u.beginPath();u.arc(x,y,1.1,0,7);u.fill()}
+      const ph=(T%13)/1.2;if(ph<1){const x=W*.85-ph*W*.5,y=hz*.12+ph*hz*.18;const g=u.createLinearGradient(x,y,x+50,y-18);g.addColorStop(0,`rgba(255,245,220,${nt*.9})`);g.addColorStop(1,'rgba(255,245,220,0)');u.strokeStyle=g;u.lineWidth=1.6;u.beginPath();u.moveTo(x,y);u.lineTo(x+50,y-18);u.stroke()}}
+    /* soft god rays when the sun is low */
+    if(sun.up&&sun.alt<.45&&!reduce){u.save();u.translate(sun.x,sun.y);u.rotate(T*.03);for(let i=0;i<9;i++){u.rotate(Math.PI*2/9);const g=u.createLinearGradient(0,0,0,170);g.addColorStop(0,`rgba(255,226,170,${(.16*(1-sun.alt/.45)).toFixed(3)})`);g.addColorStop(1,'rgba(255,226,170,0)');u.fillStyle=g;u.beginPath();u.moveTo(-3,0);u.lineTo(3,0);u.lineTo(26,170);u.lineTo(-26,170);u.closePath();u.fill()}u.restore()}
+    /* the sun is our star medallion (by night it takes the moon's place, paler) */
+    let shp=SH[key];if(this.morph){const p=Math.min(1,(tSec-this.morph.t0)/0.9);const e=1-Math.pow(1-p,3);shp=null;this.mp=e;if(p>=1)this.morph=null}
+    this.medal(u,sun.x,sun.y,sun.up?26:20,shp,T,sun.up);
+    /* city lights that breathe a little */
+    if(nt>.08){for(const [x,y,r] of this.lights){u.fillStyle=`rgba(255,${Math.round(205+r*30)},120,${(nt*(.55+.35*Math.sin(T*1.3+r*20))).toFixed(2)})`;u.fillRect(x,y,1.3,1.3)}}
+    /* mist in the valley */
+    const mist=u.createLinearGradient(0,hz-40,0,hz);mist.addColorStop(0,'rgba(255,240,225,0)');mist.addColorStop(.6,`rgba(255,236,215,${(.07+(1-nt)*.08).toFixed(3)})`);mist.addColorStop(1,'rgba(255,240,225,0)');u.fillStyle=mist;u.fillRect(Math.sin(T*.2)*20-30,hz-40,W+60,40);
+    /* compose: the scene above the shore */
+    const c=this.ctx;c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,this.cv.width,this.cv.height);c.drawImage(this.up,0,0);
+    c.setTransform(this.k,0,0,this.k,0,0);
+    /* the lake: the scene mirrored, broken into rows that ripple; calmer far away, livelier before a prayer */
+    const near=toNextPrayer(S.m);const urgency=near<=20?1-near/20:0;const amp=(1.2+urgency*2.2)*(reduce?0:1);const speed=1.4+urgency*1.6;
+    const dpr=this.k*400/this.cssW;const row=2;
+    for(let y=hz;y<H;y+=row){const d=y-hz;const src=hz-d*1.05;if(src<0)break;const dx=Math.sin(d*.22-T*speed)*amp*(1+d*.025)+Math.sin(d*.07+T*.7)*amp*.6;
+      c.drawImage(this.up,0,Math.round(src*this.k),this.up.width,Math.ceil(row*this.k),dx-8,y,W+16,row)}
+    const lg=c.createLinearGradient(0,hz,0,H);lg.addColorStop(0,rgb(mixA(this.sky.bot,[10,20,40],.4),.28));lg.addColorStop(1,rgb([6,12,24],.82));c.fillStyle=lg;c.fillRect(0,hz,W,H-hz);
+    if(SKIN()==='ruby'&&nt>.05){const rg=c.createLinearGradient(0,hz,0,H);rg.addColorStop(0,`rgba(196,42,68,${(.05*nt).toFixed(3)})`);rg.addColorStop(1,`rgba(94,18,43,${(.22*nt).toFixed(3)})`);c.fillStyle=rg;c.fillRect(0,hz,W,H-hz)}
+    /* sun glitter on the water */
+    if(!reduce){const gx=sun.x;const bright=sun.up?(.5+.5*sun.alt):.35*nt;for(let i=0;i<40;i++){const y=hz+4+rnd(i)*(H-hz-8);const spread=4+(y-hz)*.35;const x=gx+(rnd(i+50)-.5)*spread*2+Math.sin(T*2+i)*3;const a=bright*(.35+.65*Math.max(0,Math.sin(T*3+i*2.3)));
+      c.fillStyle=`rgba(255,${sun.up?236:225},${sun.up?180:200},${a.toFixed(2)})`;c.fillRect(x,y,2.2-((y-hz)/(H-hz)),1)}}
+    /* the shore line */
+    c.fillStyle='rgba(0,0,0,.35)';c.fillRect(0,hz-.5,W,1.2);
+    /* rings on the water in the last 10 minutes before a prayer */
+    if(!reduce&&near<=10){if(tSec-this.lastRing>2.6){this.ripples.push({t0:tSec});this.lastRing=tSec}}
+    this.ripples=this.ripples.filter(r=>tSec-r.t0<4);
+    for(const r of this.ripples){const p=(tSec-r.t0)/4;c.strokeStyle=`rgba(255,231,174,${((1-p)*.6).toFixed(2)})`;c.lineWidth=1.2;c.beginPath();c.ellipse(sun.x,hz+(H-hz)*.32,10+p*120,(10+p*120)*.18,0,0,7);c.stroke()}
+  }
+  medal(u,x,y,R,shp,T,day){const key=keyNow();const target=SH[key];let pts;
+    if(this.morph&&this.mp!=null){const A=geoPts(this.morph.from),B=geoPts(this.morph.to);pts=A.map((p,i)=>[p[0]+(B[i][0]-p[0])*this.mp,p[1]+(B[i][1]-p[1])*this.mp])}else pts=geoPts(target);
+    const halo=u.createRadialGradient(x,y,0,x,y,R*3.4);halo.addColorStop(0,day?'rgba(255,240,200,.75)':'rgba(240,226,180,.4)');halo.addColorStop(1,'rgba(255,220,150,0)');u.fillStyle=halo;u.beginPath();u.arc(x,y,R*3.4,0,7);u.fill();
+    const draw=(s,rot)=>{u.beginPath();pts.forEach(([px,py],i)=>{const cs=Math.cos(rot),sn=Math.sin(rot);const X=x+(px*cs-py*sn)*s,Y=y+(px*sn+py*cs)*s;i?u.lineTo(X,Y):u.moveTo(X,Y)});u.closePath()};
+    const rot=T*.12;draw(R,rot);const g=u.createRadialGradient(x-R*.3,y-R*.3,R*.1,x,y,R);g.addColorStop(0,day?'#FFF6D8':'#F3E6C0');g.addColorStop(1,day?'#E9C25C':'#C9A859');u.fillStyle=g;u.fill();u.lineWidth=1.4;u.strokeStyle='rgba(120,88,16,.9)';u.stroke();
+    draw(R*.66,-rot*1.4);u.strokeStyle='rgba(120,88,16,.6)';u.lineWidth=1;u.stroke()}
+}
+
+
+
+/* ---------------- the companion in the sky ---------------- */
+class Buddy extends Scene{
+  medal(u,x,y,R,shp,T,day){
+    /* the real sun or moon, small and plain, where it really is */
+    const r=day?11:9;const sg=u.createRadialGradient(x-3,y-3,1,x,y,r);sg.addColorStop(0,day?'#FFF8E0':'#F7F1DE');sg.addColorStop(1,day?'#F5C866':'#D9CFB6');u.fillStyle=sg;u.beginPath();u.arc(x,y,r,0,7);u.fill();
+    /* سند: the star, in the middle of your sky, with a mood */
+    const mood=this.mood||'calm',cx=this.W*.5,cy=this.horizon*.6,R2=30;let s=1;
+    if(mood==='calm')s=1+.035*Math.sin(T*1.5);else if(mood==='listen')s=1+.06*Math.sin(T*5.5);else if(mood==='happy')s=1.1+.03*Math.sin(T*2.2);else if(mood==='concern')s=.9+.02*Math.sin(T*1.1);
+    const a=mood==='happy'?.55:mood==='concern'?.14:.3;const g=u.createRadialGradient(cx,cy,R2*.5,cx,cy,R2*4.6);g.addColorStop(0,`rgba(255,226,160,${a})`);g.addColorStop(1,'rgba(255,226,160,0)');u.fillStyle=g;u.beginPath();u.arc(cx,cy,R2*4.6,0,7);u.fill();
+    if(mood==='happy'){for(let i=0;i<10;i++){const an=T*.5+i*Math.PI/5;const rr=R2*1.9+Math.sin(T*2+i)*5;u.fillStyle=`rgba(255,236,190,${(.45+.4*Math.sin(T*3+i)).toFixed(2)})`;u.beginPath();u.arc(cx+Math.cos(an)*rr,cy+Math.sin(an)*rr,1.9,0,7);u.fill()}}
+    super.medal(u,cx,cy,R2*s,shp,T,mood!=='concern')}
+}
+
+/* ---------------- what سند says ---------------- */
+const SCRIPT={
+ morning:{m:340,when:'الإثنين، بعد الفجر',start:'m0',nodes:{
+  m0:{mood:'calm',say:['صباح الخير.','قبل ما نبدي: شلونك اليوم بصراحة؟'],choices:[['نشيط','m_good'],['عادي','m_ok'],['تعبان','m_tired']]},
+  m_good:{mood:'happy',say:['حلو. خلّي نستغل النشاط.','أثكل شغلة عندك اليوم هي الدراسة. نخليها بعد الفطور، من 8:00 لـ9:00، وإنت بعزك؟'],choices:[['يلا، حطها','m_good2'],['خليها بالليل مثل كل يوم','m_good3']]},
+  m_good2:{mood:'happy',say:['حطيتها 8:00. أنبهك قبلها بخمس دقايق، وبعدين أسكت وأخليك تركز.']},
+  m_good3:{mood:'calm',say:['ماشي، إنت أدرى بيومك.','بس بصراحة، لاحظت إنك بالليل تخلّص نصها بس، لأنك تكون تعبان. إذا تغيّر رأيك، كلّي.']},
+  m_ok:{mood:'calm',say:['تمام. يوم عادي يكفي.','نمشي على الخطة بدون ضغط: أول شي الدوام، والباقي وحدة وحدة. وأنا أرتبلك التالي كل مرة.']},
+  m_tired:{mood:'concern',say:['واضح. نمت خمس ساعات ونص بس.','اليوم نخليها على ثلاث شغلات بس، والباقي ننقله لباجر:',{card:'light'},'ونحط قيلولة 20 دقيقة بعد الظهر. موافق؟'],choices:[['موافق','m_t2'],['لا، أكدر على الكل','m_t3']]},
+  m_t2:{mood:'happy',say:['نقلتها. اليوم الهدف إنك تخلّص ثلاثة زين، مو عشرة نص نص.']},
+  m_t3:{mood:'calm',say:['زين، أثق بيك.','بس إذا ثكلت عليك بالعصر، كلّي وأخففها، بدون ما تحس إنك قصّرت.']}}},
+ slip:{m:970,when:'الإثنين، بعد العصر',start:'s0',nodes:{
+  s0:{mood:'concern',say:['عندي ملاحظة صغيرة.','الرياضة فاتت أمس وأول أمس. ما ألومك، بس أريد أفهم: شنو صاير؟'],choices:[['ما عندي وكت','s_time'],['تعبان','s_tired'],['ما عندي خلق','s_mood'],['نسيت','s_forgot']]},
+  s_time:{mood:'calm',say:['مفهوم. خلّي نصغّرها: دقيقتين بس، عشر ضغطات.','الشي الصغير اللي يصير أحسن من الكبير اللي ما يصير.'],choices:[['ماشي، دقيقتين','s_ok']]},
+  s_tired:{mood:'calm',say:['منطقي، نومك كان قليل هالأسبوع.','ننقلها لباجر الصبح بعد الفطور، وإنت أنشط؟'],choices:[['إي، باجر الصبح','s_tom']]},
+  s_mood:{mood:'calm',say:['يصير، كلنا نمر بهيج أيام.','خلّي أذكّرك بشي كتبته إنت بأول يوم:',{card:'why'},'شنو رأيك، خمس دقايق بس هسه؟'],choices:[['يلا','s_ok'],['مو اليوم','s_notoday']]},
+  s_forgot:{mood:'calm',say:['خلّي نربطها بشي ما تنساه:',{card:'plan'},'أحطها هيج؟'],choices:[['حطها','s_plan']]},
+  s_ok:{mood:'happy',say:['حطيتها هسه.','مرة وحدة تفوت عادي، المهم ما تصير ثلاث. وإنت هسه كسرتها.']},
+  s_tom:{mood:'calm',say:['حطيتها باجر 7:30. والليلة نام بكير حتى تكدر.']},
+  s_notoday:{mood:'calm',say:['تمام. صراحتك أحسن من وعد ما يصير.','بس باجر ما نخليها تفوت. أذكّرك بعد العصر.']},
+  s_plan:{mood:'happy',say:['حطيتها: بعد صلاة العصر، مباشرة.','الشي المربوط بعادة ثابتة ينسى أقل.']}}},
+ slump:{m:1230,when:'الجمعة، بعد العشاء',start:'w0',nodes:{
+  w0:{mood:'concern',say:['هالأسبوع كان ثكيل عليك، صح؟',{card:'week'},'خلّصت 9 من 30. ما أريد أجاملك، ولا أريد أجلدك.','بس شوف: الأهل ما فاتوك ولا يوم. هذا مو شي صغير.'],choices:[['ما أدري شبيه','w_idk'],['تعبت من كلشي','w_tired'],['أريد أبدي من جديد','w_new']]},
+  w_idk:{mood:'calm',say:['أحياناً الفتور يجي من كثرة الشغلات، مو منك.','الأسبوع الجاي نخليه على ثلاث أشياء بس تهمك، والباقي يستنى.'],choices:[['إي، ثلاثة بس','w_three']]},
+  w_tired:{mood:'concern',say:['إذا التعب طوّل أكثر من أسبوعين، أو صار يثكل على قلبك، احچي ويّا أحد تثق بيه، أو راجع طبيب. أنا وياك، بس ما أغني عن الناس.','هسه: الليلة نوم بكير. حطيتلك تذكير النوم 22:00.']},
+  w_new:{mood:'happy',say:['باجر بداية أسبوع، وهذا وكت حلو للبداية.','اختار شغلة وحدة بس نبدي بيها:'],choices:[['الرياضة','w_pick'],['الدراسة','w_pick'],['وقت ويّا الأهل','w_pick']]},
+  w_three:{mood:'calm',say:['تمام. باجر الصبح أسألك تختار الثلاثة.','ونام هسه، الباقي يصير أسهل.']},
+  w_pick:{mood:'happy',say:['«{pick}» تصير أول شي بباجر، ونكبّرها شوية شوية.']}}},
+ night:{m:1270,when:'الإثنين، آخر الليل',start:'n0',nodes:{
+  n0:{mood:'calm',say:['خلص اليوم. ثلاث أسئلة وأخليك.','شنو أحلى شي صار اليوم؟'],choices:[['خلّصت الدراسة','n1'],['قعدت ويّا الأهل','n1'],['صلّيت كلشي بوكته','n1']]},
+  n1:{mood:'happy',say:['حلو، «{pick}».','وأنا لاحظت شي ثاني: ثلاث أيام ورا بعض تكعد قبل الفجر. هذا تغيير حقيقي، مو صدفة.','شنو الشي الوحيد اللي تريده باجر؟'],choices:[['رياضة','n2'],['اتصل بالمحاسب','n2'],['نوم بكير','n2']]},
+  n2:{mood:'calm',say:['سجلت «{pick}» أول شي بباجر.',{card:'sleep'},'تصبح على خير.']}}},
+};
+const MOODW={calm:'وياك',listen:'يكتب...',happy:'فرحان بيك',concern:'منتبه عليك'};
+const AV={calm:SH.fajr,listen:SH.morning,happy:SH.dhuhr,concern:SH.isha};
+const WAVE=Array.from({length:34},(_,i)=>6+Math.round(Math.abs(Math.sin(i*1.7)+Math.sin(i*.6))*11));
+function card(c,face){
+  if(c==='light')return `<div class="card"><h5>يومك اليوم، خفيف</h5><ul><li><i></i>الدوام</li><li><i></i>وقت ويّا الأهل</li><li><i></i>نوم <span class="num">22:00</span></li></ul><div class="moved">لباجر: رياضة، اتصل بالمحاسب، أغراض البيت</div></div>`;
+  if(c==='why'){const q='«أريد أصير أقوى، حتى من يكبر ابني يتذكرني نشيط، مو تعبان.»',by='إنت، 22 تشرين الأول · مثال، هنا تنحط كلماتك إنت';
+    if(face==='chat')return `<div class="card why"><div class="voice"><button data-act="voice" aria-label="شغّل صوتك"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg></button><span class="wave">${WAVE.map(h=>`<i style="height:${h}px"></i>`).join('')}</span><small class="num">0:12</small></div><p class="quote" style="font-size:17px;margin-top:6px">${q}</p><div class="by">صوتك إنت، 22 تشرين الأول · مثال</div></div>`;
+    return `<div class="card why"><p class="quote">${q}</p><div class="by">${by}</div></div>`}
+  if(c==='plan')return `<div class="card"><div class="if"><span>إذا</span>خلّصت صلاة العصر<span>أسوي</span>عشر ضغطات، ورا الباب</div></div>`;
+  if(c==='week'){const d=[['سبت',2],['أحد',1],['اثنين',0],['ثلاثاء',2],['أربعاء',1],['خميس',2],['جمعة',1]];
+    return `<div class="card"><h5>هالأسبوع</h5><div class="wk">${d.map(([n,v])=>`<div><em style="height:${8+v*26}px"></em><small>${n}</small></div>`).join('')}</div><div class="fam"><i></i><i></i><i></i><i></i><i></i><i></i><i></i> الأهل: كل يوم</div></div>`}
+  if(c==='sleep')return `<div class="card"><h5>نومك الليلة إذا نمت <span class="num">22:00</span></h5><div class="big num">6:28</div><div class="moved">تكعد <span class="num">04:28</span> لصلاة الليل</div></div>`;
+  return ''}
+
+/* each face renders the same conversation in its own way */
+const FACE={
+  sky(t){let h='';const lastS=t.log.map(x=>x.who).lastIndexOf('s');
+    t.log.forEach((x,i)=>{const n=i>=t.seen?' in':'';if(x.who==='s')h+=`<p class="s${i===lastS?' last':''}${n}" style="margin:0">${x.text}</p>`;else if(x.who==='u')h+=`<span class="u${n}">${x.text}</span>`;else h+=`<div class="${n.trim()}">${card(x.card,'sky')}</div>`});
+    if(t.typing)h+=`<span class="typing"><span class="dots" aria-label="سند يكتب"><i></i><i></i><i></i></span></span>`;return h},
+  paper(t){let h='',open=false;const close=()=>{if(open){h+=`<span class="sig">سند</span></div>`;open=false}};
+    t.log.forEach((x,i)=>{const n=i>=t.seen?' in':'';if(x.who==='u'){close();h+=`<span class="u${n}"><small>كتبت:</small>${x.text}</span>`;return}
+      if(!open){h+=`<div class="letter${n}">`;open=true}
+      h+=x.who==='s'?`<p class="${n.trim()}">${x.text}</p>`:`<div class="${n.trim()}">${card(x.card,'paper')}</div>`});
+    if(open){if(t.typing)h+=`<span class="typing"><span class="dots"><i></i><i></i><i></i></span></span></div>`;else close()}
+    else if(t.typing)h+=`<span class="typing">سند يكتب <span class="dots"><i></i><i></i><i></i></span></span>`;
+    return h},
+  chat(t){let h='';t.log.forEach((x,i)=>{const n=i>=t.seen?' in':'';if(x.who==='s')h+=`<div class="b s${n}">${x.text}</div>`;else if(x.who==='u')h+=`<div class="b u${n}">${x.text}</div>`;else h+=card(x.card,'chat').replace('class="card','class="card'+n)});
+    if(t.typing)h+=`<div class="typing"><span class="dots" aria-label="سند يكتب"><i></i><i></i><i></i></span></div>`;return h},
+};
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+class Talk{
+  constructor(ph){this.ph=ph;this.face=ph.dataset.face;this.el=ph.querySelector('.talk');this.el.innerHTML=`<div class="log" aria-live="polite"></div><div class="ans"></div>`;this.logEl=this.el.querySelector('.log');this.ansEl=this.el.querySelector('.ans');this.gen=0}
+  start(sc){this.gen++;clearTimeout(this.t);this.sc=sc;this.log=[];this.seen=0;this.choices=null;this.typing=false;this.ended=false;this.pick=null;this.go(SCRIPT[sc].start)}
+  go(key){const node=SCRIPT[this.sc].nodes[key];const items=node.say.slice();const gen=this.gen;this.moodAfter=node.mood||'calm';
+    const step=()=>{if(gen!==this.gen)return;
+      if(!items.length){this.typing=false;this.mood=this.moodAfter;this.choices=node.choices||null;this.ended=!node.choices;this.render();return}
+      this.typing=true;this.mood='listen';this.render();const it=items.shift();const len=typeof it==='string'?it.length:40;const d=RM.matches?90:Math.min(1500,420+len*20);
+      this.t=setTimeout(()=>{if(gen!==this.gen)return;this.log.push(typeof it==='string'?{who:'s',text:esc(it.replace('{pick}',this.pick||''))}:{who:'card',card:it.card});this.typing=false;this.mood=this.moodAfter;this.render();this.t=setTimeout(step,RM.matches?40:300)},d)};
+    step()}
+  answer(i){const [label,next]=this.choices[i];this.pick=label;this.log.push({who:'u',text:esc(label)});this.choices=null;this.render();const gen=this.gen;this.t=setTimeout(()=>{if(gen===this.gen)this.go(next)},RM.matches?40:380)}
+  render(){this.logEl.innerHTML=FACE[this.face](this);this.seen=this.log.length;
+    this.ansEl.innerHTML=this.choices?this.choices.map(([l],i)=>`<button data-ans="${i}">${esc(l)}</button>`).join(''):'';
+    const old=this.el.querySelector('.endnote');if(old)old.remove();
+    if(this.ended&&!this.typing)this.el.insertAdjacentHTML('beforeend',`<div class="endnote">جرّب جواب ثاني من «من جديد»، لو موقف ثاني من فوك.</div>`);
+    this.logEl.scrollTo({top:this.logEl.scrollHeight,behavior:RM.matches?'auto':'smooth'});
+    const m=this.mood||'calm';
+    if(this.face==='sky'){this.ph.querySelector('.mood').textContent=MOODW[m];if(buddy)buddy.mood=m}
+    if(this.face==='chat'){this.ph.querySelector('.st').textContent=m==='listen'?'يكتب...':'وياك دايماً';this.ph.querySelector('.av').className='av'+(m==='listen'?' listen':'');this.ph.querySelector('.av path').style.d=`path('${geo(AV[m],15,17)}')`}
+    if(this.face==='paper')this.ph.querySelector('.head path').style.d=`path('${geo(AV[m==='listen'?'calm':m],15,17)}')`}
+}
+
+/* ---------------- wiring ---------------- */
+const stage=document.getElementById('stage');
+const skyPh=stage.querySelector('.ph.sky');const buddy=new Buddy(skyPh.querySelector('canvas'),'home');buddy.mood='calm';
+const talks=[...stage.querySelectorAll('.ph')].map(ph=>new Talk(ph));
+let SC='morning';
+function play(sc){SC=sc;S.m=SCRIPT[sc].m;buddy.lastMin=null;lastStatic=null;
+  stage.querySelectorAll('.clk').forEach(e=>e.textContent=clk(S.m));stage.querySelector('.paper .when').textContent=SCRIPT[sc].when;
+  document.querySelectorAll('#bar [data-sc]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sc===sc));talks.forEach(t=>t.start(sc))}
+document.getElementById('bar').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;play(b.dataset.sc||SC)});
+stage.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const ph=b.closest('.ph');const t=talks.find(x=>x.ph===ph);
+  if(b.dataset.ans!=null){t.answer(+b.dataset.ans);return}
+  if(b.dataset.act==='voice'){const v=b.closest('.voice');v.classList.toggle('play');b.setAttribute('aria-label',v.classList.contains('play')?'وقّف':'شغّل صوتك');setTimeout(()=>v.classList.remove('play'),RM.matches?0:3200)}});
+/* 30 fps, only while the sky is on screen and the page is visible; a still frame when motion is reduced */
+let last=0,lastStatic=null,lastMood=null;
+if('IntersectionObserver' in window)new IntersectionObserver(es=>es.forEach(en=>buddy.visible=en.isIntersecting),{threshold:.05}).observe(skyPh);
+function loop(ts){requestAnimationFrame(loop);if(document.hidden||!buddy.visible)return;
+  if(RM.matches){const key=S.m+buddy.mood;if(lastStatic===key)return;lastStatic=key;buddy.draw(0,S.m,true);return}
+  if(ts-last<33)return;last=ts;buddy.draw(ts/1000,S.m,false)}
+window.addEventListener('resize',()=>{buddy.resize();lastStatic=null});
+play('morning');requestAnimationFrame(loop);
+})();
+</script>

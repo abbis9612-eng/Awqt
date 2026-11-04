@@ -1,0 +1,237 @@
+<title>يوم · الألوان</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap">
+<style>
+/* «الألوان», developed: each part of the day is one fixed flat colour that fills the screen.
+   The spectrum of the whole day (true widths, night included) is the navigator and the progress at once.
+   The prayer is the first action. One orchestrated moment: the colour turns when a prayer comes in. */
+:root{--page:#E8E8E4;--page-ink:#151513;--page-grey:#55554F;--card:#F4F4F1;--line:#D5D5CF;--ease:cubic-bezier(.23,1,.32,1);color-scheme:light;
+  --vaz:"Vazirmatn",Tahoma,sans-serif;--lale:"Lalezar","Vazirmatn",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#121211;--page-ink:#EDEDE9;--page-grey:#A8A8A0;--card:#1B1B19;--line:#2D2D2A;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#121211;--page-ink:#EDEDE9;--page-grey:#A8A8A0;--card:#1B1B19;--line:#2D2D2A;color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;background:var(--page);color:var(--page-ink);font-family:var(--vaz);font-size:17px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:48px 80px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid #2B4A86;outline-offset:3px}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:40px}
+.intro{display:grid;gap:12px;max-width:780px}
+.intro h1{margin:0;font-family:var(--lale);font-weight:400;font-size:clamp(38px,6vw,60px);line-height:1.15}
+.intro p{margin:0;font-size:18px;color:var(--page-grey)}
+.stage{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),390px));gap:40px;justify-content:start;align-items:start}
+.col{display:grid;gap:14px;justify-items:start}
+.col>h2{margin:0;font-size:22px;font-weight:700}
+.col>p{margin:-8px 0 0;font-size:16px;color:var(--page-grey);max-width:44ch}
+.demo{display:flex;gap:8px;flex-wrap:wrap}
+.demo button{min-height:48px;padding:0 18px;border-radius:24px;font-weight:600;font-size:16px;background:var(--page-ink);color:var(--page)}
+.demo button.ghost{background:transparent;color:var(--page-ink);box-shadow:inset 0 0 0 1.5px var(--page-ink)}
+.phone{width:100%;max-width:390px;aspect-ratio:390/844;border-radius:56px;padding:11px;background:#0D0D0F;box-shadow:0 50px 90px -40px rgba(0,0,0,.45),inset 0 0 0 1.5px #2C2C30}
+.scr{position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;isolation:isolate;font-family:var(--vaz)}
+.sb{position:absolute;z-index:9;inset:0 0 auto 0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:600}
+.sb b{width:17px;height:10px;border-radius:3px;border:1.5px solid currentColor;position:relative}
+.sb b::after{content:"";position:absolute;inset:1.5px 4px 1.5px 1.5px;background:currentColor;border-radius:1px}
+.notes{display:grid;gap:10px;max-width:880px}
+.notes h2{margin:0;font-size:24px;font-weight:700}
+.notes ol{margin:0;padding-inline-start:22px;display:grid;gap:8px}
+.notes li{font-size:16.5px;line-height:1.7}
+.notes li b{font-weight:700}
+.foot{font-size:15px;color:var(--page-grey);max-width:92ch;margin:0}
+
+/* ---------- the app ---------- */
+.app{--bg:#E09A3E;--fg:#1C1206;background:var(--bg);color:var(--fg);transition:background-color 260ms var(--ease),color 260ms var(--ease)}
+.app .wash{position:absolute;inset:0;z-index:1;pointer-events:none}
+.app .in{position:absolute;z-index:2;inset:50px 0 92px 0;padding:8px 22px 18px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;scrollbar-width:none;touch-action:pan-y}
+.app .in::-webkit-scrollbar{display:none}
+.app .in>*{flex:none}
+.app .date{font-size:15px;font-weight:500}
+.app h3{margin:-2px 0 0;font-family:var(--lale);font-weight:400;font-size:88px;line-height:1;letter-spacing:0}
+.app h3.one{font-size:96px}
+.app .say{margin:-2px 0 0;font-size:20px;font-weight:600;line-height:1.45}
+.app .pray{justify-self:start;align-self:flex-start;min-height:52px;padding:0 20px;border-radius:26px;font-size:17px;font-weight:700;display:inline-flex;align-items:center;gap:10px;box-shadow:inset 0 0 0 2px var(--fg);transition:background-color 200ms var(--ease),color 200ms var(--ease),transform 160ms var(--ease)}
+.app .pray:active{transform:scale(.97)}
+.app .pray svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.app .pray[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.app .pinfo{font-size:16px;font-weight:600}
+.app ul{list-style:none;margin:0;padding:0}
+.app li{display:flex;align-items:center;gap:14px;min-height:54px}
+.app li+li{box-shadow:0 -1px 0 color-mix(in srgb,var(--fg) 20%,transparent)}
+.app li .t{flex:1;font-size:18px;font-weight:500}
+.app li .m{font-size:14.5px;font-weight:500}
+.ck{width:44px;height:44px;margin:0 -10px;display:grid;place-items:center;flex:none}
+.ck i{width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--fg);display:grid;place-items:center;transition:background-color 200ms var(--ease)}
+.ck i svg{width:14px;height:14px;fill:none;stroke:var(--bg);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset 220ms 60ms var(--ease)}
+.done .ck i{background:var(--fg)}
+.done .ck i svg{stroke-dashoffset:0}
+.done .t{text-decoration:line-through;text-decoration-thickness:1.5px;opacity:.86}
+.app .add{display:flex;align-items:center;gap:14px;min-height:52px;font-size:17px;font-weight:600;width:100%;text-align:start}
+.app .add i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 2px var(--fg);margin-inline-start:-1px}
+.app .add svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.8;stroke-linecap:round}
+.app .sanad{display:grid;gap:8px;padding:12px 14px;border-radius:18px;background:color-mix(in srgb,var(--fg) 10%,transparent)}
+.app .sanad p{margin:0;font-size:16px;line-height:1.55}
+.app .sanad p b{font-weight:700}
+.app .sanad button{justify-self:start;min-height:44px;padding:0 16px;border-radius:22px;background:var(--fg);color:var(--bg);font-weight:700;font-size:15.5px}
+.app .next{font-size:16px;font-weight:500;padding-top:2px}
+.app .next b{font-weight:700}
+.app .sw{display:flex;align-items:center;gap:12px;min-height:56px;width:100%;text-align:start;font-size:17px;font-weight:600}
+.app .sw span{flex:1}
+.app .sw i{width:52px;height:32px;border-radius:16px;box-shadow:inset 0 0 0 2px var(--fg);position:relative;flex:none}
+.app .sw i::after{content:"";position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;background:var(--fg);transition:right 200ms var(--ease)}
+.app .sw[aria-checked="true"] i{background:var(--fg)}
+.app .sw[aria-checked="true"] i::after{right:25px;background:var(--bg)}
+.app .big2{font-size:34px;font-weight:300;line-height:1.2}
+.app .slide{animation:slide 300ms var(--ease) both}
+@keyframes slide{from{transform:translateX(var(--from,-28px));opacity:.15}}
+/* the spectrum of the day: true widths, the night included; the navigator and the progress at once */
+.spec{position:absolute;z-index:5;inset:auto 12px 18px 12px;height:66px;border-radius:20px;overflow:hidden;display:flex;touch-action:none;cursor:pointer;box-shadow:0 0 0 2px color-mix(in srgb,var(--fg) 30%,transparent)}
+.spec span{position:relative;height:100%;display:grid;place-items:end center;padding-bottom:7px;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden}
+.spec span.past::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.18)}
+.spec span.sel{box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 5px #111}
+.spec .needle{position:absolute;top:0;bottom:0;width:3px;margin-inline-start:-1.5px;background:#fff;box-shadow:0 0 0 1.5px #111;pointer-events:none}
+.spec:focus-visible{outline:3px solid #fff;outline-offset:3px}
+
+/* outside the app */
+.lock{background:var(--bg);color:var(--fg);transition:background-color 260ms var(--ease),color 260ms var(--ease)}
+.lock .clock{position:absolute;inset:86px 0 auto 0;text-align:center;font-weight:300;font-size:92px;line-height:1}
+.lock .ld{position:absolute;inset:196px 0 auto 0;text-align:center;font-size:17px;font-weight:600}
+.lock .nt{position:absolute;inset:260px 12px auto 12px;border-radius:24px;background:#fff;color:#141414;padding:12px 14px;display:grid;gap:6px;box-shadow:0 12px 30px -16px rgba(0,0,0,.5)}
+.lock .nt .hd{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#4A4A4A;font-weight:500}
+.lock .nt .hd i{width:22px;height:22px;border-radius:7px;background:var(--bg)}
+.lock .nt .hd span{margin-inline-start:auto}
+.lock .nt b{font-size:17px;font-weight:700}
+.lock .nt p{margin:0;font-size:15.5px;color:#333}
+.lock .nt .acts{display:flex;gap:6px}
+.lock .nt .acts button{min-height:44px;padding:0 14px;border-radius:22px;font-weight:700;font-size:15px;background:#F0F0EE}
+.lock .nt .acts button:first-child{background:#141414;color:#fff}
+.lock .wd{position:absolute;inset:auto 12px 30px 12px;border-radius:28px;background:var(--bg);color:var(--fg);padding:16px 18px;display:grid;gap:2px;box-shadow:0 0 0 2px color-mix(in srgb,var(--fg) 25%,transparent)}
+.lock .wd small{font-size:14px;font-weight:600}
+.lock .wd b{font-family:var(--lale);font-weight:400;font-size:40px;line-height:1.1}
+.lock .wd span{font-size:15.5px;font-weight:600}
+.lock .wd .bar{display:flex;height:10px;border-radius:5px;overflow:hidden;margin-top:8px;position:relative}
+.lock .wd .bar i{display:block;height:100%}
+.lock .lbl{position:absolute;inset:auto 0 300px 0;text-align:center;font-size:14px;font-weight:600;opacity:.9}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <h1>الألوان</h1>
+    <p>كل قسم من يومك إله لونه الثابت، والشاشة كلها تصير بلونه. تحت: طيف يومك كامل، كل لون بطوله الحقيقي، والليل ثلث اليوم. الخط الأبيض وين إنت هسه. اضغط على الطيف أو اسحب عليه، أو اسحب الشاشة يمين ويسار.</p>
+  </header>
+  <div class="stage">
+    <div class="col"><h2>داخل التطبيق</h2><p>القسم، والصلاة أول شي، وشغلاتك. وسند يطلع سطر واحد بس لما عنده شي مهم.</p>
+      <div class="phone"><div class="scr app" id="app"></div></div>
+      <div class="demo"><button id="moment">شوف لحظة دخول المغرب</button><button class="ghost" id="reset">رجّع 4:10</button></div></div>
+    <div class="col"><h2>برة التطبيق</h2><p>نفس اللون بشاشة القفل والإشعار والويدجت، فتعرف التطبيق ووكتك قبل ما تفتحه.</p>
+      <div class="phone"><div class="scr lock" id="lock"></div></div></div>
+  </div>
+  <section class="notes" aria-labelledby="nh"><h2 id="nh">شنو تطوّر عن النسخة الأولى</h2><ol>
+    <li><b>الطيف:</b> الشريط اللي تحت صار يومك كامل، كل قسم بطوله الحقيقي، والليل الأسود ثلث اليوم. والخط الأبيض وين إنت، واللي فات باهت شوية. هو التنقّل وهو التقدم بنفس الوكت.</li>
+    <li><b>الصلاة أول فعل:</b> زر «صلّيت العصر» تحت الاسم مباشرة، يتعبّى لما تضغطه.</li>
+    <li><b>لحظة وحدة مدروسة:</b> لما يدخل وكت الصلاة، اللون الجديد يملي الشاشة من الطيف لفوك. اضغط «شوف لحظة دخول المغرب».</li>
+    <li><b>ألوان أوضح:</b> الفجر أزرق فجر، والعشاء كحلي غامق، والليل أسود، والظهر أصفر شمس بدل الأبيض. ما بقى لونين يتشابهون.</li>
+    <li><b>الليل صار إله شاشة:</b> وكت النوم، والقيام، وكم ساعة تنام، ومنبّه القيام.</li>
+    <li><b>ما بقى فراغ بلا معنى:</b> الشغلات، و«أضف لهالقسم»، وسطر سند لما يلزم، والجاي بعده.</li>
+    <li><b>تسحب بإصبعك</b> بين الأقسام، والاسم يتزحلق ويّا السحبة.</li>
+    <li><b>الجملة المهمة أكبر:</b> «باقي 52 دقيقة على المغرب» صارت بعد الاسم مباشرة وبخط أوضح.</li></ol></section>
+  <p class="foot">نموذج للشكل، والتطبيق ما تغيّر. أوقات الصلاة والنوم نفس النماذج السابقة للسليمانية يوم 2 تشرين الثاني. «حان وقت صلاة المغرب» جملة إعلام بالوكت، مو نص أذان.</p>
+</div>
+
+<script>
+(()=>{
+document.documentElement.lang='ar';
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+const pad=n=>String(n).padStart(2,'0');
+const t12=m=>{m=((Math.round(m)%1440)+1440)%1440;let h=Math.floor(m/60)%12;if(h===0)h=12;return h+':'+pad(m%60)};
+const dur=m=>{m=Math.round(m);const h=Math.floor(m/60),mm=m%60;const H=h===1?'ساعة':h===2?'ساعتين':h+' ساعات';const MM=mm===1?'دقيقة':mm===2?'دقيقتين':mm+' دقيقة';return h?(mm?H+' و'+MM:H):MM};
+const CHECK='<svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg>';
+/* the fixed colours of the day; text colour chosen for contrast on each */
+const P=[
+ {k:'fajr',n:'بعد الفجر',sh:'فجر',p:'الفجر',s:287,e:381,bg:'#2B4A86',fg:'#FFFFFF'},
+ {k:'morning',n:'الصبح',sh:'صبح',p:null,s:381,e:703,bg:'#CFE3F4',fg:'#0F2133'},
+ {k:'dhuhr',n:'بعد الظهر',sh:'ظهر',p:'الظهر',s:703,e:879,bg:'#F7E6A6',fg:'#2A2208'},
+ {k:'asr',n:'بعد العصر',sh:'عصر',p:'العصر',s:879,e:1022,bg:'#E09A3E',fg:'#1C1206'},
+ {k:'maghrib',n:'بعد المغرب',sh:'مغرب',p:'المغرب',s:1022,e:1106,bg:'#B23F2A',fg:'#FFFFFF'},
+ {k:'isha',n:'بعد العشاء',sh:'عشاء',p:'العشاء',s:1106,e:1260,bg:'#1B2347',fg:'#FFFFFF'},
+ {k:'night',n:'الليل',sh:'ليل',p:null,s:1260,e:287+1440,bg:'#0A0A0A',fg:'#FFFFFF'}];
+const QIYAM=268,DAY0=287;
+const pos=m=>((m-DAY0+1440)%1440)/1440; /* 0 at Fajr, 1 at the next Fajr */
+const partAt=m=>P.find(p=>{const a=pos(p.s),b=p.k==='night'?1:pos(p.e);const x=pos(m);return x>=a&&x<b});
+const S={now:970,sel:'asr',prayed:new Set(['fajr','dhuhr']),alarm:true,said:false,
+  T:[{t:'أذكار الصبح',p:'fajr',d:true},{t:'فطور ويّا الأهل',p:'morning',d:true},{t:'الدوام',p:'morning',d:true},{t:'قيلولة',p:'dhuhr',d:true},{t:'رياضة',p:'asr',d:false,m:'فاتت يومين'},{t:'اتصل بالمحاسب',p:'asr',d:false},{t:'أغراض البيت',p:'asr',d:false},{t:'وقت ويّا الأهل',p:'maghrib',d:false},{t:'دراسة',p:'isha',d:false}]};
+const app=document.getElementById('app'),lock=document.getElementById('lock');
+
+function setColours(el,p){el.style.setProperty('--bg',p.bg);el.style.setProperty('--fg',p.fg)}
+const W=p=>(p.k==='night'?1440-(1260-287):p.e-p.s)/1440;
+function specUpdate(sp){const cur=partAt(S.now);
+  sp.setAttribute('aria-valuenow',P.findIndex(p=>p.k===S.sel));sp.setAttribute('aria-valuetext',P.find(p=>p.k===S.sel).n);
+  sp.innerHTML=P.map(p=>{const w=(W(p)*100).toFixed(2);const past=p.k!=='night'&&p!==cur&&pos(p.e)<=pos(S.now);
+    return `<span class="${p.k===S.sel?'sel':''} ${past?'past':''}" style="width:${w}%;background:${p.bg};color:${p.fg}">${parseFloat(w)>9?p.sh:''}</span>`}).join('')+
+    `<i class="needle" style="inset-inline-start:${(pos(S.now)*100).toFixed(2)}%"></i>`}
+function body(){const p=P.find(x=>x.k===S.sel),cur=partAt(S.now);const isCur=p===cur;const past=!isCur&&pos(p.e)<=pos(S.now)&&p.k!=='night';
+  const th=S.T.map((x,i)=>({...x,i})).filter(x=>x.p===p.k);const idx=P.indexOf(p);
+  let say,pray='';
+  if(p.k==='night'){say=`تنام ${t12(1260)}، وتكعد ${t12(QIYAM)} لصلاة الليل.`}
+  else if(isCur){const nx=P[idx+1];say=nx.k==='night'?`باقي ${dur(1260-S.now)} على النوم.`:nx.p?`باقي ${dur(nx.s-S.now)} على ${nx.p} ${t12(nx.s)}.`:`باقي ${dur(nx.s-S.now)}.`}
+  else if(past){const d=th.filter(x=>x.d).length;say=th.length?`خلص. خلّصت ${d} من ${th.length}.`:'خلص.'}
+  else say=`يبدي ${t12(p.s)}.`;
+  if(p.p){const did=S.prayed.has(p.k);
+    if(isCur||past)pray=`<button class="pray" data-pray="${p.k}" aria-pressed="${did}">${did?CHECK.replace('<svg','<svg aria-hidden="true"')+'صلّيت '+p.p:'صلّيت '+p.p}</button>`;
+    else pray=`<span class="pinfo">${p.p} ${t12(p.s)}</span>`}
+  const words=p.n.split(' ');
+  const showSanad=isCur&&p.k==='asr'&&!S.T[4].d&&!S.said;
+  const nextP=P[idx+1]&&P[idx+1].k!=='night'?P[idx+1]:null;const nextTh=nextP?S.T.find(x=>x.p===nextP.k):null;
+  let extra='';
+  if(p.k==='night')extra=`<div><div class="big2">نومك ${dur(QIYAM+1440-1260)}</div></div><button class="sw" role="switch" aria-checked="${S.alarm}" data-alarm><span>منبّه القيام ${t12(QIYAM)}</span><i></i></button>`;
+  return `<span class="date">الإثنين 2 تشرين الثاني، السليمانية</span>
+    <h3 class="${words.length===1?'one':''}">${words.join('<br>')}</h3><p class="say">${say}</p>${pray}${extra}
+    ${th.length?`<ul>${th.map(x=>`<li class="${x.d?'done':''}" data-i="${x.i}"><button class="ck" aria-pressed="${x.d}" aria-label="خلّصت ${x.t}"><i>${CHECK}</i></button><span class="t">${x.t}</span>${x.m&&!x.d?`<span class="m">${x.m}</span>`:''}</li>`).join('')}</ul>`:''}
+    ${p.k!=='night'?`<button class="add" data-add><i><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10"/></svg></i>أضف ل${p.n.startsWith('ال')?'ل'+p.n.slice(1):p.n}</button>`:''}
+    ${showSanad?`<div class="sanad"><p><b>سند:</b> الرياضة فاتت يومين. عشر دقايق تكفي اليوم.</p><button data-sanad>حطها هسه</button></div>`:''}
+    ${nextTh&&(isCur)?`<p class="next">وبعدها، ${nextP.n}: <b>${nextTh.t}</b></p>`:''}`}
+app.innerHTML=`<div class="sb"><span class="num"></span><b></b></div><div class="in"></div><div class="spec" role="slider" tabindex="0" aria-label="طيف اليوم" aria-valuemin="0" aria-valuemax="6"></div>`;
+const inn=app.querySelector('.in'),sp=app.querySelector('.spec');
+function render(dir){setColours(app,P.find(x=>x.k===S.sel));app.querySelector('.sb .num').textContent=t12(S.now);
+  inn.innerHTML=body();inn.classList.remove('slide');if(dir&&!RM.matches){inn.style.setProperty('--from',dir>0?'-28px':'28px');void inn.offsetWidth;inn.classList.add('slide')}
+  specUpdate(sp);renderLock()}
+function renderLock(){const cur=partAt(S.now);setColours(lock,cur);const idx=P.indexOf(cur),nx=P[idx+1];const th=S.T.find(x=>x.p===cur.k&&!x.d);
+  lock.innerHTML=`<div class="sb"><span class="num">${t12(S.now)}</span><b></b></div><div class="clock num">${t12(S.now)}</div><div class="ld">الإثنين 2 تشرين الثاني</div>
+    <div class="nt"><div class="hd"><i></i>يوم<span>هسه</span></div><b>${cur.n}</b><p>${nx&&nx.p?`باقي ${dur(nx.s-S.now)} على ${nx.p}.`:''}${th?` التالي: ${th.t}.`:''}</p>
+      <div class="acts">${cur.p&&!S.prayed.has(cur.k)?`<button data-lpray>صلّيت ${cur.p}</button>`:''}${th?`<button data-ldone>خلّصت ${th.t}</button>`:''}</div></div>
+    <div class="wd" aria-label="ويدجت"><small>${cur.n}</small><b>${nx&&nx.p?`${nx.p} ${t12(nx.s)}`:cur.k==='night'?'نوم':''}</b><span>${th?th.t:'ولا شي هسه'}</span>
+      <div class="bar">${P.map(p=>`<i style="width:${((p.k==='night'?1440-973:p.e-p.s)/1440*100).toFixed(2)}%;background:${p.bg}"></i>`).join('')}</div></div>`}
+/* the spectrum: tap or drag anywhere on it; arrows from the keyboard; swipe on the field */
+function go(k){const d=P.findIndex(x=>x.k===k)-P.findIndex(x=>x.k===S.sel);if(!d)return;S.sel=k;inn.scrollTop=0;render(d)}
+function pickAt(x){const r=sp.getBoundingClientRect();const f=Math.max(0,Math.min(.9999,(r.right-x)/r.width));let acc=0;for(const p of P){if(f<acc+W(p)){go(p.k);return}acc+=W(p)}}
+let drag=false;
+sp.addEventListener('pointerdown',e=>{drag=true;try{sp.setPointerCapture(e.pointerId)}catch(_){}pickAt(e.clientX)});
+sp.addEventListener('pointermove',e=>{if(drag)pickAt(e.clientX)});
+['pointerup','pointercancel','lostpointercapture'].forEach(t=>sp.addEventListener(t,()=>{drag=false}));
+sp.addEventListener('keydown',e=>{const i=P.findIndex(x=>x.k===S.sel);const d={ArrowLeft:1,ArrowRight:-1}[e.key];if(d&&P[i+d]){e.preventDefault();go(P[i+d].k)}});
+let sx=null,sy=null;
+inn.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'){sx=e.clientX;sy=e.clientY}});
+inn.addEventListener('pointerup',e=>{if(sx==null)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(Math.abs(dx)>60&&Math.abs(dy)<45){const i=P.findIndex(x=>x.k===S.sel),d=dx>0?1:-1;if(P[i+d])go(P[i+d].k)}});
+app.addEventListener('click',e=>{
+  const ck=e.target.closest('.ck');if(ck){const i=+ck.closest('li').dataset.i;S.T[i].d=!S.T[i].d;const k=inn.scrollTop;render(0);inn.scrollTop=k;return}
+  const pr=e.target.closest('[data-pray]');if(pr){const k=pr.dataset.pray;S.prayed.has(k)?S.prayed.delete(k):S.prayed.add(k);render(0);return}
+  if(e.target.closest('[data-sanad]')){S.said=true;S.T[4].m='10 دقايق';const box=e.target.closest('.sanad');box.innerHTML='<p><b>سند:</b> حطيتها، عشر دقايق. مرة وحدة تفوت عادي، المهم ما تصير ثلاث.</p>';return}
+  if(e.target.closest('[data-alarm]')){S.alarm=!S.alarm;render(0);return}
+  if(e.target.closest('[data-add]')){const b=e.target.closest('[data-add]');b.textContent='بالنسخة الكاملة تنفتح ورقة الإضافة هنا';setTimeout(()=>render(0),1600)}});
+lock.addEventListener('click',e=>{const cur=partAt(S.now);
+  if(e.target.closest('[data-lpray]')){S.prayed.add(cur.k);render(0)}
+  if(e.target.closest('[data-ldone]')){const th=S.T.find(x=>x.p===cur.k&&!x.d);if(th)th.d=true;render(0)}});
+/* the one orchestrated moment: Maghrib comes in, its colour rises out of the spectrum and fills the screen */
+document.getElementById('moment').addEventListener('click',()=>{S.now=1022;S.sel='maghrib';const p=P.find(x=>x.k==='maghrib');
+  if(RM.matches){render(0);return}
+  const w=document.createElement('div');w.className='wash';w.style.background=p.bg;const sp=app.querySelector('.spec');const r=sp.getBoundingClientRect(),ar=app.getBoundingClientRect();
+  const x=r.right-pos(1022)*r.width-ar.left,y=r.top+r.height/2-ar.top;w.style.clipPath=`circle(0px at ${x}px ${y}px)`;app.appendChild(w);
+  const a=w.animate([{clipPath:`circle(0px at ${x}px ${y}px)`},{clipPath:`circle(${Math.hypot(ar.width,ar.height)}px at ${x}px ${y}px)`}],{duration:720,easing:'cubic-bezier(.23,1,.32,1)',fill:'forwards'});
+  a.onfinish=()=>{render(0);w.remove();const msg=document.createElement('p');msg.className='say';msg.style.cssText='font-size:17px;font-weight:700';msg.textContent='حان وقت صلاة المغرب.';inn.insertBefore(msg,inn.querySelector('h3').nextSibling);
+    inn.querySelector('h3').animate([{transform:'translateY(14px)',opacity:0},{transform:'none',opacity:1}],{duration:320,easing:'cubic-bezier(.23,1,.32,1)'})}});
+document.getElementById('reset').addEventListener('click',()=>{S.now=970;S.sel='asr';render(0)});
+render(0);
+})();
+</script>

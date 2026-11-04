@@ -1,0 +1,658 @@
+<title>يوم · النسخة الكاملة</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+/* «يوم», the complete prototype: one zoomable map of your time (year → week → day → now → focus, and the night),
+   the live sky and lake at the moment you are in, pomegranate and gold, and «سند» to talk to. */
+:root{
+  --pg:#0E0F13; --pg-card:#171920; --pg-ink:#F3F1EC; --pg-grey:#A7AAB6; --pg-line:#2A2D38;
+  --gold:#E0BE6A; --bg:#1B0913; --bg2:#2E0D1D; --ink:#FDF2EE; --soft:#DFB4C0; --chip:#3B1629; --now:#FF8A7A;
+  --baloo:"Baloo Bhaijaan 2","Tajawal",Tahoma,sans-serif; --taj:"Tajawal",Tahoma,sans-serif; --ruqaa:"Aref Ruqaa",serif; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{background:var(--pg);color:var(--pg-ink);font-family:var(--taj);font-size:17px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:34px 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--pg)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:1200px;margin:0 auto;display:grid;gap:26px}
+.wrap>*{min-width:0}
+.intro{display:grid;gap:10px;max-width:900px}
+.intro .k{font-weight:700;color:var(--gold);font-size:15px}
+.intro h1{font-family:var(--baloo);font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1.25;margin:0}
+.intro p{margin:0;font-size:18px;color:#D6D8E0;max-width:72ch}
+.main{display:grid;grid-template-columns:minmax(0,410px) minmax(0,1fr);gap:36px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:minmax(0,1fr)}}
+.device{width:min(100%,390px);justify-self:center;background:#050506;border-radius:54px;padding:10px;box-shadow:0 40px 80px -40px rgba(0,0,0,.8),inset 0 0 0 1.5px #2A2A2E;position:sticky;top:20px}
+.side{display:grid;gap:16px}
+.box{background:var(--pg-card);border:1.5px solid var(--pg-line);border-radius:20px;padding:16px 18px;display:grid;gap:8px}
+.box h3{margin:0;font-family:var(--baloo);font-size:23px;line-height:1.35}
+.box ul,.box ol{margin:0;padding-inline-start:22px;display:grid;gap:6px}
+.box li{font-size:16.5px;color:#D6D8E0;line-height:1.7}
+.box li b{color:var(--pg-ink)}
+.foot{font-size:15.5px;color:var(--pg-grey);max-width:92ch;margin:0;line-height:1.8}
+
+/* ---------- phone ---------- */
+.ph{position:relative;height:800px;max-height:calc(100vh - 40px);min-height:680px;border-radius:44px;overflow:hidden;isolation:isolate;font-family:var(--baloo);color:var(--ink);background:radial-gradient(120% 70% at 50% 0%,#3B1629,var(--bg) 60%);touch-action:pan-y}
+.status{position:absolute;inset:0 0 auto 0;z-index:8;height:44px;display:flex;justify-content:space-between;align-items:center;padding:8px 28px 0;font-size:15px;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.45);pointer-events:none}
+.world{position:absolute;inset:0 0 84px 0;z-index:2;overflow:hidden;touch-action:none}
+.lv{position:absolute;inset:0;padding:50px 16px 10px;display:flex;flex-direction:column;gap:10px;will-change:transform,opacity;transform-origin:50% 50%}
+.lv[hidden]{display:none}
+.lv h3{margin:0;font-size:27px;font-weight:800;line-height:1.3}
+.lv .sub{font-size:15px;color:var(--soft);font-weight:700;margin-top:-6px}
+.sanad{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.07);border-radius:16px;padding:7px 12px;font-size:15px;font-weight:700;color:#F6E4EA;line-height:1.5;text-align:start;width:100%}
+.sanad svg{width:20px;height:20px;flex:none}
+button.sanad{min-height:48px;box-shadow:inset 0 0 0 1.5px rgba(224,190,106,.4)}
+button.sanad em{font-style:normal;margin-inline-start:auto;color:var(--gold);font-size:14.5px;white-space:nowrap}
+.zbar{position:absolute;z-index:7;inset:auto 10px 12px 10px;display:grid;grid-template-columns:54px repeat(6,1fr);gap:2px;padding:5px;border-radius:22px;background:rgba(27,9,19,.94);border:1px solid rgba(224,190,106,.22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.zbar button{min-height:54px;border-radius:17px;font-size:14px;font-weight:800;color:var(--soft);display:grid;justify-items:center;align-content:center;gap:2px;line-height:1.2}
+.zbar button i{display:block;border-radius:50%;background:currentColor}
+.zbar button[aria-current="true"]{background:var(--gold);color:#241900}
+.fab{position:relative;width:54px;height:54px;display:grid;place-items:center;color:#241900}
+.fab svg.s{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
+.fab svg.s path{fill:var(--gold)}
+.fab .pl{position:relative;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round}
+.toast{position:absolute;z-index:30;inset:auto 14px 96px 14px;border-radius:18px;padding:8px 8px 8px 14px;background:var(--ink);color:var(--bg);font-size:16px;font-weight:800;display:flex;gap:10px;align-items:center;animation:rise .3s ease-out;min-height:56px}
+.toast span{flex:1;padding-inline-start:4px}
+.toast button{min-height:44px;padding:0 12px;border-radius:12px;border:1.5px solid currentColor;font-weight:800}
+@keyframes rise{from{transform:translateY(14px);opacity:0}}
+
+/* the live sky at the top of «الآن» and «الليل» */
+.scenebox{position:relative;margin:-50px -16px 0;height:290px;flex:none;overflow:hidden}
+.scenebox canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scenebox::before{content:"";position:absolute;z-index:1;inset:0 0 auto 0;height:96px;background:linear-gradient(180deg,rgba(6,4,14,.6),rgba(6,4,14,0));pointer-events:none}
+.scenebox::after{content:"";position:absolute;inset:auto 0 0 0;height:70px;background:linear-gradient(180deg,rgba(27,9,19,0),var(--bg))}
+.hud{position:absolute;z-index:2;inset:44px 0 auto 0;padding:2px 20px 0;display:grid;justify-items:start;background:linear-gradient(180deg,rgba(6,4,14,.5),rgba(6,4,14,.2) 70%,transparent);pointer-events:none}
+.hud small{font-size:15px;font-weight:800;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.hud b{font-size:24px;font-weight:800;line-height:1.3;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.hud .cd{font-size:72px;font-weight:800;line-height:1;text-shadow:0 2px 18px rgba(0,0,0,.45)}
+.hud .cap{font-size:19px;font-weight:800;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;gap:10px;padding-bottom:70px;margin-top:-26px;position:relative;z-index:2}
+.scroll::-webkit-scrollbar{display:none}
+.scroll>*{flex:none}
+
+/* year */
+.year{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 6px}
+.mo{display:grid;gap:3px;padding:4px;border-radius:12px;text-align:start;min-height:44px}
+button.mo:hover{background:rgba(255,255,255,.05)}
+.mo.pick{background:rgba(224,190,106,.12);box-shadow:inset 0 0 0 1.5px rgba(224,190,106,.5)}
+.mo small{font-size:14px;font-weight:800;color:var(--soft)}
+.mo .d{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.mo .d i{aspect-ratio:1;border-radius:3px;background:rgba(224,190,106,var(--a,.08))}
+.mo .d i.today{background:var(--gold);box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--gold),0 0 18px var(--gold)}
+.mo .d i.fut{background:rgba(255,255,255,.05)}
+.legend{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--soft);font-weight:700}
+.legend i{width:12px;height:12px;border-radius:3px;background:rgba(224,190,106,var(--a))}
+.peek{min-height:30px;font-size:15px;font-weight:800;color:var(--gold)}
+
+/* week */
+.wkz{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;flex:1;min-height:0;margin-inline:-6px}
+.col{display:flex;flex-direction:column;gap:5px;align-items:stretch;padding:8px 4px 6px;border-radius:16px;background:rgba(255,255,255,.05);min-height:0}
+.col.today{background:rgba(224,190,106,.14);box-shadow:inset 0 0 0 1.5px var(--gold)}
+.col.fut{opacity:.8}
+.col b{font-size:14px;text-align:center;line-height:1.2}
+.col small{font-size:13px;text-align:center;color:var(--soft);font-weight:700;margin-top:-4px}
+.mini{flex:1;display:flex;flex-direction:column;gap:3px;position:relative;min-height:0}
+.mini i{position:relative;border-radius:5px;background:rgba(224,190,106,.14);overflow:hidden}
+.mini i b{position:absolute;inset:auto 0 0 0;background:var(--gold);border-radius:5px}
+.mini i.pr::before{content:"";position:absolute;z-index:1;top:3px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#FFF1C8;box-shadow:0 0 6px #FFE29A}
+.mini .nowl{position:absolute;inset-inline:-2px;height:2px;background:var(--now);box-shadow:0 0 6px var(--now);z-index:2}
+.mini .nt{flex:.9;border-radius:5px;background:linear-gradient(180deg,#2A1640,#160C2C)}
+.col em{font-style:normal;font-size:15px;font-weight:800;text-align:center}
+
+/* day */
+.dhead{display:flex;align-items:center;gap:6px}
+.dhead h3{flex:1;text-align:center;font-size:25px}
+.dhead button{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.07);display:grid;place-items:center;flex:none}
+.dhead button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.dhead button:disabled{opacity:.35}
+.dayz{display:flex;flex-direction:column;gap:5px;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:70px}
+.dayz::-webkit-scrollbar{display:none}
+.band{position:relative;border-radius:16px;padding:6px 12px;background:rgba(255,255,255,.05);display:flex;flex-direction:column;gap:4px;min-height:54px;overflow:hidden;text-align:start;width:100%}
+.band.cur{background:rgba(224,190,106,.15);box-shadow:inset 0 0 0 1.5px var(--gold)}
+.band>*{position:relative;z-index:1}
+.band .t{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800}
+.band .t .pr{margin-inline-start:auto;font-size:14px;font-weight:800;color:#241900;background:var(--gold);border-radius:999px;padding:0 9px;line-height:1.7}
+.band .t .pr.no{background:transparent;color:var(--gold);box-shadow:inset 0 0 0 1.5px var(--gold)}
+.band .t .tm{font-size:14px;color:var(--soft);font-weight:700}
+.band .ch{display:flex;flex-wrap:wrap;gap:4px}
+.band .ch span{font-size:15px;font-weight:700;padding:0 10px;border-radius:999px;background:var(--chip);line-height:1.75}
+.band .ch span.done{text-decoration:line-through;color:var(--soft)}
+.band .ch span.miss{box-shadow:inset 0 0 0 1.5px rgba(255,138,122,.75)}
+.band .nowl{position:absolute;z-index:0;inset-inline:0;height:2px;background:var(--now);box-shadow:0 0 8px var(--now)}
+.nightb{flex:none;border-radius:16px;padding:10px 12px;background:linear-gradient(90deg,#1E1445,#2A0E2E);display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:800;text-align:start;width:100%;min-height:56px;box-shadow:inset 0 0 0 1.5px rgba(190,180,255,.25)}
+.nightb span{color:#D9D2F5;font-weight:700;font-size:14.5px}
+
+/* now */
+.track{position:relative;height:30px;margin:4px 6px 0}
+.track::before{content:"";position:absolute;inset:13px 0;border-radius:3px;background:rgba(255,255,255,.14)}
+.track .fill{position:absolute;top:13px;height:4px;inset-inline-start:0;border-radius:3px;background:var(--gold)}
+.track i{position:absolute;top:7px;width:16px;height:16px;margin-inline-start:-8px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 2px var(--gold)}
+.track i.done{background:var(--gold)}
+.track .me{position:absolute;top:2px;width:4px;height:26px;margin-inline-start:-2px;border-radius:2px;background:var(--now);box-shadow:0 0 8px var(--now)}
+.next{border-radius:26px;padding:14px 16px;background:linear-gradient(160deg,rgba(224,190,106,.24),rgba(224,190,106,.07));box-shadow:inset 0 0 0 1.5px rgba(224,190,106,.55);display:grid;gap:10px}
+.next small{font-size:14.5px;font-weight:800;color:var(--gold)}
+.next b{font-size:32px;line-height:1.2}
+.next .row{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px}
+.next .row button{min-height:54px;border-radius:16px;font-weight:800;font-size:16.5px;box-shadow:inset 0 0 0 1.5px rgba(224,190,106,.6);color:#F4DFA6}
+.next .row button:first-child{background:var(--gold);color:#241900;box-shadow:none}
+.after{display:grid;gap:4px}
+.after button{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 10px;border-radius:14px;background:rgba(255,255,255,.06);font-size:17px;font-weight:700;text-align:start}
+.after button i{width:24px;height:24px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--soft);flex:none}
+.prow{display:flex;gap:6px;flex-wrap:wrap}
+.prow span{font-size:14.5px;font-weight:800;border-radius:999px;padding:2px 10px;background:rgba(255,255,255,.07)}
+.prow span.ok{color:var(--gold)}
+
+/* night */
+.bal{border-radius:22px;padding:14px;background:rgba(255,255,255,.06);display:grid;gap:10px}
+.bal h5{margin:0;font-size:15px;font-weight:800;color:#D9D2F5}
+.nbar{position:relative;height:46px;border-radius:14px;background:linear-gradient(90deg,#3B2A78,#1E1445);overflow:hidden}
+.nbar .q{position:absolute;top:0;bottom:0;width:4px;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.nbar .lb{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 12px;font-size:15px;font-weight:800}
+.nrow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.nrow div{border-radius:16px;background:rgba(255,255,255,.06);padding:8px 10px;display:grid;gap:0}
+.nrow small{font-size:13.5px;color:var(--soft);font-weight:700}
+.nrow b{font-size:22px;font-weight:800;line-height:1.3}
+.alarm{display:flex;align-items:center;gap:10px;min-height:56px;padding:0 12px;border-radius:16px;background:rgba(255,255,255,.06);width:100%;text-align:start}
+.alarm b{flex:1;font-size:17px}
+.alarm span{font-size:22px;font-weight:800}
+.sw{width:52px;height:32px;border-radius:16px;background:rgba(255,255,255,.18);position:relative;flex:none;transition:background .2s}
+.sw::after{content:"";position:absolute;top:3px;right:3px;width:26px;height:26px;border-radius:50%;background:#fff;transition:right .2s}
+[aria-checked="true"] .sw{background:var(--gold)}
+[aria-checked="true"] .sw::after{right:23px}
+
+/* focus */
+.fz{align-items:center;justify-content:center;text-align:center;gap:14px}
+.fz small{font-size:15px;font-weight:800;color:var(--gold)}
+.fz b{font-size:40px;line-height:1.2}
+.ring{position:relative;width:240px;height:240px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring em{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-size:56px;font-weight:800}
+.ring .br{position:absolute;inset:-14px;border-radius:50%;box-shadow:0 0 0 1px rgba(224,190,106,.25);animation:br 4s ease-in-out infinite}
+@keyframes br{50%{transform:scale(1.06);box-shadow:0 0 0 1px rgba(224,190,106,.45)}}
+.fz .row{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.fz .row button{min-height:56px;border-radius:18px;font-weight:800;font-size:17px;box-shadow:inset 0 0 0 1.5px rgba(224,190,106,.6);color:#F4DFA6}
+.fz .row button:first-child{background:var(--gold);color:#241900;box-shadow:none}
+
+/* sheets: add a thing, talk to سند */
+.scrim{position:absolute;inset:0;z-index:40;background:rgba(8,2,6,.55);animation:fade .25s}
+@keyframes fade{from{opacity:0}}
+.sheet{position:absolute;z-index:41;inset:auto 0 0 0;max-height:82%;display:flex;flex-direction:column;background:linear-gradient(180deg,#3A1226,var(--bg) 30%);border-radius:30px 30px 0 0;box-shadow:0 -24px 40px -24px rgba(0,0,0,.8);animation:up .35s cubic-bezier(.3,1.2,.5,1)}
+.sheet::before{content:"";position:absolute;inset:0 22px auto;height:1px;background:linear-gradient(90deg,transparent,rgba(224,190,106,.85),transparent)}
+@keyframes up{from{transform:translateY(40%)}}
+.sheet .sh{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.sheet .sh b{flex:1;font-size:22px;font-weight:800}
+.sheet .x{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:22px}
+.addf{display:grid;gap:12px;padding:4px 16px 20px}
+.addf label{font-size:15px;font-weight:800;color:var(--soft)}
+.addf input{min-height:56px;border-radius:16px;border:1.5px solid rgba(224,190,106,.5);background:rgba(255,255,255,.06);padding:0 14px;font-size:19px;font-weight:700;font-family:var(--baloo)}
+.addf input::placeholder{color:#C9A2B0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{min-height:44px;padding:0 14px;border-radius:999px;font-weight:800;font-size:15.5px;background:rgba(255,255,255,.07)}
+.chips button[aria-pressed="true"]{background:var(--gold);color:#241900}
+.addf .go{min-height:58px;border-radius:18px;background:var(--gold);color:#241900;font-weight:800;font-size:18px}
+.addf .go:disabled{opacity:.45}
+.talk{flex:1;min-height:0;display:flex;flex-direction:column}
+.log{flex:1;overflow-y:auto;scrollbar-width:none;padding:6px 14px;display:flex;flex-direction:column;gap:6px;min-height:200px}
+.log::-webkit-scrollbar{display:none}
+.log>*{flex:none}
+.b{max-width:86%;padding:8px 14px;font-size:17px;font-weight:600;line-height:1.55;border-radius:20px}
+.b.s{align-self:flex-start;background:var(--ink);color:#2B1420;border-start-start-radius:6px}
+.b.u{align-self:flex-end;background:var(--gold);color:#241900;border-start-end-radius:6px;font-weight:800;margin-block:6px}
+.typing{align-self:flex-start;background:var(--ink);color:#7C1830;border-radius:20px;border-start-start-radius:6px;padding:8px 16px}
+.dots{display:inline-flex;gap:5px;align-items:center;height:20px}
+.dots i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.35;animation:dot 1.1s infinite}
+.dots i:nth-child(2){animation-delay:.18s}.dots i:nth-child(3){animation-delay:.36s}
+@keyframes dot{40%{opacity:1;transform:translateY(-3px)}}
+.ans{display:flex;flex-wrap:wrap;gap:8px;padding:10px 14px 18px;border-top:1px solid rgba(224,190,106,.2)}
+.ans:empty{display:none}
+.ans button{min-height:48px;padding:0 16px;border-radius:24px;font-weight:800;font-size:16.5px;box-shadow:inset 0 0 0 1.5px var(--gold);color:#F4DFA6}
+.endnote{font-size:14.5px;font-weight:700;padding:10px 16px 18px;color:var(--soft);border-top:1px solid rgba(224,190,106,.2)}
+.in{animation:rise .38s cubic-bezier(.2,1.2,.4,1) both}
+.card{align-self:flex-start;max-width:92%;background:#2A0E1D;border:1px solid rgba(224,190,106,.35);border-radius:20px;border-start-start-radius:6px;padding:12px 14px}
+.card h5{margin:0 0 6px;font-size:14.5px;font-weight:800}
+.card ul{margin:0;padding:0;list-style:none;display:grid;gap:4px}
+.card li{display:flex;gap:8px;align-items:center;font-size:16px;font-weight:700}
+.card li i{width:9px;height:9px;border-radius:50%;background:currentColor;flex:none}
+.card .moved{margin-top:8px;font-size:14.5px;font-weight:600;color:var(--soft)}
+.card .if{display:grid;gap:4px;font-size:16.5px;font-weight:700}
+.card .if span{font-size:14px;font-weight:800;color:var(--gold)}
+.card .wk{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;height:84px;margin-top:4px}
+.card .wk div{display:grid;gap:3px;justify-items:center;align-content:end;height:100%}
+.card .wk em{display:block;width:100%;border-radius:5px;background:var(--gold)}
+.card .wk small{font-size:12.5px;font-weight:700}
+.card .fam{display:flex;gap:6px;align-items:center;margin-top:8px;font-size:14.5px;font-weight:700}
+.card .fam i{width:12px;height:12px;border-radius:50%;background:#2BB673}
+.card .quote{font-family:var(--ruqaa);font-size:21px;line-height:1.6;margin:6px 0 0}
+.card .by{font-size:13.5px;font-weight:600;color:var(--soft);margin-top:4px}
+.card .big{font-size:26px;font-weight:800;line-height:1.2}
+.voice{display:flex;align-items:center;gap:10px;padding-inline-end:4px}
+.voice button{width:44px;height:44px;border-radius:50%;background:var(--gold);color:#241900;display:grid;place-items:center;flex:none}
+.voice button svg{width:18px;height:18px;fill:currentColor}
+.voice .wave{display:flex;gap:2px;align-items:center;height:30px;flex:1}
+.voice .wave i{width:3px;border-radius:2px;background:var(--soft);opacity:.6}
+.voice.play .wave i{animation:wv .9s ease-in-out infinite;opacity:1;background:var(--gold)}
+@keyframes wv{50%{transform:scaleY(.4)}}
+.voice small{font-size:13.5px;color:var(--soft);font-weight:700}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="k">نموذج · «يوم» · النسخة الكاملة</span>
+    <h1>كل اللي عجبك، بتطبيق واحد.</h1>
+    <p>«قرّب وبعّد» هو الأساس: يومك خريطة وحدة من السنة لحد الدقيقة. وبالآن تشوف سما مدينتك الحية والبحيرة. والألوان رمّاني وذهبي. وسند تحچي وياه. وزدت الناقص: تضيف شغلة، ومستوى الليل والنوم.</p>
+  </header>
+  <div class="main">
+    <div class="device"><div class="ph" id="ph">
+      <div class="status"><span class="num">16:10</span><span>السليمانية</span></div>
+      <div class="world" id="world"></div>
+      <nav class="zbar" id="zbar" aria-label="المستوى"></nav>
+    </div></div>
+    <div class="side">
+      <div class="box"><h3>شنو بيه</h3><ul>
+        <li><b>ست شاشات بخريطة وحدة:</b> سنة، أسبوع، يوم، الآن، ركّز، والليل. تقرّب وتبعّد بإصبعين، أو من الشريط تحت، أو تضغط على الشي نفسه.</li>
+        <li><b>«الآن» بسما مدينتك الحية:</b> البحيرة والجبال والنجمة الذهبية، والماي يتحرك أكثر قبل الصلاة.</li>
+        <li><b>سند:</b> اضغط سطره بـ«الآن» وتنفتح محادثة. يلاحظ إن الرياضة فاتت يومين ويسألك ليش، وكل جواب إله حل.</li>
+        <li><b>أضف شغلة:</b> النجمة الذهبية. تكتب الشغلة وتختار القسم، والتطبيق يقترح القسم الجاي.</li>
+        <li><b>الليل:</b> اضغط سطر النوم بآخر اليوم. يطلعلك وكت النوم والقيام والقيلولة، ومنبّهاتك.</li>
+        <li><b>الصلوات عمود يومك:</b> كل قسم يبدي بصلاته، وتبين إذا صلّيت.</li></ul></div>
+      <div class="box"><h3>جرّب بهالترتيب</h3><ol>
+        <li>بـ«الآن» اضغط «احچي ويّا سند»، وجاوبه.</li>
+        <li>اضغط النجمة الذهبية وأضف شغلة.</li>
+        <li>بعّد لـ«يوم» بإصبعين أو من الشريط، واضغط سطر النوم بالآخر.</li>
+        <li>بعّد للأسبوع، واضغط عمود «سبت».</li>
+        <li>بعّد للسنة، بعدين ارجع للآن واضغط «ركّز».</li></ol></div>
+      <div class="box"><h3>بصراحة</h3><ul>
+        <li>هذا نموذج بالمتصفح. بالتطبيق الحقيقي الانتقال يصير أنعم، والاهتزاز حقيقي، والبيانات بياناتك.</li>
+        <li>الخطوط هنا مو خطوط هوية «الحبر» اللي وافقت عليها قبل. إذا نعتمد هالشكل، نقرر الخطوط سوا.</li>
+        <li>أرقام السنة والأيام اللي فاتت أمثلة، وكلام سند مثال ويحتاج مراجعتك.</li>
+        <li>أرقام الليل حسبتها من الطريقة المعتمدة بالمشروع، بس بالتطبيق تنحسب من جدول المرجع نفسه.</li></ul></div>
+    </div>
+  </div>
+  <p class="foot">نموذج للشكل والاستعمال، والتطبيق ما تغيّر. يشتغل بدون نت، وما بيه آيات ولا أحاديث. إذا تلفونك مخلّي «تقليل الحركة»، الانتقال يصير مباشر، والسما صورة ثابتة.</p>
+</div>
+
+<script>
+(()=>{
+/* ---------------- the day ---------------- */
+const SLEEP=1260,WAKE=268;
+const PARTS=[
+ {k:'fajr',name:'بعد الفجر',pr:'الفجر',s:287,e:381,end:'الشروق'},
+ {k:'morning',name:'الصبح',pr:null,s:381,e:703,end:'الظهر'},
+ {k:'dhuhr',name:'بعد الظهر',pr:'الظهر',s:703,e:879,end:'العصر'},
+ {k:'asr',name:'بعد العصر',pr:'العصر',s:879,e:1022,end:'المغرب'},
+ {k:'maghrib',name:'بعد المغرب',pr:'المغرب',s:1022,e:1106,end:'العشاء'},
+ {k:'isha',name:'بعد العشاء',pr:'العشاء',s:1106,e:SLEEP,end:'النوم'},
+];
+const SEED=()=>[{id:1,t:'أذكار الصبح وقرآن',p:'fajr',rep:'daily',done:true},{id:2,t:'فطور ويّا الأهل',p:'morning',done:true},{id:3,t:'الدوام',p:'morning',done:true},
+ {id:11,t:'قيلولة قصيرة',p:'dhuhr',done:false},{id:4,t:'رياضة',p:'asr',rep:'daily',done:false},{id:5,t:'اتصل بالمحاسب',p:'asr',done:false},{id:6,t:'اشتري أغراض البيت',p:'asr',done:false},
+ {id:7,t:'وقت ويّا الأهل',p:'maghrib',rep:'daily',done:false},{id:8,t:'دراسة',p:'isha',done:false}];
+const S={m:910,prayed:new Set(['fajr','dhuhr']),things:SEED(),up:false,skip:[],toast:null,toastIn:null,undo:null,playing:false};
+const pad=n=>String(n).padStart(2,'0');
+const clk=m=>{m=((Math.round(m)%1440)+1440)%1440;return pad(Math.floor(m/60))+':'+pad(m%60)};
+const hm=m=>{m=Math.max(0,Math.round(m));return Math.floor(m/60)+':'+pad(m%60)};
+const num=s=>`<span class="num">${s}</span>`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const partAt=m=>PARTS.find(p=>m>=p.s&&m<p.e);
+const inPart=k=>S.things.filter(x=>x.p===k);
+const ended=p=>p.e<=S.m&&S.m>=PARTS[0].s;
+const carry=()=>PARTS.filter(ended).flatMap(p=>inPart(p.k).filter(x=>!x.done));
+const countW=n=>n===1?'شغلة وحدة':n===2?'شغلتين':n+' شغلات';
+document.documentElement.lang='ar';
+function now(m=S.m){const cur=partAt(m);
+  if(cur)return {cur,name:cur.name,left:cur.e-m,prog:(m-cur.s)/(cur.e-cur.s),end:cur.end,endAt:cur.e,len:cur.e-cur.s};
+  if(m>=WAKE&&m<PARTS[0].s)return {cur:null,name:'وكت صلاة الليل',left:PARTS[0].s-m,prog:(m-WAKE)/(PARTS[0].s-WAKE),end:'الفجر',endAt:PARTS[0].s,len:PARTS[0].s-WAKE};
+  const gone=m>=SLEEP?m-SLEEP:m+1440-SLEEP,total=WAKE+1440-SLEEP;
+  return {cur:null,name:'الليل',left:total-gone,prog:gone/total,end:'الصحيان',endAt:WAKE,len:total}}
+const SKIN=()=>'ruby';
+const keyNow=()=>{const n=now();return n.cur?n.cur.k:'night'};
+/* minutes until the next prayer starts (for the anticipation ripples) */
+function toNextPrayer(m=S.m){const nx=PARTS.find(p=>p.pr&&p.s>m);return nx?nx.s-m:(PARTS[0].s+1440-m)}
+
+/* ---------------- shapes ---------------- */
+const SH={fajr:{n:8,a:.2,k:3,r:0},morning:{n:12,a:.1,k:2,r:0},dhuhr:{n:16,a:.06,k:1,r:0},asr:{n:10,a:.17,k:2.6,r:0},maghrib:{n:6,a:.12,k:1,r:0},isha:{n:8,a:.24,k:3.4,r:22.5},night:{n:8,a:.24,k:3.4,r:22.5}};
+function geoPts(o,pts=120){const a=[];for(let i=0;i<pts;i++){const t=i/pts*Math.PI*2+o.r*Math.PI/180;a.push([Math.cos(t)*(1-o.a*(1-Math.pow(Math.abs(Math.cos(o.n*t/2)),o.k))),Math.sin(t)*(1-o.a*(1-Math.pow(Math.abs(Math.cos(o.n*t/2)),o.k)))])}return a}
+function geo(o,R=126,cx=150,cy=cx,pts=180){let d='';for(let i=0;i<=pts;i++){const t=i/pts*Math.PI*2+o.r*Math.PI/180;const f=1-o.a*(1-Math.pow(Math.abs(Math.cos(o.n*t/2)),o.k));const r=R*f;d+=(i?'L':'M')+(cx+r*Math.cos(t)).toFixed(2)+' '+(cy+r*Math.sin(t)).toFixed(2)}return d+'Z'}
+const CB_O=geo({n:4,a:0,k:1,r:0},13,17),CB_D=geo({n:8,a:.2,k:3,r:0},15,17);
+
+/* ---------------- sky colour ---------------- */
+const STOPS=[[0,'#03050F','#0B1230'],[240,'#04071A','#141B45'],[287,'#0B1040','#4B3F86'],[345,'#1C2E6E','#C9748A'],[381,'#24529A','#F2A66B'],[470,'#1A56A6','#9FCBEF'],
+ [703,'#1556A8','#8DC3EE'],[879,'#285FA8','#E3BB78'],[985,'#33478F','#EE8A4E'],[1022,'#26285E','#D4553A'],[1062,'#15193F','#5A3360'],[1106,'#0B0F2E','#22244E'],[1200,'#05081A','#10163A'],[1440,'#03050F','#0B1230']];
+const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const mixA=(A,B,t)=>A.map((v,i)=>Math.round(v+(B[i]-v)*t));
+const rgb=(a,al=1)=>`rgba(${a[0]},${a[1]},${a[2]},${al})`;
+function skyAt(m){m=((m%1440)+1440)%1440;let i=0;while(i<STOPS.length-2&&STOPS[i+1][0]<=m)i++;const [m0,t0,b0]=STOPS[i],[m1,t1,b1]=STOPS[i+1];const t=(m-m0)/(m1-m0);return {top:mixA(hx(t0),hx(t1),t),bot:mixA(hx(b0),hx(b1),t)}}
+const nightOf=m=>m<300||m>1100?1:m<381?Math.max(0,(381-m)/81):m>1022?Math.min(1,(m-1022)/78):0;
+function sunState(m){/* altitude 0..1 by day, moon by night; x from east (right) to west (left) */
+  if(m>=372&&m<=1030){const t=Math.min(1,Math.max(0,(m-381)/641));return {up:true,t,alt:Math.sin(Math.PI*t)}}
+  const mm=m<1022?m+1440:m,t=(mm-1022)/((381+1440)-1022);return {up:false,t,alt:Math.sin(Math.PI*Math.min(1,Math.max(0,t)))}}
+/* a tiny deterministic random */
+const rnd=(i)=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+
+/* ---------------- the scene engine ---------------- */
+class Scene{
+  constructor(cv,mode){this.cv=cv;this.mode=mode;this.ctx=cv.getContext('2d');this.base=document.createElement('canvas');this.up=document.createElement('canvas');this.lastMin=null;this.visible=true;this.ripples=[];this.lastRing=0;this.morph=null;this.lastKey=null;this.resize()}
+  resize(){const r=this.cv.getBoundingClientRect();const dpr=Math.min(3,window.devicePixelRatio||1);this.cssW=Math.max(1,r.width);this.cssH=Math.max(1,r.height);
+    for(const c of [this.cv,this.base,this.up]){c.width=Math.round(this.cssW*dpr);c.height=Math.round(this.cssH*dpr)}
+    this.k=this.cssW/400*dpr;this.W=400;this.H=this.cssH/this.cssW*400;this.horizon=this.mode==='focus'?this.H*.62:this.H*.66;this.lastMin=null}
+  /* everything that only changes with the minute: sky, milky way, mountains, city */
+  drawBase(m){const c=this.base.getContext('2d');c.setTransform(this.k,0,0,this.k,0,0);const {W,H,horizon:hz}=this;const k=skyAt(m),nt=nightOf(m),s=sunState(m);
+    /* by day the sun crosses the whole sky; by night the moon keeps to the left so it never sits behind the numbers */
+    const sx=s.up?W*(.88-.76*s.t):W*(.40-.28*s.t),sy=s.up?hz-18-(hz*.36)*s.alt:hz-40-(hz*.28)*s.alt;this.sun={x:sx,y:sy,up:s.up,alt:s.alt};
+    const g=c.createLinearGradient(0,0,0,hz);g.addColorStop(0,rgb(k.top));g.addColorStop(.62,rgb(mixA(k.top,k.bot,.35)));g.addColorStop(1,rgb(k.bot));c.fillStyle=g;c.fillRect(0,0,W,hz+2);
+    /* light scattered around the sun: warm and wide when low, white and tight when high */
+    if(s.up){const warm=1-s.alt;const sg=c.createRadialGradient(sx,sy,0,sx,sy,120+warm*160);sg.addColorStop(0,`rgba(255,${Math.round(236-warm*60)},${Math.round(200-warm*110)},${.55+warm*.2})`);sg.addColorStop(1,'rgba(255,200,120,0)');c.fillStyle=sg;c.fillRect(0,0,W,hz)}
+    /* milky way and stars */
+    if(nt>.05){c.save();c.globalAlpha=nt*.35;c.translate(W*.55,hz*.45);c.rotate(-.5);for(let i=0;i<260;i++){const x=(rnd(i)-.5)*W*1.4,y=(rnd(i+500)-.5)*40*(1+rnd(i+900));c.fillStyle=`rgba(220,225,255,${.2+rnd(i+77)*.5})`;c.fillRect(x,y,1,1)}
+      const mw=c.createLinearGradient(0,-36,0,36);mw.addColorStop(0,'rgba(180,190,255,0)');mw.addColorStop(.5,'rgba(180,190,255,.16)');mw.addColorStop(1,'rgba(180,190,255,0)');c.fillStyle=mw;c.fillRect(-W,-36,W*2,72);c.restore();
+      for(let i=0;i<70;i++){const x=rnd(i+40)*W,y=rnd(i+140)*hz*.85;c.fillStyle=`rgba(255,250,235,${(nt*(.35+rnd(i+240)*.6)).toFixed(2)})`;c.beginPath();c.arc(x,y,rnd(i+340)<.15?1.4:.8,0,7);c.fill()}}
+    /* three ridges: far (hazy), mid (Goyzha), near (city hills); the side facing the sun catches light */
+    const ridge=(base,amp,f1,f2,ph,col,rim)=>{c.beginPath();c.moveTo(0,hz);const pts=[];for(let x=0;x<=W;x+=4){const y=base-(Math.sin(x*f1+ph)*amp+Math.sin(x*f2+ph*2)*amp*.35+Math.max(0,amp*1.4-Math.abs(x-W*.32)*.18));pts.push([x,y]);c.lineTo(x,y)}c.lineTo(W,hz);c.closePath();c.fillStyle=col;c.fill();
+      if(rim&&s.up){c.save();c.strokeStyle=`rgba(255,${Math.round(220-60*(1-s.alt))},150,${(.18+.4*(1-s.alt)).toFixed(2)})`;c.lineWidth=1.4;c.beginPath();pts.forEach(([x,y],i)=>{i?c.lineTo(x,y):c.moveTo(x,y)});c.stroke();c.restore()}};
+    const far=mixA(k.bot,mixA(k.top,[8,10,24],.3),.45);
+    ridge(hz-62,16,.012,.031,.4,rgb(far),true);
+    ridge(hz-34,14,.02,.05,1.7,rgb(mixA(k.top,[6,8,18],.55)),true);
+    ridge(hz-12,7,.035,.09,2.6,rgb(mixA(k.top,[3,4,10],.78)),false);
+    /* the city on the shore: houses, a mosque with two minarets */
+    c.fillStyle=rgb(mixA(k.top,[2,3,8],.85));
+    for(let i=0;i<26;i++){const x=i*16+rnd(i+60)*6,w=10+rnd(i+70)*10,h=6+rnd(i+80)*12;c.fillRect(x,hz-h,w,h+2)}
+    const mx=W*.74;c.beginPath();c.arc(mx,hz-14,15,Math.PI,0);c.fill();c.fillRect(mx-20,hz-14,40,16);
+    for(const dx of[-26,26]){c.fillRect(mx+dx-2.5,hz-58,5,58);c.beginPath();c.moveTo(mx+dx-4,hz-58);c.lineTo(mx+dx+4,hz-58);c.lineTo(mx+dx,hz-68);c.closePath();c.fill()}
+    this.lights=[];if(nt>.08){for(let i=0;i<90;i++){const x=rnd(i+600)*W,y=hz-2-rnd(i+700)*16;this.lights.push([x,y,rnd(i+800)])}}
+    this.nt=nt;this.sky=k}
+  draw(tSec,m,reduce){const key=keyNow();if(this.lastMin!==m){this.drawBase(m);this.lastMin=m}
+    if(this.lastKey!==key){if(this.lastKey&&!reduce)this.morph={from:SH[this.lastKey],to:SH[key],t0:tSec};this.lastKey=key}
+    const {W,H,horizon:hz}=this;const u=this.up.getContext('2d');u.setTransform(this.k,0,0,this.k,0,0);u.clearRect(0,0,W,H);u.drawImage(this.base,0,0,W,H);
+    const nt=this.nt,sun=this.sun,T=reduce?0:tSec;
+    /* drifting clouds lit by the sky */
+    const cloudCol=sun.up?mixA([255,255,255],[255,170,140],1-sun.alt):[60,66,96];
+    for(let ci=0;ci<3;ci++){const cx=((ci*170+T*(4+ci*2))%(W+260))-130,cy=hz*(.18+ci*.13),sc=.7+ci*.25;
+      for(let p=0;p<6;p++){const px=cx+(p-2.5)*22*sc,py=cy+Math.sin(p*1.7)*6*sc,r=(18+rnd(p+ci*10)*16)*sc;const g=u.createRadialGradient(px,py,0,px,py,r);g.addColorStop(0,rgb(cloudCol,(sun.up?.32:.22)));g.addColorStop(1,rgb(cloudCol,0));u.fillStyle=g;u.beginPath();u.arc(px,py,r,0,7);u.fill()}}
+    /* twinkling stars and a rare shooting star */
+    if(nt>.05&&!reduce){for(let i=0;i<24;i++){const x=rnd(i+40)*W,y=rnd(i+140)*hz*.85;const tw=.5+.5*Math.sin(T*2.2+i*1.7);u.fillStyle=`rgba(255,250,235,${(nt*tw*.8).toFixed(2)})`;u.beginPath();u.arc(x,y,1.1,0,7);u.fill()}
+      const ph=(T%13)/1.2;if(ph<1){const x=W*.85-ph*W*.5,y=hz*.12+ph*hz*.18;const g=u.createLinearGradient(x,y,x+50,y-18);g.addColorStop(0,`rgba(255,245,220,${nt*.9})`);g.addColorStop(1,'rgba(255,245,220,0)');u.strokeStyle=g;u.lineWidth=1.6;u.beginPath();u.moveTo(x,y);u.lineTo(x+50,y-18);u.stroke()}}
+    /* soft god rays when the sun is low */
+    if(sun.up&&sun.alt<.45&&!reduce){u.save();u.translate(sun.x,sun.y);u.rotate(T*.03);for(let i=0;i<9;i++){u.rotate(Math.PI*2/9);const g=u.createLinearGradient(0,0,0,170);g.addColorStop(0,`rgba(255,226,170,${(.16*(1-sun.alt/.45)).toFixed(3)})`);g.addColorStop(1,'rgba(255,226,170,0)');u.fillStyle=g;u.beginPath();u.moveTo(-3,0);u.lineTo(3,0);u.lineTo(26,170);u.lineTo(-26,170);u.closePath();u.fill()}u.restore()}
+    /* the sun is our star medallion (by night it takes the moon's place, paler) */
+    let shp=SH[key];if(this.morph){const p=Math.min(1,(tSec-this.morph.t0)/0.9);const e=1-Math.pow(1-p,3);shp=null;this.mp=e;if(p>=1)this.morph=null}
+    this.medal(u,sun.x,sun.y,sun.up?26:20,shp,T,sun.up);
+    /* city lights that breathe a little */
+    if(nt>.08){for(const [x,y,r] of this.lights){u.fillStyle=`rgba(255,${Math.round(205+r*30)},120,${(nt*(.55+.35*Math.sin(T*1.3+r*20))).toFixed(2)})`;u.fillRect(x,y,1.3,1.3)}}
+    /* mist in the valley */
+    const mist=u.createLinearGradient(0,hz-40,0,hz);mist.addColorStop(0,'rgba(255,240,225,0)');mist.addColorStop(.6,`rgba(255,236,215,${(.07+(1-nt)*.08).toFixed(3)})`);mist.addColorStop(1,'rgba(255,240,225,0)');u.fillStyle=mist;u.fillRect(Math.sin(T*.2)*20-30,hz-40,W+60,40);
+    /* compose: the scene above the shore */
+    const c=this.ctx;c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,this.cv.width,this.cv.height);c.drawImage(this.up,0,0);
+    c.setTransform(this.k,0,0,this.k,0,0);
+    /* the lake: the scene mirrored, broken into rows that ripple; calmer far away, livelier before a prayer */
+    const near=toNextPrayer(S.m);const urgency=near<=20?1-near/20:0;const amp=(1.2+urgency*2.2)*(reduce?0:1);const speed=1.4+urgency*1.6;
+    const dpr=this.k*400/this.cssW;const row=2;
+    for(let y=hz;y<H;y+=row){const d=y-hz;const src=hz-d*1.05;if(src<0)break;const dx=Math.sin(d*.22-T*speed)*amp*(1+d*.025)+Math.sin(d*.07+T*.7)*amp*.6;
+      c.drawImage(this.up,0,Math.round(src*this.k),this.up.width,Math.ceil(row*this.k),dx-8,y,W+16,row)}
+    const lg=c.createLinearGradient(0,hz,0,H);lg.addColorStop(0,rgb(mixA(this.sky.bot,[10,20,40],.4),.28));lg.addColorStop(1,rgb([6,12,24],.82));c.fillStyle=lg;c.fillRect(0,hz,W,H-hz);
+    if(SKIN()==='ruby'&&nt>.05){const rg=c.createLinearGradient(0,hz,0,H);rg.addColorStop(0,`rgba(196,42,68,${(.05*nt).toFixed(3)})`);rg.addColorStop(1,`rgba(94,18,43,${(.22*nt).toFixed(3)})`);c.fillStyle=rg;c.fillRect(0,hz,W,H-hz)}
+    /* sun glitter on the water */
+    if(!reduce){const gx=sun.x;const bright=sun.up?(.5+.5*sun.alt):.35*nt;for(let i=0;i<40;i++){const y=hz+4+rnd(i)*(H-hz-8);const spread=4+(y-hz)*.35;const x=gx+(rnd(i+50)-.5)*spread*2+Math.sin(T*2+i)*3;const a=bright*(.35+.65*Math.max(0,Math.sin(T*3+i*2.3)));
+      c.fillStyle=`rgba(255,${sun.up?236:225},${sun.up?180:200},${a.toFixed(2)})`;c.fillRect(x,y,2.2-((y-hz)/(H-hz)),1)}}
+    /* the shore line */
+    c.fillStyle='rgba(0,0,0,.35)';c.fillRect(0,hz-.5,W,1.2);
+    /* rings on the water in the last 10 minutes before a prayer */
+    if(!reduce&&near<=10){if(tSec-this.lastRing>2.6){this.ripples.push({t0:tSec});this.lastRing=tSec}}
+    this.ripples=this.ripples.filter(r=>tSec-r.t0<4);
+    for(const r of this.ripples){const p=(tSec-r.t0)/4;c.strokeStyle=`rgba(255,231,174,${((1-p)*.6).toFixed(2)})`;c.lineWidth=1.2;c.beginPath();c.ellipse(sun.x,hz+(H-hz)*.32,10+p*120,(10+p*120)*.18,0,0,7);c.stroke()}
+  }
+  medal(u,x,y,R,shp,T,day){const key=keyNow();const target=SH[key];let pts;
+    if(this.morph&&this.mp!=null){const A=geoPts(this.morph.from),B=geoPts(this.morph.to);pts=A.map((p,i)=>[p[0]+(B[i][0]-p[0])*this.mp,p[1]+(B[i][1]-p[1])*this.mp])}else pts=geoPts(target);
+    const halo=u.createRadialGradient(x,y,0,x,y,R*3.4);halo.addColorStop(0,day?'rgba(255,240,200,.75)':'rgba(240,226,180,.4)');halo.addColorStop(1,'rgba(255,220,150,0)');u.fillStyle=halo;u.beginPath();u.arc(x,y,R*3.4,0,7);u.fill();
+    const draw=(s,rot)=>{u.beginPath();pts.forEach(([px,py],i)=>{const cs=Math.cos(rot),sn=Math.sin(rot);const X=x+(px*cs-py*sn)*s,Y=y+(px*sn+py*cs)*s;i?u.lineTo(X,Y):u.moveTo(X,Y)});u.closePath()};
+    const rot=T*.12;draw(R,rot);const g=u.createRadialGradient(x-R*.3,y-R*.3,R*.1,x,y,R);g.addColorStop(0,day?'#FFF6D8':'#F3E6C0');g.addColorStop(1,day?'#E9C25C':'#C9A859');u.fillStyle=g;u.fill();u.lineWidth=1.4;u.strokeStyle='rgba(120,88,16,.9)';u.stroke();
+    draw(R*.66,-rot*1.4);u.strokeStyle='rgba(120,88,16,.6)';u.lineWidth=1;u.stroke()}
+}
+
+
+/* ---------------- what سند says ---------------- */
+const SCRIPT={
+ morning:{m:340,when:'الإثنين، بعد الفجر',start:'m0',nodes:{
+  m0:{mood:'calm',say:['صباح الخير.','قبل ما نبدي: شلونك اليوم بصراحة؟'],choices:[['نشيط','m_good'],['عادي','m_ok'],['تعبان','m_tired']]},
+  m_good:{mood:'happy',say:['حلو. خلّي نستغل النشاط.','أثكل شغلة عندك اليوم هي الدراسة. نخليها بعد الفطور، من 8:00 لـ9:00، وإنت بعزك؟'],choices:[['يلا، حطها','m_good2'],['خليها بالليل مثل كل يوم','m_good3']]},
+  m_good2:{mood:'happy',say:['حطيتها 8:00. أنبهك قبلها بخمس دقايق، وبعدين أسكت وأخليك تركز.']},
+  m_good3:{mood:'calm',say:['ماشي، إنت أدرى بيومك.','بس بصراحة، لاحظت إنك بالليل تخلّص نصها بس، لأنك تكون تعبان. إذا تغيّر رأيك، كلّي.']},
+  m_ok:{mood:'calm',say:['تمام. يوم عادي يكفي.','نمشي على الخطة بدون ضغط: أول شي الدوام، والباقي وحدة وحدة. وأنا أرتبلك التالي كل مرة.']},
+  m_tired:{mood:'concern',say:['واضح. نمت خمس ساعات ونص بس.','اليوم نخليها على ثلاث شغلات بس، والباقي ننقله لباجر:',{card:'light'},'ونحط قيلولة 20 دقيقة بعد الظهر. موافق؟'],choices:[['موافق','m_t2'],['لا، أكدر على الكل','m_t3']]},
+  m_t2:{mood:'happy',say:['نقلتها. اليوم الهدف إنك تخلّص ثلاثة زين، مو عشرة نص نص.']},
+  m_t3:{mood:'calm',say:['زين، أثق بيك.','بس إذا ثكلت عليك بالعصر، كلّي وأخففها، بدون ما تحس إنك قصّرت.']}}},
+ slip:{m:970,when:'الإثنين، بعد العصر',start:'s0',nodes:{
+  s0:{mood:'concern',say:['عندي ملاحظة صغيرة.','الرياضة فاتت أمس وأول أمس. ما ألومك، بس أريد أفهم: شنو صاير؟'],choices:[['ما عندي وكت','s_time'],['تعبان','s_tired'],['ما عندي خلق','s_mood'],['نسيت','s_forgot']]},
+  s_time:{mood:'calm',say:['مفهوم. خلّي نصغّرها: دقيقتين بس، عشر ضغطات.','الشي الصغير اللي يصير أحسن من الكبير اللي ما يصير.'],choices:[['ماشي، دقيقتين','s_ok']]},
+  s_tired:{mood:'calm',say:['منطقي، نومك كان قليل هالأسبوع.','ننقلها لباجر الصبح بعد الفطور، وإنت أنشط؟'],choices:[['إي، باجر الصبح','s_tom']]},
+  s_mood:{mood:'calm',say:['يصير، كلنا نمر بهيج أيام.','خلّي أذكّرك بشي كتبته إنت بأول يوم:',{card:'why'},'شنو رأيك، خمس دقايق بس هسه؟'],choices:[['يلا','s_ok'],['مو اليوم','s_notoday']]},
+  s_forgot:{mood:'calm',say:['خلّي نربطها بشي ما تنساه:',{card:'plan'},'أحطها هيج؟'],choices:[['حطها','s_plan']]},
+  s_ok:{mood:'happy',say:['حطيتها هسه.','مرة وحدة تفوت عادي، المهم ما تصير ثلاث. وإنت هسه كسرتها.']},
+  s_tom:{mood:'calm',say:['حطيتها باجر 7:30. والليلة نام بكير حتى تكدر.']},
+  s_notoday:{mood:'calm',say:['تمام. صراحتك أحسن من وعد ما يصير.','بس باجر ما نخليها تفوت. أذكّرك بعد العصر.']},
+  s_plan:{mood:'happy',say:['حطيتها: بعد صلاة العصر، مباشرة.','الشي المربوط بعادة ثابتة ينسى أقل.']}}},
+ slump:{m:1230,when:'الجمعة، بعد العشاء',start:'w0',nodes:{
+  w0:{mood:'concern',say:['هالأسبوع كان ثكيل عليك، صح؟',{card:'week'},'خلّصت 9 من 30. ما أريد أجاملك، ولا أريد أجلدك.','بس شوف: الأهل ما فاتوك ولا يوم. هذا مو شي صغير.'],choices:[['ما أدري شبيه','w_idk'],['تعبت من كلشي','w_tired'],['أريد أبدي من جديد','w_new']]},
+  w_idk:{mood:'calm',say:['أحياناً الفتور يجي من كثرة الشغلات، مو منك.','الأسبوع الجاي نخليه على ثلاث أشياء بس تهمك، والباقي يستنى.'],choices:[['إي، ثلاثة بس','w_three']]},
+  w_tired:{mood:'concern',say:['إذا التعب طوّل أكثر من أسبوعين، أو صار يثكل على قلبك، احچي ويّا أحد تثق بيه، أو راجع طبيب. أنا وياك، بس ما أغني عن الناس.','هسه: الليلة نوم بكير. حطيتلك تذكير النوم 22:00.']},
+  w_new:{mood:'happy',say:['باجر بداية أسبوع، وهذا وكت حلو للبداية.','اختار شغلة وحدة بس نبدي بيها:'],choices:[['الرياضة','w_pick'],['الدراسة','w_pick'],['وقت ويّا الأهل','w_pick']]},
+  w_three:{mood:'calm',say:['تمام. باجر الصبح أسألك تختار الثلاثة.','ونام هسه، الباقي يصير أسهل.']},
+  w_pick:{mood:'happy',say:['«{pick}» تصير أول شي بباجر، ونكبّرها شوية شوية.']}}},
+ night:{m:1270,when:'الإثنين، آخر الليل',start:'n0',nodes:{
+  n0:{mood:'calm',say:['خلص اليوم. ثلاث أسئلة وأخليك.','شنو أحلى شي صار اليوم؟'],choices:[['خلّصت الدراسة','n1'],['قعدت ويّا الأهل','n1'],['صلّيت كلشي بوكته','n1']]},
+  n1:{mood:'happy',say:['حلو، «{pick}».','وأنا لاحظت شي ثاني: ثلاث أيام ورا بعض تكعد قبل الفجر. هذا تغيير حقيقي، مو صدفة.','شنو الشي الوحيد اللي تريده باجر؟'],choices:[['رياضة','n2'],['اتصل بالمحاسب','n2'],['نوم بكير','n2']]},
+  n2:{mood:'calm',say:['سجلت «{pick}» أول شي بباجر.',{card:'sleep'},'تصبح على خير.']}}},
+};
+const MOODW={calm:'وياك',listen:'يكتب...',happy:'فرحان بيك',concern:'منتبه عليك'};
+const AV={calm:SH.fajr,listen:SH.morning,happy:SH.dhuhr,concern:SH.isha};
+const WAVE=Array.from({length:34},(_,i)=>6+Math.round(Math.abs(Math.sin(i*1.7)+Math.sin(i*.6))*11));
+function card(c,face){
+  if(c==='light')return `<div class="card"><h5>يومك اليوم، خفيف</h5><ul><li><i></i>الدوام</li><li><i></i>وقت ويّا الأهل</li><li><i></i>نوم <span class="num">22:00</span></li></ul><div class="moved">لباجر: رياضة، اتصل بالمحاسب، أغراض البيت</div></div>`;
+  if(c==='why'){const q='«أريد أصير أقوى، حتى من يكبر ابني يتذكرني نشيط، مو تعبان.»',by='إنت، 22 تشرين الأول · مثال، هنا تنحط كلماتك إنت';
+    if(face==='chat')return `<div class="card why"><div class="voice"><button data-act="voice" aria-label="شغّل صوتك"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg></button><span class="wave">${WAVE.map(h=>`<i style="height:${h}px"></i>`).join('')}</span><small class="num">0:12</small></div><p class="quote" style="font-size:17px;margin-top:6px">${q}</p><div class="by">صوتك إنت، 22 تشرين الأول · مثال</div></div>`;
+    return `<div class="card why"><p class="quote">${q}</p><div class="by">${by}</div></div>`}
+  if(c==='plan')return `<div class="card"><div class="if"><span>إذا</span>خلّصت صلاة العصر<span>أسوي</span>عشر ضغطات، ورا الباب</div></div>`;
+  if(c==='week'){const d=[['سبت',2],['أحد',1],['اثنين',0],['ثلاثاء',2],['أربعاء',1],['خميس',2],['جمعة',1]];
+    return `<div class="card"><h5>هالأسبوع</h5><div class="wk">${d.map(([n,v])=>`<div><em style="height:${8+v*26}px"></em><small>${n}</small></div>`).join('')}</div><div class="fam"><i></i><i></i><i></i><i></i><i></i><i></i><i></i> الأهل: كل يوم</div></div>`}
+  if(c==='sleep')return `<div class="card"><h5>نومك الليلة إذا نمت <span class="num">22:00</span></h5><div class="big num">6:28</div><div class="moved">تكعد <span class="num">04:28</span> لصلاة الليل</div></div>`;
+  return ''}
+
+
+
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+const vib=ms=>{try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}};
+const NOW=970,TODAY=2;S.m=NOW;
+const DAYN=['السبت','الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'],DAYS=['سبت','أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة'],DNUM=[31,1,2,3,4,5,6];
+const STAR='M17 3l3.1 6.6 7.1-1.9-1.9 7.1L32 18l-6.7 3.2 1.9 7.1-7.1-1.9L17 33l-3.1-6.6-7.1 1.9 1.9-7.1L2 18l6.7-3.2-1.9-7.1 7.1 1.9z';
+const star=c=>`<svg viewBox="0 0 34 36" aria-hidden="true"><path d="${STAR}" fill="${c}"/></svg>`;
+const TPL=[['أذكار الصبح','fajr'],['فطور ويّا الأهل','morning'],['الدوام','morning'],['قيلولة','dhuhr'],['رياضة','asr'],['وقت ويّا الأهل','maghrib'],['دراسة','isha']];
+let uid=100;
+const T=[{id:1,t:'أذكار الصبح',p:'fajr',done:true},{id:2,t:'فطور ويّا الأهل',p:'morning',done:true},{id:3,t:'الدوام',p:'morning',done:true},{id:4,t:'قيلولة',p:'dhuhr',done:true},
+  {id:5,t:'رياضة',p:'asr',done:false},{id:6,t:'اتصل بالمحاسب',p:'asr',done:false},{id:7,t:'أغراض البيت',p:'asr',done:false},{id:8,t:'وقت ويّا الأهل',p:'maghrib',done:false},{id:9,t:'دراسة',p:'isha',done:false}];
+const prayedToday=new Set(['fajr','dhuhr','asr']);
+const PAST={0:{miss:['دراسة'],sleep:'6:40'},1:{miss:['رياضة'],sleep:'5:30'}};
+const today=()=>T.filter(x=>x.p!=='tom');
+function day(i){if(i===TODAY)return {things:today(),prayed:prayedToday,sleep:'6:28',kind:'today'};
+  const things=TPL.map(([t,p])=>({id:uid++,t,p,done:i<TODAY&&!PAST[i].miss.includes(t),miss:i<TODAY&&PAST[i].miss.includes(t)}));
+  if(i===TODAY+1)T.filter(x=>x.p==='tom').forEach(x=>things.push({id:x.id,t:x.t,p:'morning',done:false}));
+  return {things,prayed:i<TODAY?new Set(PARTS.filter(p=>p.pr).map(p=>p.k)):new Set(),sleep:i<TODAY?PAST[i].sleep:'—',kind:i<TODAY?'past':'future'}}
+const curPart=()=>PARTS.find(p=>p.s<=NOW&&NOW<p.e);
+/* night balance, as in METHOD.md section 4: bedtime = max(user 21:00, Isha+30); qiyam if night ≥ 6h waking at Fajr−20 */
+const ISHA=1106,FAJR=287;const BED=Math.max(1260,ISHA+30),WK=WAKE; /* WAKE (04:28) comes from the reference data used by every prototype */const NIGHT=WK+1440-BED,QIYAM=NIGHT>=360,NAP=(420-NIGHT)<=30?20:90,SHORT=Math.max(0,420-(NIGHT+NAP));
+
+/* ---------- levels: 0 year, 1 week, 2 day, 3 now, 4 focus, 5 night ---------- */
+const LV=['سنة','أسبوع','يوم','الآن','ركّز','الليل'],PAR={1:0,2:1,3:2,4:3,5:2},DEP=[0,1,2,3,4,3],CHILD={0:1,1:2,2:3,3:4};
+let L=3,SEL=TODAY,busy=false,timer=null,secs=600,paused=false,alarms={q:true,b:true};
+const world=document.getElementById('world'),ph=document.getElementById('ph'),zbar=document.getElementById('zbar');
+function yearHTML(){const M=['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول'],DM=[31,28,31,30,31,30,31,31,30,31,30,31];let doy=0,h='';
+  M.forEach((n,mi)=>{let d='',sum=0,cnt=0;for(let i=0;i<DM[mi];i++){doy++;const r=Math.abs(Math.sin(doy*12.9898)*43758.5453)%1;const td=mi===10&&i===1;
+    if(doy<=306){sum+=r;cnt++}d+=td?'<i class="today"></i>':doy>306?'<i class="fut"></i>':`<i style="--a:${(.12+r*.8).toFixed(2)}"></i>`}
+    const pct=cnt?Math.round(35+sum/cnt*60):0;
+    h+=mi===10?`<button class="mo" data-go="1" data-for="1" aria-label="${n}، هسه. قرّب على هالأسبوع"><small>${n}</small><span class="d" aria-hidden="true">${d}</span></button>`
+      :mi>10?`<div class="mo" aria-hidden="true"><small>${n}</small><span class="d">${d}</span></div>`
+      :`<button class="mo" data-peek="${n}|${pct}" aria-label="${n}"><small>${n}</small><span class="d" aria-hidden="true">${d}</span></button>`});
+  return `<h3>سنتك، 2026</h3><div class="sub">كل نقطة يوم. كل ما تضوي أكثر، خلّصت أكثر · مثال</div>
+    <div class="sanad">${star('#E0BE6A')}<span>تشرين الأول كان أحسن شهر إلك هالسنة.</span></div><div class="peek" id="peek" aria-live="polite">اضغط أي شهر تشوف شكد خلّصت بيه</div><div class="year">${h}</div>
+    <div class="legend">أقل <i style="--a:.15"></i><i style="--a:.4"></i><i style="--a:.65"></i><i style="--a:.92"></i> أكثر</div>`}
+function weekHTML(){const total=SLEEP-PARTS[0].s;
+  return `<h3>هالأسبوع</h3><div class="sub">كل عمود يوم بأقسامه. الذهب قد ما خلّصت، والنقطة صلاة، والبنفسجي نومك</div>
+    <div class="sanad">${star('#E0BE6A')}<span>الأهل ما فاتوك ولا يوم. الرياضة فاتت الأحد بس.</span></div>
+    <div class="wkz">${DAYS.map((n,i)=>{const d=day(i),done=d.things.filter(x=>x.done).length;
+      return `<button class="col${i===TODAY?' today':''}${i>TODAY?' fut':''}" data-day="${i}" ${i===SEL?'data-for="2"':''} aria-label="${DAYN[i]}، خلّصت ${done} من ${d.things.length}. قرّب عليه"><b>${n}</b><small class="num">${DNUM[i]}</small>
+        <span class="mini">${PARTS.map(p=>{const th=d.things.filter(x=>x.p===p.k),f=th.length?th.filter(x=>x.done).length/th.length:0;return `<i class="${d.prayed.has(p.k)?'pr':''}" style="flex:${(p.e-p.s)/total*10}"><b style="height:${(f*100).toFixed(0)}%"></b></i>`}).join('')}<span class="nt" style="flex:${(NIGHT/total*10).toFixed(2)}"></span>
+        ${i===TODAY?`<span class="nowl" style="top:${((NOW-PARTS[0].s)/(total+NIGHT)*100).toFixed(1)}%"></span>`:''}</span>
+        <em class="num">${i>TODAY?'·':done+'/'+d.things.length}</em></button>`}).join('')}</div>`}
+function dayHTML(){const d=day(SEL),total=SLEEP-PARTS[0].s,done=d.things.filter(x=>x.done).length;
+  const sub=d.kind==='today'?`خلّصت ${num(done)} من ${num(d.things.length)} · باقي ${num(hm(BED-NOW))} قبل النوم`:d.kind==='past'?`خلّصت ${num(done)} من ${num(d.things.length)} · نمت ${num(d.sleep)}`:'خطتك لهذا اليوم';
+  const say=d.kind==='today'?`باقي ${d.things.filter(x=>!x.done).length} شغلات، والوكت يكفي إذا بديت هسه.`:d.kind==='past'?(SEL===1?'الأحد نمت خمس ساعات ونص، فطبيعي فاتت الرياضة.':'السبت كان يوم زين. الدراسة بس فاتت.'):'هذا اليوم بعده ما صار. نخليه خفيف إذا تريد.';
+  return `<div class="dhead"><button data-nav="-1" aria-label="اليوم اللي قبله" ${SEL===0?'disabled':''}><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button><h3>${DAYN[SEL]} ${num(DNUM[SEL])}</h3><button data-nav="1" aria-label="اليوم اللي بعده" ${SEL===6?'disabled':''}><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div>
+    <div class="sub" style="text-align:center;margin-top:-8px">${sub}</div>
+    <div class="sanad">${star('#E0BE6A')}<span>${say}</span></div>
+    <div class="dayz">${PARTS.map(p=>{const cur=d.kind==='today'&&p.s<=NOW&&NOW<p.e;const th=d.things.filter(x=>x.p===p.k);
+      const prayed=d.prayed.has(p.k),prTag=p.pr?`<span class="pr${prayed?'':' no'}">${p.pr} ${num(clk(p.s))}${prayed?' ✓':''}</span>`:`<span class="tm num">${clk(p.s)}</span>`;
+      return `<div class="band${cur?' cur':''}" ${cur?'data-for="3" data-go="3" role="button" tabindex="0" aria-label="بعد العصر، قرّب على الآن"':''} style="flex:${((p.e-p.s)/total*6).toFixed(2)} 0 auto"><div class="t">${p.name}${prTag}</div>
+        <div class="ch">${th.map(x=>`<span class="${x.done?'done':x.miss?'miss':''}"${d.kind==='today'?` data-tog="${x.id}" role="button" tabindex="0"`:''}>${x.t}</span>`).join('')}</div>
+        ${cur?`<i class="nowl" style="top:${((NOW-p.s)/(p.e-p.s)*100).toFixed(0)}%"></i>`:''}</div>`}).join('')}
+      <button class="nightb" data-go="5" data-for="5" aria-label="الليل: قرّب على ميزان الليل">الليل · نوم ${num(clk(BED))}<span>${QIYAM?'قيام':'صحيان'} ${num(clk(WK))} · ${num(hm(NIGHT))} نوم</span></button></div>`}
+function nowHTML(){const p=curPart(),left=p.e-NOW,th=today().filter(x=>x.p===p.k),todo=th.filter(x=>!x.done),n=todo[0];const prog=(NOW-p.s)/(p.e-p.s);
+  const dots=th.map((x,i)=>`<i class="${x.done?'done':''}" style="inset-inline-start:${((i+1)/(th.length+1)*100).toFixed(0)}%"></i>`).join('');
+  const sp=T.find(x=>x.id===5);const talkLine=sp&&!sp.done&&sp.p==='asr'?'الرياضة فاتت يومين. تريد نحچي؟':'شلون كان يومك لحد هسه؟';
+  return `<div class="scenebox" data-scene="now"><canvas aria-hidden="true"></canvas><div class="hud"><small>الإثنين 2 تشرين الثاني · 22 جمادى الأولى</small><b>${p.name}</b><span class="cd num">${hm(left)}</span><span class="cap">باقي على المغرب · ${num(clk(p.e))}</span></div></div>
+    <div class="scroll"><div class="track" aria-hidden="true"><span class="fill" style="width:${(prog*100).toFixed(0)}%"></span>${dots}<span class="me" style="inset-inline-start:${(prog*100).toFixed(0)}%"></span></div>
+    ${n?`<div class="next" data-for="4"><small>هسه</small><b>${n.t}</b><div class="row"><button data-act="done" data-id="${n.id}">✓ خلّصت</button><button data-act="later" data-id="${n.id}">بعدين</button><button data-act="focus">ركّز</button></div></div>
+      <div class="after">${todo.slice(1).map(x=>`<button data-act="done" data-id="${x.id}"><i></i>${x.t}</button>`).join('')}</div>`
+      :`<div class="next" data-for="4"><small>خلّصت كل «${p.name}»</small><b>ارتاح لحد المغرب</b></div>`}
+    <div class="prow"><span class="ok">العصر ✓</span><span>المغرب ${num(clk(p.e))}</span><span>العشاء ${num(clk(ISHA))}</span></div>
+    <button class="sanad" data-act="talk">${star('#E0BE6A')}<span>${talkLine}</span><em>احچي ويّا سند</em></button></div>`}
+function focusHTML(){const p=curPart(),n=today().find(x=>x.p===p.k&&!x.done);
+  return `<small>ركّز · ${p.name}</small><b>${n?n.t:'ولا شي هسه'}</b>
+    <div class="ring"><span class="br"></span><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(224,190,106,.2)" stroke-width="7"/><circle id="arc" cx="60" cy="60" r="52" fill="none" stroke="#E0BE6A" stroke-width="7" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="${(326.7*(1-secs/600)).toFixed(1)}"/></svg><em class="num" id="fclk">${Math.floor(secs/60)}:${pad(secs%60)}</em></div>
+    <div class="sanad">${star('#E0BE6A')}<span>أنا ساكت لحد ما تخلص. بعّد إذا تريد ترجع.</span></div>
+    <div class="row">${n?`<button data-act="fdone" data-id="${n.id}">✓ خلّصت</button>`:'<span></span>'}<button data-act="pause">${paused?'كمّل':'وقّف'}</button></div>`}
+function nightHTML(){const qx=((WK-(BED-1440))%1440)/((FAJR+1440-BED))*100;
+  return `<div class="scenebox" data-scene="night"><canvas aria-hidden="true"></canvas><div class="hud"><small>الليلة · ميزان الليل</small><b>نوم</b><span class="cd num">${clk(BED)}</span><span class="cap">${QIYAM?'وتكعد لصلاة الليل':'وتصحى قبل الفجر'} · ${num(clk(WK))}</span></div></div>
+    <div class="scroll"><div class="bal"><h5>ليلتك</h5><div class="nbar"><span class="q" style="inset-inline-start:${qx.toFixed(0)}%"></span><div class="lb"><span class="num">${clk(BED)}</span><span>${num(hm(NIGHT))} نوم</span><span class="num">${clk(FAJR)}</span></div></div>
+      <div class="nrow"><div><small>نوم الليل</small><b class="num">${hm(NIGHT)}</b></div><div><small>قيلولة باجر</small><b>${num(NAP)} د</b></div><div><small>النقص</small><b>${SHORT?num(SHORT)+' د':'ماكو'}</b></div></div></div>
+      <button class="alarm" role="switch" aria-checked="${alarms.q}" data-alarm="q"><b>منبّه القيام</b><span class="num">${clk(WK)}</span><i class="sw"></i></button>
+      <button class="alarm" role="switch" aria-checked="${alarms.b}" data-alarm="b"><b>ذكّرني أنام</b><span class="num">${clk(BED-15)}</span><i class="sw"></i></button>
+      <div class="sanad">${star('#E0BE6A')}<span>${QIYAM?'إذا نمت '+clk(BED)+'، تلحك صلاة الليل وتكعد مرتاح.':'الليلة قصيرة، فخلّي الوتر قبل النوم.'}</span></div></div>`}
+const MAKE=[yearHTML,weekHTML,dayHTML,nowHTML,focusHTML,nightHTML];
+function build(){world.innerHTML=MAKE.map((f,i)=>`<section class="lv${i===4?' fz':''}" data-l="${i}" ${i===L?'':'hidden'} aria-label="${LV[i]}">${f()}</section>`).join('');bar();scenes()}
+function rebuild(i){const s=world.querySelector(`.lv[data-l="${i}"]`);if(s){const sc=s.querySelector('.scroll'),k=sc?sc.scrollTop:0;s.innerHTML=MAKE[i]();const n=s.querySelector('.scroll');if(n)n.scrollTop=k}if(i===3||i===5)scenes()}
+function rebuildAll(){[1,2,3,5].forEach(rebuild);if(L!==4)rebuild(4)}
+function bar(){zbar.innerHTML=`<button class="fab" data-add aria-label="أضف شغلة"><svg class="s" viewBox="0 0 300 300" aria-hidden="true"><path d="${geo(SH.fajr,140)}"/></svg><svg class="pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>`+[0,1,2,3,4,5].map(i=>`<button data-z="${i}" aria-current="${i===L}"><i style="width:${i===5?7:4+i*2}px;height:${i===5?7:4+i*2}px${i===5?';background:#B8AEF0':''}"></i>${LV[i]}</button>`).join('')}
+
+/* ---------- the live sky (only the visible level draws, 30 fps, still under reduced motion) ---------- */
+const SC={};
+function scenes(){world.querySelectorAll('[data-scene]').forEach(box=>{const k=box.dataset.scene,cv=box.querySelector('canvas');if(!SC[k]||SC[k].cv!==cv){SC[k]=null;if(!box.closest('[hidden]'))SC[k]=new Scene(cv,'home')}else if(!box.closest('[hidden]'))SC[k].resize()})}
+let last=0,lastStatic=null;
+function loop(ts){requestAnimationFrame(loop);if(document.hidden)return;const k=L===3?'now':L===5?'night':null;if(!k||!SC[k])return;const m=k==='night'?1290:NOW;
+  if(RM.matches){if(lastStatic===k)return;lastStatic=k;S.m=m;SC[k].draw(0,m,true);S.m=NOW;return}
+  if(ts-last<33)return;last=ts;S.m=m;SC[k].draw(ts/1000,m,false);S.m=NOW}
+
+/* ---------- zooming ---------- */
+const chain=x=>{const c=[x];while(x>0){x=PAR[x];c.unshift(x)}return c};
+function path(a,b){const A=chain(a),B=chain(b);let i=0;while(i<A.length&&i<B.length&&A[i]===B[i])i++;return A.slice(i).reverse().map(x=>PAR[x]).concat(B.slice(i))}
+async function step(to,from){const a=world.querySelector(`.lv[data-l="${L}"]`),b=world.querySelector(`.lv[data-l="${to}"]`);const inward=DEP[to]>DEP[L];
+  b.hidden=false;scenes();const anc=inward?a.querySelector(`[data-for="${to}"]`):b.querySelector(`[data-for="${L}"]`);const W=world.clientWidth,H=world.clientHeight,wr=world.getBoundingClientRect();
+  if(RM.matches||!anc||!a.animate){a.hidden=true;a.style.transform=a.style.opacity='';L=to;lastStatic=null;bar();return}
+  const r=anc.getBoundingClientRect(),cx=r.left+r.width/2-wr.left,cy=r.top+r.height/2-wr.top,sc=Math.max(r.width/W,r.height/H,.02);
+  const small=`translate(${cx-W/2}px,${cy-H/2}px) scale(${sc})`;const o={duration:520,easing:'cubic-bezier(.3,.9,.3,1)'};const start=from||{transform:'none',opacity:1};
+  if(inward){a.style.transformOrigin=`${cx}px ${cy}px`;
+    await Promise.all([a.animate([start,{transform:`scale(${1/sc})`,opacity:0}],o).finished,b.animate([{transform:small,opacity:0},{transform:'none',opacity:1}],o).finished])}
+  else{b.style.transformOrigin=`${cx}px ${cy}px`;
+    await Promise.all([a.animate([start,{transform:small,opacity:0}],o).finished,b.animate([{transform:`scale(${1/sc})`,opacity:0},{transform:'none',opacity:1}],o).finished])}
+  a.hidden=true;a.style.transform=a.style.opacity=a.style.transformOrigin=b.style.transformOrigin='';L=to;lastStatic=null;bar()}
+async function go(to,from){if(busy||to===L||to==null||to<0||to>5)return;busy=true;
+  if((to===3||to===4||to===5)&&SEL!==TODAY){SEL=TODAY;rebuild(1);rebuild(2)}
+  if(to===4)startFocus();
+  for(const s of path(L,to)){await step(s,from);from=null}
+  if(L!==4)stopFocus();busy=false}
+function live(r,ox,oy){const a=world.querySelector(`.lv[data-l="${L}"]`);a.style.transformOrigin=`${ox}px ${oy}px`;a.style.transform=`scale(${r})`;a.style.opacity=Math.max(.25,1-Math.abs(Math.log(r))*1.4)}
+function settle(r){const a=world.querySelector(`.lv[data-l="${L}"]`);const from={transform:`scale(${r})`,opacity:+a.style.opacity||1};
+  if(r>1.22&&CHILD[L]!=null)go(CHILD[L],from);else if(r<.82&&L>0)go(PAR[L],from);else{if(a.animate)a.animate([from,{transform:'none',opacity:1}],{duration:260,easing:'ease-out'});a.style.transform='';a.style.opacity=''}}
+const pts=new Map();let d0=null,r0=1,mid=null,sw=null;
+world.addEventListener('pointerdown',e=>{pts.set(e.pointerId,{x:e.clientX,y:e.clientY});const wr=world.getBoundingClientRect();
+  if(pts.size===2){const [p,q]=[...pts.values()];d0=Math.hypot(p.x-q.x,p.y-q.y);mid={x:(p.x+q.x)/2-wr.left,y:(p.y+q.y)/2-wr.top};sw=null}
+  else if(pts.size===1&&e.pointerType==='touch')sw={x:e.clientX,y:e.clientY}});
+world.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pts.size===2&&d0&&!busy){const [p,q]=[...pts.values()];r0=Math.min(2.2,Math.max(.45,Math.hypot(p.x-q.x,p.y-q.y)/d0));live(r0,mid.x,mid.y)}});
+const up=e=>{const s=pts.get(e.pointerId);pts.delete(e.pointerId);
+  if(d0&&pts.size<2){d0=null;settle(r0);r0=1;return}
+  if(sw&&s&&L===2){const dx=s.x-sw.x,dy=s.y-sw.y;if(Math.abs(dx)>70&&Math.abs(dy)<50)nav(dx>0?-1:1)}sw=null};
+world.addEventListener('pointerup',up);world.addEventListener('pointercancel',up);
+let wr0=1,wt=null;world.addEventListener('wheel',e=>{if(!e.ctrlKey||busy)return;e.preventDefault();const wr=world.getBoundingClientRect();wr0=Math.min(2,Math.max(.5,wr0*Math.exp(-e.deltaY*.01)));live(wr0,e.clientX-wr.left,e.clientY-wr.top);clearTimeout(wt);wt=setTimeout(()=>{settle(wr0);wr0=1},160)},{passive:false});
+
+/* ---------- taps ---------- */
+function toast(msg,undo){ph.querySelector('.toast')?.remove();const t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.innerHTML=`<span>${msg}</span>${undo?'<button>تراجع</button>':''}`;ph.appendChild(t);
+  if(undo)t.querySelector('button').onclick=()=>{undo();t.remove();rebuildAll()};clearTimeout(ph._t);ph._t=setTimeout(()=>t.remove(),undo?4000:2400)}
+function nav(d){const n=SEL+d;if(n<0||n>6)return;SEL=n;const s=world.querySelector('.lv[data-l="2"]');
+  if(!RM.matches&&s.animate)s.animate([{transform:`translateX(${d>0?-40:40}px)`,opacity:.2},{transform:'none',opacity:1}],{duration:280,easing:'ease-out'});rebuild(2);rebuild(1)}
+world.addEventListener('click',e=>{const t=e.target;
+  const tg=t.closest('[data-tog]');if(tg){const x=T.find(y=>y.id==tg.dataset.tog);x.done=!x.done;vib(12);rebuildAll();toast(x.done?`«${x.t}» خلصت.`:`رجّعت «${x.t}».`);return}
+  const g=t.closest('[data-go]');if(g){go(+g.dataset.go);return}
+  const c=t.closest('[data-day]');if(c){SEL=+c.dataset.day;rebuild(1);rebuild(2);go(2);return}
+  const n=t.closest('[data-nav]');if(n){nav(+n.dataset.nav);return}
+  const pk=t.closest('[data-peek]');if(pk){const [d,k]=pk.dataset.peek.split('|');world.querySelectorAll('.pick').forEach(x=>x.classList.remove('pick'));pk.classList.add('pick');document.getElementById('peek').textContent=`${d}: خلّصت ${k}% من شغلاتك · مثال`;return}
+  const al=t.closest('[data-alarm]');if(al){const k=al.dataset.alarm;alarms[k]=!alarms[k];al.setAttribute('aria-checked',alarms[k]);toast(alarms[k]?(k==='q'?`منبّه القيام ${clk(WK)} شغّال.`:'راح أذكّرك تنام.'):'وقّفته.');return}
+  const a=t.closest('[data-act]');if(!a)return;const x=T.find(y=>y.id==a.dataset.id);
+  if(a.dataset.act==='done'){x.done=true;vib([12,40,12]);rebuildAll();toast(x.t.startsWith('رياضة')?'حلو. كسرتها، ورجعت للرياضة.':`«${x.t}» خلصت.`,()=>{x.done=false})}
+  else if(a.dataset.act==='later'){const old=x.p;x.p='maghrib';rebuildAll();toast(`«${x.t}» انتقلت لبعد المغرب.`,()=>{x.p=old})}
+  else if(a.dataset.act==='focus')go(4);
+  else if(a.dataset.act==='talk')openTalk();
+  else if(a.dataset.act==='fdone'){x.done=true;vib([12,40,12]);stopFocus();rebuildAll();const fm=Math.round((600-secs)/60);go(3).then(()=>toast(`«${x.t}» خلصت.`+(fm<1?'':fm===1?' ركزت دقيقة.':fm===2?' ركزت دقيقتين.':` ركزت ${fm} دقايق.`)));secs=600}
+  else if(a.dataset.act==='pause'){paused=!paused;rebuild(4)}});
+world.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const el=e.target.closest('[data-tog],[data-go]');if(el&&el.tagName!=='BUTTON'){e.preventDefault();el.click()}});
+zbar.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-add'))openAdd();else go(+b.dataset.z)});
+function startFocus(){if(timer)return;paused=false;timer=setInterval(()=>{if(paused||secs<=0)return;secs--;const c=document.getElementById('fclk'),a=document.getElementById('arc');if(c)c.textContent=Math.floor(secs/60)+':'+pad(secs%60);if(a)a.setAttribute('stroke-dashoffset',(326.7*(1-secs/600)).toFixed(1))},1000)}
+function stopFocus(){clearInterval(timer);timer=null}
+
+/* ---------- sheets ---------- */
+let back=null;
+function sheet(title,body){closeSheet();back=document.activeElement;const s=document.createElement('div');s.innerHTML=`<div class="scrim" data-close></div><div class="sheet" role="dialog" aria-modal="true" aria-label="${title}"><div class="sh"><b>${title}</b><button class="x" data-close aria-label="سدّ">×</button></div>${body}</div>`;s.id='sheet';ph.appendChild(s);
+  s.addEventListener('click',e=>{if(e.target.closest('[data-close]'))closeSheet()});return s}
+function closeSheet(){const s=document.getElementById('sheet');if(s){s.remove();if(talk)talk.gen++;if(back&&back.isConnected)back.focus()}}
+ph.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
+/* add a thing: the next part with room is suggested */
+function openAdd(){const parts=PARTS.filter(p=>p.e>NOW);let pick=curPart().k,rep=false;
+  const s=sheet('أضف شغلة',`<div class="addf"><label for="addt">شنو تريد تسوي؟</label><input id="addt" autocomplete="off" placeholder="مثلاً: اقرأ عشر صفحات">
+    <label>إمتى؟</label><div class="chips" id="addp">${parts.map(p=>`<button data-p="${p.k}" aria-pressed="${p.k===pick}">${p.name}</button>`).join('')}<button data-p="tom" aria-pressed="false">باجر</button></div>
+    <div class="chips"><button id="addr" aria-pressed="false">كل يوم</button></div><button class="go" id="addgo" disabled>أضف</button></div>`);
+  const inp=s.querySelector('#addt'),go_=s.querySelector('#addgo');inp.focus();inp.addEventListener('input',()=>go_.disabled=!inp.value.trim());
+  s.querySelector('#addp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;pick=b.dataset.p;s.querySelectorAll('#addp button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+  s.querySelector('#addr').addEventListener('click',e=>{rep=!rep;e.currentTarget.setAttribute('aria-pressed',rep)});
+  const add=()=>{const v=inp.value.trim();if(!v)return;const x={id:uid++,t:v,p:pick,done:false};T.push(x);closeSheet();rebuildAll();vib(10);
+    toast(`انضافت «${esc(v)}» ${pick==='tom'?'لباجر':(n=>n.startsWith('ال')?'ل'+n.slice(1):'ل'+n)(PARTS.find(p=>p.k===pick).name)}${rep?'، كل يوم':''}.`,()=>{T.splice(T.indexOf(x),1)})};
+  go_.addEventListener('click',add);inp.addEventListener('keydown',e=>{if(e.key==='Enter')add()})}
+/* talk to سند: the conversation that fits the moment */
+let talk=null;
+function openTalk(){const sp=T.find(x=>x.id===5);const sc=sp&&!sp.done&&sp.p==='asr'?'slip':'night';
+  const s=sheet('سند',`<div class="talk"><div class="log" aria-live="polite"></div><div class="ans"></div></div>`);talk=new Talk(s.querySelector('.talk'));talk.start(sc)}
+const EFFECT={s_tom:()=>{const x=T.find(y=>y.id===5);if(x)x.p='tom'},s_ok:t=>{const x=T.find(y=>y.id===5);if(x&&t.path.includes('s_time'))x.t='رياضة · دقيقتين'},s_plan:()=>{const x=T.find(y=>y.id===5);if(x)x.t='رياضة · بعد الصلاة مباشرة'}};
+class Talk{
+  constructor(el){this.el=el;this.logEl=el.querySelector('.log');this.ansEl=el.querySelector('.ans');this.gen=0}
+  start(sc){this.gen++;this.sc=sc;this.log=[];this.seen=0;this.choices=null;this.typing=false;this.ended=false;this.pick=null;this.path=[];this.go(SCRIPT[sc].start)}
+  go(key){const node=SCRIPT[this.sc].nodes[key];this.path.push(key);const items=node.say.slice();const gen=this.gen;
+    const step=()=>{if(gen!==this.gen)return;
+      if(!items.length){this.typing=false;this.choices=node.choices||null;this.ended=!node.choices;if(EFFECT[key]){EFFECT[key](this);rebuildAll()}this.render();return}
+      this.typing=true;this.render();const it=items.shift();const len=typeof it==='string'?it.length:40;const d=RM.matches?90:Math.min(1400,400+len*18);
+      setTimeout(()=>{if(gen!==this.gen)return;this.log.push(typeof it==='string'?{who:'s',text:esc(it.replace('{pick}',this.pick||''))}:{who:'card',card:it.card});this.typing=false;this.render();setTimeout(step,RM.matches?40:280)},d)};
+    step()}
+  answer(i){const [label,next]=this.choices[i];this.pick=label;this.log.push({who:'u',text:esc(label)});this.choices=null;this.render();const gen=this.gen;setTimeout(()=>{if(gen===this.gen)this.go(next)},RM.matches?40:360)}
+  render(){let h='';this.log.forEach((x,i)=>{const n=i>=this.seen?' in':'';if(x.who==='s')h+=`<div class="b s${n}">${x.text}</div>`;else if(x.who==='u')h+=`<div class="b u${n}">${x.text}</div>`;else h+=card(x.card,'chat').replace('class="card','class="card'+n)});
+    if(this.typing)h+=`<div class="typing"><span class="dots" aria-label="سند يكتب"><i></i><i></i><i></i></span></div>`;this.logEl.innerHTML=h;this.seen=this.log.length;
+    this.ansEl.innerHTML=this.choices?this.choices.map(([l],i)=>`<button data-ans="${i}">${esc(l)}</button>`).join(''):'';
+    this.el.querySelector('.endnote')?.remove();if(this.ended&&!this.typing)this.el.insertAdjacentHTML('beforeend','<div class="endnote">سجّلت اللي اتفقنا عليه بيومك. سدّ الورقة وشوف.</div>');
+    this.logEl.scrollTo({top:this.logEl.scrollHeight,behavior:RM.matches?'auto':'smooth'})}
+}
+ph.addEventListener('click',e=>{const b=e.target.closest('[data-ans]');if(b&&talk){talk.answer(+b.dataset.ans);return}
+  const v=e.target.closest('[data-act="voice"]');if(v){const w=v.closest('.voice');w.classList.toggle('play');setTimeout(()=>w.classList.remove('play'),RM.matches?0:3200)}});
+window.addEventListener('resize',()=>{Object.values(SC).forEach(s=>s&&s.resize());lastStatic=null});
+build();requestAnimationFrame(loop);
+})();
+</script>

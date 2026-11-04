@@ -8,3 +8,5 @@ semantic zoom, living outside the app, a thread of beads, and drawing gestures.
 `docs/design/yawm-craft.html` (by hand): three calm art directions for the home screen and the «سند» chat (نهار، حبر، منظر).
 
 `docs/design/yawm-skills.html` (by hand): «الظل» and «السجل», made with the methods of the strongest open design skills, with a before/after comparison (its two images are embedded screenshots of `yawm-craft.html` and of «الظل»).
+
+`docs/design/yawm-skills2.html` (by hand): four ideas from the subject's world (الحياكة، القمر، الألوان، خط اليوم).

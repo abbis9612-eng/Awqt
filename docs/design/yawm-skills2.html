@@ -1,0 +1,300 @@
+<title>يوم · أربع أفكار</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Lalezar&family=Noto+Sans+Arabic:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap">
+<style>
+/* Four ideas taken from the subject's own world (the skills' method): a kilim that weaves itself,
+   the Hijri month as engraved moons, the six colours of the sky as posters, the day as a metro line.
+   No big-number hero, colour only where it carries data, one live thing per screen. */
+:root{--page:#E8E8E4;--page-ink:#151513;--page-grey:#55554F;--card:#F4F4F1;--line:#D5D5CF;--ease:cubic-bezier(.23,1,.32,1);color-scheme:light;
+  --vaz:"Vazirmatn",Tahoma,sans-serif;--amiri:"Amiri",serif;--lale:"Lalezar","Vazirmatn",sans-serif;--noto:"Noto Sans Arabic",Tahoma,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#121211;--page-ink:#EDEDE9;--page-grey:#A8A8A0;--card:#1B1B19;--line:#2D2D2A;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#121211;--page-ink:#EDEDE9;--page-grey:#A8A8A0;--card:#1B1B19;--line:#2D2D2A;color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;background:var(--page);color:var(--page-ink);font-family:var(--vaz);font-size:17px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:48px 80px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid #0E6E73;outline-offset:3px}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:84px}
+.intro{display:grid;gap:12px;max-width:780px}
+.intro h1{margin:0;font-weight:700;font-size:clamp(30px,5vw,44px);line-height:1.3}
+.intro p{margin:0;font-size:18px;color:var(--page-grey)}
+.dir{display:grid;gap:22px}
+.dir>header{display:grid;gap:6px;max-width:740px}
+.dir h2{margin:0;font-size:32px;font-weight:800;line-height:1.3}
+.dir>header p{margin:0;font-size:17px;color:var(--page-grey)}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),390px));gap:40px;justify-content:start}
+.phone{width:100%;max-width:390px;aspect-ratio:390/844;border-radius:56px;padding:11px;background:#0D0D0F;box-shadow:0 50px 90px -40px rgba(0,0,0,.45),inset 0 0 0 1.5px #2C2C30}
+.scr{position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;isolation:isolate}
+.sb{position:absolute;z-index:9;inset:0 0 auto 0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:600}
+.sb b{width:17px;height:10px;border-radius:3px;border:1.5px solid currentColor;position:relative}
+.sb b::after{content:"";position:absolute;inset:1.5px 4px 1.5px 1.5px;background:currentColor;border-radius:1px}
+.in{position:absolute;inset:50px 0 0 0;padding:6px 22px 28px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;scrollbar-width:none}
+.in::-webkit-scrollbar{display:none}
+.in>*{flex:none}
+.press{transition:transform 160ms var(--ease)}
+.press:active{transform:scale(.97)}
+ul.l{list-style:none;margin:0;padding:0}
+ul.l li{display:flex;align-items:center;gap:14px;min-height:54px}
+ul.l li+li{box-shadow:0 -1px 0 var(--rule)}
+ul.l .t{flex:1;font-size:17px;font-weight:500}
+ul.l .m{font-size:14px;color:var(--grey)}
+.ck{width:44px;height:44px;margin:0 -10px;display:grid;place-items:center;flex:none}
+.ck i{width:24px;height:24px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--ckline);display:grid;place-items:center;transition:background 200ms var(--ease),box-shadow 200ms var(--ease)}
+.ck i svg{width:13px;height:13px;fill:none;stroke:var(--ckon);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset 220ms 60ms var(--ease)}
+.done .ck i{background:var(--hue);box-shadow:none}
+.done .ck i svg{stroke-dashoffset:0}
+.done .t{color:var(--grey);text-decoration:line-through;text-decoration-thickness:1.5px}
+.idea{font-size:15.5px;color:var(--page-grey);max-width:74ch;margin:0}
+
+/* ===== 1 الحياكة ===== */
+.wv{--ground:#E6E3DC;--ink:#221E1A;--grey:#59534B;--rule:#D3CEC4;--hue:#A63A24;--indigo:#2C3E73;--saffron:#C98A0E;--ckline:#8C857A;--ckon:#fff;background:var(--ground);color:var(--ink);font-family:var(--vaz)}
+.wv .date{font-size:15px;color:var(--grey)}
+.wv h3{margin:-6px 0 0;font-size:30px;font-weight:800;line-height:1.3}
+.wv .say{margin:-8px 0 0;font-size:17px;color:var(--grey)}
+.wv .rug{margin:2px -22px 0;height:262px;position:relative}
+.wv .rug svg{position:absolute;inset:0;width:100%;height:100%}
+.wv .key{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--grey);margin-top:-4px}
+.wv .key i{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-inline-end:5px}
+.wv h4{margin:4px 0 0;font-size:18px;font-weight:700}
+.weave-in{animation:weave 420ms var(--ease) both}
+@keyframes weave{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0 0 0 0)}}
+.wv .month{margin:2px -22px 0;position:relative}
+.wv .month svg{display:block;width:100%;height:auto}
+
+/* ===== 2 القمر ===== */
+.mn{--ground:#FAFAF7;--ink:#171717;--grey:#57574F;--rule:#E4E4DE;--hue:#1E6A4C;--ckline:#9A9A92;--ckon:#fff;background:var(--ground);color:var(--ink);font-family:var(--vaz)}
+.mn .date{font-size:15px;color:var(--grey)}
+.mn h3{margin:-4px 0 0;font-family:var(--amiri);font-size:40px;font-weight:700;line-height:1.25}
+.mn .hero{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-top:4px}
+.mn .hero svg{width:150px;height:150px}
+.mn .hero p{margin:0;font-size:16.5px;line-height:1.6}
+.mn .hero p b{font-weight:700}
+.mn .strip{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin:0 -22px;padding:4px 22px 2px;scroll-snap-type:x mandatory}
+.mn .strip::-webkit-scrollbar{display:none}
+.mn .strip button{flex:none;width:44px;min-height:76px;display:grid;justify-items:center;align-content:start;gap:3px;border-radius:12px;scroll-snap-align:center;padding-top:6px}
+.mn .strip button[aria-pressed="true"]{background:#EDEDE7}
+.mn .strip svg{width:24px;height:24px}
+.mn .strip small{font-size:13px;color:var(--grey);font-weight:500}
+.mn .strip i{width:6px;height:6px;border-radius:50%;background:transparent}
+.mn .strip i.k{background:var(--hue)}
+.mn .strip .today small{color:var(--ink);font-weight:700}
+.mn .prs{display:flex;justify-content:space-between;font-size:14.5px;padding:10px 0;box-shadow:0 -1px 0 var(--rule),0 1px 0 var(--rule)}
+.mn .prs span{display:grid;justify-items:center;gap:0;color:var(--grey)}
+.mn .prs span b{color:var(--ink);font-weight:600;font-size:15.5px}
+.mn .prs span.ok b{color:var(--hue)}
+.mn h4{margin:2px 0 0;font-size:18px;font-weight:700}
+
+/* ===== 3 الألوان ===== */
+.ps{font-family:var(--vaz);transition:background-color 260ms var(--ease),color 260ms var(--ease)}
+.ps .in{padding-bottom:110px}
+.ps .date{font-size:15px;opacity:.9}
+.ps h3{margin:-4px -10px 0 0;font-family:var(--lale);font-weight:400;font-size:96px;line-height:.98;letter-spacing:0}
+.ps h3.one{font-size:104px}
+.ps .say{margin:6px 0 0;font-size:18px;font-weight:500}
+.ps .tr{font-size:15px;opacity:.9}
+.ps ul.l li+li{box-shadow:0 -1px 0 color-mix(in srgb,currentColor 22%,transparent)}
+.ps .ck i{box-shadow:inset 0 0 0 2px currentColor}
+.ps .done .ck i{background:currentColor}
+.ps .done .ck i svg{stroke:var(--fieldbg)}
+.ps .done .t{color:inherit;opacity:.75}
+.ps .chips{position:absolute;z-index:5;inset:auto 12px 18px 12px;display:grid;grid-template-columns:repeat(6,1fr);gap:4px;padding:5px;border-radius:20px;background:rgba(0,0,0,.18)}
+.ps .chips button{min-height:52px;border-radius:15px;font-size:14px;font-weight:700;display:grid;place-items:center;transition:transform 160ms var(--ease)}
+.ps .chips button:active{transform:scale(.95)}
+.ps .chips button[aria-pressed="true"]{box-shadow:0 0 0 3px #fff,0 0 0 5px #111}
+.ps .slide{animation:slide 280ms var(--ease) both}
+@keyframes slide{from{transform:translateX(-24px);opacity:.2}}
+
+/* ===== 4 خط اليوم ===== */
+.mt{--ground:#FFFFFF;--ink:#141414;--grey:#5B5B5B;--rule:#EAEAEA;--hue:#0E6E73;background:var(--ground);color:var(--ink);font-family:var(--noto)}
+.mt .top{position:absolute;z-index:4;inset:50px 0 auto 0;padding:6px 22px 12px;background:#fff;box-shadow:0 1px 0 var(--rule)}
+.mt .top .name{display:flex;align-items:center;gap:10px}
+.mt .top .name i{width:30px;height:30px;border-radius:50%;background:var(--hue);color:#fff;display:grid;place-items:center;font-style:normal;font-weight:700;font-size:15px}
+.mt .top .name b{font-size:22px;font-weight:700}
+.mt .top p{margin:6px 0 0;font-size:16px;line-height:1.55}
+.mt .top p b{font-weight:700}
+.mt .map{position:absolute;inset:150px 0 0 0;overflow-y:auto;scrollbar-width:none}
+.mt .map::-webkit-scrollbar{display:none}
+.mt .map svg{display:block;width:100%;height:auto}
+.mt .st{cursor:pointer}
+.mt .st:focus-visible{outline:none}
+.mt .st:focus-visible .hit{stroke:#0E6E73;stroke-width:2}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <h1>أربع أفكار، كل وحدة من عالم يومك.</h1>
+    <p>نفس المهارات، بس كل تصميم مبني على شي من عالمك ما يملكه تطبيق ثاني: السجادة، والقمر الهجري، وألوان السما، وخط المترو. جرّب كل واحد بإصبعك.</p>
+  </header>
+
+  <section class="dir" aria-labelledby="d1">
+    <header><h2 id="d1">الحياكة</h2><p>يومك ينحاك مثل الكليم الكردي العراقي. كل شغلة تخلّصها تنحاك نقش أحمر، وكل صلاة شريط نيلي، والشريط الأصفر وين إنت هسه. والوكت اللي بعده ما صار، خيوط فارغة تنتظر. وآخر الشهر يطلع عندك سجادة كاملة من أيامك.</p></header>
+    <div class="pair"><div class="phone"><div class="scr wv" id="wv"></div></div><div class="phone"><div class="scr wv" id="wvm"></div></div></div>
+    <p class="idea">جرّب: خلّص «رياضة» وشوف النقش ينحاك بالسجادة.</p>
+  </section>
+
+  <section class="dir" aria-labelledby="d2">
+    <header><h2 id="d2">القمر</h2><p>الشهر الهجري هو إطار يومك. فوك قمر الليلة مرسوم مثل نقش كتاب قديم، بشكله الحقيقي لـ22 جمادى الأولى. وتحته كل ليالي الشهر، وتحت كل قمر نقطة خضرة إذا كان يومك تام.</p></header>
+    <div class="pair"><div class="phone"><div class="scr mn" id="mn"></div></div></div>
+    <p class="idea">جرّب: اضغط أي قمر صغير، وشوف القمر الكبير يتغيّر، ويطلعلك شنو صار بذاك اليوم.</p>
+  </section>
+
+  <section class="dir" aria-labelledby="d3">
+    <header><h2 id="d3">الألوان</h2><p>كل قسم من يومك إله لون سماه: الفجر أزرق غامق، والعصر ذهبي، والمغرب أحمر. الشاشة كلها تصير بلون الوكت، واسمه مكتوب كبير مثل ملصق. تعرف وين إنت من اللون قبل ما تقرا.</p></header>
+    <div class="pair"><div class="phone"><div class="scr ps" id="ps"></div></div></div>
+    <p class="idea">جرّب: اضغط الألوان تحت وامشي على يومك.</p>
+  </section>
+
+  <section class="dir" aria-labelledby="d4">
+    <header><h2 id="d4">خط اليوم</h2><p>يومك خط مترو. الصلوات محطات التبديل الكبيرة، وشغلاتك المحطات الصغيرة بينها. اللي خلّصته مليان، والخط اللي قطعته غامق، واللي باقي فاتح. وتعرف دايماً شنو المحطة الجاية.</p></header>
+    <div class="pair"><div class="phone"><div class="scr mt" id="mt"></div></div></div>
+    <p class="idea">جرّب: اضغط أي محطة حتى تخلّصها.</p>
+  </section>
+
+  <p class="idea">نموذج للشكل، والتطبيق ما تغيّر. شكل القمر محسوب من عمر الشهر القمري. أرقام الشهر والأيام اللي فاتت أمثلة. النقوش مرسومة بالكود بأشكال هندسية بسيطة مستوحاة من الكليم.</p>
+</div>
+
+<script>
+(()=>{
+document.documentElement.lang='ar';
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+const pad=n=>String(n).padStart(2,'0');
+const t12=m=>{m=((Math.round(m)%1440)+1440)%1440;let h=Math.floor(m/60)%12;if(h===0)h=12;return h+':'+pad(m%60)};
+const CHECK='<svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg>';
+const SB='<div class="sb"><span class="num">4:10</span><b></b></div>';
+const NOW=970,SLEEP=1260;
+const PARTS=[{k:'fajr',n:'بعد الفجر',sh:'فجر',p:'الفجر',s:287,e:381},{k:'morning',n:'الصبح',sh:'صبح',p:null,s:381,e:703},{k:'dhuhr',n:'بعد الظهر',sh:'ظهر',p:'الظهر',s:703,e:879},{k:'asr',n:'بعد العصر',sh:'عصر',p:'العصر',s:879,e:1022},{k:'maghrib',n:'بعد المغرب',sh:'مغرب',p:'المغرب',s:1022,e:1106},{k:'isha',n:'بعد العشاء',sh:'عشاء',p:'العشاء',s:1106,e:SLEEP}];
+const PRAYED=new Set(['fajr','dhuhr','asr']);
+const things=()=>[{t:'أذكار الصبح',p:'fajr',d:true},{t:'فطور ويّا الأهل',p:'morning',d:true},{t:'الدوام',p:'morning',d:true},{t:'قيلولة',p:'dhuhr',d:true},{t:'رياضة',p:'asr',d:false,m:'فاتت يومين'},{t:'اتصل بالمحاسب',p:'asr',d:false},{t:'أغراض البيت',p:'asr',d:false},{t:'وقت ويّا الأهل',p:'maghrib',d:false},{t:'دراسة',p:'isha',d:false}];
+const li=(x,i)=>`<li class="${x.d?'done':''}" data-i="${i}"><button class="ck" aria-pressed="${x.d}" aria-label="خلّصت ${x.t}"><i>${CHECK}</i></button><span class="t">${x.t}</span>${x.m&&!x.d?`<span class="m">${x.m}</span>`:''}</li>`;
+
+/* ================= 1 الحياكة ================= */
+/* a kilim lozenge and a zigzag, as pixel bitmaps, so the weave reads as woven */
+const LOZ=['.....X.....','....XXX....','...XX.XX...','..XX.X.XX..','.XX.XXX.XX.','XX.XX.XX.XX','.XX.XXX.XX.','..XX.X.XX..','...XX.XX...','....XXX....','.....X.....'];
+const ZIG=['X...X...','.X.X.X.X','..X...X.'];
+const bmp=(rows,x,y,px,fill,tile)=>{let s='';const w=rows[0].length;rows.forEach((r,j)=>{for(let i=0;i<(tile||w);i++){if(r[i%w]==='X')s+=`<rect x="${(x+i*px).toFixed(1)}" y="${(y+j*px).toFixed(1)}" width="${px}" height="${px}" fill="${fill}"/>`}});return s};
+function border(W,H,x){let s='';for(let y=6;y<H-6;y+=8){s+=`<path d="M${x} ${y}l4 4-4 4" fill="none" stroke="#221E1A" stroke-width="1.6"/>`}return s}
+(()=>{const scr=document.getElementById('wv');const T=things();let fresh=-1;
+  function rug(){const W=390,H=262,x0=34,x1=356,y0=10,y1=H-10,Y=m=>y1-(m-287)/(SLEEP-287)*(y1-y0),yn=Y(NOW);
+    let s=`<rect width="${W}" height="${H}" fill="#E6E3DC"/>`;
+    /* warp threads above the weaving front: the hours not lived yet */
+    for(let x=x0;x<=x1;x+=6)s+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${yn}" stroke="#C3BCAE" stroke-width="1"/>`;
+    /* weft below it */
+    for(let y=yn;y<=y1;y+=3)s+=`<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="#D6D0C4" stroke-width="1.2"/>`;
+    s+=border(W,H,14)+border(W,H,W-22);
+    /* prayers that were prayed: an indigo zigzag where each part begins */
+    PARTS.forEach(p=>{if(p.p&&PRAYED.has(p.k))s+=bmp(ZIG,x0,Y(p.s)-8,2.4,'#2C3E73',Math.floor((x1-x0)/2.4))});
+    /* each finished thing: a madder lozenge inside its part */
+    PARTS.forEach(p=>{const th=T.map((x,i)=>({...x,i})).filter(x=>x.p===p.k&&x.d);if(!th.length)return;
+      const top=Math.max(Y(Math.min(p.e,NOW)),y0),bot=Y(p.s)-10,h=bot-top,px=Math.max(1.4,Math.min(2.6,(h-2)/11));const size=11*px,yy=top+(h-size)/2;
+      const step=(x1-x0)/ (th.length+1);th.forEach((x,j)=>{const cx=x1-step*(j+1)-size/2;s+=`<g class="${x.i===fresh?'weave-in':''}">${bmp(LOZ,cx,yy,px,'#A63A24')}</g>`})});
+    /* the shuttle: where you are */
+    s+=`<rect x="${x0}" y="${yn-1.5}" width="${x1-x0}" height="3" fill="#C98A0E"/>`;
+    /* times on the edge, for the prayers still ahead */
+    PARTS.filter(p=>p.p&&p.s>NOW).forEach(p=>{s+=`<rect x="${x1-86}" y="${Y(p.s)-9}" width="84" height="18" fill="#E6E3DC"/><text x="${x1-4}" y="${Y(p.s)+4}" text-anchor="start" font-size="12.5" fill="#59534B" font-family="Vazirmatn" direction="rtl">${p.p} ${t12(p.s)}</text>`});
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="سجادة يومك: ${T.filter(x=>x.d).length} نقوش، و${PRAYED.size} صلوات">${s}</svg>`}
+  function render(){const cur=PARTS.find(p=>p.s<=NOW&&NOW<p.e);const list=T.map((x,i)=>({...x,i})).filter(x=>x.p===cur.k);
+    scr.innerHTML=SB+`<div class="in"><span class="date">الإثنين، 2 تشرين الثاني</span><h3>${cur.n}</h3><p class="say">المغرب 5:02، بعد 52 دقيقة.</p>
+      <div class="rug">${rug()}</div>
+      <div class="key"><span><i style="background:#A63A24"></i>شغلة خلّصتها</span><span><i style="background:#2C3E73"></i>صلاة</span><span><i style="background:#C98A0E"></i>هسه</span></div>
+      <h4>هسه</h4><ul class="l">${list.map(x=>li(x,x.i)).join('')}</ul></div>`;fresh=-1}
+  scr.addEventListener('click',e=>{const ck=e.target.closest('.ck');if(!ck)return;const i=+ck.closest('li').dataset.i;T[i].d=!T[i].d;fresh=T[i].d?i:-1;const k=scr.querySelector('.in').scrollTop;render();scr.querySelector('.in').scrollTop=k});
+  render()})();
+/* the month's rug: thirty days, one row each */
+(()=>{const scr=document.getElementById('wvm');
+  const C=[7,8,6,9,5,7,8,4,7,9,8,6,7,5,8,9,7,6,8,7,5,6,7,8,9,7,6,8,6,4];const PR=[5,5,5,5,4,5,5,3,5,5,5,5,5,4,5,5,5,5,5,5,4,5,5,5,5,5,5,5,5,3];
+  const W=390,rowH=19,top=30,H=top+C.length*rowH+16,x0=34,x1=356;let s=`<rect width="${W}" height="${H}" fill="#E6E3DC"/>`;
+  for(let x=x0;x<=x1;x+=6)s+=`<line x1="${x}" y1="6" x2="${x}" y2="${top}" stroke="#C3BCAE"/>`;
+  C.forEach((c,d)=>{const y=top+d*rowH;for(let yy=y;yy<y+rowH;yy+=3)s+=`<line x1="${x0}" y1="${yy}" x2="${x1}" y2="${yy}" stroke="#D6D0C4" stroke-width="1.2"/>`;
+    if(PR[d]===5)s+=`<rect x="${x0}" y="${y+rowH-2}" width="${x1-x0}" height="2" fill="#2C3E73"/>`;
+    const step=(x1-x0)/(c+1);for(let j=0;j<c;j++)s+=bmp(LOZ,x1-step*(j+1)-7.7,y+2,1.4,'#A63A24')});
+  s+=`<rect x="${x0}" y="${top-2}" width="${x1-x0}" height="3" fill="#C98A0E"/>`+border(W,H,14)+border(W,H,W-22);
+  scr.innerHTML=SB+`<div class="in"><span class="date">آخر 30 يوم · مثال</span><h3>سجادة شهرك</h3><p class="say">كل صف يوم. النقش الأحمر شغلة خلّصتها، والخط النيلي تحت الصف يعني صلّيت الخمسة كلها.</p>
+    <div class="month"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="سجادة آخر 30 يوم">${s}</svg></div>
+    <p class="say" style="color:var(--ink)">أفرغ صفين كانوا اليومين اللي نمت بيهم أقل من 6 ساعات.</p></div>`})();
+
+/* ================= 2 القمر ================= */
+(()=>{const scr=document.getElementById('mn');const T=things();const TODAY=22;let sel=TODAY;
+  /* sample record for the month so far */
+  const REC={};for(let d=1;d<TODAY;d++){const done=[7,8,6,9,5,7,8,4,7,9,8,6,7,5,8,9,7,6,8,7,5][d-1];REC[d]={done,of:9,pr:done>=6?5:4}}
+  const age=d=>d-.5,frac=a=>(1-Math.cos(2*Math.PI*a/29.53))/2;
+  function lit(a,R,cx,cy){const p=a/29.53,f=frac(a),rx=Math.abs(1-2*f)*R;const top=`${cx} ${cy-R}`,bot=`${cx} ${cy+R}`;
+    if(p<.5)return `M${top}A${R} ${R} 0 0 1 ${bot}A${rx} ${R} 0 0 ${f<.5?0:1} ${top}Z`;
+    return `M${top}A${R} ${R} 0 0 0 ${bot}A${rx} ${R} 0 0 ${f<.5?1:0} ${top}Z`}
+  function big(d){const R=68,c=75,a=age(d);
+    return `<svg viewBox="0 0 150 150" role="img" aria-label="قمر ليلة ${d} جمادى الأولى، مضوي ${Math.round(frac(a)*100)}%">
+      <defs><pattern id="hatch" width="3.2" height="3.2" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="3.2" stroke="#171717" stroke-width="1.5"/></pattern>
+        <pattern id="stip" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r=".55" fill="#171717" opacity=".55"/><circle cx="3.7" cy="3.6" r=".45" fill="#171717" opacity=".4"/></pattern>
+        <pattern id="mare" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" fill="#171717" opacity=".7"/></pattern>
+        <clipPath id="litc"><path d="${lit(a,R,c,c)}"/></clipPath></defs>
+      <circle cx="${c}" cy="${c}" r="${R}" fill="url(#hatch)"/>
+      <path d="${lit(a,R,c,c)}" fill="#FAFAF7"/><path d="${lit(a,R,c,c)}" fill="url(#stip)"/>
+      <g clip-path="url(#litc)" fill="url(#mare)"><ellipse cx="${c-20}" cy="${c-18}" rx="17" ry="13"/><ellipse cx="${c+8}" cy="${c-24}" rx="11" ry="9"/><ellipse cx="${c-6}" cy="${c+14}" rx="20" ry="11"/><ellipse cx="${c+22}" cy="${c+4}" rx="9" ry="12"/></g>
+      <circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="#171717" stroke-width="1.4"/></svg>`}
+  function small(d){const a=age(d);return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#171717"/><path d="${lit(a,10,12,12)}" fill="#FAFAF7"/><circle cx="12" cy="12" r="10" fill="none" stroke="#171717" stroke-width="1.2"/></svg>`}
+  const kept=d=>REC[d]&&REC[d].pr===5&&REC[d].done>=7;
+  function info(d){if(d===TODAY){const done=T.filter(x=>x.d).length;return `<b>الليلة</b> القمر مضوي ${Math.round(frac(age(d))*100)}% وينقص. خلّصت ${done} من ${T.length}، وصلّيت 3 من 5 لحد هسه.`}
+    if(d>TODAY)return `<b>${d} جمادى الأولى</b> بعده ما صار.`;const r=REC[d];return `<b>${d} جمادى الأولى</b> خلّصت ${r.done} من ${r.of}، وصلّيت ${r.pr} من 5${kept(d)?'. يوم تام.':'.'}`}
+  function render(){scr.innerHTML=SB+`<div class="in"><span class="date">الإثنين، 2 تشرين الثاني 2026</span><h3>22 جمادى الأولى</h3>
+    <div class="hero">${big(sel)}<p aria-live="polite">${info(sel)}</p></div>
+    <div class="strip" role="group" aria-label="ليالي الشهر">${Array.from({length:30},(_,i)=>i+1).map(d=>`<button class="${d===TODAY?'today':''}" data-d="${d}" aria-pressed="${d===sel}" aria-label="${d} جمادى الأولى${kept(d)?'، يوم تام':''}">${small(d)}<small class="num">${d}</small><i class="${kept(d)?'k':''}"></i></button>`).join('')}</div>
+    <div class="prs">${PARTS.filter(p=>p.p).map(p=>`<span class="${PRAYED.has(p.k)?'ok':''}">${p.p}<b class="num">${t12(p.s)}</b></span>`).join('')}</div>
+    <h4>بعد العصر</h4><ul class="l">${T.map((x,i)=>({...x,i})).filter(x=>x.p==='asr').map(x=>li(x,x.i)).join('')}</ul></div>`;
+    const b=scr.querySelector(`.strip [data-d="${sel}"]`);if(b){const st=scr.querySelector('.strip');st.scrollLeft=b.offsetLeft-st.clientWidth/2+22}}
+  scr.addEventListener('click',e=>{const b=e.target.closest('[data-d]');if(b){sel=+b.dataset.d;render();return}
+    const ck=e.target.closest('.ck');if(ck){const i=+ck.closest('li').dataset.i;T[i].d=!T[i].d;render()}});
+  render()})();
+
+/* ================= 3 الألوان ================= */
+(()=>{const scr=document.getElementById('ps');const T=things();
+  const F={fajr:['#1F2A5A','#FFFFFF'],morning:['#CFE2F3','#10202F'],dhuhr:['#EEF0F1','#14181B'],asr:['#E2A04A','#1A1206'],maghrib:['#B4432A','#FFFFFF'],isha:['#151A3A','#FFFFFF']};
+  let sel='asr';
+  function render(anim){const p=PARTS.find(x=>x.k===sel),[bg,fg]=F[sel];scr.style.background=bg;scr.style.color=fg;scr.style.setProperty('--fieldbg',bg);
+    const th=T.map((x,i)=>({...x,i})).filter(x=>x.p===sel);const cur=p.s<=NOW&&NOW<p.e,past=p.e<=NOW;
+    const say=cur?'باقي 52 دقيقة على المغرب.':past?`خلص. خلّصت ${th.filter(x=>x.d).length} من ${th.length}${p.p?'، وصلّيت':''}.`:`يبدي ${t12(p.s)}.`;
+    const words=p.n.split(' ');
+    scr.innerHTML=`<div class="sb"><span class="num">4:10</span><b></b></div><div class="in ${anim?'slide':''}"><span class="date">الإثنين، 2 تشرين الثاني</span>
+      <h3 class="${words.length===1?'one':''}">${words.join('<br>')}</h3><p class="say">${say}</p><span class="tr num">${t12(p.s)}–${t12(p.e)}</span>
+      <ul class="l">${th.map(x=>li(x,x.i)).join('')||'<li><span class="t">ولا شغلة بهالقسم</span></li>'}</ul></div>
+      <div class="chips" role="group" aria-label="أقسام اليوم">${PARTS.map(q=>`<button data-k="${q.k}" aria-pressed="${q.k===sel}" style="background:${F[q.k][0]};color:${F[q.k][1]}" aria-label="${q.n}">${q.sh}</button>`).join('')}</div>`}
+  scr.addEventListener('click',e=>{const c=e.target.closest('[data-k]');if(c){sel=c.dataset.k;render(!RM.matches);return}
+    const ck=e.target.closest('.ck');if(ck){const i=+ck.closest('li').dataset.i;T[i].d=!T[i].d;render(false)}});
+  render(false)})();
+
+/* ================= 4 خط اليوم ================= */
+(()=>{const scr=document.getElementById('mt');const T=things();
+  function render(){const W=390,laneA=92,laneB=150,gap=58,top=34;let y=top,lane=laneA,path=[],stops=[];
+    PARTS.forEach((p,pi)=>{if(pi>0){const nl=lane===laneA?laneB:laneA;path.push([lane,y]);y+=Math.abs(nl-lane);path.push([nl,y]);lane=nl}
+      stops.push({kind:'pr',p,y,x:lane,label:p.p||'الشروق',time:t12(p.s),past:p.s<=NOW,prayed:PRAYED.has(p.k)});y+=gap;
+      T.map((x,i)=>({...x,i})).filter(x=>x.p===p.k).forEach(x=>{stops.push({kind:'th',x:lane,y,i:x.i,label:x.t,done:x.d,m:x.m});y+=gap*.8});});
+    path.push([lane,y]);stops.push({kind:'end',x:lane,y,label:'النوم',time:t12(SLEEP)});const H=y+40;
+    /* where you are: between the stops either side of now */
+    const curP=PARTS.findIndex(p=>p.s<=NOW&&NOW<p.e);const prStop=stops.find(s=>s.kind==='pr'&&s.p===PARTS[curP]);const nextPr=stops.find(s=>s.kind==='pr'&&s.p===PARTS[curP+1]);
+    /* you are heading to the first unfinished stop of this part; the train sits just before it */
+    const nextTh=stops.find(s=>s.kind==='th'&&!s.done&&s.y>prStop.y&&s.y<nextPr.y)||stops.find(s=>s.kind==='th'&&!s.done&&s.y>prStop.y);
+    const nowY=nextTh?nextTh.y-24:nextPr.y-30;const trainX=prStop.x;
+    const pts=[[laneA,top]].concat(path);const d=pts.map((q,i)=>(i?'L':'M')+q[0]+' '+q[1]).join('');
+    let svg=`<svg viewBox="0 0 ${W} ${H}"><defs><clipPath id="past"><rect x="0" y="0" width="${W}" height="${nowY}"/></clipPath></defs>
+      <path d="${d}" fill="none" stroke="#0E6E73" stroke-opacity=".28" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="${d}" fill="none" stroke="#0E6E73" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#past)"/>`;
+    stops.forEach(s=>{const lx=W-24;
+      if(s.kind==='pr'||s.kind==='end'){svg+=`<circle cx="${s.x}" cy="${s.y}" r="12" fill="#fff" stroke="#141414" stroke-width="4.5"/>${s.prayed?`<circle cx="${s.x}" cy="${s.y}" r="4.5" fill="#141414"/>`:''}
+        <text x="${lx}" y="${s.y+6}" font-size="18" font-weight="700" fill="#141414" font-family="Noto Sans Arabic" direction="rtl">${s.label}</text>
+        <text x="${s.x-22}" y="${s.y+5}" text-anchor="end" font-size="14" fill="#5B5B5B" font-family="Noto Sans Arabic" style="font-variant-numeric:tabular-nums" direction="ltr">${s.time}</text>`}
+      else{svg+=`<g class="st" data-i="${s.i}" role="button" tabindex="0" aria-pressed="${s.done}" aria-label="${s.label}${s.done?'، خلصت':''}">
+        <rect class="hit" x="${s.x-26}" y="${s.y-23}" width="${W-s.x+12}" height="46" fill="transparent" rx="10"/>
+        <circle cx="${s.x}" cy="${s.y}" r="8" fill="${s.done?'#0E6E73':'#fff'}" stroke="#0E6E73" stroke-width="3.5"/>
+        <text x="${lx}" y="${s.y+6}" font-size="16.5" fill="${s.done?'#5B5B5B':'#141414'}" font-family="Noto Sans Arabic" direction="rtl" ${s.done?'text-decoration="line-through"':''}>${s.label}</text>
+        ${s.m&&!s.done?`<text x="${lx-120}" y="${s.y+6}" font-size="13.5" fill="#5B5B5B" font-family="Noto Sans Arabic" direction="rtl">${s.m}</text>`:''}</g>`}});
+    svg+=`<g transform="translate(0 ${nowY})"><rect x="${trainX-26}" y="-12" width="52" height="24" rx="12" fill="#141414"/><text x="${trainX}" y="5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Noto Sans Arabic">هسه</text></g></svg>`;
+    scr.innerHTML=SB+`<div class="top"><div class="name"><i>ي</i><b>خط اليوم</b></div><p>المحطة الجاية: <b>${nextTh?nextTh.label:'المغرب'}</b>. المغرب بعد 52 دقيقة.</p></div><div class="map">${svg}</div>`;
+    const map=scr.querySelector('.map');if(!scr._scrolled){map.scrollTop=Math.max(0,nowY-160);scr._scrolled=true}}
+  scr.addEventListener('click',e=>{const g=e.target.closest('.st');if(!g)return;const i=+g.dataset.i;T[i].d=!T[i].d;const k=scr.querySelector('.map').scrollTop;render();scr.querySelector('.map').scrollTop=k});
+  scr.addEventListener('keydown',e=>{const g=e.target.closest('.st');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();g.dispatchEvent(new MouseEvent('click',{bubbles:true}));requestAnimationFrame(()=>scr.querySelector(`.st[data-i="${g.dataset.i}"]`)?.focus())}});
+  render()})();
+})();
+</script>

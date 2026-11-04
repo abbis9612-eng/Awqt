@@ -1,0 +1,306 @@
+<title>يوم · ثلاث اتجاهات</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Markazi+Text:wght@400;500;600;700&family=Readex+Pro:wght@200;300;400;500;600;700&display=swap">
+<style>
+/* Three art directions for one screen, made with restraint: light, large type, space, one colour each.
+   No glow, no gold-on-black, no stars sprinkled for effect. */
+:root{--page:#E8E8EB;--page-ink:#151517;--page-grey:#5B5B63;--plex:"IBM Plex Sans Arabic",Tahoma,sans-serif;--markazi:"Markazi Text",serif;--readex:"Readex Pro",Tahoma,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#18181B;--page-ink:#F2F2F4;--page-grey:#A3A3AD;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#18181B;--page-ink:#F2F2F4;--page-grey:#A3A3AD;color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;background:var(--page);color:var(--page-ink);font-family:var(--plex);font-size:17px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:48px 80px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid #2F6BFF;outline-offset:3px}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:72px}
+.intro{display:grid;gap:12px;max-width:760px}
+.intro h1{margin:0;font-weight:600;font-size:clamp(30px,5vw,46px);line-height:1.3;letter-spacing:0}
+.intro p{margin:0;font-size:18px;color:var(--page-grey)}
+.dir{display:grid;gap:22px}
+.dir header{display:grid;gap:4px;max-width:720px}
+.dir h2{margin:0;font-size:30px;font-weight:600;line-height:1.3}
+.dir header p{margin:0;font-size:17px;color:var(--page-grey)}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),390px));gap:40px;justify-content:start}
+.phone{width:100%;max-width:390px;aspect-ratio:390/844;border-radius:56px;padding:11px;background:#0D0D0F;box-shadow:0 50px 90px -40px rgba(0,0,0,.45),inset 0 0 0 1.5px #2C2C30}
+.scr{position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;isolation:isolate}
+.sb{position:absolute;z-index:9;inset:0 0 auto 0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:600}
+.sb i{display:flex;gap:5px;align-items:center}
+.sb i b{width:17px;height:10px;border-radius:3px;border:1.5px solid currentColor;position:relative}
+.sb i b::after{content:"";position:absolute;inset:1.5px 4px 1.5px 1.5px;background:currentColor;border-radius:1px}
+.sb i s{width:15px;height:10px;background:linear-gradient(90deg,currentColor 0 22%,transparent 22% 36%,currentColor 36% 58%,transparent 58% 72%,currentColor 72%);clip-path:polygon(0 100%,100% 0,100% 100%)}
+.cap{font-size:15px;color:var(--page-grey);margin:0}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ============ A · نهار ============ */
+.A{font-family:var(--plex);background:linear-gradient(180deg,#2B5A97 0%,#4775AE 38%,#8E9FBF 58%,#E2AE7E 76%);color:#fff}
+.A .sky{position:absolute;inset:0;z-index:0}
+.A .top{position:relative;z-index:2;padding:66px 26px 0;display:grid;gap:2px}
+.A .date{font-size:15px;font-weight:500;opacity:.92}
+.A .part{font-size:22px;font-weight:600;margin-top:10px}
+.A .big{display:flex;align-items:flex-end;gap:12px;margin-top:-6px}
+.A .big b{font-size:118px;font-weight:300;line-height:.95;letter-spacing:-2px}
+.A .big span{font-size:19px;font-weight:500;line-height:1.35;padding-bottom:14px}
+.A .prs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:22px}
+.A .prs div{border-radius:16px;padding:7px 4px 6px;text-align:center;background:rgba(10,26,56,.42);display:grid;gap:0}
+.A .prs small{font-size:13.5px;font-weight:500;opacity:.95}
+.A .prs span{font-size:15px;font-weight:600}
+.A .prs .nx{background:#fff;color:#1E3F6B}
+.A .sheet{position:absolute;z-index:3;inset:auto 0 0 0;height:51%;background:#fff;color:#1C1C1E;border-radius:34px 34px 0 0;padding:10px 20px 90px;display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:none}
+.A .sheet>*{flex:none}
+.A .grab{width:40px;height:5px;border-radius:3px;background:#D8D8DD;margin:0 auto 10px}
+.A .hd{display:flex;justify-content:space-between;align-items:baseline;padding:0 4px 6px}
+.A .hd b{font-size:20px;font-weight:600}
+.A .hd span{font-size:15px;color:#6B6B72}
+.A .sanad{border-radius:22px;background:#F2F4F8;padding:12px 14px;display:grid;gap:10px;margin-bottom:6px}
+.A .sanad p{margin:0;font-size:16.5px;line-height:1.55;display:flex;gap:10px;align-items:flex-start}
+.A .sanad p svg{flex:none;width:28px;height:28px;margin-top:1px}
+.A .sanad .act{display:flex;gap:8px;padding-inline-start:38px}
+.A .sanad .act button{min-height:44px;padding:0 16px;border-radius:22px;font-size:15.5px;font-weight:600}
+.A .sanad .act button:first-child{background:#1C1C1E;color:#fff}
+.A .sanad .act button:last-child{color:#2B5A97}
+.A ul{list-style:none;margin:0;padding:0}
+.A li{display:flex;align-items:center;gap:14px;min-height:56px;border-bottom:1px solid #EFEFF2;padding:0 4px}
+.A li:last-child{border-bottom:0}
+.A li .t{flex:1;font-size:17.5px;font-weight:500}
+.A li .m{font-size:14.5px;color:#6B6B72}
+.A .sec{font-size:14px;font-weight:600;color:#6B6B72;padding:14px 4px 0}
+.A .later li .t{color:#3A3A3F}
+.ck{width:44px;height:44px;margin:0 -10px;display:grid;place-items:center;flex:none}
+.ck i{width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 2px #B9B9C2;display:grid;place-items:center;transition:background .25s,box-shadow .25s}
+.ck i svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .3s .1s}
+.done .ck i{background:#2B5A97;box-shadow:none}
+.done .ck i svg{stroke-dashoffset:0}
+.done .t{color:#8E8E96!important;text-decoration:line-through;text-decoration-thickness:1.5px}
+.A .fab{position:absolute;z-index:4;inset:auto auto 26px 22px;width:58px;height:58px;border-radius:50%;background:#1C1C1E;color:#fff;display:grid;place-items:center;box-shadow:0 14px 26px -12px rgba(0,0,0,.5)}
+.A .fab svg,.B .plus svg,.C .fab svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+/* A chat */
+.Ac{background:#fff;color:#1C1C1E;font-family:var(--plex)}
+.chat{position:absolute;inset:0;display:flex;flex-direction:column}
+.chat .bar{padding:58px 20px 12px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #EFEFF2}
+.chat .bar svg{width:42px;height:42px;flex:none}
+.chat .bar b{display:block;font-size:19px;font-weight:600;line-height:1.3}
+.chat .bar span{font-size:14px;color:#6B6B72}
+.log{flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 16px 8px;display:flex;flex-direction:column;gap:6px;min-height:0}
+.log::-webkit-scrollbar{display:none}
+.log>*{flex:none}
+.m{max-width:82%;padding:9px 14px;font-size:17px;line-height:1.5;border-radius:22px;animation:in .3s ease-out}
+@keyframes in{from{transform:translateY(6px);opacity:0}}
+.Ac .m.s{align-self:flex-start;background:#F0F1F5;border-start-start-radius:8px}
+.Ac .m.u{align-self:flex-end;background:#2B5A97;color:#fff;border-start-end-radius:8px;margin-block:6px}
+.quote{font-family:var(--markazi);font-size:22px;line-height:1.5}
+.choices{display:flex;flex-wrap:wrap;gap:8px;padding:10px 16px 30px}
+.choices button{min-height:46px;padding:0 16px;border-radius:23px;font-size:16px;font-weight:600}
+.Ac .choices button{box-shadow:inset 0 0 0 1.5px #2B5A97;color:#2B5A97}
+.Ac .choices button.again{box-shadow:none;background:#F0F1F5;color:#1C1C1E}
+.typing{display:inline-flex;gap:4px;align-self:flex-start;padding:12px 14px;border-radius:22px}
+.typing i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.35;animation:d 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes d{40%{opacity:1}}
+.Ac .typing{background:#F0F1F5;color:#6B6B72}
+
+/* ============ B · حبر ============ */
+.B{background:#fff;color:#121212;font-family:var(--plex)}
+.B .top{padding:70px 28px 0;display:grid;gap:0}
+.B .date{font-size:15px;color:#5E5E5E}
+.B h3{margin:6px 0 0;font-family:var(--markazi);font-size:64px;font-weight:600;line-height:1.05}
+.B .left{font-size:20px;margin-top:6px}
+.B .left b{color:#C23B22;font-weight:700}
+.ruler{position:relative;height:70px;margin:40px 34px 0}
+.ruler .ln{position:absolute;inset:24px 0 auto 0;height:2px;background:#121212}
+.ruler .tk{position:absolute;top:16px;width:2px;height:18px;background:#121212;margin-inline-start:-1px}
+.ruler .tk.up small{top:-26px}
+.ruler .tk small{position:absolute;top:22px;inset-inline-start:50%;transform:translateX(50%);white-space:nowrap;font-size:14px;color:#5E5E5E;font-weight:500}
+.ruler .now{position:absolute;top:10px;width:14px;height:14px;margin-inline-start:-7px;border-radius:50%;background:#C23B22;box-shadow:0 0 0 4px #fff}
+.ruler .now::after{content:"";position:absolute;top:14px;left:6px;width:2px;height:20px;background:#C23B22}
+.ruler .gone{position:absolute;inset:24px 0 auto auto;height:2px;background:#C23B22}
+.B .body{padding:6px 28px 0}
+.B .sec{font-size:14.5px;font-weight:600;color:#5E5E5E;margin:18px 0 2px;display:flex;justify-content:space-between}
+.B ul{list-style:none;margin:0;padding:0}
+.B li{display:flex;align-items:center;gap:14px;min-height:56px;border-bottom:1px solid #EAEAEA}
+.B li .t{flex:1;font-size:18px;font-weight:500}
+.B li .m{font-size:14.5px;color:#5E5E5E}
+.B .ck i{border-radius:7px;box-shadow:inset 0 0 0 2px #121212}
+.B .done .ck i{background:#121212}
+.B .note{margin-top:20px;display:grid;gap:4px}
+.B .note small{font-size:14px;font-weight:700;color:#C23B22}
+.B .note p{margin:0;font-family:var(--markazi);font-size:25px;line-height:1.4}
+.B .note .act{display:flex;gap:18px;margin-top:2px}
+.B .note .act button{min-height:44px;font-size:16px;font-weight:600;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1.5px}
+.B .note .act button:first-child{color:#C23B22}
+.B .tabs{position:absolute;inset:auto 0 0 0;height:92px;padding:10px 28px 30px;display:flex;align-items:center;gap:24px;border-top:1px solid #EAEAEA;background:#fff}
+.B .tabs button{min-height:44px;min-width:48px;font-size:16px;font-weight:600;color:#5E5E5E}
+.B .tabs button.on{color:#121212;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:8px}
+.B .plus{margin-inline-start:auto;width:52px;height:52px;border-radius:50%;background:#121212;color:#fff;display:grid;place-items:center}
+/* B chat: a dialogue on the page */
+.Bc{background:#fff;color:#121212;font-family:var(--plex)}
+.Bc .bar{padding:62px 28px 10px;border-bottom:1px solid #EAEAEA;display:block}
+.Bc .bar b{font-family:var(--markazi);font-size:40px;font-weight:600;line-height:1.1}
+.Bc .bar span{display:block;font-size:14.5px;color:#5E5E5E}
+.Bc .log{padding:18px 28px 8px;gap:14px}
+.Bc .m{max-width:100%;padding:0;border-radius:0;font-size:18px}
+.Bc .m.s{font-family:var(--markazi);font-size:24px;line-height:1.4}
+.Bc .m.s::before{content:"سند";display:block;font-family:var(--plex);font-size:13.5px;font-weight:700;color:#C23B22;margin-bottom:-2px}
+.Bc .m.u{align-self:flex-end;font-weight:600;text-align:end}
+.Bc .m.u::before{content:"إنت";display:block;font-size:13.5px;font-weight:700;color:#5E5E5E}
+.Bc .choices{padding:12px 28px 32px;border-top:1px solid #EAEAEA}
+.Bc .choices button{box-shadow:inset 0 0 0 1.5px #121212;border-radius:12px}
+.Bc .choices button.again{box-shadow:none;text-decoration:underline;text-underline-offset:6px}
+.Bc .typing{color:#5E5E5E;padding:4px 0}
+
+/* ============ C · منظر ============ */
+.C{background:#F6D9C2;color:#2E2443;font-family:var(--readex)}
+.C svg.land{position:absolute;inset:0 0 auto 0;width:100%;height:53%;z-index:0}
+.C .cloud{animation:drift 60s linear infinite alternate}
+.C .cloud.b{animation-duration:80s}
+@keyframes drift{to{transform:translateX(-26px)}}
+.C .top{position:relative;z-index:2;padding:64px 26px 0;display:grid}
+.C .date{font-size:15px;font-weight:400}
+.C .part{font-size:20px;font-weight:500;margin-top:8px}
+.C .big{display:flex;align-items:flex-end;gap:10px;margin-top:-4px}
+.C .big b{font-size:104px;font-weight:200;line-height:.95}
+.C .big span{font-size:18px;font-weight:400;line-height:1.35;padding-bottom:12px}
+.C .sheet{position:absolute;z-index:3;inset:auto 0 0 0;height:50%;background:#fff;border-radius:34px 34px 0 0;padding:20px 18px 0;display:flex;flex-direction:column;gap:10px}
+.C .pr{display:flex;gap:6px;overflow:hidden}
+.C .pr span{flex:1;text-align:center;border-radius:14px;padding:5px 0;font-size:13.5px;background:#F4EFF8;line-height:1.35}
+.C .pr span b{display:block;font-size:15px;font-weight:500}
+.C .pr span.nx{background:#2E2443;color:#fff}
+.C .sanad{display:flex;gap:12px;align-items:center;border-radius:22px;background:#FBEEE6;padding:10px 12px}
+.C .sanad svg{width:40px;height:40px;flex:none}
+.C .sanad p{margin:0;flex:1;font-size:15.5px;line-height:1.5}
+.C .sanad button{min-height:44px;min-width:52px;padding:0 14px;border-radius:22px;background:#2E2443;color:#fff;font-size:15px;font-weight:500;flex:none}
+.C ul{list-style:none;margin:0;padding:0}
+.C li{display:flex;align-items:center;gap:14px;min-height:54px;border-bottom:1px solid #F1ECF4;padding:0 4px}
+.C li .t{flex:1;font-size:17px;font-weight:400}
+.C li .m{font-size:14px;color:#6E6582}
+.C .ck i{box-shadow:inset 0 0 0 2px #B5ABC4}
+.C .done .ck i{background:#E0794F}
+.C .fab{position:absolute;z-index:4;inset:auto auto 24px 20px;width:58px;height:58px;border-radius:20px;background:#E0794F;color:#fff;display:grid;place-items:center;box-shadow:0 14px 26px -12px rgba(120,50,20,.6)}
+/* C chat */
+.Cc{background:#F3EEF8;color:#2E2443;font-family:var(--readex)}
+.Cc .bar{padding:58px 20px 12px;display:flex;align-items:center;gap:12px;background:#F3EEF8}
+.Cc .bar svg{width:46px;height:46px}
+.Cc .bar b{display:block;font-size:19px;font-weight:500}
+.Cc .bar span{font-size:14px;color:#6E6582}
+.Cc .m.s{align-self:flex-start;background:#fff;border-start-start-radius:8px}
+.Cc .m.u{align-self:flex-end;background:#2E2443;color:#fff;border-start-end-radius:8px;margin-block:6px}
+.Cc .choices button{background:#fff;color:#2E2443;box-shadow:0 1px 0 #E4DCEC}
+.Cc .choices button.again{background:transparent;box-shadow:inset 0 0 0 1.5px #2E2443}
+.Cc .typing{background:#fff;color:#6E6582}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <h1>ثلاث اتجاهات، شاشة وحدة، بهدوء.</h1>
+    <p>هالمرة أقل: شاشتك الرئيسية بس، ومحادثة سند، بثلاث أشكال مختلفة تماماً. كل وحدة بلون واحد، وكتابة كبيرة، ومساحة. جرّب: اضغط الدوائر حتى تخلّص، وجاوب سند.</p>
+  </header>
+
+  <section class="dir" aria-labelledby="ha">
+    <header><h2 id="ha">نهار</h2><p>هادي ونظيف مثل تطبيقات آبل. السما بلون الساعة، والرقم الكبير يكلك شكد باقي، والورقة البيضة بيها شغلاتك.</p></header>
+    <div class="pair">
+      <div class="phone"><div class="scr A" data-k="A">
+        <svg class="sky" viewBox="0 0 390 844" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="86" cy="404" r="38" fill="#FFE3B5"/><path d="M0 418 C60 392 98 404 140 390 S226 368 262 384 S340 396 390 380 V844 H0Z" fill="#2A4E7E"/><path d="M0 432 C70 414 130 428 190 414 S300 420 390 408 V844 H0Z" fill="#203F68"/></svg>
+        <div class="sb"><span class="num">16:10</span><i><s></s><b></b></i></div>
+        <div class="top"><span class="date">الإثنين، 2 تشرين الثاني</span><span class="part">بعد العصر</span>
+          <div class="big"><b class="num">52</b><span>دقيقة<br>على المغرب</span></div>
+          <div class="prs"><div><small>الفجر</small><span class="num">4:47</span></div><div><small>الظهر</small><span class="num">11:43</span></div><div><small>العصر</small><span class="num">2:39</span></div><div class="nx"><small>المغرب</small><span class="num">5:02</span></div><div><small>العشاء</small><span class="num">6:26</span></div></div></div>
+        <div class="sheet"><span class="grab"></span>
+          <div class="hd"><b>هسه</b><span class="cnt">3 شغلات</span></div>
+          <div class="sanad"><p><svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="14" fill="#2B5A97"/><path d="M14 7.5l1.7 3.7 4-1-1 4 3.7 1.7-3.7 1.7 1 4-4-1L14 24.3l-1.7-3.7-4 1 1-4L5.6 15.9l3.7-1.7-1-4 4 1z" fill="#fff" transform="translate(0 -1.9)"/></svg><span class="say">الرياضة فاتت يومين. عشر دقايق تكفي اليوم.</span></p><div class="act"><button data-s="yes">يلا، عشر دقايق</button><button data-s="no">مو اليوم</button></div></div>
+          <ul class="now"><li data-t><button class="ck" aria-label="خلّصت رياضة"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg></i></button><span class="t">رياضة</span><span class="m">كل يوم</span></li><li data-t><button class="ck" aria-label="خلّصت اتصل بالمحاسب"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg></i></button><span class="t">اتصل بالمحاسب</span></li><li data-t><button class="ck" aria-label="خلّصت أغراض البيت"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg></i></button><span class="t">أغراض البيت</span></li></ul>
+          <div class="sec">بعدين اليوم</div>
+          <ul class="later"><li><span class="t">وقت ويّا الأهل</span><span class="m">بعد المغرب</span></li></ul></div>
+        <button class="fab" aria-label="أضف شغلة"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div></div>
+      <div class="phone"><div class="scr Ac"><div class="sb"><span class="num">16:11</span><i><s></s><b></b></i></div>
+        <div class="chat" data-chat="A"><div class="bar"><svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="14" fill="#2B5A97"/><path d="M14 7.5l1.7 3.7 4-1-1 4 3.7 1.7-3.7 1.7 1 4-4-1L14 24.3l-1.7-3.7-4 1 1-4L5.6 15.9l3.7-1.7-1-4 4 1z" fill="#fff" transform="translate(0 -1.9)"/></svg><div><b>سند</b><span>وياك</span></div></div><div class="log" aria-live="polite"></div><div class="choices"></div></div></div></div>
+    </div>
+  </section>
+
+  <section class="dir" aria-labelledby="hb">
+    <header><h2 id="hb">حبر</h2><p>أبيض وأسود ولون أحمر واحد، مثل كتاب مطبوع زين. يومك مسطرة: الصلوات علامات عليها، والنقطة الحمرا إنت هسه.</p></header>
+    <div class="pair">
+      <div class="phone"><div class="scr B" data-k="B"><div class="sb"><span class="num">16:10</span><i><s></s><b></b></i></div>
+        <div class="top"><span class="date">الإثنين، 2 تشرين الثاني</span><h3>بعد العصر</h3><span class="left">باقي <b class="num">52</b> دقيقة على المغرب</span></div>
+        <div class="ruler" aria-label="يومك من الفجر للنوم"><span class="ln"></span><span class="gone" style="width:70%"></span>
+          <span class="tk" style="inset-inline-start:0%"><small>الفجر</small></span><span class="tk up" style="inset-inline-start:42.8%"><small>الظهر</small></span><span class="tk" style="inset-inline-start:60.8%"><small>العصر</small></span><span class="tk" style="inset-inline-start:75.5%"><small>المغرب</small></span><span class="tk up" style="inset-inline-start:84.2%"><small>العشاء</small></span><span class="tk" style="inset-inline-start:100%"><small>النوم</small></span>
+          <span class="now" style="inset-inline-start:70%"></span></div>
+        <div class="body">
+          <div class="sec"><span>هسه</span><span class="cnt">3 شغلات</span></div>
+          <ul class="now"><li data-t><button class="ck" aria-label="خلّصت رياضة"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg></i></button><span class="t">رياضة</span><span class="m">كل يوم</span></li><li data-t><button class="ck" aria-label="خلّصت اتصل بالمحاسب"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg></i></button><span class="t">اتصل بالمحاسب</span></li><li data-t><button class="ck" aria-label="خلّصت أغراض البيت"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg></i></button><span class="t">أغراض البيت</span></li></ul>
+          <div class="note sanad"><small>سند</small><p class="say">الرياضة فاتت يومين. عشر دقايق تكفي اليوم.</p><div class="act"><button data-s="yes">يلا، عشر دقايق</button><button data-s="no">مو اليوم</button></div></div></div>
+        <nav class="tabs"><button class="on">اليوم</button><button>الأسبوع</button><button>سند</button><span class="plus" role="button" tabindex="0" aria-label="أضف شغلة"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></nav>
+      </div></div>
+      <div class="phone"><div class="scr Bc"><div class="sb"><span class="num">16:11</span><i><s></s><b></b></i></div>
+        <div class="chat" data-chat="B"><div class="bar"><b>سند</b><span>حچي قصير، وحل تكدر تسويه هسه</span></div><div class="log" aria-live="polite"></div><div class="choices"></div></div></div></div>
+    </div>
+  </section>
+
+  <section class="dir" aria-labelledby="hc">
+    <header><h2 id="hc">منظر</h2><p>السليمانية مرسومة بألوان هادية، مثل لوحة. الجبال والمدينة والبحيرة تتلوّن ويّا الوكت، بدون لمعان. وتحتها يومك ببساطة.</p></header>
+    <div class="pair">
+      <div class="phone"><div class="scr C" data-k="C">
+        <svg class="land" viewBox="0 0 390 446" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+          <defs><linearGradient id="csky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93ABD9"/><stop offset=".55" stop-color="#E7B8AE"/><stop offset="1" stop-color="#F6D9C2"/></linearGradient>
+            <linearGradient id="clake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A6C0"/><stop offset="1" stop-color="#9C86B8"/></linearGradient></defs>
+          <rect width="390" height="446" fill="url(#csky)"/>
+          <circle cx="92" cy="292" r="50" fill="#FFF1DA" opacity=".35"/><circle cx="92" cy="292" r="32" fill="#FFF3DE"/>
+          <g class="cloud"><rect x="150" y="268" width="96" height="18" rx="9" fill="#fff" opacity=".7"/><circle cx="174" cy="268" r="14" fill="#fff" opacity=".7"/><circle cx="199" cy="261" r="18" fill="#fff" opacity=".7"/><circle cx="224" cy="270" r="11" fill="#fff" opacity=".7"/></g>
+          <g class="cloud b"><rect x="24" y="214" width="58" height="12" rx="6" fill="#fff" opacity=".55"/><circle cx="40" cy="214" r="9" fill="#fff" opacity=".55"/><circle cx="58" cy="209" r="11" fill="#fff" opacity=".55"/></g>
+          <path d="M318 262q6-6 12 0q6-6 12 0M296 276q4-4 8 0q4-4 8 0" fill="none" stroke="#4E3F6B" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M0 330 C40 300 80 284 122 296 S192 262 232 280 S312 252 390 284 V446 H0Z" fill="#CDB6D6"/>
+          <path d="M0 348 C50 320 92 330 134 314 S204 326 244 306 S334 330 390 316 V446 H0Z" fill="#AA92C2"/>
+          <path d="M0 370 C60 344 122 364 172 348 S272 368 322 352 S372 358 390 356 V446 H0Z" fill="#7D68A0"/>
+          <g fill="#3B2E58"><rect x="0" y="372" width="390" height="20"/><rect x="14" y="360" width="22" height="14"/><rect x="40" y="354" width="16" height="20"/><rect x="62" y="364" width="28" height="10"/><rect x="96" y="356" width="18" height="18"/><rect x="120" y="362" width="30" height="12"/><rect x="156" y="350" width="14" height="24"/><rect x="176" y="360" width="26" height="14"/><rect x="208" y="356" width="20" height="18"/><rect x="330" y="358" width="24" height="16"/><rect x="358" y="352" width="18" height="22"/>
+            <path d="M252 374v-14a20 20 0 0 1 40 0v14z"/><rect x="241" y="322" width="5" height="52"/><path d="M239.5 322h8l-4-11z"/><rect x="298" y="322" width="5" height="52"/><path d="M296.5 322h8l-4-11z"/></g>
+          <rect x="0" y="392" width="390" height="54" fill="url(#clake)"/>
+          <ellipse cx="92" cy="404" rx="26" ry="3" fill="#FFF3DE" opacity=".7"/><ellipse cx="92" cy="414" rx="16" ry="2" fill="#FFF3DE" opacity=".5"/>
+          <path d="M30 420h44M150 410h60M250 424h70M300 408h40" stroke="#fff" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="sb"><span class="num">16:10</span><i><s></s><b></b></i></div>
+        <div class="top"><span class="date">الإثنين، 2 تشرين الثاني · السليمانية</span><span class="part">بعد العصر</span><div class="big"><b class="num">52</b><span>دقيقة<br>على المغرب</span></div></div>
+        <div class="sheet">
+          <div class="pr"><span>الفجر<b class="num">4:47</b></span><span>الظهر<b class="num">11:43</b></span><span>العصر<b class="num">2:39</b></span><span class="nx">المغرب<b class="num">5:02</b></span><span>العشاء<b class="num">6:26</b></span></div>
+          <div class="sanad"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#2E2443"/><circle cx="20" cy="22" r="8" fill="#FFF3DE"/><path d="M8 30h24" stroke="#E0794F" stroke-width="2.5" stroke-linecap="round"/></svg><p class="say">الرياضة فاتت يومين. عشر دقايق تكفي اليوم؟</p><button data-s="yes">يلا</button></div>
+          <ul class="now"><li data-t><button class="ck" aria-label="خلّصت رياضة"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg></i></button><span class="t">رياضة</span><span class="m">كل يوم</span></li><li data-t><button class="ck" aria-label="خلّصت اتصل بالمحاسب"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg></i></button><span class="t">اتصل بالمحاسب</span></li><li data-t><button class="ck" aria-label="خلّصت أغراض البيت"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg></i></button><span class="t">أغراض البيت</span></li></ul></div>
+        <button class="fab" aria-label="أضف شغلة"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div></div>
+      <div class="phone"><div class="scr Cc"><div class="sb"><span class="num">16:11</span><i><s></s><b></b></i></div>
+        <div class="chat" data-chat="C"><div class="bar"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#2E2443"/><circle cx="20" cy="22" r="8" fill="#FFF3DE"/><path d="M8 30h24" stroke="#E0794F" stroke-width="2.5" stroke-linecap="round"/></svg><div><b>سند</b><span>وياك</span></div></div><div class="log" aria-live="polite"></div><div class="choices"></div></div></div></div>
+    </div>
+  </section>
+  <p class="cap">نموذج للشكل، والتطبيق ما تغيّر. كلام سند مثال ويحتاج مراجعتك. أوقات الصلاة نفس أوقات النماذج السابقة للسليمانية.</p>
+</div>
+
+<script>
+(()=>{
+document.documentElement.lang='ar';
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+/* ticking a thing */
+document.querySelectorAll('.scr[data-k]').forEach(scr=>{
+  const count=()=>{const n=scr.querySelectorAll('ul.now li[data-t]:not(.done)').length;const c=scr.querySelector('.cnt');if(c)c.textContent=n?(n===1?'شغلة وحدة':n===2?'شغلتين':n+' شغلات'):'خلّصت كلشي'};
+  scr.addEventListener('click',e=>{const ck=e.target.closest('.ck');if(ck){const li=ck.closest('li');li.classList.toggle('done');ck.setAttribute('aria-pressed',li.classList.contains('done'));count();return}
+    const s=e.target.closest('[data-s]');if(s){const box=scr.querySelector('.sanad');const say=box.querySelector('.say');const yes=s.dataset.s==='yes';
+      say.textContent=yes?'حطيتها هسه، عشر دقايق. مرة وحدة تفوت عادي، المهم ما تصير ثلاث.':'تمام. صراحتك أحسن من وعد ما يصير. باجر أذكّرك.';
+      box.querySelectorAll('[data-s]').forEach(b=>b.remove());const a=box.querySelector('.act');if(a)a.remove();
+      if(yes){const r=scr.querySelector('ul.now li');const m=r.querySelector('.m');if(m)m.textContent='10 دقايق'}}})});
+/* سند: a short conversation, the same words in every direction */
+const FLOW={s:['عندي ملاحظة صغيرة.','الرياضة فاتت أمس وأول أمس. ما ألومك، بس شنو صاير؟'],c:[['ما عندي وكت','time'],['تعبان','tired'],['ما عندي خلق','mood'],['نسيت','forgot']],
+  time:{s:['خلّي نصغّرها: دقيقتين بس، عشر ضغطات.','الصغير اللي يصير أحسن من الكبير اللي ما يصير.'],c:[['ماشي، دقيقتين','ok']]},
+  tired:{s:['منطقي، نومك كان قليل هالأسبوع.','ننقلها لباجر الصبح، وإنت أنشط؟'],c:[['إي، باجر الصبح','tom']]},
+  mood:{s:['يصير. خلّي أذكّرك بشي كتبته إنت بأول يوم:',{q:'«أريد أصير أقوى، حتى ابني يتذكرني نشيط، مو تعبان.»'},'خمس دقايق بس، هسه؟'],c:[['يلا','ok'],['مو اليوم','notoday']]},
+  forgot:{s:['خلّي نربطها بشي ما تنساه: بعد صلاة العصر، مباشرة.'],c:[['حطها هيج','ok']]},
+  ok:{s:['حطيتها هسه.','مرة وحدة تفوت عادي، المهم ما تصير ثلاث.']},tom:{s:['حطيتها باجر 7:30. الليلة نام بكير.']},notoday:{s:['تمام. صراحتك أحسن من وعد ما يصير. باجر أذكّرك بعد العصر.']}};
+document.querySelectorAll('[data-chat]').forEach(ch=>{const log=ch.querySelector('.log'),cs=ch.querySelector('.choices');let gen=0;
+  const add=(cls,html)=>{const d=document.createElement('div');d.className='m '+cls;d.innerHTML=html;log.appendChild(d);log.scrollTo({top:log.scrollHeight,behavior:RM.matches?'auto':'smooth'})};
+  const say=(node)=>{const g=++gen;const items=node.s.slice();cs.innerHTML='';
+    const next=()=>{if(g!==gen)return;if(!items.length){cs.innerHTML=node.c?node.c.map(([l,k])=>`<button data-k="${k}">${l}</button>`).join(''):'<button class="again" data-k="restart">ابدي من جديد</button>';return}
+      const t=document.createElement('span');t.className='typing';t.innerHTML='<i></i><i></i><i></i>';t.setAttribute('aria-label','سند يكتب');log.appendChild(t);log.scrollTop=log.scrollHeight;
+      const it=items.shift();setTimeout(()=>{if(g!==gen)return;t.remove();typeof it==='string'?add('s',it):add('s',`<span class="quote">${it.q}</span>`);setTimeout(next,RM.matches?30:260)},RM.matches?60:Math.min(1300,380+(typeof it==='string'?it.length:40)*16))};next()};
+  cs.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const k=b.dataset.k;if(k==='restart'){log.innerHTML='';say(FLOW);return}add('u',b.textContent);cs.innerHTML='';setTimeout(()=>say(FLOW[k]),RM.matches?20:300)});
+  say(FLOW)});
+})();
+</script>

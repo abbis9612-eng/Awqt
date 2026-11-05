@@ -1,0 +1,280 @@
+<title>يوم · الداخل بالألوان</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap">
+<style>
+/* «الألوان» inside: cards are a deeper tone of the field, never a grey box; the prayer is the one
+   inverted card; each inner screen keeps a field colour (night for alarms, the part of a thing for
+   its sheet, the steps of first run walk from Fajr to Dhuhr). */
+:root{--page:#E8E8E4;--page-ink:#151513;--page-grey:#55554F;--ease:cubic-bezier(.23,1,.32,1);color-scheme:light;--vaz:"Vazirmatn",Tahoma,sans-serif;--lale:"Lalezar","Vazirmatn",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#121211;--page-ink:#EDEDE9;--page-grey:#A8A8A0;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#121211;--page-ink:#EDEDE9;--page-grey:#A8A8A0;color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;background:var(--page);color:var(--page-ink);font-family:var(--vaz);font-size:17px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:48px 80px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent;text-align:inherit}
+:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 5px #111}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:1260px;margin:0 auto;display:grid;gap:36px}
+.intro{display:grid;gap:10px;max-width:800px}
+.intro h1{margin:0;font-family:var(--lale);font-weight:400;font-size:clamp(36px,6vw,56px);line-height:1.15}
+.intro p{margin:0;font-size:18px;color:var(--page-grey)}
+.stage{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),370px));gap:44px 36px;justify-content:start;align-items:start}
+.col{display:grid;gap:10px;justify-items:start}
+.col>h2{margin:0;font-size:21px;font-weight:700}
+.col>p{margin:-4px 0 4px;font-size:16px;color:var(--page-grey);max-width:42ch}
+.phone{width:100%;max-width:370px;aspect-ratio:370/800;border-radius:54px;padding:10px;background:#0D0D0F;box-shadow:0 50px 90px -40px rgba(0,0,0,.45),inset 0 0 0 1.5px #2C2C30}
+.scr{position:relative;width:100%;height:100%;border-radius:45px;overflow:hidden;isolation:isolate}
+
+/* a field: bg, fg, and the derived tones every inner part uses */
+.f{--card:color-mix(in srgb,var(--bg) 84%,#000);--grey:color-mix(in srgb,var(--fg) 86%,var(--bg));--line:color-mix(in srgb,var(--fg) 24%,transparent);
+  background:var(--bg);color:var(--fg);transition:background-color 240ms var(--ease),color 240ms var(--ease)}
+.f.deep{--card:color-mix(in srgb,var(--bg) 88%,#fff)}
+.f.light{--card:color-mix(in srgb,var(--bg) 90%,var(--fg));--grey:color-mix(in srgb,var(--fg) 82%,var(--bg))}
+.page{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none;padding:44px 18px 96px;display:flex;flex-direction:column;gap:10px}
+.page::-webkit-scrollbar{display:none}
+.page>*{flex:none}
+.top{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;min-height:44px}
+.top span{flex:1}
+.top button{min-height:44px;padding:0 6px;font-weight:700}
+.name{font-family:var(--lale);font-weight:400;font-size:78px;line-height:.98;margin:2px 0 0}
+.name.sm{font-size:56px}
+.line{margin:0;font-size:18px;font-weight:700;line-height:1.5}
+.grey{color:var(--grey)}
+
+/* the cards */
+.pray{display:flex;align-items:center;gap:12px;border-radius:24px;background:var(--fg);color:var(--bg);padding:14px 16px;min-height:76px}
+.pray .t{flex:1;display:grid}
+.pray b{font-size:19px;line-height:1.35}
+.pray small{font-size:14px;font-weight:600;opacity:.9}
+.pray button{min-height:48px;padding:0 18px;border-radius:24px;box-shadow:inset 0 0 0 2px var(--bg);font-weight:800;font-size:16px;transition:transform 160ms var(--ease)}
+.pray button:active{transform:scale(.97)}
+.pray.done button{background:var(--bg);color:var(--fg)}
+.card{display:flex;align-items:center;gap:12px;border-radius:22px;background:var(--card);padding:10px 14px 10px 12px;min-height:72px;width:100%;transition:transform 160ms var(--ease)}
+.card:active{transform:scale(.985)}
+.tick{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 2.5px var(--fg);transition:background-color 160ms var(--ease)}
+.tick svg{width:22px;height:22px;opacity:0;transition:opacity 160ms var(--ease)}
+.card.done .tick{background:var(--fg)}
+.card.done .tick svg{opacity:1}
+.card .t{flex:1;display:grid;min-width:0}
+.card b{font-size:18px;line-height:1.4;font-weight:700}
+.card.done b{color:var(--grey);font-weight:500}
+.card small{font-size:14px;font-weight:500;color:var(--grey);line-height:1.5}
+.card .at{flex:none;font-size:20px;font-weight:700}
+.addc{display:flex;align-items:center;gap:12px;min-height:60px;border-radius:22px;box-shadow:inset 0 0 0 2px var(--line);padding:0 14px;font-weight:700;width:100%}
+.addc i{width:32px;height:32px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--fg);display:grid;place-items:center;font-style:normal;font-size:20px;line-height:1}
+.h{margin:10px 0 -2px;font-size:15px;font-weight:700;color:var(--grey)}
+
+/* spectrum */
+.spec{position:absolute;inset:auto 10px 12px 10px;height:56px;border-radius:18px;overflow:hidden;display:flex;box-shadow:0 0 0 2px color-mix(in srgb,var(--fg) 30%,transparent)}
+.spec span{display:grid;place-items:end center;padding-bottom:5px;font-size:12px;font-weight:700;position:relative}
+.spec span.past::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.18)}
+.spec span.sel{box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4.5px #111}
+.spec .needle{position:absolute;top:0;bottom:0;width:3px;background:#fff;box-shadow:0 0 0 1px #111}
+
+/* rows inside cards (settings, alarms) */
+.group{border-radius:22px;background:var(--card);overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;min-height:64px;padding:8px 16px;width:100%}
+.row+.row{box-shadow:inset 0 1.5px 0 var(--line)}
+.row .t{flex:1;display:grid;min-width:0}
+.row b{font-size:16.5px;line-height:1.4}
+.row small{font-size:13.5px;color:var(--grey);line-height:1.5}
+.row .v{font-weight:700;font-size:15px}
+.row .go{font-size:22px;font-weight:700}
+.sw{flex:none;width:56px;height:34px;border-radius:17px;box-shadow:inset 0 0 0 2.5px var(--fg);position:relative;transition:background-color 160ms var(--ease)}
+.sw::after{content:"";position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:var(--fg);transition:transform 200ms var(--ease),background-color 160ms var(--ease)}
+.sw[aria-checked="true"]{background:var(--fg)}
+.sw[aria-checked="true"]::after{transform:translateX(-22px);background:var(--bg)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border-radius:16px;box-shadow:inset 0 0 0 2px var(--fg);overflow:hidden}
+.seg button{min-height:48px;font-size:15px;font-weight:700;text-align:center}
+.seg button+button{box-shadow:inset -2px 0 0 var(--line)}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+
+/* sheet over home */
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.42);opacity:0;pointer-events:none;transition:opacity 240ms var(--ease)}
+.sheet{position:absolute;inset:auto 0 0 0;height:80%;border-radius:30px 30px 0 0;transform:translateY(102%);transition:transform 300ms var(--ease),background-color 240ms var(--ease);display:flex;flex-direction:column}
+.scr.open .scrim{opacity:1;pointer-events:auto}
+.scr.open .sheet{transform:none}
+.sheet .grab{width:44px;height:5px;border-radius:3px;background:var(--line);margin:10px auto 0;flex:none}
+.sheet .in{flex:1;overflow-y:auto;scrollbar-width:none;padding:8px 20px 14px;display:flex;flex-direction:column;gap:12px}
+.sheet .in::-webkit-scrollbar{display:none}
+.sheet .in>*{flex:none}
+.sheet .ttl{font-size:28px;font-weight:800;line-height:1.3;margin:0}
+.big{min-height:60px;border-radius:30px;background:var(--fg);color:var(--bg);font-size:18px;font-weight:800;text-align:center;transition:transform 160ms var(--ease)}
+.big:active{transform:scale(.97)}
+.big.out{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 2px var(--fg)}
+.where{display:grid;grid-template-columns:repeat(6,1fr);height:56px;border-radius:16px;overflow:hidden;box-shadow:0 0 0 2px var(--line)}
+.where button{display:grid;place-items:end center;padding-bottom:6px;font-size:12.5px;font-weight:700;text-align:center}
+.where button[aria-pressed="true"]{box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4.5px #111}
+.del{min-height:48px;font-weight:700;text-align:center;color:var(--grey)}
+.del.sure{color:var(--fg);background:var(--card);border-radius:24px}
+
+/* night */
+.clocks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.clocks div{border-radius:22px;background:var(--card);padding:12px 14px;display:grid}
+.clocks small{font-size:14px;color:var(--grey);font-weight:600}
+.clocks b{font-size:40px;font-weight:300;line-height:1.1}
+.sleep{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--line)}
+.sleep i{background:var(--fg)}
+.sleep i+i{background:color-mix(in srgb,var(--fg) 55%,var(--bg))}
+
+/* week */
+.wk{display:grid;gap:8px}
+.day{display:grid;grid-template-columns:62px 1fr;align-items:center;gap:10px;border-radius:20px;padding:10px 12px;background:var(--card);min-height:64px;width:100%}
+.day.today{box-shadow:inset 0 0 0 2.5px var(--fg)}
+.day .d{display:grid;line-height:1.25}
+.day .d b{font-size:16px}
+.day .d small{font-size:12.5px;color:var(--grey)}
+.mini{display:flex;height:26px;border-radius:8px;overflow:hidden}
+.mini span{position:relative}
+.mini span b{position:absolute;top:50%;left:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:currentColor}
+.day .n{grid-column:2;font-size:13px;color:var(--grey);margin-top:-4px}
+
+/* first run */
+.steps{display:flex;gap:6px}
+.steps span{flex:1;height:8px;border-radius:4px;background:var(--line)}
+.steps span.on{background:var(--fg)}
+.opt{display:flex;align-items:center;gap:12px;min-height:64px;border-radius:20px;background:var(--card);padding:8px 16px;width:100%}
+.opt[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.opt .t{flex:1;display:grid}
+.opt b{font-size:17px}
+.opt small{font-size:13.5px;opacity:.9}
+
+.notes{display:grid;gap:8px;max-width:860px}
+.notes h2{margin:0;font-size:22px}
+.notes ul{margin:0;padding-inline-start:22px;display:grid;gap:6px}
+.notes li{font-size:16.5px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="intro"><h1>الداخل بالألوان</h1>
+    <p>كل شاشة جوه صارت بنفس الروح: البطاقة درجة أغمق من لون القسم، مو مربع رمادي. الصلاة البطاقة الوحيدة المقلوبة لأنها الأهم. اضغط على أي بطاقة، أو علّم عليها، أو جرّب المفاتيح.</p></header>
+  <div class="stage" id="stage"></div>
+  <section class="notes"><h2>شنو تغيّر</h2><ul>
+    <li><b>البطاقات:</b> كل شغلة بطاقة بدرجة أغمق من لون القسم. دائرة كبيرة تعلّم عليها، والعنوان واضح، وتحته الوكت والتكرار والتنبيه بسطر واحد.</li>
+    <li><b>الصلاة أول بطاقة ومقلوبة اللون</b>، حتى تبيّن إنها أهم شي بالقسم. «صلّيت» زر كبير بيها.</li>
+    <li><b>تفاصيل الشغلة</b> تنفتح بلون قسمها. «خلّصتها» زر كبير، وتنقلها بشريط الألوان، والمسح يحتاج ضغطتين حتى ما تمسح بالغلط.</li>
+    <li><b>الليل والمنبّهات</b> بالأسود: وكت النوم والصحيان كبار، وشريط يبيّن نومك من 7 ساعات، والمنبّهات بطاقات بمفاتيح كبيرة.</li>
+    <li><b>الأسبوع:</b> كل يوم شريط ألوان صغير، والنقاط عليه هي شغلاتك بكل قسم. تشوف أسبوعك بنظرة.</li>
+    <li><b>الإعدادات</b> تاخذ لون الوكت اللي إنت بيه، ومجموعات بطاقات بدل قائمة طويلة.</li>
+    <li><b>أول تشغيل:</b> ثلاث خطوات تمشي ويّا اليوم، من لون الفجر للصبح للظهر.</li></ul></section>
+</div>
+
+<script>
+(()=>{
+document.documentElement.lang='ar';
+const F={fajr:{bg:'#2B4A86',fg:'#FFFFFF',sh:'فجر',n:'بعد الفجر'},morning:{bg:'#CFE3F4',fg:'#0F2133',sh:'صبح',n:'الصبح'},dhuhr:{bg:'#F7E6A6',fg:'#2A2208',sh:'ظهر',n:'بعد الظهر'},
+  asr:{bg:'#E09A3E',fg:'#1C1206',sh:'عصر',n:'بعد العصر'},maghrib:{bg:'#B23F2A',fg:'#FFFFFF',sh:'مغرب',n:'بعد المغرب'},isha:{bg:'#1B2347',fg:'#FFFFFF',sh:'عشاء',n:'بعد العشاء'},night:{bg:'#0A0A0A',fg:'#FFFFFF',sh:'ليل',n:'الليل'}};
+const ORDER=['fajr','morning','dhuhr','asr','maghrib','isha','night'];
+const SPAN={fajr:[288,388],morning:[388,718],dhuhr:[718,912],asr:[912,1046],maghrib:[1046,1135],isha:[1135,1290],night:[1290,1728]};
+const NOW=970;
+const fv=k=>`--bg:${F[k].bg};--fg:${F[k].fg}`;
+const light=k=>F[k].fg!=='#FFFFFF'?' light':(k==='isha'||k==='night')?' deep':'';
+const TICK=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--bg)"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`;
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function spec(sel){const tot=1728-288;return `<div class="spec" role="tablist" aria-label="أقسام اليوم">${ORDER.map(k=>{const [a,b]=SPAN[k];const fr=(b-a)/tot;
+  return `<span role="tab" aria-selected="${k===sel}" aria-label="${F[k].n}" class="${b<=NOW&&k!=='night'?'past':''} ${k===sel?'sel':''}" style="flex:${fr};background:${F[k].bg};color:${F[k].fg}">${fr>.09?F[k].sh:''}</span>`}).join('')}
+  <i class="needle" style="right:calc(${(NOW-288)/tot*100}% - 1.5px)"></i></div>`}
+function card(x,i){return `<button class="card${x.done?' done':''}" data-i="${i}" aria-label="${esc(x.t)}"><span class="tick" role="checkbox" aria-checked="${!!x.done}" aria-label="خلّصت ${esc(x.t)}" data-tick="${i}">${TICK}</span>
+  <span class="t"><b>${esc(x.t)}</b><small>${x.meta}</small></span>${x.at?`<span class="at num">${x.at}</span>`:''}</button>`}
+
+/* 1 · home with cards, and the thing sheet */
+const things=[{t:'زيارة الوالدة',meta:'مرة وحدة · ينبّهك بأول القسم',at:'',done:true,k:'asr'},{t:'رياضة',meta:'أيام الدوام · ساعة كاملة',at:'16:30',k:'asr'},{t:'اتصل بالمحاسب',meta:'مرة وحدة',at:'',k:'asr'}];
+let prayed=false;
+function home(){return `<div class="f${light('asr')}" style="${fv('asr')};position:absolute;inset:0"><div class="page">
+  <div class="top"><span>الإثنين 2 تشرين الثاني، 21 جمادى الأولى</span><button>الإعدادات</button></div>
+  <h3 class="name">بعد<br>العصر</h3><p class="line">باقي ساعة و16 دقيقة على المغرب، 17:26.</p>
+  <div class="pray${prayed?' done':''}"><span class="t"><b>العصر 15:12</b><small>${prayed?'صلّيتها، تقبّل الله':'وكتها هسه'}</small></span><button data-pray aria-pressed="${prayed}">${prayed?'✓ صلّيت':'صلّيت'}</button></div>
+  ${things.map(card).join('')}
+  <button class="addc"><i>+</i>أضف لبعد العصر</button>
+  <p class="h">بعدين</p>${card({t:'رتّب المكتبة',meta:'بدون وكت'},9)}
+  </div>${spec('asr')}</div>
+  <div class="scrim" data-close></div><div class="sheet f${light('asr')}" style="${fv('asr')}" role="dialog" aria-label="تفاصيل الشغلة" id="sh"></div>`}
+let sheetI=0,sure=false,moveTo='asr',rep='ONCE',rem='start';
+function sheet(){const x=things[sheetI]||{t:'رتّب المكتبة'};const k=moveTo;
+  return `<span class="grab"></span><div class="in"><p class="ttl">${esc(x.t)}</p><p class="line grey" style="font-size:16px">${F[k].n}${x.at?'، الساعة '+x.at:''}</p>
+  <button class="big${x.done?' out':''}" data-done>${x.done?'✓ خلّصتها، رجّعها':'خلّصتها'}</button>
+  <p class="h">انقلها لـ</p><div class="where">${ORDER.slice(0,6).map(o=>`<button data-move="${o}" aria-pressed="${o===k}" aria-label="${F[o].n}" style="background:${F[o].bg};color:${F[o].fg}">${F[o].sh}</button>`).join('')}</div>
+  <p class="h">يتكرر؟</p><div class="seg">${[['ONCE','مرة وحدة'],['DAILY','كل يوم'],['WORKDAYS','أيام الدوام']].map(([v,l])=>`<button data-rep="${v}" aria-pressed="${v===rep}">${l}</button>`).join('')}</div>
+  <p class="h">نبّهني؟</p><div class="seg"><button data-rem="none" aria-pressed="${rem==='none'}">لا</button><button data-rem="start" aria-pressed="${rem==='start'}">بأول القسم</button></div>
+  <button class="del${sure?' sure':''}" data-del>${sure?'متأكد؟ اضغط مرة ثانية حتى تنمسح':'امسحها'}</button></div>`}
+
+/* 2 · the night and the alarms */
+const alarms=[{at:'05:30',l:'الدوام',d:'أيام الدوام',on:true},{at:'14:00',l:'قيلولة',d:'كل يوم',on:false}];
+let wakeOn=true;
+function night(){return `<div class="f deep" style="${fv('night')};position:absolute;inset:0"><div class="page">
+  <div class="top"><span>ليلة الإثنين</span><button>رجوع</button></div>
+  <h3 class="name">الليل</h3><p class="line">تنام 22:10، وتصحى 04:30 لصلاة الليل.</p>
+  <div class="clocks"><div><small>تنام</small><b class="num">22:10</b></div><div><small>تصحى</small><b class="num">04:30</b></div></div>
+  <div class="sleep" aria-label="ليل 6 ساعات و20 دقيقة وقيلولة 20 دقيقة من 7 ساعات"><i style="flex:380"></i><i style="flex:20"></i><span style="flex:20"></span></div>
+  <p class="grey" style="margin:-4px 0 0;font-size:14px">ليل 6:20 وقيلولة 20 د، المجموع 6:40 من 7 ساعات.</p>
+  <div class="group"><div class="row"><span class="t"><b>منبّه الصحيان <span class="num">04:30</span></b><small>يتحرك ويّا الفجر كل يوم</small></span><button class="sw" role="switch" aria-checked="${wakeOn}" aria-label="منبّه الصحيان" data-wake></button></div></div>
+  <p class="h">منبّهاتك</p>
+  <div class="group">${alarms.map((a,i)=>`<div class="row"><span class="t"><b class="num" style="font-size:30px;font-weight:300;line-height:1.15;text-align:right">${a.at}</b><small>${a.l} · ${a.d}</small></span><button class="sw" role="switch" aria-checked="${a.on}" aria-label="منبّه ${a.at}" data-al="${i}"></button></div>`).join('')}</div>
+  <button class="addc"><i>+</i>منبّه جديد</button></div>${spec('night')}</div>`}
+
+/* 3 · the week */
+const WEEK=[['السبت','31',[0,1,0,2,1,0]],['الأحد','1',[1,2,0,1,0,0]],['الإثنين','2',[1,1,0,3,0,1],1],['الثلاثاء','3',[1,2,0,1,1,0]],['الأربعاء','4',[1,0,0,1,0,0]],['الخميس','5',[1,1,1,0,2,0]],['الجمعة','6',[1,0,2,0,1,1]]];
+function week(){return `<div class="f deep" style="${fv('isha')};position:absolute;inset:0"><div class="page">
+  <div class="top"><span>تشرين الثاني</span><button>رجوع</button></div>
+  <h3 class="name sm">أسبوعك</h3><p class="line" style="font-size:16px">كل نقطة شغلة بقسمها. اضغط يوم حتى تفتحه.</p>
+  <div class="wk">${WEEK.map(([d,n,c,today])=>{const tot=1440;
+    return `<button class="day${today?' today':''}" aria-label="${d} ${n}، ${c.reduce((a,b)=>a+b,0)} شغلات"><span class="d"><b>${d}</b><small class="num">${n}${today?' · اليوم':''}</small></span>
+    <span class="mini">${ORDER.slice(0,6).map((k,i)=>{const [a,b]=SPAN[k];return `<span style="flex:${b-a};background:${F[k].bg};color:${F[k].fg}">${c[i]?'<b></b>':''}</span>`}).join('')}<span style="flex:${438};background:${F.night.bg}"></span></span>
+    <span class="n">${c.reduce((a,b)=>a+b,0)} شغلات${d==='الجمعة'?' · الجمعة بالظهر':''}</span></button>`}).join('')}</div></div></div>`}
+
+/* 4 · settings in the colour of now */
+function settings(){return `<div class="f${light('asr')}" style="${fv('asr')};position:absolute;inset:0"><div class="page">
+  <div class="top"><span></span><button>رجوع</button></div>
+  <h3 class="name sm">الإعدادات</h3>
+  <p class="h">مدينتك</p><div class="group"><button class="row"><span class="t"><b>السليمانية</b><small>تقريبي، يبقى على تلفونك وما يطلع منه</small></span><span class="go">‹</span></button></div>
+  <p class="h">أوقات الصلاة</p><div class="group">
+    <button class="row"><span class="t"><b>طريقة الحساب</b><small>الهيئة المصرية</small></span><span class="go">‹</span></button>
+    <div class="row" style="display:grid;gap:8px"><b>وقت العصر</b><div class="seg"><button aria-pressed="true">الجمهور</button><button aria-pressed="false">الحنفي</button></div></div>
+    <button class="row"><span class="t"><b>طابق جامعك</b><small>دقائق تنضاف لكل وكت</small></span><span class="v num">+2</span></button></div>
+  <p class="h">التنبيهات</p><div class="group">
+    <div class="row"><span class="t"><b>الإشعارات</b><small>مسموحة</small></span><span class="v">✓</span></div>
+    <button class="row"><span class="t"><b>المنبّهات بالدقيقة</b><small>مطفية: اضغط حتى تسمح</small></span><span class="go">‹</span></button>
+    <button class="row"><span class="t"><b>صوت الأذان</b><small>اختاره من أصوات تلفونك</small></span><span class="go">‹</span></button></div>
+  </div></div>`}
+
+/* 5 · first run walks from Fajr to Dhuhr */
+let step=0,life=0;
+const STEPS=[{k:'fajr',name:'هلا بيك',body:'يرتّب يومك بين الصلوات، ويذكّرك بوكت كل شي. كلشي يبقى بتلفونك، بلا حساب وبلا إنترنت.'},
+  {k:'morning',name:'يومك',body:'عندك دوام أو دراسة بساعة ثابتة؟'},{k:'dhuhr',name:'التنبيهات',body:'حتى ينبّهك بوكت الصلاة والمنبّه، لازم تسمحله.'}];
+function first(){const s=STEPS[step];return `<div class="f${light(s.k)}" style="${fv(s.k)};position:absolute;inset:0"><div class="page" style="padding-bottom:24px">
+  <div class="steps" aria-label="الخطوة ${step+1} من 3">${STEPS.map((_,i)=>`<span class="${i<=step?'on':''}"></span>`).join('')}</div>
+  <h3 class="name" style="margin-top:18px">${s.name}</h3><p class="line">${s.body}</p>
+  ${step===0?`<p class="h">مدينتك</p><button class="opt" aria-pressed="false"><span class="t"><b>موقعي الحالي</b><small>تقريبي، يبقى على تلفونك</small></span></button><button class="opt" aria-pressed="false"><span class="t"><b>اختار من القائمة</b></span></button>`
+  :step===1?['عندي دوام','أدرس','أغلب يومي بالبيت'].map((l,i)=>`<button class="opt" data-life="${i}" aria-pressed="${life===i}"><span class="t"><b>${l}</b></span></button>`).join('')+(life<2?`<div class="clocks"><div><small>يبدي</small><b class="num">08:00</b></div><div><small>يخلص</small><b class="num">14:00</b></div></div>`:'')
+  :`<button class="opt" aria-pressed="false"><span class="t"><b>اسمح بالإشعارات</b><small>للأذان وبداية كل قسم</small></span></button><button class="opt" aria-pressed="false"><span class="t"><b>اسمح بالمنبّهات بالدقيقة</b><small>حتى يرن بوكته بالضبط</small></span></button>`}
+  <span style="flex:1"></span><button class="big" data-next>${step<2?'التالي':'ابدي يومي'}</button>${step?'<button class="del" data-back>رجوع</button>':''}</div></div>`}
+
+const SCREENS=[['البطاقات والصفحة الرئيسية','علّم على الدائرة، اضغط «صلّيت»، أو اضغط على أي بطاقة حتى تنفتح تفاصيلها.',home,'h'],['الليل والمنبّهات','الوكتين كبار، وشريط يبيّن نومك. جرّب المفاتيح.',night,'n'],
+  ['الأسبوع','كل يوم شريط ألوان، والنقاط شغلاتك بكل قسم.',week,'w'],['الإعدادات','بلون الوكت اللي إنت بيه، ومجموعات بدل قائمة طويلة.',settings,'s'],['أول تشغيل','ثلاث خطوات تمشي من الفجر للظهر. اضغط «التالي».',first,'f']];
+const stage=document.getElementById('stage');
+stage.innerHTML=SCREENS.map(([h,p,_,id])=>`<div class="col"><h2>${h}</h2><p>${p}</p><div class="phone"><div class="scr" id="s-${id}"></div></div></div>`).join('');
+const draw=id=>{const s=SCREENS.find(x=>x[3]===id);const el=document.getElementById('s-'+id);const open=el.classList.contains('open');const top=el.querySelector('.page')?.scrollTop||0;
+  el.innerHTML=s[2]();const pg=el.querySelector('.page');if(pg)pg.scrollTop=top;if(id==='h'){el.querySelector('#sh').innerHTML=sheet();el.classList.toggle('open',open)}};
+SCREENS.forEach(s=>draw(s[3]));
+const H=document.getElementById('s-h');
+H.addEventListener('click',e=>{const t=e.target;
+  const tk=t.closest('[data-tick]');if(tk){const i=+tk.dataset.tick;if(things[i])things[i].done=!things[i].done;draw('h');return}
+  if(t.closest('[data-pray]')){prayed=!prayed;draw('h');return}
+  const c=t.closest('.card');if(c&&!H.querySelector('.sheet').contains(c)){sheetI=+c.dataset.i;sure=false;moveTo='asr';const x=things[sheetI];rep=x&&x.meta.startsWith('أيام')?'WORKDAYS':'ONCE';rem=x&&x.meta.includes('ينبّهك')?'start':'none';draw('h');requestAnimationFrame(()=>H.classList.add('open'));return}
+  if(t.closest('[data-close]')){H.classList.remove('open');return}
+  const sh=H.querySelector('.sheet');
+  const mv=t.closest('[data-move]');if(mv){moveTo=mv.dataset.move;sh.className='sheet f'+light(moveTo);sh.setAttribute('style',fv(moveTo));sh.innerHTML=sheet();return}
+  const r=t.closest('[data-rep]');if(r){rep=r.dataset.rep;sh.innerHTML=sheet();return}
+  const m=t.closest('[data-rem]');if(m){rem=m.dataset.rem;sh.innerHTML=sheet();return}
+  if(t.closest('[data-done]')){const x=things[sheetI];if(x){x.done=!x.done;draw('h')}return}
+  if(t.closest('[data-del]')){if(sure){things.splice(sheetI,1);sure=false;H.classList.remove('open');setTimeout(()=>draw('h'),300)}else{sure=true;sh.innerHTML=sheet()}return}});
+document.getElementById('s-n').addEventListener('click',e=>{const w=e.target.closest('[data-wake]');if(w){wakeOn=!wakeOn;draw('n')}const a=e.target.closest('[data-al]');if(a){alarms[+a.dataset.al].on^=1;draw('n')}});
+document.getElementById('s-f').addEventListener('click',e=>{if(e.target.closest('[data-next]')){step=(step+1)%3;draw('f')}else if(e.target.closest('[data-back]')){step--;draw('f')}else{const l=e.target.closest('[data-life]');if(l){life=+l.dataset.life;draw('f')}}});
+document.getElementById('s-s').addEventListener('click',e=>{const b=e.target.closest('.seg button');if(b){b.parentNode.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b))}});
+})();
+</script>

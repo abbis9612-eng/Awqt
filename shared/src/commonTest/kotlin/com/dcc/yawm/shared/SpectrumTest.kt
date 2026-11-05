@@ -86,7 +86,7 @@ class SpectrumTest {
     private fun contrast(a: Color, b: Color): Double {
         val la = a.luminance() + 0.05
         val lb = b.luminance() + 0.05
-        return (maxOf(la, lb) / minOf(la, lb)).toDouble()
+        return maxOf(la, lb) / minOf(la, lb)
     }
 
     @Test

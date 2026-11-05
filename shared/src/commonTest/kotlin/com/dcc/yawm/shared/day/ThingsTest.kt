@@ -228,6 +228,7 @@ class ThingsTest {
         assertEquals("بعد العشاء، كل يوم.", d("قراءة كتاب بعد العشاء", AddTaps(repeat = Repeat.DAILY, remind = Remind.NONE)).saysLine())
         assertEquals("بعد المغرب، الساعة 17:40، مرة وحدة، ينبّهك بوكتها.", d("زيارة الساعة 17:40").saysLine())
         assertEquals("حطّها باچر", d("اتصل بالمصلّح باچر").saveLabel())
+        assertEquals("حطّها بالصبح", d("مشي", AddTaps(where = Where.In(DayPart.MORNING))).saveLabel())
         assertTrue(d("تصليح السيارة بعدين").saysLine().startsWith("بعدين"))
         val alarm = d("منبّه الساعة 05:45")
         assertEquals(alarm.ringsLine(), alarm.saysLine())

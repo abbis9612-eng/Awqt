@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -127,6 +128,7 @@ fun BoxScope.FieldSheet(field: Field, label: String, close: () -> Unit, content:
                     .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {}
                     .semantics { paneTitle = label }
                     .navigationBarsPadding()
+                    .imePadding()
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 22.dp, vertical = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),

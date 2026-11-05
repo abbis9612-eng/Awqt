@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -80,7 +81,7 @@ fun ColorsHome(
     val fonts = LocalFonts.current
     val pal = fieldPalette(field)
     Fielded(field) {
-        Box(Modifier.fillMaxSize()) {
+        Box(Modifier.fillMaxSize().navigationBarsPadding()) {
             Column(
                 Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 22.dp).padding(bottom = 100.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),

@@ -99,8 +99,8 @@ fun AddDraft.saysLine(): String = when {
     else -> whereName(where) + (at?.let { "، الساعة ${clock(it)}" } ?: "") + "، ${repeat.label}" + remindWords(remind) + "."
 }
 
-/** «حطّها بعد المغرب», «حطّها باچر», «احفظ المنبّه». */
-fun AddDraft.saveLabel(): String = if (alarm) "احفظ المنبّه" else "حطّها ${whereName(where)}"
+/** «حطّها بعد المغرب», «حطّها بالصبح», «حطّها باچر», «احفظ المنبّه». */
+fun AddDraft.saveLabel(): String = if (alarm) "احفظ المنبّه" else "حطّها " + whereName(where).let { if (it.startsWith("ال")) "ب$it" else it }
 
 fun remindWords(r: Remind): String = when (r) {
     Remind.NONE -> ""

@@ -23,6 +23,7 @@ import com.dcc.yawm.shared.screen.whereName
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -149,9 +150,10 @@ private fun Screens(
         val barsDark = fieldColours?.isDark ?: dark
         androidx.compose.runtime.SideEffect { platform.systemBars(barsDark) }
         CompositionLocalProvider(LocalPalette provides pal) {
-            Column(Modifier.fillMaxSize().background(bg).statusBarsPadding().navigationBarsPadding()) {
+            // The navigation bar inset is applied inside, so a sheet's colour can run behind the bar.
+            Column(Modifier.fillMaxSize().background(bg).statusBarsPadding()) {
                 if (!settings.setupDone) {
-                    Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 24.dp)) {
+                    Column(Modifier.weight(1f).navigationBarsPadding().imePadding().verticalScroll(rememberScrollState()).padding(horizontal = 24.dp)) {
                         FirstRun(settings, status, device, platform, save) { homeField = it }
                     }
                 } else {
@@ -248,7 +250,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
             openAlarms = { overlay = Overlay.ALERTS },
             backToToday = if (isToday) null else ({ shownDate = null }),
         ) else Fielded(screenField) {
-            Column(Modifier.fillMaxSize().verticalScroll(scroll).padding(horizontal = 22.dp).padding(bottom = 24.dp)) {
+            Column(Modifier.fillMaxSize().navigationBarsPadding().verticalScroll(scroll).padding(horizontal = 22.dp).padding(bottom = 24.dp)) {
                 when (overlay) {
                     Overlay.SETTINGS -> SettingsScreen(
                         settings, status, device, platform, save,
@@ -351,7 +353,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
         }
         toastText?.let { msg ->
             Box(
-                Modifier.align(Alignment.BottomCenter).padding(bottom = if (home && sheet == SheetKind.NONE) 100.dp else 24.dp)
+                Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = if (home && sheet == SheetKind.NONE) 100.dp else 24.dp)
                     .background(Color(0xFF111111), RoundedCornerShape(999.dp)).border(1.5.dp, Color.White.copy(alpha = 0.35f), RoundedCornerShape(999.dp))
                     .padding(horizontal = 18.dp, vertical = 10.dp),
             ) { Txt(msg, size = 15.sp, bold = true, color = Color.White, lineHeight = 1.4f) }

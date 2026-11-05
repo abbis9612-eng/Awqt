@@ -12,6 +12,8 @@ import com.dcc.yawm.shared.ui.App
 /** The Android entry point calls this, so `:androidApp` needs no Compose compiler of its own. */
 fun ComponentActivity.showYawm() {
     enableEdgeToEdge()
+    // «الألوان»: the field's colour runs behind the navigation bar too, without the system's white veil.
+    if (android.os.Build.VERSION.SDK_INT >= 29) window.isNavigationBarContrastEnforced = false
     val data = AndroidDatabase.get(this)
     val device = AndroidDeviceControls(this)
     val platform = AndroidPlatform(this)

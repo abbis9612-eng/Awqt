@@ -287,13 +287,13 @@ fun Chip(text: String, on: Boolean, modifier: Modifier = Modifier, enabled: Bool
     val pal = LocalPalette.current
     Box(
         modifier.heightIn(min = 48.dp)
-            .background(if (on) pal.ink else pal.paper, RoundedCornerShape(999.dp))
-            .border(1.5.dp, if (enabled) pal.ink else pal.line, RoundedCornerShape(999.dp))
+            .background(if (on) pal.ink else androidx.compose.ui.graphics.Color.Transparent, RoundedCornerShape(999.dp))
+            .border(2.dp, if (enabled) pal.ink else pal.line, RoundedCornerShape(999.dp))
             .clickable(enabled = enabled, onClick = onClick)
             .semantics { role = Role.Checkbox; selected = on; contentDescription = text }
-            .padding(horizontal = 4.dp),
+            .padding(horizontal = 6.dp),
         contentAlignment = Alignment.Center,
-    ) { Txt(text, size = 14.sp, bold = on, color = if (on) pal.paper else if (enabled) pal.ink else pal.grey, align = TextAlign.Center, lineHeight = 1.3f) }
+    ) { Txt(text, size = 14.sp, bold = true, color = if (on) pal.paper else if (enabled) pal.ink else pal.grey, align = TextAlign.Center, lineHeight = 1.3f) }
 }
 
 /** A one-line text field in the identity's style. */
@@ -301,8 +301,8 @@ fun Chip(text: String, on: Boolean, modifier: Modifier = Modifier, enabled: Bool
 fun Field(value: String, hint: String, onChange: (String) -> Unit) {
     val pal = LocalPalette.current
     Box(
-        Modifier.fillMaxWidth().padding(vertical = 6.dp).heightIn(min = 48.dp)
-            .border(1.5.dp, pal.line, RoundedCornerShape(14.dp)).padding(horizontal = 12.dp, vertical = 10.dp),
+        Modifier.fillMaxWidth().padding(vertical = 6.dp).heightIn(min = 52.dp)
+            .background(pal.card, RoundedCornerShape(16.dp)).padding(horizontal = 14.dp, vertical = 12.dp),
         contentAlignment = Alignment.CenterStart,
     ) {
         if (value.isEmpty()) Txt(hint, size = 16.sp, color = pal.grey)

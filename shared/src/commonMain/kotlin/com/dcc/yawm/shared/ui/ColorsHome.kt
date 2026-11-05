@@ -24,7 +24,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -74,10 +73,13 @@ fun ColorsHome(
     onWake: (Boolean) -> Unit,
     openSettings: () -> Unit,
     openAlarms: () -> Unit,
+    /** Another day than today: no «now» on it, and a way back to today. */
+    backToToday: (() -> Unit)? = null,
 ) {
+    val isToday = backToToday == null
     val fonts = LocalFonts.current
     val pal = fieldPalette(field)
-    CompositionLocalProvider(LocalPalette provides pal, LocalFonts provides fonts.copy(naskh = fonts.ui, amiri = fonts.ui)) {
+    Fielded(field) {
         Box(Modifier.fillMaxSize()) {
             Column(
                 Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 22.dp).padding(bottom = 100.dp),
@@ -85,7 +87,8 @@ fun ColorsHome(
             ) {
                 Row(Modifier.fillMaxWidth().padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                     Txt("${dateLine(view.date)}، $hijri", size = 15.sp, color = pal.ink, modifier = Modifier.weight(1f), lineHeight = 1.4f)
-                    Box(
+                    if (backToToday != null) PillButton("رجوع لليوم", backToToday)
+                    else Box(
                         Modifier.heightIn(min = 48.dp).clickable(onClick = openSettings).semantics { role = Role.Button }.padding(horizontal = 6.dp),
                         contentAlignment = Alignment.Center,
                     ) { Txt("الإعدادات", size = 15.sp, bold = true, lineHeight = 1.3f) }
@@ -116,7 +119,7 @@ fun ColorsHome(
                     AddCard("أضف ل" + p.part.label.let { if (it.startsWith("ال")) "ل" + it.drop(1) else it }) { onAdd(p.part) }
                 }
                 // What is not tied to a part stays reachable on the field of now.
-                if (field == spec.fieldAt(t)) {
+                if (isToday && field == spec.fieldAt(t)) {
                     if (view.tomorrow.isNotEmpty()) {
                         FieldHeading("باچر")
                         for (x in view.tomorrow) ThingCard(x, view.date, onTick, onOpen)
@@ -128,7 +131,7 @@ fun ColorsHome(
                 }
                 Spacer(Modifier.height(8.dp))
             }
-            SpectrumBar(spec, t, field, onSelect, Modifier.align(Alignment.BottomCenter).padding(horizontal = 12.dp, vertical = 14.dp))
+            SpectrumBar(spec, t, field, isToday, onSelect, Modifier.align(Alignment.BottomCenter).padding(horizontal = 12.dp, vertical = 14.dp))
         }
     }
 }
@@ -139,7 +142,7 @@ fun ColorsHome(
  * each segment also carries its own accessibility action, since some are narrower than a finger.
  */
 @Composable
-private fun SpectrumBar(spec: Spectrum, t: Int, selected: Field, onSelect: (Field) -> Unit, modifier: Modifier = Modifier) {
+private fun SpectrumBar(spec: Spectrum, t: Int, selected: Field, showNow: Boolean, onSelect: (Field) -> Unit, modifier: Modifier = Modifier) {
     val fg = FieldColour.getValue(selected).fg
     val now = spec.fieldAt(t)
     BoxWithConstraints(
@@ -155,7 +158,7 @@ private fun SpectrumBar(spec: Spectrum, t: Int, selected: Field, onSelect: (Fiel
         Row(Modifier.fillMaxSize()) {
             for (s in spec.segments) {
                 val c = FieldColour.getValue(s.field)
-                val past = s.field != Field.NIGHT && s.field != now && s.end <= t
+                val past = showNow && s.field != Field.NIGHT && s.field != now && s.end <= t
                 val isSel = s.field == selected
                 Box(
                     Modifier.weight(spec.fraction(s).coerceAtLeast(0.001f)).fillMaxHeight().background(c.bg)
@@ -171,6 +174,6 @@ private fun SpectrumBar(spec: Spectrum, t: Int, selected: Field, onSelect: (Fiel
                 }
             }
         }
-        Box(Modifier.offset(x = w * spec.needle(t) - 1.5.dp).width(3.dp).fillMaxHeight().background(Color.White).border(1.dp, Color(0xFF111111)))
+        if (showNow) Box(Modifier.offset(x = w * spec.needle(t) - 1.5.dp).width(3.dp).fillMaxHeight().background(Color.White).border(1.dp, Color(0xFF111111)))
     }
 }

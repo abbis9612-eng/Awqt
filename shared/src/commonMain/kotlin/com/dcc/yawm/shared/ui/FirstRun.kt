@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,7 @@ import com.dcc.yawm.shared.day.DayPart
 import com.dcc.yawm.shared.day.Remind
 import com.dcc.yawm.shared.day.Repeat
 import com.dcc.yawm.shared.day.Thing
+import com.dcc.yawm.shared.screen.Field
 import com.dcc.yawm.shared.screen.clock
 
 /*
@@ -49,9 +51,27 @@ fun FirstRun(
     device: com.dcc.yawm.shared.alarm.DeviceControls,
     platform: Platform,
     save: (UserSettings) -> Unit,
+    onField: (Field) -> Unit,
+) {
+    var step by remember { mutableIntStateOf(1) }
+    // «الألوان»: the three steps walk with the day, from Fajr to the morning to Dhuhr.
+    val field = when (step) { 1 -> Field.FAJR; 2 -> Field.MORNING; else -> Field.DHUHR }
+    SideEffect { onField(field) }
+    Fielded(field) { FirstRunSteps(settings, status, device, platform, save, step) { step = it } }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun FirstRunSteps(
+    settings: UserSettings,
+    status: DeviceStatus,
+    device: com.dcc.yawm.shared.alarm.DeviceControls,
+    platform: Platform,
+    save: (UserSettings) -> Unit,
+    step: Int,
+    setStep: (Int) -> Unit,
 ) {
     val pal = LocalPalette.current
-    var step by remember { mutableIntStateOf(1) }
     var work by remember { mutableStateOf(true) }
     var workStart by remember { mutableIntStateOf(8 * 60) }
     var workEnd by remember { mutableIntStateOf(14 * 60) }
@@ -68,10 +88,10 @@ fun FirstRun(
     }
 
     Row(Modifier.fillMaxWidth().padding(top = 18.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        for (i in 1..3) Box(Modifier.weight(1f).height(4.dp).background(if (i <= step) pal.ink else pal.faint, RoundedCornerShape(2.dp)))
+        for (i in 1..3) Box(Modifier.weight(1f).height(8.dp).background(if (i <= step) pal.ink else pal.line, RoundedCornerShape(4.dp)))
     }
     Row(Modifier.fillMaxWidth().heightIn(min = 48.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-        if (step > 1) PillButton("رجوع") { step-- } else Spacer(Modifier.width(1.dp))
+        if (step > 1) PillButton("رجوع") { setStep(step - 1) } else Spacer(Modifier.width(1.dp))
         PillButton("تخطّى") { finish(false) }
     }
     when (step) {
@@ -79,8 +99,8 @@ fun FirstRun(
             Display("هلا بيك بـ«يوم»", 30.sp)
             Txt("يرتّب يومك بين الصلوات، ويذكّرك بوكت كل شي. كلشي يبقى بتلفونك، بلا حساب وبلا إعلانات.", size = 16.sp, color = pal.soft, lineHeight = 1.8f)
             Heading("مدينتك")
-            CityChooser(settings, platform, save)
-            InkButton("التالي", Modifier.padding(vertical = 22.dp)) { step = 2 }
+            CardGroup { CityChooser(settings, platform, save) }
+            InkButton("التالي", Modifier.padding(vertical = 22.dp)) { setStep(2) }
         }
         2 -> {
             Display("شوكت تنام؟", 30.sp)
@@ -117,7 +137,7 @@ fun FirstRun(
                     }
                 }
             }
-            InkButton("التالي", Modifier.padding(vertical = 22.dp)) { step = 3 }
+            InkButton("التالي", Modifier.padding(vertical = 22.dp)) { setStep(3) }
         }
         else -> {
             Display("تريد شي كل يوم؟", 30.sp)

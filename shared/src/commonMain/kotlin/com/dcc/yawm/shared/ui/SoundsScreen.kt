@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dcc.yawm.shared.alarm.ReminderKind
@@ -73,7 +72,7 @@ fun SoundsScreen(settings: UserSettings, day: DayView, t: Int, platform: Platfor
     NotificationMock("تركيز · باقي 42:10", clock(t), "التنبيهات الثانية ساكتة إلا المنبّه والصلاة", "nib", actions = listOf("وقّف", "+5 دقايق"), silent = true)
 
     Row(
-        Modifier.fillMaxWidth().padding(top = 8.dp).background(lerp(pal.paper, pal.ink, 0.04f), RoundedCornerShape(18.dp)).padding(14.dp),
+        Modifier.fillMaxWidth().padding(top = 8.dp).background(pal.card, RoundedCornerShape(22.dp)).padding(14.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(Modifier.weight(1f)) {
@@ -93,7 +92,7 @@ fun SoundsScreen(settings: UserSettings, day: DayView, t: Int, platform: Platfor
     Txt("هاي الأصوات مسوّية إلنا من نغمات بسيطة، فما بيها حقوق لأحد. الأذان ما نصنعه: تختاره من أصوات تلفونك. وتكدر تغيّر صوت أي نوع من إعدادات التلفون.", size = 14.sp, color = pal.grey, modifier = Modifier.padding(top = 8.dp))
 
     Heading("شلون تمشي سوا")
-    Column(Modifier.fillMaxWidth().background(lerp(pal.paper, pal.ink, 0.05f), RoundedCornerShape(16.dp)).padding(14.dp)) {
+    Column(Modifier.fillMaxWidth().background(pal.card, RoundedCornerShape(22.dp)).padding(14.dp)) {
         for (line in listOf(
             "نفس الدقيقة: إذا صار تنبيهين سوا، يجيك واحد بيه الثنين.",
             "ما يرن ورا بعض: إذا رن شي قبل أقل من دقيقتين، الثاني يبين بلا صوت.",

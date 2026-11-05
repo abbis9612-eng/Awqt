@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -133,19 +134,19 @@ fun RowScope.RowText(title: String, sub: String? = null, bold: Boolean = false, 
 fun InkSwitch(on: Boolean, label: String, onChange: (Boolean) -> Unit) {
     val pal = LocalPalette.current
     Box(
-        Modifier.size(width = 54.dp, height = 48.dp)
+        Modifier.size(width = 58.dp, height = 48.dp)
             .semantics { role = Role.Switch; contentDescription = label; stateDescription = if (on) "شغّال" else "مطفي" }
             .clickable { onChange(!on) },
         contentAlignment = Alignment.Center,
     ) {
         Box(
-            Modifier.size(width = 54.dp, height = 32.dp)
-                .background(if (on) pal.ink else pal.paper, CircleShape)
-                .border(1.5.dp, pal.ink, CircleShape),
+            Modifier.size(width = 56.dp, height = 34.dp)
+                .background(if (on) pal.ink else androidx.compose.ui.graphics.Color.Transparent, CircleShape)
+                .border(2.5.dp, pal.ink, CircleShape),
         ) {
             Box(
-                Modifier.padding(3.dp).offset(x = if (on) 22.dp else 0.dp).size(23.dp)
-                    .background(if (on) pal.paper else pal.ink.copy(alpha = 0.35f), CircleShape),
+                Modifier.padding(6.dp).offset(x = if (on) 22.dp else 0.dp).size(22.dp)
+                    .background(if (on) pal.paper else pal.ink, CircleShape),
             )
         }
     }
@@ -156,11 +157,11 @@ fun InkSwitch(on: Boolean, label: String, onChange: (Boolean) -> Unit) {
 fun Stepper(value: String, minusLabel: String, plusLabel: String, onMinus: () -> Unit, onPlus: () -> Unit) {
     val pal = LocalPalette.current
     Row(
-        Modifier.border(1.5.dp, pal.ink, RoundedCornerShape(999.dp)).padding(2.dp),
+        Modifier.border(2.dp, pal.ink, RoundedCornerShape(999.dp)).padding(2.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         StepButton("−", minusLabel, onMinus)
-        Box(Modifier.width(60.dp), contentAlignment = Alignment.Center) { Num(value, size = 20.sp, color = pal.ink) }
+        Box(Modifier.width(64.dp), contentAlignment = Alignment.Center) { Num(value, size = 20.sp, color = pal.ink, bold = true) }
         StepButton("+", plusLabel, onPlus)
     }
 }
@@ -188,10 +189,10 @@ fun Check(on: Boolean) {
 fun InkButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val pal = LocalPalette.current
     Box(
-        modifier.fillMaxWidth().heightIn(min = 54.dp).background(pal.ink, CircleShape).clickable(onClick = onClick)
-            .semantics { role = Role.Button },
+        modifier.fillMaxWidth().heightIn(min = 58.dp).background(pal.ink, CircleShape).clickable(onClick = onClick)
+            .semantics { role = Role.Button }.padding(horizontal = 16.dp),
         contentAlignment = Alignment.Center,
-    ) { Txt(text, bold = true, color = pal.paper, align = TextAlign.Center) }
+    ) { Txt(text, size = 18.sp, bold = true, color = pal.paper, align = TextAlign.Center, lineHeight = 1.35f) }
 }
 
 /** An outlined pill (prototype `.back`). */
@@ -199,8 +200,8 @@ fun InkButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) 
 fun PillButton(text: String, onClick: () -> Unit) {
     val pal = LocalPalette.current
     Box(
-        Modifier.heightIn(min = 48.dp).border(1.5.dp, pal.ink, CircleShape).clickable(onClick = onClick)
-            .semantics { role = Role.Button }.padding(horizontal = 16.dp),
+        Modifier.heightIn(min = 48.dp).clip(CircleShape).border(2.dp, pal.ink, CircleShape).clickable(onClick = onClick)
+            .semantics { role = Role.Button }.padding(horizontal = 18.dp),
         contentAlignment = Alignment.Center,
-    ) { Txt(text, size = 15.sp, bold = true) }
+    ) { Txt(text, size = 16.sp, bold = true, lineHeight = 1.3f) }
 }

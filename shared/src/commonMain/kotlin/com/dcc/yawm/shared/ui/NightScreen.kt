@@ -95,6 +95,7 @@ fun NightScreen(day: DayView, t: Int, settings: UserSettings, save: (UserSetting
 @Composable
 private fun NightLine(day: DayView, t: Int) {
     val pal = LocalPalette.current
+    val suhur = if (LocalFieldMode.current) pal.outline else SuhurColor
     val p = day.plan
     val a = p.bedtime
     val z = day.nextFajr
@@ -109,7 +110,7 @@ private fun NightLine(day: DayView, t: Int) {
         fun x(m: Int) = (w - sw / 2) - (m - a).toFloat() / (z - a) * (w - sw)
         drawLine(pal.faint, Offset(sw / 2, y), Offset(w - sw / 2, y), sw, StrokeCap.Round)
         drawLine(pal.ink, Offset(x(a), y), Offset(x(p.wake), y), sw, StrokeCap.Round)
-        if (p.qiyam) drawLine(SuhurColor, Offset(x(p.wake) - 7.dp.toPx(), y), Offset(x(z), y), sw, StrokeCap.Round)
+        if (p.qiyam) drawLine(suhur, Offset(x(p.wake) - 7.dp.toPx(), y), Offset(x(z), y), sw, StrokeCap.Round)
         if (t in a until z) {
             drawCircle(pal.paper, 8.dp.toPx(), Offset(x(t), y))
             drawCircle(pal.ink, 8.dp.toPx(), Offset(x(t), y), style = Stroke(3.dp.toPx()))

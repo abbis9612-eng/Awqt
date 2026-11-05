@@ -50,6 +50,14 @@ enum class TileSize(val box: Dp, val radius: Dp, val icon: Dp) {
 @Composable
 fun Tile(name: String, solid: Boolean, size: TileSize = TileSize.MD, done: Boolean = false) {
     val pal = LocalPalette.current
+    if (LocalFieldMode.current) {
+        // «الألوان»: colour only on the field, so icons are in its text colour on a card.
+        val fg = if (done) pal.grey else pal.ink
+        Box(Modifier.size(size.box).background(if (solid && !done) pal.ink else pal.card, RoundedCornerShape(size.radius)), contentAlignment = Alignment.Center) {
+            if (solid && !done) YIcon(name, size.icon, pal.paper, pal.paper) else YIcon(name, size.icon, fg, fg)
+        }
+        return
+    }
     val accent = if (done) pal.grey else accentOf(name, pal.isDark && !solid)
     val bg = if (solid) accent else lerp(pal.paper, accent, 0.13f)
     Box(Modifier.size(size.box).background(bg, RoundedCornerShape(size.radius)), contentAlignment = Alignment.Center) {

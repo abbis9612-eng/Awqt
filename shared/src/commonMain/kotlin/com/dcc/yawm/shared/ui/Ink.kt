@@ -58,6 +58,10 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun InkWord(word: String, progress: Float, size: Dp, label: String, modifier: Modifier = Modifier) {
+    if (LocalFieldMode.current) {
+        PosterWord(word, label, modifier)
+        return
+    }
     val pal = LocalPalette.current
     val fonts = LocalFonts.current
     val reduced = LocalReducedMotion.current
@@ -115,6 +119,12 @@ fun InkWord(word: String, progress: Float, size: Dp, label: String, modifier: Mo
 /** A display word in the chosen display font (headings, the day name). */
 @Composable
 fun Display(text: String, size: TextUnit, color: Color = LocalPalette.current.ink, modifier: Modifier = Modifier) {
+    if (LocalFieldMode.current) {
+        // «الألوان»: the screen's name in Lalezar, plain and large.
+        val s = size * 1.5f
+        BasicText(text, modifier, style = TextStyle(color = color, fontFamily = LocalFonts.current.poster, fontSize = s, lineHeight = s * 1.15f))
+        return
+    }
     BasicText(
         text, modifier,
         style = TextStyle(color = color, fontFamily = LocalFonts.current.display, fontWeight = FontWeight.ExtraBold, fontSize = size, lineHeight = size * 1.6f),
@@ -126,7 +136,7 @@ fun Display(text: String, size: TextUnit, color: Color = LocalPalette.current.in
 fun Fact(label: String, value: String) {
     val pal = LocalPalette.current
     Row(
-        Modifier.background(lerp(pal.paper, pal.ink, 0.05f), RoundedCornerShape(999.dp)).padding(horizontal = 12.dp, vertical = 4.dp),
+        Modifier.background(pal.card, RoundedCornerShape(999.dp)).padding(horizontal = 12.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -138,6 +148,10 @@ fun Fact(label: String, value: String) {
 /** A choice among a few, like the prototype's segmented control. */
 @Composable
 fun Segmented(options: List<String>, chosen: Int, modifier: Modifier = Modifier, onChoose: (Int) -> Unit) {
+    if (LocalFieldMode.current) {
+        Box(modifier.fillMaxWidth()) { Seg(options, chosen, onChoose) }
+        return
+    }
     val pal = LocalPalette.current
     Row(
         modifier.fillMaxWidth().background(lerp(pal.paper, pal.ink, 0.06f), RoundedCornerShape(16.dp)).padding(4.dp),
@@ -162,7 +176,7 @@ fun InkCard(icon: String, title: String, sub: String, modifier: Modifier = Modif
     val pal = LocalPalette.current
     Row(
         modifier.fillMaxWidth().padding(top = 12.dp)
-            .background(lerp(pal.paper, pal.ink, 0.05f), RoundedCornerShape(16.dp))
+            .background(pal.card, RoundedCornerShape(22.dp))
             .clickable(onClick = onClick).semantics { role = Role.Button }
             .padding(14.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -183,10 +197,29 @@ fun OutlineBox(on: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit, 
     val pal = LocalPalette.current
     Box(
         modifier.heightIn(min = 56.dp)
-            .background(if (on) lerp(pal.paper, pal.ink, 0.06f) else pal.paper, RoundedCornerShape(16.dp))
-            .border(1.5.dp, if (on) pal.ink else pal.line, RoundedCornerShape(16.dp))
+            .background(if (on) pal.card else Color.Transparent, RoundedCornerShape(16.dp))
+            .border(2.dp, if (on) pal.ink else pal.line, RoundedCornerShape(16.dp))
             .clickable(onClick = onClick)
             .padding(horizontal = 10.dp, vertical = 6.dp),
         contentAlignment = Alignment.CenterStart,
     ) { content() }
+}
+
+/** «الألوان»: a screen's big word in Lalezar, solid, from the start edge; it shrinks to fit its line. */
+@Composable
+fun PosterWord(word: String, label: String, modifier: Modifier = Modifier) {
+    val pal = LocalPalette.current
+    val fonts = LocalFonts.current
+    val density = LocalDensity.current
+    val measurer = rememberTextMeasurer()
+    BoxWithConstraints(modifier.fillMaxWidth().padding(top = 8.dp).clearAndSetSemantics { contentDescription = label }) {
+        val maxPx = constraints.maxWidth
+        val fontSize: TextUnit = remember(word, maxPx, fonts) {
+            var fs = 84f / density.fontScale
+            fun width(v: Float) = measurer.measure(AnnotatedString(word), TextStyle(fontFamily = fonts.poster, fontSize = v.sp)).size.width
+            while (fs > 40f && width(fs) > maxPx) fs -= 4f
+            fs.sp
+        }
+        BasicText(word, style = TextStyle(color = pal.ink, fontFamily = fonts.poster, fontSize = fontSize, lineHeight = fontSize * 1.1f))
+    }
 }

@@ -76,6 +76,9 @@ val LocalPalette = staticCompositionLocalOf { LightPalette }
 val LocalFonts = staticCompositionLocalOf { YawmFonts(FontFamily.Default, FontFamily.Default, FontFamily.Default) }
 val LocalReducedMotion = staticCompositionLocalOf { false }
 
+/** True inside a «الألوان» field: display words use Lalezar, plain and solid. */
+val LocalFieldMode = staticCompositionLocalOf { false }
+
 /*
  * «الألوان» (approved 2026-11-05, docs/design/yawm-colors.html): each part of the day has one fixed flat
  * colour that fills the screen, with a text colour chosen for contrast on it (FieldColoursTest checks

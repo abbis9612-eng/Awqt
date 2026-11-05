@@ -74,6 +74,27 @@ import com.dcc.yawm.shared.screen.metaLine
 
 private val Ease = CubicBezierEasing(0.23f, 1f, 0.32f, 1f)
 
+/** Everything inside takes [field]'s colours, Vazirmatn for text and Lalezar for display words. */
+@Composable
+fun Fielded(field: Field, content: @Composable () -> Unit) {
+    val fonts = LocalFonts.current
+    CompositionLocalProvider(
+        LocalPalette provides fieldPalette(field),
+        LocalFonts provides fonts.copy(naskh = fonts.ui, amiri = fonts.ui),
+        LocalFieldMode provides true,
+        content = content,
+    )
+}
+
+/** The top of a screen opened from the home: the date on one side, «رجوع» on the other. */
+@Composable
+fun FieldTop(line: String, back: () -> Unit) {
+    Row(Modifier.fillMaxWidth().padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+        Txt(line, size = 15.sp, modifier = Modifier.weight(1f), lineHeight = 1.4f)
+        PillButton("رجوع", back)
+    }
+}
+
 /** The pressed scale of a tappable thing: .97 in 160 ms, none with reduced motion. */
 @Composable
 private fun pressScale(src: MutableInteractionSource, to: Float = 0.97f): Float {
@@ -87,7 +108,6 @@ private fun pressScale(src: MutableInteractionSource, to: Float = 0.97f): Float 
 @Composable
 fun BoxScope.FieldSheet(field: Field, label: String, close: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
     val reduced = LocalReducedMotion.current
-    val fonts = LocalFonts.current
     val bg by animateColorAsState(FieldColour.getValue(field).bg, tween(if (reduced) 0 else 240, easing = Ease), label = "sheet")
     val shown = remember { MutableTransitionState(reduced) }
     shown.targetState = true
@@ -99,7 +119,7 @@ fun BoxScope.FieldSheet(field: Field, label: String, close: () -> Unit, content:
         shown, Modifier.align(Alignment.BottomCenter),
         enter = if (reduced) fadeIn(tween(0)) else slideInVertically(spring(dampingRatio = 0.82f, stiffness = 420f)) { it } + fadeIn(tween(120)),
     ) {
-        CompositionLocalProvider(LocalPalette provides fieldPalette(field), LocalFonts provides fonts.copy(naskh = fonts.ui, amiri = fonts.ui)) {
+        Fielded(field) {
             val pal = LocalPalette.current
             Column(
                 Modifier.fillMaxWidth().heightIn(max = 780.dp)

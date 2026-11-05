@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dcc.yawm.shared.alarm.DeviceStatus
 import com.dcc.yawm.shared.alarm.batteryAdvice
-import com.dcc.yawm.shared.data.Theme
 import com.dcc.yawm.shared.data.UserSettings
 import com.dcc.yawm.shared.day.Role
 import com.dcc.yawm.shared.prayer.AsrMadhab
@@ -123,21 +122,19 @@ fun SettingsScreen(
     close: () -> Unit,
 ) {
     val pal = LocalPalette.current
-    Row(Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-        Display("الإعدادات", 32.sp)
-        PillButton("رجوع", close)
-    }
+    Row(Modifier.fillMaxWidth().padding(top = 10.dp), horizontalArrangement = Arrangement.End) { PillButton("رجوع", close) }
+    Display("الإعدادات", 32.sp)
 
     Heading("يومك")
-    for ((title, sub, open) in listOf(
+    CardGroup { for ((title, sub, open) in listOf(
         Triple("التنبيهات والمنبّهات", "تنبيه كل صلاة، منبّهاتك، الأصوات، وفحص التنبيهات", openAlerts),
         Triple("الليل والنوم", "شوكت تنام، صلاة الليل، القيلولة", openNight),
         Triple("الأسبوع", "شلون مشى أسبوعك", openWeek),
         Triple("محاسبة المساء", "عشر نقاط وثلاث أسئلة، دقيقتين", openPage),
-    )) ListRow(onClick = open) {
+    )) ListRow(onClick = open, minHeight = 64.dp) {
         RowText(title, sub, bold = true)
-        Txt("‹", bold = true)
-    }
+        Txt("‹", size = 22.sp, bold = true)
+    } }
     Txt("أيام الدوام", size = 15.sp, bold = true, color = pal.grey, modifier = Modifier.padding(top = 14.dp))
     Row(Modifier.fillMaxWidth().padding(top = 4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
         for (d in SatFirst) Chip(DayShort[d.ordinal], d in settings.workDays, Modifier.weight(1f)) {
@@ -146,38 +143,41 @@ fun SettingsScreen(
     }
 
     Heading("المدينة")
-    CityChooser(settings, platform, save)
+    CardGroup { CityChooser(settings, platform, save) }
 
     Heading("طريقة الحساب")
-    for (m in CalcMethod.entries) {
-        ChoiceRow(methodName(m), settings.prayer.method == m) { save(settings.copy(prayer = settings.prayer.copy(method = m))) }
+    CardGroup {
+        for (m in CalcMethod.entries) {
+            ChoiceRow(methodName(m), settings.prayer.method == m) { save(settings.copy(prayer = settings.prayer.copy(method = m))) }
+        }
     }
     Heading("وقت العصر")
-    for (m in AsrMadhab.entries) {
-        ChoiceRow(madhabName(m), settings.prayer.madhab == m) { save(settings.copy(prayer = settings.prayer.copy(madhab = m))) }
+    CardGroup {
+        for (m in AsrMadhab.entries) {
+            ChoiceRow(madhabName(m), settings.prayer.madhab == m) { save(settings.copy(prayer = settings.prayer.copy(madhab = m))) }
+        }
     }
     Heading("البلدان البعيدة عن خط الاستواء")
-    for (r in listOf<HighLatitudeRule?>(null) + HighLatitudeRule.entries) {
-        ChoiceRow(highLatitudeName(r), settings.prayer.highLatitudeRule == r) { save(settings.copy(prayer = settings.prayer.copy(highLatitudeRule = r))) }
+    CardGroup {
+        for (r in listOf<HighLatitudeRule?>(null) + HighLatitudeRule.entries) {
+            ChoiceRow(highLatitudeName(r), settings.prayer.highLatitudeRule == r) { save(settings.copy(prayer = settings.prayer.copy(highLatitudeRule = r))) }
+        }
     }
 
     Heading("طابق جامعك (دقائق تنضاف لكل وقت)")
     val a = settings.prayer.mosqueAdjustments
     fun adj(change: (MosqueAdjustments) -> MosqueAdjustments) = save(settings.copy(prayer = settings.prayer.copy(mosqueAdjustments = change(a))))
-    AdjustRow("الفجر", a.fajr) { v -> adj { it.copy(fajr = v) } }
-    AdjustRow("الشروق", a.sunrise) { v -> adj { it.copy(sunrise = v) } }
-    AdjustRow("الظهر", a.dhuhr) { v -> adj { it.copy(dhuhr = v) } }
-    AdjustRow("العصر", a.asr) { v -> adj { it.copy(asr = v) } }
-    AdjustRow("المغرب", a.maghrib) { v -> adj { it.copy(maghrib = v) } }
-    AdjustRow("العشاء", a.isha) { v -> adj { it.copy(isha = v) } }
+    CardGroup {
+        AdjustRow("الفجر", a.fajr) { v -> adj { it.copy(fajr = v) } }
+        AdjustRow("الشروق", a.sunrise) { v -> adj { it.copy(sunrise = v) } }
+        AdjustRow("الظهر", a.dhuhr) { v -> adj { it.copy(dhuhr = v) } }
+        AdjustRow("العصر", a.asr) { v -> adj { it.copy(asr = v) } }
+        AdjustRow("المغرب", a.maghrib) { v -> adj { it.copy(maghrib = v) } }
+        AdjustRow("العشاء", a.isha) { v -> adj { it.copy(isha = v) } }
+    }
 
     Heading("أدوارك (النقاط تتبعها)")
     RolesChooser(settings, save)
-
-    Heading("الشكل")
-    ChoiceRow("تلقائي", settings.theme == Theme.AUTO, "داكن من العشاء لحد الفجر") { save(settings.copy(theme = Theme.AUTO)) }
-    ChoiceRow("فاتح دايماً", settings.theme == Theme.LIGHT) { save(settings.copy(theme = Theme.LIGHT)) }
-    ChoiceRow("داكن دايماً", settings.theme == Theme.DARK) { save(settings.copy(theme = Theme.DARK)) }
 
     Heading("عن «يوم»")
     Txt(
@@ -189,7 +189,7 @@ fun SettingsScreen(
         size = 15.sp, color = pal.soft, modifier = Modifier.padding(top = 6.dp),
     )
     Txt(
-        "الخطوط: نوتو كوفي عربي، وعارف رقعة، ونوتو نسخ عربي، وأميري، كلها برخصة SIL Open Font License 1.1. المواقيت تنحسب بمكتبة Adhan.",
+        "الخطوط: Lalezar وVazirmatn، ووياهم نوتو كوفي عربي وعارف رقعة ونوتو نسخ عربي وأميري، كلها برخصة SIL Open Font License 1.1. المواقيت تنحسب بمكتبة Adhan.",
         size = 13.5.sp, color = pal.grey, modifier = Modifier.padding(top = 6.dp, bottom = 24.dp),
     )
 }

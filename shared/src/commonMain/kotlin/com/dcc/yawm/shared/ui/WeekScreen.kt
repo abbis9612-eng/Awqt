@@ -98,6 +98,13 @@ private fun Total(icon: String, value: String, label: String, modifier: Modifier
 
 @Composable
 fun Ruqaa(text: String, size: androidx.compose.ui.unit.TextUnit, color: androidx.compose.ui.graphics.Color = LocalPalette.current.ink) {
+    if (LocalFieldMode.current) {
+        androidx.compose.foundation.text.BasicText(
+            text,
+            style = androidx.compose.ui.text.TextStyle(color = color, fontFamily = LocalFonts.current.poster, fontSize = size, lineHeight = size * 1.2f),
+        )
+        return
+    }
     androidx.compose.foundation.text.BasicText(
         text,
         style = androidx.compose.ui.text.TextStyle(

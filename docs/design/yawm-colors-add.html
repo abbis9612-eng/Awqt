@@ -1,0 +1,135 @@
+<title>يوم · ورقة الإضافة بالألوان</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;600;700;800&display=swap">
+<style>
+/* The add sheet in «الألوان»: the sheet takes the colour of where the thing goes; the words decide and
+   the colour answers at once; «وين؟» is a small spectrum; the button names what will happen. */
+:root{--page:#E8E8E4;--page-ink:#151513;--page-grey:#55554F;--ease:cubic-bezier(.23,1,.32,1);color-scheme:light;--vaz:"Vazirmatn",Tahoma,sans-serif;--lale:"Lalezar","Vazirmatn",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#121211;--page-ink:#EDEDE9;--page-grey:#A8A8A0;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#121211;--page-ink:#EDEDE9;--page-grey:#A8A8A0;color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;background:var(--page);color:var(--page-ink);font-family:var(--vaz);font-size:17px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:48px 80px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 5px #111}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:36px}
+.intro{display:grid;gap:10px;max-width:780px}
+.intro h1{margin:0;font-family:var(--lale);font-weight:400;font-size:clamp(36px,6vw,56px);line-height:1.15}
+.intro p{margin:0;font-size:18px;color:var(--page-grey)}
+.stage{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),390px));gap:40px;justify-content:start;align-items:start}
+.col{display:grid;gap:12px;justify-items:start}
+.col>h2{margin:0;font-size:21px;font-weight:700}
+.col>p{margin:-6px 0 0;font-size:16px;color:var(--page-grey);max-width:44ch}
+.tries{display:flex;flex-wrap:wrap;gap:6px}
+.tries button{min-height:44px;padding:0 14px;border-radius:22px;font-size:15px;font-weight:600;box-shadow:inset 0 0 0 1.5px var(--page-ink)}
+.phone{width:100%;max-width:390px;aspect-ratio:390/844;border-radius:56px;padding:11px;background:#0D0D0F;box-shadow:0 50px 90px -40px rgba(0,0,0,.45),inset 0 0 0 1.5px #2C2C30}
+.scr{position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;isolation:isolate;font-family:var(--vaz)}
+.home{position:absolute;inset:0;background:#E09A3E;color:#1C1206;padding:60px 22px}
+.home small{font-size:15px;font-weight:500}
+.home b{display:block;font-family:var(--lale);font-weight:400;font-size:86px;line-height:1}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.42)}
+.sheet{position:absolute;inset:auto 0 0 0;height:84%;border-radius:32px 32px 0 0;display:flex;flex-direction:column;--bg:#B23F2A;--fg:#fff;background:var(--bg);color:var(--fg);
+  transition:background-color 240ms var(--ease),color 240ms var(--ease);box-shadow:0 -20px 40px -20px rgba(0,0,0,.5)}
+.sheet .grab{width:44px;height:5px;border-radius:3px;background:color-mix(in srgb,var(--fg) 40%,transparent);margin:10px auto 0;flex:none}
+.sheet .in{flex:1;overflow-y:auto;scrollbar-width:none;padding:10px 22px 18px;display:flex;flex-direction:column;gap:14px}
+.sheet .in::-webkit-scrollbar{display:none}
+.sheet .in>*{flex:none}
+.sheet input.what{width:100%;border:0;background:transparent;font-size:30px;font-weight:700;line-height:1.3;padding:4px 0;caret-color:var(--fg);outline:none;box-shadow:0 2px 0 color-mix(in srgb,var(--fg) 35%,transparent)}
+.sheet input.what:focus{box-shadow:0 3px 0 var(--fg)}
+.sheet input.what::placeholder{color:color-mix(in srgb,var(--fg) 62%,var(--bg))}
+.sheet .hint{margin:-6px 0 0;font-size:14.5px;color:color-mix(in srgb,var(--fg) 86%,var(--bg))}
+.sheet .says{margin:0;font-size:18px;font-weight:700;line-height:1.5}
+.sheet h4{margin:4px 0 -6px;font-size:15px;font-weight:700;color:color-mix(in srgb,var(--fg) 86%,var(--bg))}
+.where{display:grid;grid-template-columns:repeat(6,1fr);height:62px;border-radius:18px;overflow:hidden;box-shadow:0 0 0 2px color-mix(in srgb,var(--fg) 35%,transparent)}
+.where button{display:grid;place-items:end center;padding-bottom:7px;font-size:13.5px;font-weight:700;position:relative}
+.where button[aria-pressed="true"]{box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 5px #111}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pills button{min-height:48px;padding:0 18px;border-radius:24px;font-size:16px;font-weight:700;box-shadow:inset 0 0 0 2px var(--fg)}
+.pills button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border-radius:16px;box-shadow:inset 0 0 0 2px var(--fg);overflow:hidden}
+.seg button{min-height:50px;font-size:15.5px;font-weight:700}
+.seg button+button{box-shadow:inset -2px 0 0 color-mix(in srgb,var(--fg) 35%,transparent)}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.go{flex:none;margin:0 22px;min-height:60px;border-radius:30px;background:var(--fg);color:var(--bg);font-size:19px;font-weight:800;transition:transform 160ms var(--ease)}
+.go:active{transform:scale(.97)}
+.go:disabled{opacity:.45;cursor:default}
+.close{flex:none;min-height:48px;margin:4px auto 14px;padding:0 20px;font-size:16px;font-weight:600;color:color-mix(in srgb,var(--fg) 86%,var(--bg))}
+.time{display:flex;align-items:center;justify-content:center;gap:10px}
+.time b{font-size:64px;font-weight:300;line-height:1;min-width:4ch;text-align:center}
+.time button{width:56px;height:56px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--fg);font-size:26px;font-weight:700}
+.toast{position:absolute;z-index:5;inset:auto 18px 22px 18px;border-radius:20px;background:#111;color:#fff;padding:12px 16px;font-weight:700;font-size:16px;animation:rise 260ms var(--ease)}
+@keyframes rise{from{transform:translateY(10px);opacity:0}}
+.notes{display:grid;gap:8px;max-width:860px}
+.notes h2{margin:0;font-size:22px}
+.notes ul{margin:0;padding-inline-start:22px;display:grid;gap:6px}
+.notes li{font-size:16.5px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="intro"><h1>ورقة الإضافة</h1>
+    <p>الورقة تتلوّن بلون المكان اللي تروحله الشغلة. تكتب مثل ما تحچي، واللون يجاوبك فوراً. وتغيّر أي شي بضغطة.</p></header>
+  <div class="stage">
+    <div class="col"><h2>أضف شغلة</h2><p>اكتب، أو جرّب وحدة من هذول:</p>
+      <div class="tries" id="tries"><button>زيارة خالي بعد المغرب</button><button>قرآن بعد الفجر كل يوم</button><button>اتصل بالمحاسب باچر</button><button>رياضة الصبح أيام الدوام</button><button>منبّه الساعة 05:45</button></div>
+      <div class="phone"><div class="scr" id="ph"></div></div></div>
+  </div>
+  <section class="notes"><h2>شنو تغيّر عن القديمة</h2><ul>
+    <li><b>اللون يجاوبك:</b> «بعد المغرب» تخلي الورقة حمرا، و«الصبح» زرقة فاتحة. تعرف وين راحت الشغلة بدون ما تقرا.</li>
+    <li><b>اللي تكتبه هو العنوان:</b> كبير وواضح، مو مربع صغير.</li>
+    <li><b>جملة وحدة تفهّمك شنو صار:</b> «بعد المغرب، مرة وحدة، ينبّهك بأوله».</li>
+    <li><b>«وين؟» شريط ألوان</b> مثل الطيف تحت بالشاشة الرئيسية، و«باچر» و«بعدين» جنبه.</li>
+    <li><b>«يتكرر؟» و«نبّهني؟»</b> صاروا أزرار متلاصقة، تختار وحدة بضغطة.</li>
+    <li><b>الزر يقول شنو يصير:</b> «حطّها بعد المغرب» بدل «حطّها».</li>
+    <li><b>المنبّه:</b> الورقة سودة مثل الليل، والوكت كبير، و− و+ تغيّره.</li></ul></section>
+</div>
+
+<script>
+(()=>{
+document.documentElement.lang='ar';
+const P=[{k:'fajr',n:'بعد الفجر',sh:'فجر',bg:'#2B4A86',fg:'#FFFFFF',w:/بعد\s*الفجر|الفجر/},{k:'morning',n:'الصبح',sh:'صبح',bg:'#CFE3F4',fg:'#0F2133',w:/الصبح|الضحى/},{k:'dhuhr',n:'بعد الظهر',sh:'ظهر',bg:'#F7E6A6',fg:'#2A2208',w:/الظهر/},{k:'asr',n:'بعد العصر',sh:'عصر',bg:'#E09A3E',fg:'#1C1206',w:/العصر/},{k:'maghrib',n:'بعد المغرب',sh:'مغرب',bg:'#B23F2A',fg:'#FFFFFF',w:/المغرب/},{k:'isha',n:'بعد العشاء',sh:'عشاء',bg:'#1B2347',fg:'#FFFFFF',w:/العشاء/}];
+const NIGHT={bg:'#0A0A0A',fg:'#FFFFFF'};
+const ph=document.getElementById('ph');
+const S={text:'',where:null,repeat:null,remind:null,at:345};
+/* what the words decide (the app already does this in screen/AddDraft; this is a small stand-in) */
+function decide(){const t=S.text;const alarm=/منبّه|منبه|صحّيني|صحيني/.test(t);
+  let w=S.where;if(!w){w='asr';if(/باچر|باجر|بكرة/.test(t))w='tom';else if(/بعدين/.test(t))w='later';else for(const p of P)if(p.w.test(t)){w=p.k;break}}
+  let r=S.repeat||(/كل يوم/.test(t)?'daily':/أيام الدوام|ايام الدوام/.test(t)?'work':'once');
+  const m=t.match(/(\d{1,2}):(\d{2})/);let at=S.at;if(m&&S.atFrom!==t){at=(+m[1])*60+(+m[2]);S.at=at;S.atFrom=t}
+  const title=t.replace(/(بعد\s*)?(الفجر|الصبح|الضحى|الظهر|العصر|المغرب|العشاء)|باچر|باجر|بكرة|بعدين|كل يوم|أيام الدوام|ايام الدوام|منبّه|منبه|الساعة|\d{1,2}:\d{2}/g,'').replace(/\s+/g,' ').trim();
+  return {alarm,where:w,repeat:r,remind:S.remind||'start',at,title}}
+const pad=n=>String(n).padStart(2,'0'),clk=m=>pad(Math.floor(m/60))+':'+pad(m%60);
+const RN={once:'مرة وحدة',daily:'كل يوم',work:'أيام الدوام'};
+function colours(d){if(d.alarm)return NIGHT;const p=P.find(x=>x.k===d.where);return p||P.find(x=>x.k==='asr')}
+function whereName(w){return w==='tom'?'باچر':w==='later'?'بعدين':P.find(x=>x.k===w).n}
+function render(keepFocus){const d=decide();const c=colours(d);
+  const says=d.alarm?`يرن الساعة ${clk(d.at)}، ${RN[d.repeat]}.`:d.where==='later'?'بعدين، بدون وكت. تلكاها بآخر يومك.':`${whereName(d.where)}، ${RN[d.repeat]}${d.remind==='start'?'، ينبّهك بأوله':''}.`;
+  const go=d.alarm?'احفظ المنبّه':d.where==='later'?'حطّها بعدين':`حطّها ${whereName(d.where)}`;
+  ph.innerHTML=`<div class="home"><small>الإثنين 2 تشرين الثاني</small><b>بعد<br>العصر</b></div><div class="scrim"></div>
+    <div class="sheet" role="dialog" aria-label="${d.alarm?'منبّه جديد':'أضف شغلة'}" style="--bg:${c.bg};--fg:${c.fg}"><span class="grab"></span><div class="in">
+      <input class="what" placeholder="شنو تريد تسوي؟" value="${S.text.replace(/"/g,'&quot;')}" aria-label="شنو تريد تسوي؟">
+      ${S.text?'':'<p class="hint">اكتبها مثل ما تحچي: «زيارة خالي بعد المغرب»</p>'}
+      <p class="says" aria-live="polite">${says}</p>
+      ${d.alarm?`<h4>يرن الساعة</h4><div class="time"><button data-t="-5" aria-label="أبكر 5 دقايق">−</button><b class="num">${clk(d.at)}</b><button data-t="5" aria-label="أتأخر 5 دقايق">+</button></div>
+        <h4>يتكرر؟</h4><div class="seg">${['daily','work','once'].map(r=>`<button data-r="${r}" aria-pressed="${d.repeat===r}">${RN[r]}</button>`).join('')}</div>`
+      :`<h4>وين؟</h4><div class="where" role="group" aria-label="القسم">${P.map(p=>`<button data-w="${p.k}" aria-pressed="${d.where===p.k}" style="background:${p.bg};color:${p.fg}" aria-label="${p.n}">${p.sh}</button>`).join('')}</div>
+        <div class="pills"><button data-w="tom" aria-pressed="${d.where==='tom'}">باچر</button><button data-w="later" aria-pressed="${d.where==='later'}">بعدين</button></div>
+        ${d.where!=='later'?`<h4>يتكرر؟</h4><div class="seg">${['once','daily','work'].map(r=>`<button data-r="${r}" aria-pressed="${d.repeat===r}">${RN[r]}</button>`).join('')}</div>
+        <h4>نبّهني؟</h4><div class="seg"><button data-n="none" aria-pressed="${d.remind==='none'}">لا</button><button data-n="start" aria-pressed="${d.remind==='start'}">بأول القسم</button></div>`:''}`}
+    </div><button class="go" ${!d.alarm&&!d.title?'disabled':''}>${go}</button><button class="close">سكّر</button></div>`;
+  const inp=ph.querySelector('.what');if(keepFocus){inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length)}
+  inp.addEventListener('input',e=>{S.text=e.target.value;S.where=null;S.repeat=null;render(true)})}
+ph.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.w){S.where=b.dataset.w;render()}else if(b.dataset.r){S.repeat=b.dataset.r;render()}else if(b.dataset.n){S.remind=b.dataset.n;render()}
+  else if(b.dataset.t){S.at=(S.at+ +b.dataset.t+1440)%1440;render()}
+  else if(b.classList.contains('go')){const d=decide();const t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.textContent=d.alarm?`انحفظ المنبّه ${clk(d.at)}`:`انضافت «${d.title}» ${d.where==='later'?'لبعدين':'ل'+whereName(d.where).replace(/^ال/,'ل')}`;ph.appendChild(t);setTimeout(()=>t.remove(),2200)}
+  else if(b.classList.contains('close')){S.text='';S.where=S.repeat=S.remind=null;render()}});
+document.getElementById('tries').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.text=b.textContent;S.where=S.repeat=S.remind=null;S.atFrom=null;render()});
+S.text='زيارة خالي بعد المغرب';render();
+})();
+</script>

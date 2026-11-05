@@ -155,16 +155,16 @@ fun WideAction(icon: String, label: String, primary: Boolean = false, modifier: 
     val pal = LocalPalette.current
     val fg = if (primary) pal.paper else pal.ink
     Row(
-        modifier.heightIn(min = 56.dp)
-            .background(if (primary) pal.ink else pal.paper, RoundedCornerShape(999.dp))
-            .border(1.5.dp, if (primary) pal.ink else pal.line, RoundedCornerShape(999.dp))
+        modifier.heightIn(min = 60.dp)
+            .background(if (primary) pal.ink else Color.Transparent, RoundedCornerShape(999.dp))
+            .border(2.dp, pal.ink, RoundedCornerShape(999.dp))
             .clickable(onClick = onClick).semantics { role = Role.Button }
             .padding(horizontal = 14.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         YIcon(icon, 22.dp, fg, fg)
-        Txt(label, size = 16.sp, bold = true, color = fg)
+        Txt(label, size = 17.sp, bold = true, color = fg, lineHeight = 1.3f)
     }
 }
 

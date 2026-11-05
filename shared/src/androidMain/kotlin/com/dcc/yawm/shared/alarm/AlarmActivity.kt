@@ -15,18 +15,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dcc.yawm.shared.AndroidPlatform
-import com.dcc.yawm.shared.ui.DarkPalette
+import com.dcc.yawm.shared.ui.FieldColour
+import com.dcc.yawm.shared.ui.Fielded
+import com.dcc.yawm.shared.screen.Field
 import com.dcc.yawm.shared.ui.InkWord
 import com.dcc.yawm.shared.ui.LocalFonts
-import com.dcc.yawm.shared.ui.LocalPalette
 import com.dcc.yawm.shared.ui.LocalReducedMotion
 import com.dcc.yawm.shared.ui.Num
 import com.dcc.yawm.shared.ui.Txt
@@ -64,22 +63,24 @@ class AlarmActivity : ComponentActivity() {
                 LocalLayoutDirection provides LayoutDirection.Rtl,
                 LocalFonts provides platform.fonts,
                 LocalReducedMotion provides platform.reducedMotion,
-                LocalPalette provides DarkPalette,
             ) {
-                Column(
-                    Modifier.fillMaxSize().background(DarkPalette.paper).padding(horizontal = 24.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    InkWord("اصحى", 1f, 150.dp, "$title، الساعة $time")
-                    Num(time, size = 64.sp, color = DarkPalette.ink)
-                    Txt(title, size = 20.sp, align = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 8.dp))
-                    Row(Modifier.fillMaxWidth().padding(top = 28.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        WideAction("hourglass", "بعد 5 دقايق", modifier = Modifier.weight(1f)) {
-                            ActionReceiver.snooze(this@AlarmActivity, extras)
-                            close(extras)
+                // «الألوان»: the alarm rings in the night's colour.
+                Fielded(Field.NIGHT) {
+                    val night = FieldColour.getValue(Field.NIGHT)
+                    Column(
+                        Modifier.fillMaxSize().background(night.bg).padding(horizontal = 24.dp),
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        InkWord("اصحى", 1f, 150.dp, "$title، الساعة $time")
+                        Num(time, size = 72.sp, color = night.fg)
+                        Txt(title, size = 22.sp, bold = true, modifier = Modifier.fillMaxWidth().padding(top = 4.dp))
+                        Row(Modifier.fillMaxWidth().padding(top = 32.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            WideAction("hourglass", "بعد 5 دقايق", modifier = Modifier.weight(1f)) {
+                                ActionReceiver.snooze(this@AlarmActivity, extras)
+                                close(extras)
+                            }
+                            WideAction("seal", "صحيت", primary = true, modifier = Modifier.weight(1f)) { close(extras) }
                         }
-                        WideAction("seal", "صحيت", primary = true, modifier = Modifier.weight(1f)) { close(extras) }
                     }
                 }
             }

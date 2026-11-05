@@ -3,7 +3,9 @@ package com.dcc.yawm.shared.ui
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.font.FontFamily
+import com.dcc.yawm.shared.screen.Field
 
 // The approved identity «الحبر» (docs/design/IDENTITY.md): ink and paper, colour only in icons.
 
@@ -62,8 +64,48 @@ data class YawmFonts(
     val amiri: FontFamily,
     /** Noto Kufi Arabic ExtraBold: the big word and every display word (owner's choice 2026-10-29). */
     val display: FontFamily = ruqaa,
+    /** Lalezar: the big name of the part on «الألوان» (2026-11-05). */
+    val poster: FontFamily = display,
+    /** Vazirmatn: text and numbers on «الألوان» (2026-11-05). */
+    val ui: FontFamily = naskh,
 )
 
 val LocalPalette = staticCompositionLocalOf { LightPalette }
 val LocalFonts = staticCompositionLocalOf { YawmFonts(FontFamily.Default, FontFamily.Default, FontFamily.Default) }
 val LocalReducedMotion = staticCompositionLocalOf { false }
+
+/*
+ * «الألوان» (approved 2026-11-05, docs/design/yawm-colors.html): each part of the day has one fixed flat
+ * colour that fills the screen, with a text colour chosen for contrast on it (FieldColoursTest checks
+ * 4.5:1 or more for the text and for the softer grey).
+ */
+@Immutable
+data class FieldColours(val bg: Color, val fg: Color) {
+    /** White text on a deep field: the system bars take light icons. */
+    val isDark: Boolean get() = fg == Color.White
+}
+
+val FieldColour: Map<Field, FieldColours> = mapOf(
+    Field.FAJR to FieldColours(Color(0xFF2B4A86), Color.White),
+    Field.MORNING to FieldColours(Color(0xFFCFE3F4), Color(0xFF0F2133)),
+    Field.DHUHR to FieldColours(Color(0xFFF7E6A6), Color(0xFF2A2208)),
+    Field.ASR to FieldColours(Color(0xFFE09A3E), Color(0xFF1C1206)),
+    Field.MAGHRIB to FieldColours(Color(0xFFB23F2A), Color.White),
+    Field.ISHA to FieldColours(Color(0xFF1B2347), Color.White),
+    Field.NIGHT to FieldColours(Color(0xFF0A0A0A), Color.White),
+)
+
+/** The palette of a field, so the shared rows and switches take its colours. */
+fun fieldPalette(f: Field): Palette {
+    val c = FieldColour.getValue(f)
+    return Palette(
+        paper = c.bg,
+        ink = c.fg,
+        faint = lerp(c.bg, c.fg, 0.22f),
+        grey = lerp(c.bg, c.fg, 0.86f),
+        line = c.fg.copy(alpha = 0.22f),
+        soft = lerp(c.bg, c.fg, 0.93f),
+        isDark = c.isDark,
+        outline = lerp(c.bg, c.fg, 0.55f),
+    )
+}

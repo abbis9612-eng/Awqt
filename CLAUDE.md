@@ -143,11 +143,13 @@ it never issues religious rulings.
 
 ## UI and design
 - Arabic-first, full RTL; English second. Mirror only directional icons.
-- Identity is decided (2026-10-27): «الحبر» (Ink). Follow `docs/design/IDENTITY.md` exactly; do not
-  invent other colors, fonts or icons. Until step 7, logic steps need no UI beyond a plain test screen.
-- Fonts ship inside the app (v1 has no network): Aref Ruqaa (the ink word), Noto Naskh Arabic (text),
-  Amiri (times and numbers). Verify each font's license (SIL OFL) and file source per rule 1 before
-  bundling. No letter-spacing on Arabic.
+- Identity (owner's approval 2026-11-05): «الألوان», replacing «الحبر» screen by screen. Each part of the day
+  has one fixed flat colour that fills the screen; the bottom bar is the day's spectrum. Follow
+  `docs/design/IDENTITY.md` (section «الألوان») and the prototype `docs/design/yawm-colors.html`; do not invent
+  other colors, fonts or icons. Screens not yet ported keep «الحبر» until their step.
+- Fonts ship inside the app (v1 has no network): Lalezar (the part's big name) and Vazirmatn (text and numbers)
+  for «الألوان»; Aref Ruqaa, Noto Naskh Arabic, Amiri and Noto Kufi Arabic for the screens still in «الحبر».
+  Verify each font's license (SIL OFL) and file source per rule 1 before bundling. No letter-spacing on Arabic.
 - Icons come from `docs/design/icons/` as Vector Drawables; keep each icon's single filled part as a
   separate path so its color comes from the token.
 - One numeral system everywhere (see `docs/DECISIONS.md`).

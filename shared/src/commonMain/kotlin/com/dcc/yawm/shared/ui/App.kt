@@ -62,6 +62,8 @@ import com.dcc.yawm.shared.screen.clock
 import com.dcc.yawm.shared.screen.dateLine
 import com.dcc.yawm.shared.screen.dayView
 import com.dcc.yawm.shared.screen.weekView
+import com.dcc.yawm.shared.screen.Field
+import com.dcc.yawm.shared.screen.spectrum
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -147,16 +149,21 @@ private fun Screens(
             Theme.DARK -> true
         }
         val pal = if (dark) DarkPalette else LightPalette
-        val bg by animateColorAsState(pal.paper, tween(if (platform.reducedMotion) 0 else 400), label = "paper")
-        androidx.compose.runtime.SideEffect { platform.systemBars(dark) }
+        // «الألوان»: while today's home is shown, the whole screen (status bar included) takes its field's colour.
+        var homeField by remember { mutableStateOf<Field?>(null) }
+        val fieldColours = homeField?.let { FieldColour.getValue(it) }
+        val bg by animateColorAsState(fieldColours?.bg ?: pal.paper, tween(if (platform.reducedMotion) 0 else 260), label = "paper")
+        val barsDark = fieldColours?.isDark ?: dark
+        androidx.compose.runtime.SideEffect { platform.systemBars(barsDark) }
         CompositionLocalProvider(LocalPalette provides pal) {
             Column(Modifier.fillMaxSize().background(bg).statusBarsPadding().navigationBarsPadding()) {
                 if (!settings.setupDone) {
                     Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 24.dp)) {
                         FirstRun(settings, status, device, platform, save)
                     }
+                    androidx.compose.runtime.SideEffect { homeField = null }
                 } else {
-                    MainScreens(data, device, platform, settings, moment, save)
+                    MainScreens(data, device, platform, settings, moment, save) { homeField = it }
                 }
             }
         }
@@ -172,6 +179,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
     settings: UserSettings,
     moment: AppMoment,
     save: (UserSettings) -> Unit,
+    onHomeField: (Field?) -> Unit,
 ) {
     val pal = LocalPalette.current
     val scope = rememberCoroutineScope()
@@ -213,8 +221,25 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
     }
     fun pray(key: String) { scope.launch { data.dayLog.setBlockDone(date, key, key !in done) } }
 
+    // «الألوان»: today's home. The field follows the time until another is tapped on the spectrum.
+    val home = overlay == Overlay.NONE && isToday
+    val spec = remember(view) { spectrum(view) }
+    var picked by remember(moment.date) { mutableStateOf<Field?>(null) }
+    val field = picked ?: spec.fieldAt(moment.t)
+    androidx.compose.runtime.SideEffect { onHomeField(if (home) field else null) }
+
     Box(Modifier.weight(1f)) {
-        Column(Modifier.fillMaxSize().verticalScroll(scroll).padding(horizontal = 24.dp)) {
+        if (home) ColorsHome(
+            view, spec, moment.t, field, done, platform.hijri(date), settings.wakeAlarm,
+            onSelect = { f -> picked = if (f == spec.fieldAt(moment.t)) null else f },
+            onTick = ::tick,
+            onOpen = { sheetThing = it.id; sheet = SheetKind.THING },
+            onPray = ::pray,
+            onAdd = { addPart = it; sheet = SheetKind.ADD },
+            onWake = { save(settings.copy(wakeAlarm = it)) },
+            openSettings = { overlay = Overlay.SETTINGS },
+            openAlarms = { overlay = Overlay.ALERTS },
+        ) else Column(Modifier.fillMaxSize().verticalScroll(scroll).padding(horizontal = 24.dp)) {
             when (overlay) {
                 Overlay.SETTINGS -> SettingsScreen(
                     settings, status, device, platform, save,
@@ -324,11 +349,11 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
             SheetKind.NONE -> {}
         }
         toastText?.let { msg ->
-            Box(Modifier.align(Alignment.BottomCenter).padding(bottom = 90.dp).background(pal.ink, RoundedCornerShape(999.dp)).padding(horizontal = 18.dp, vertical = 10.dp)) {
+            Box(Modifier.align(Alignment.BottomCenter).padding(bottom = if (home) 100.dp else 90.dp).background(pal.ink, RoundedCornerShape(999.dp)).padding(horizontal = 18.dp, vertical = 10.dp)) {
                 Txt(msg, size = 15.sp, color = pal.paper, lineHeight = 1.4f)
             }
         }
-        if (overlay == Overlay.NONE && sheet == SheetKind.NONE) {
+        if (overlay == Overlay.NONE && sheet == SheetKind.NONE && !home) {
             Box(
                 Modifier.align(Alignment.BottomEnd).padding(18.dp).heightIn(min = 56.dp)
                     .background(pal.ink, RoundedCornerShape(999.dp)).clickable { addPart = null; sheet = SheetKind.ADD }

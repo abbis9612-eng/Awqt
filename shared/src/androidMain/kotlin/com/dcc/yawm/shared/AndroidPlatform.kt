@@ -47,6 +47,14 @@ internal class AndroidPlatform(private val activity: ComponentActivity) : Platfo
             Font("fonts/NotoKufiArabic-wght.ttf", activity.assets, FontWeight.ExtraBold),
             Font("fonts/NotoKufiArabic-wght.ttf", activity.assets, FontWeight.Bold),
         ),
+        // «الألوان» (2026-11-05): Lalezar for the part's big name, Vazirmatn (variable) for text and numbers.
+        poster = FontFamily(Font("fonts/Lalezar-Regular.ttf", activity.assets, FontWeight.Normal)),
+        ui = FontFamily(
+            Font("fonts/Vazirmatn-wght.ttf", activity.assets, FontWeight.Normal),
+            Font("fonts/Vazirmatn-wght.ttf", activity.assets, FontWeight.Medium),
+            Font("fonts/Vazirmatn-wght.ttf", activity.assets, FontWeight.SemiBold),
+            Font("fonts/Vazirmatn-wght.ttf", activity.assets, FontWeight.Bold),
+        ),
     )
 
     override val reducedMotion: Boolean

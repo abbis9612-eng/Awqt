@@ -14,7 +14,11 @@ import com.dcc.yawm.shared.screen.AddTaps
 import com.dcc.yawm.shared.screen.Where
 import com.dcc.yawm.shared.screen.addDraft
 import com.dcc.yawm.shared.screen.partsView
+import com.dcc.yawm.shared.screen.metaLine
+import com.dcc.yawm.shared.screen.ringsLine
+import com.dcc.yawm.shared.screen.saveLabel
 import com.dcc.yawm.shared.screen.savedMessage
+import com.dcc.yawm.shared.screen.saysLine
 import com.dcc.yawm.shared.screen.toAlarm
 import com.dcc.yawm.shared.screen.toThing
 import com.dcc.yawm.shared.prayer.PrayerTimesEngine
@@ -211,5 +215,26 @@ class ThingsTest {
         assertEquals("المنبّه 05:45 · مرة وحدة · يرن باچر", once.savedMessage())
         assertEquals(7 * 60, d("", alarm = true).at, "the alarm sheet starts at 07:00")
         assertEquals(5 * 60 + 30, d("", AddTaps(at = 330), alarm = true).at)
+    }
+
+    @Test
+    fun theColouredSheetSaysWhatItUnderstoodAndTheButtonNamesIt() {
+        val spans = daySpans(times(monday), 21 * 60)
+        val now = 15 * 60 + 10
+        fun d(raw: String, taps: AddTaps = AddTaps(), alarm: Boolean = false) = addDraft(raw, alarm, taps, DayPart.ASR, spans, now)
+        val visit = d("زيارة خالي بعد المغرب")
+        assertEquals("بعد المغرب، مرة وحدة، ينبّهك بأول القسم.", visit.saysLine())
+        assertEquals("حطّها بعد المغرب", visit.saveLabel())
+        assertEquals("بعد العشاء، كل يوم.", d("قراءة كتاب بعد العشاء", AddTaps(repeat = Repeat.DAILY, remind = Remind.NONE)).saysLine())
+        assertEquals("بعد المغرب، الساعة 17:40، مرة وحدة، ينبّهك بوكتها.", d("زيارة الساعة 17:40").saysLine())
+        assertEquals("حطّها باچر", d("اتصل بالمصلّح باچر").saveLabel())
+        assertTrue(d("تصليح السيارة بعدين").saysLine().startsWith("بعدين"))
+        val alarm = d("منبّه الساعة 05:45")
+        assertEquals(alarm.ringsLine(), alarm.saysLine())
+        assertEquals("احفظ المنبّه", alarm.saveLabel())
+        // The small line of a card.
+        assertEquals("مرة وحدة · ينبّهك بأول القسم", Thing("t", "x").metaLine())
+        assertEquals("كل يوم · إلى 17:30 · ينبّهك بوكتها", Thing("t", "x", at = 16 * 60 + 30, end = 17 * 60 + 30, repeat = Repeat.DAILY, remind = Remind.AT).metaLine())
+        assertEquals("أيام الدوام", Thing("t", "x", repeat = Repeat.WORKDAYS, remind = Remind.NONE).metaLine())
     }
 }

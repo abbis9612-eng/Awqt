@@ -86,3 +86,32 @@ fun AddDraft.ringsLine(): String = when {
     passed -> "يرن ${repeat.label} الساعة ${clock(at ?: 0)}. أول مرة باچر."
     else -> "يرن ${repeat.label} الساعة ${clock(at ?: 0)}. أول مرة اليوم."
 }
+
+/*
+ * «الألوان» sheets (approved 2026-11-05, docs/design/yawm-colors-add.html): one sentence says what the
+ * words decided, and the button names what will happen.
+ */
+
+/** «بعد المغرب، مرة وحدة، ينبّهك بأول القسم.» */
+fun AddDraft.saysLine(): String = when {
+    alarm -> ringsLine()
+    where == Where.Later -> "بعدين، بدون وكت. تلكاها تحت يومك."
+    else -> whereName(where) + (at?.let { "، الساعة ${clock(it)}" } ?: "") + "، ${repeat.label}" + remindWords(remind) + "."
+}
+
+/** «حطّها بعد المغرب», «حطّها باچر», «احفظ المنبّه». */
+fun AddDraft.saveLabel(): String = if (alarm) "احفظ المنبّه" else "حطّها ${whereName(where)}"
+
+fun remindWords(r: Remind): String = when (r) {
+    Remind.NONE -> ""
+    Remind.START -> "، ينبّهك بأول القسم"
+    Remind.AT -> "، ينبّهك بوكتها"
+}
+
+/** The small line of a thing's card: how often, until when, and its reminder. */
+fun Thing.metaLine(): String =
+    repeat.label + (end?.let { " · إلى ${clock(it)}" } ?: "") + when (remind) {
+        Remind.NONE -> ""
+        Remind.START -> " · ينبّهك بأول القسم"
+        Remind.AT -> " · ينبّهك بوكتها"
+    }

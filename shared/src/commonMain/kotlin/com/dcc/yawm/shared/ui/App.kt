@@ -302,49 +302,51 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
             }
         }
         when (sheet) {
-            SheetKind.ADD, SheetKind.ADD_ALARM -> Sheet(if (sheet == SheetKind.ADD) "أضف" else "منبّه جديد", { sheet = SheetKind.NONE }) {
-                AddSheetBody(
-                    alarmMode = sheet == SheetKind.ADD_ALARM,
-                    defaultPart = addPart ?: partNow(view, if (isToday) moment.t else null),
-                    spans = view.parts.map { it.span },
-                    nowMinute = realNow,
-                ) { d ->
-                    if (d.alarm) {
-                        val a = d.toAlarm(settings.alerts.nextAlarmId(), settings.workDays, realToday, realNow)
-                        save(settings.copy(alerts = settings.alerts.copy(alarms = settings.alerts.alarms + a)))
-                    } else {
-                        save(settings.copy(things = settings.things + d.toThing(nextThingId(settings.things), date)))
-                    }
-                    toast(d.savedMessage())
-                    sheet = SheetKind.NONE
-                    addPart = null
+            SheetKind.ADD, SheetKind.ADD_ALARM -> AddSheet(
+                alarmMode = sheet == SheetKind.ADD_ALARM,
+                defaultPart = addPart ?: partNow(view, if (isToday) moment.t else null),
+                spans = view.parts.map { it.span },
+                nowMinute = realNow,
+                fallback = field,
+                close = { sheet = SheetKind.NONE },
+            ) { d ->
+                if (d.alarm) {
+                    val a = d.toAlarm(settings.alerts.nextAlarmId(), settings.workDays, realToday, realNow)
+                    save(settings.copy(alerts = settings.alerts.copy(alarms = settings.alerts.alarms + a)))
+                } else {
+                    save(settings.copy(things = settings.things + d.toThing(nextThingId(settings.things), date)))
                 }
+                toast(d.savedMessage())
+                sheet = SheetKind.NONE
+                addPart = null
             }
             SheetKind.THING -> settings.things.firstOrNull { it.id == sheetThing }?.let { x ->
-                val where = when {
-                    x.isLater -> "بعدين"
-                    x.repeat == Repeat.ONCE && x.date != null && x.date > moment.date -> "باچر"
-                    else -> view.parts.firstOrNull { p -> p.things.any { it.id == x.id } }?.part?.label ?: "اليوم"
+                val inPart = view.parts.firstOrNull { p -> p.things.any { it.id == x.id } }?.part
+                val where: Where? = when {
+                    x.isLater -> Where.Later
+                    x.repeat == Repeat.ONCE && x.date != null && x.date > moment.date -> Where.Tomorrow
+                    else -> inPart?.let { Where.In(it) }
                 }
-                Sheet(x.title, { sheet = SheetKind.NONE }) {
-                    ThingSheetBody(
-                        x, date, where,
-                        onToggle = { tick(x); sheet = SheetKind.NONE },
-                        onMove = { w ->
-                            putThing(x.id) {
-                                when (w) {
-                                    Where.Later -> it.copy(date = null, part = null, at = null, remind = Remind.NONE)
-                                    Where.Tomorrow -> it.copy(date = moment.date.plusDays(1))
-                                    is Where.In -> it.copy(date = moment.date, part = w.part, at = null, remind = if (it.remind == Remind.AT) Remind.START else it.remind)
-                                }
+                ThingSheet(
+                    x, date, where, where?.let { whereName(it) } ?: "اليوم",
+                    field = inPart?.let { Field.of(it) } ?: field,
+                    close = { sheet = SheetKind.NONE },
+                    onToggle = { tick(x); sheet = SheetKind.NONE },
+                    onMove = { w ->
+                        putThing(x.id) {
+                            when (w) {
+                                Where.Later -> it.copy(date = null, part = null, at = null, remind = Remind.NONE)
+                                Where.Tomorrow -> it.copy(date = moment.date.plusDays(1))
+                                is Where.In -> it.copy(date = moment.date, part = w.part, at = null, remind = if (it.remind == Remind.AT) Remind.START else it.remind)
                             }
-                            toast("انتقلت لـ" + whereName(w)); sheet = SheetKind.NONE
-                        },
-                        onRemind = { r -> putThing(x.id) { it.copy(remind = r) } },
-                        onRepeat = { r -> putThing(x.id) { it.copy(repeat = r, date = if (r == Repeat.ONCE) (it.date ?: moment.date) else it.date) } },
-                        onDelete = { save(settings.copy(things = settings.things.filter { it.id != x.id })); toast("انحذفت"); sheet = SheetKind.NONE },
-                    )
-                }
+                        }
+                        // The sheet stays open and takes the colour of the part it moved to.
+                        toast("انتقلت لـ" + whereName(w))
+                    },
+                    onRemind = { r -> putThing(x.id) { it.copy(remind = r) } },
+                    onRepeat = { r -> putThing(x.id) { it.copy(repeat = r, date = if (r == Repeat.ONCE) (it.date ?: moment.date) else it.date) } },
+                    onDelete = { save(settings.copy(things = settings.things.filter { it.id != x.id })); toast("انحذفت"); sheet = SheetKind.NONE },
+                )
             }
             SheetKind.NONE -> {}
         }

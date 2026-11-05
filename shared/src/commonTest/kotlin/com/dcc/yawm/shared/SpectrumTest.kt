@@ -96,6 +96,10 @@ class SpectrumTest {
             val p = fieldPalette(f)
             assertTrue(contrast(c.fg, c.bg) >= 4.5, "$f text ${contrast(c.fg, c.bg)}")
             assertTrue(contrast(p.grey, p.paper) >= 4.5, "$f grey ${contrast(p.grey, p.paper)}")
+            // Cards are a deeper tone of the field: both texts still read at 4.5:1 on them.
+            assertTrue(contrast(c.fg, c.card) >= 4.5, "$f text on card ${contrast(c.fg, c.card)}")
+            assertTrue(contrast(p.grey, p.card) >= 4.5, "$f grey on card ${contrast(p.grey, p.card)}")
+            assertEquals(c.card, p.card)
         }
     }
 }

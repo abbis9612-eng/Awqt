@@ -22,6 +22,8 @@ data class Palette(
     val isDark: Boolean,
     /** The edge of the big word's letters before the ink reaches them (3:1 or more on paper). */
     val outline: Color,
+    /** A card on this paper (on «الألوان», a deeper tone of the field). */
+    val card: Color = faint,
 )
 
 val LightPalette = Palette(
@@ -80,19 +82,21 @@ val LocalReducedMotion = staticCompositionLocalOf { false }
  * 4.5:1 or more for the text and for the softer grey).
  */
 @Immutable
-data class FieldColours(val bg: Color, val fg: Color) {
+data class FieldColours(val bg: Color, val fg: Color, val card: Color) {
     /** White text on a deep field: the system bars take light icons. */
     val isDark: Boolean get() = fg == Color.White
 }
 
 val FieldColour: Map<Field, FieldColours> = mapOf(
-    Field.FAJR to FieldColours(Color(0xFF2B4A86), Color.White),
-    Field.MORNING to FieldColours(Color(0xFFCFE3F4), Color(0xFF0F2133)),
-    Field.DHUHR to FieldColours(Color(0xFFF7E6A6), Color(0xFF2A2208)),
-    Field.ASR to FieldColours(Color(0xFFE09A3E), Color(0xFF1C1206)),
-    Field.MAGHRIB to FieldColours(Color(0xFFB23F2A), Color.White),
-    Field.ISHA to FieldColours(Color(0xFF1B2347), Color.White),
-    Field.NIGHT to FieldColours(Color(0xFF0A0A0A), Color.White),
+    // card: a deeper tone of the field (docs/design/yawm-colors-inside.html): 16% black on fajr and maghrib,
+    // 10% of the text colour on the light fields, 12% white on isha and the night.
+    Field.FAJR to FieldColours(Color(0xFF2B4A86), Color.White, Color(0xFF243E71)),
+    Field.MORNING to FieldColours(Color(0xFFCFE3F4), Color(0xFF0F2133), Color(0xFFBCD0E1)),
+    Field.DHUHR to FieldColours(Color(0xFFF7E6A6), Color(0xFF2A2208), Color(0xFFE2D296)),
+    Field.ASR to FieldColours(Color(0xFFE09A3E), Color(0xFF1C1206), Color(0xFFCC8C38)),
+    Field.MAGHRIB to FieldColours(Color(0xFFB23F2A), Color.White, Color(0xFF963523)),
+    Field.ISHA to FieldColours(Color(0xFF1B2347), Color.White, Color(0xFF363D5D)),
+    Field.NIGHT to FieldColours(Color(0xFF0A0A0A), Color.White, Color(0xFF272727)),
 )
 
 /** The palette of a field, so the shared rows and switches take its colours. */
@@ -107,5 +111,6 @@ fun fieldPalette(f: Field): Palette {
         soft = lerp(c.bg, c.fg, 0.93f),
         isDark = c.isDark,
         outline = lerp(c.bg, c.fg, 0.55f),
+        card = c.card,
     )
 }

@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
@@ -37,9 +36,7 @@ import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dcc.yawm.shared.day.DayPart
@@ -84,7 +81,7 @@ fun ColorsHome(
         Box(Modifier.fillMaxSize()) {
             Column(
                 Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 22.dp).padding(bottom = 100.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 Row(Modifier.fillMaxWidth().padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                     Txt("${dateLine(view.date)}، $hijri", size = 15.sp, color = pal.ink, modifier = Modifier.weight(1f), lineHeight = 1.4f)
@@ -101,65 +98,38 @@ fun ColorsHome(
                 Txt(fieldLine(view, spec, field, t), size = 20.sp, bold = true, lineHeight = 1.45f)
 
                 if (field == Field.NIGHT) {
-                    ListRow(divider = false) {
-                        RowText("منبّه الصحيان ${clock(view.wake)}", "يتحرك ويّا الفجر كل يوم")
-                        InkSwitch(wakeOn, "منبّه الصحيان", onWake)
+                    CardGroup {
+                        ListRow(divider = false, minHeight = 64.dp) {
+                            RowText("منبّه الصحيان ${clock(view.wake)}", "يتحرك ويّا الفجر كل يوم", bold = true)
+                            InkSwitch(wakeOn, "منبّه الصحيان", onWake)
+                        }
                     }
-                    AddRow("المنبّهات", openAlarms)
+                    AddCard("المنبّهات", openAlarms)
                 } else {
                     val p = view.partOf(field)!!
                     val key = view.prayerKey(p.part)
                     val name = view.prayerName(p.part)
                     val s = p.span
-                    if (key != null && name != null) {
-                        if (s.start <= t) PrayButton(name, key in prayed) { onPray(key) }
-                        else Txt("$name ${clock(s.start)}", size = 16.sp, bold = true)
-                    }
-                    for (x in p.things) ThingRow(x, view.date, onTick, onOpen)
+                    if (key != null && name != null) PrayCard(name, s.start, s.start <= t, key in prayed) { onPray(key) }
+                    for (x in p.things) ThingCard(x, view.date, onTick, onOpen)
                     if (p.things.isEmpty() && s.end > t) Txt("ماكو شي بهالقسم. وقتك فاضي.", size = 16.sp, color = pal.grey)
-                    AddRow("أضف ل" + p.part.label.let { if (it.startsWith("ال")) "ل" + it.drop(1) else it }) { onAdd(p.part) }
+                    AddCard("أضف ل" + p.part.label.let { if (it.startsWith("ال")) "ل" + it.drop(1) else it }) { onAdd(p.part) }
                 }
                 // What is not tied to a part stays reachable on the field of now.
                 if (field == spec.fieldAt(t)) {
                     if (view.tomorrow.isNotEmpty()) {
-                        Heading("باچر")
-                        for (x in view.tomorrow) ThingRow(x, view.date, onTick, onOpen)
+                        FieldHeading("باچر")
+                        for (x in view.tomorrow) ThingCard(x, view.date, onTick, onOpen)
                     }
                     if (view.later.isNotEmpty()) {
-                        Heading("بعدين")
-                        for (x in view.later) ThingRow(x, view.date, onTick, onOpen)
+                        FieldHeading("بعدين")
+                        for (x in view.later) ThingCard(x, view.date, onTick, onOpen)
                     }
                 }
                 Spacer(Modifier.height(8.dp))
             }
             SpectrumBar(spec, t, field, onSelect, Modifier.align(Alignment.BottomCenter).padding(horizontal = 12.dp, vertical = 14.dp))
         }
-    }
-}
-
-@Composable
-private fun PrayButton(name: String, done: Boolean, onClick: () -> Unit) {
-    val pal = LocalPalette.current
-    Box(
-        Modifier.heightIn(min = 52.dp).background(if (done) pal.ink else Color.Transparent, CircleShape)
-            .border(2.dp, pal.ink, CircleShape).clickable(onClick = onClick)
-            .semantics { role = Role.Checkbox; contentDescription = "صلّيت $name"; stateDescription = if (done) "صلّيت" else "بعد" }
-            .padding(horizontal = 20.dp),
-        contentAlignment = Alignment.Center,
-    ) { Txt(if (done) "✓ صلّيت $name" else "صلّيت $name", size = 17.sp, bold = true, color = if (done) pal.paper else pal.ink, lineHeight = 1.3f) }
-}
-
-@Composable
-private fun AddRow(label: String, onClick: () -> Unit) {
-    val pal = LocalPalette.current
-    Row(
-        Modifier.fillMaxWidth().heightIn(min = 52.dp).clickable(onClick = onClick).semantics { role = Role.Button },
-        horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Box(Modifier.size(28.dp).border(2.dp, pal.ink, CircleShape), contentAlignment = Alignment.Center) {
-            Txt("+", size = 18.sp, bold = true, lineHeight = 1.1f)
-        }
-        Txt(label, size = 17.sp, bold = true, lineHeight = 1.4f)
     }
 }
 

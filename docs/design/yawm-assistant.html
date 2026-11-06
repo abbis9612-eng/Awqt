@@ -1,0 +1,178 @@
+<title>يوم · المساعد</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap">
+<style>
+/* «المساعد»: one sentence in (typed or spoken), one card out with what was understood, and nothing
+   happens until «إي، سوّيها». It knows only «يوم»'s own things. The understanding here is a small
+   stand-in for the app's parser; in the app it runs on the phone, with no network. */
+:root{--bg:#EEF0F3;--surface:#F7F8FA;--card:#FFFFFF;--ink:#14171C;--ink2:#5B6270;--ink3:#8A909C;--hair:#E3E6EB;--soft:#EEF0F4;
+  --acc:#2F6FA8;--me:#14171C;--shadow:0 1px 2px rgba(20,23,28,.06),0 8px 24px -12px rgba(20,23,28,.18);--ease:cubic-bezier(.23,1,.32,1);color-scheme:light;font-family:"Vazirmatn",Tahoma,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B0C0F;--surface:#121418;--card:#1B1E24;--ink:#F1F3F6;--ink2:#A9B0BC;--ink3:#7C8492;--hair:#2A2F37;--soft:#242830;--me:#2F6FA8;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.7);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B0C0F;--surface:#121418;--card:#1B1E24;--ink:#F1F3F6;--ink2:#A9B0BC;--ink3:#7C8492;--hair:#2A2F37;--soft:#242830;--me:#2F6FA8;--shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.7);color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6;min-height:100dvh}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2.5px solid var(--acc);outline-offset:2px}
+.app{max-width:480px;margin:0 auto;min-height:100dvh;background:var(--surface);display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:10px;padding:14px 16px 10px;border-bottom:1px solid var(--hair);position:sticky;top:0;background:var(--surface);z-index:2}
+.bar .av{width:38px;height:38px;border-radius:12px;background:var(--acc);color:#fff;display:grid;place-items:center}
+.bar .av svg{width:22px;height:22px}
+.bar h1{margin:0;font-size:17px;font-weight:700;line-height:1.2}
+.bar small{display:block;font-size:12.5px;color:var(--ink3);font-weight:500}
+.bar .x{margin-inline-start:auto;min-height:44px;padding:0 6px;color:var(--ink2);font-weight:600}
+.log{flex:1;padding:16px 14px 8px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:86%;padding:10px 14px;border-radius:18px;font-size:15.5px;line-height:1.55;animation:in 260ms var(--ease)}
+@keyframes in{from{transform:translateY(6px);opacity:0}}
+.me{align-self:flex-start;background:var(--me);color:#fff;border-end-start-radius:6px}
+.it{align-self:flex-end;background:var(--card);box-shadow:var(--shadow);border-end-end-radius:6px}
+.it.plain{color:var(--ink2)}
+.card{align-self:flex-end;width:92%;background:var(--card);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;animation:in 260ms var(--ease)}
+.card header{display:flex;align-items:center;gap:10px;padding:12px 14px 6px}
+.card header i{width:34px;height:34px;border-radius:10px;background:var(--c,var(--acc));color:#fff;display:grid;place-items:center;flex:none}
+.card header i svg{width:20px;height:20px}
+.card header b{font-size:16px;font-weight:700;line-height:1.3}
+.card header small{display:block;font-size:12.5px;color:var(--ink3);font-weight:600}
+.facts{margin:0;padding:4px 14px 10px;display:grid;gap:2px}
+.facts div{display:flex;justify-content:space-between;gap:10px;font-size:14.5px;padding:6px 0;border-bottom:1px solid var(--hair)}
+.facts div:last-child{border-bottom:0}
+.facts dt{color:var(--ink3)}
+.facts dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+.acts{display:grid;grid-template-columns:2fr 1fr;gap:8px;padding:0 12px 12px}
+.acts button{min-height:46px;border-radius:13px;font-weight:700;font-size:15px}
+.acts .yes{background:var(--c,var(--acc));color:#fff}
+.acts .no{background:var(--soft);color:var(--ink2)}
+.card.done .acts{display:none}
+.card .ok{display:none;padding:0 14px 12px;font-size:14px;font-weight:700;color:var(--c,var(--acc))}
+.card.done .ok{display:block}
+.card.cancel{opacity:.55}
+.tries{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:4px 14px 10px}
+.tries::-webkit-scrollbar{display:none}
+.tries button{flex:none;min-height:38px;padding:0 13px;border-radius:19px;background:var(--card);box-shadow:var(--shadow);font-size:14px;font-weight:500;color:var(--ink2)}
+.input{position:sticky;bottom:0;display:flex;align-items:center;gap:8px;padding:10px 12px calc(12px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--hair)}
+.input input{flex:1;min-height:48px;border-radius:24px;border:0;background:var(--card);box-shadow:var(--shadow);padding:0 18px;font-size:16px;outline:none}
+.input input::placeholder{color:var(--ink3)}
+.round{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;flex:none;transition:transform 160ms var(--ease),background-color 200ms}
+.round:active{transform:scale(.94)}
+.round svg{width:22px;height:22px}
+.mic{background:var(--soft);color:var(--ink)}
+.mic.on{background:#C62E2E;color:#fff;animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(198,46,46,.18)}}
+.send{background:var(--acc);color:#fff}
+.listen{align-self:center;font-size:13.5px;color:var(--ink2);font-weight:600}
+.about{max-width:480px;margin:0 auto;padding:18px 16px 40px;font-size:14.5px;color:var(--ink2);display:grid;gap:6px}
+.about h2{margin:6px 0 0;font-size:16px;color:var(--ink)}
+.about ul{margin:0;padding-inline-start:20px;display:grid;gap:4px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="app">
+  <div class="bar"><span class="av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18.5V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H8z"/><path d="M9 10.5h.01M12 10.5h.01M15 10.5h.01"/></svg></span>
+    <div><h1>المساعد</h1><small>يفهم شغلات «يوم» بس · كلشي بتلفونك</small></div><button class="x">سكّر</button></div>
+  <div class="log" id="log" aria-live="polite"></div>
+  <div class="tries" id="tries" aria-label="جرّب"></div>
+  <div class="input">
+    <button class="round mic" id="mic" aria-label="احچي" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
+    <input id="in" placeholder="گول أو اكتب شنو تريد…" autocomplete="off" aria-label="شنو تريد؟">
+    <button class="round send" id="send" aria-label="دز"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+  </div>
+</div>
+<section class="about"><h2>شلون يشتغل</h2><ul>
+  <li>تكتب أو تحچي جملة وحدة. هو يطلّعلك بطاقة بشنو فهم، وما يسوي شي إلا لما تضغط «إي، سوّيها».</li>
+  <li>إذا ما فهم، يگلك بصراحة ويعطيك مثال، وما يخمّن.</li>
+  <li>الكتابة: تشتغل بكل التلفونات وبلا إنترنت.</li>
+  <li>الصوت: يشتغل بس إذا تلفونك يفهم العربي بدون إنترنت (أندرويد 12 وما فوق، والعربي منزّل). إذا لا، المايك يگلك هذا ويخليك تكتب.</li></ul></section>
+
+<script>
+(()=>{
+document.documentElement.lang='ar';
+const IC={alarm:'<circle cx="12" cy="13" r="7"/><path d="M12 9.5V13l2.5 1.5M5 4.5L3 6.5M19 4.5l2 2"/>',add:'<path d="M12 5v14M5 12h14"/>',edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',del:'<path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13"/>',q:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17.5h.01"/>'};
+const svg=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
+// The day of the example (Sulaymaniyah, a Thursday): parts, colours, and what is already there.
+const P=[['بعد الفجر',305,388,'#2B4A86'],['الصبح',388,710,'#2F6FA8'],['بعد الظهر',710,887,'#8A6508'],['بعد العصر',887,1027,'#A35512'],['بعد المغرب',1027,1104,'#B23F2A'],['بعد العشاء',1104,1320,'#1B2347']];
+const NOW=15*60+10;
+let things=[{t:'الرياضة',at:16*60+30,rep:'كل يوم'},{t:'اتصال بالمحاسب',at:null,part:'بعد العصر',rep:'مرة وحدة'}];
+let alarms=[{t:'الدوام',at:5*60+30,rep:'أيام الدوام'}];
+const pad=n=>String(n).padStart(2,'0'),clk=m=>pad(Math.floor(m/60)%24)+':'+pad(m%60);
+const partOf=m=>(P.find(p=>m>=p[1]&&m<p[2])||P[5]);
+const N={'وحدة':1,'واحد':1,'ثنين':2,'اثنين':2,'ثنتين':2,'تلاثة':3,'ثلاثة':3,'ثلاث':3,'اربعة':4,'أربعة':4,'اربع':4,'خمسة':5,'خمس':5,'ستة':6,'ست':6,'سبعة':7,'سبع':7,'ثمانية':8,'ثمنية':8,'ثمان':8,'تسعة':9,'تسع':9,'عشرة':10,'عشر':10,'دعش':11,'احدعش':11,'إحدعش':11,'ثنعش':12,'اثنعش':12};
+const norm=s=>s.replace(/[إأآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ـ/g,'').replace(/[ً-ْ]/g,'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).trim();
+const NN={};for(const k in N)NN[norm(k)]=N[k];
+// a time in the sentence: "05:45", "5 ونص", "خمسة الا ربع", "ستة الصبح", "بعد ساعة"
+function timeIn(s){let m=s.match(/(\d{1,2})[:.](\d{2})/);let h=null,mi=0;
+  if(m){h=+m[1];mi=+m[2]}else{const w=s.split(/\s+/);for(let i=0;i<w.length;i++){const x=w[i].replace(/^(ب|ل|ال)(?=\S{3,})/,'');let v=/^\d{1,2}$/.test(w[i])?+w[i]:NN[w[i]]??NN[x];
+      if(v&&v<=12&&(i===0||!/^(كل|بعد)$/.test(w[i-1])||/الساعه|الساعة/.test(w[i-1]))){h=v;const rest=w.slice(i+1,i+3).join(' ');
+        if(/^ونص/.test(rest))mi=30;else if(/^وربع/.test(rest))mi=15;else if(/^وثلث/.test(rest))mi=20;else if(/^الا ربع/.test(rest)){h-=1;mi=45}else if(/^الا ثلث/.test(rest)){h-=1;mi=40}break}}}
+  const rel=s.match(/بعد (ساعه|ساعتين|نص ساعه|ربع ساعه|(\d+) دقيقه)/);
+  if(h===null&&rel){const r=rel[1];const add=r==='ساعه'?60:r==='ساعتين'?120:r==='نص ساعه'?30:r==='ربع ساعه'?15:+rel[2];return{m:(NOW+add)%1440,how:`بعد ${rel[0].replace('بعد ','').replace(/ه$/,'ة').replace(/ساعه/,'ساعة')} من هسه`}}
+  if(h===null)return null;
+  // morning or evening: the words decide; waking means the morning; otherwise the next time it comes
+  if(!m&&h<=12){const am=/الصبح|الفجر|صباح|صحيني|كعدني|گعدني/.test(s),pm=/العصر|المغرب|بالليل|الليل|المسا|الظهر|العشا/.test(s);
+    if(h===12)h=am?0:12;else if(pm&&!(/الظهر/.test(s)&&h>=11))h+=12;else if(!am){const a=h*60+mi;if(a<=NOW&&a+720>NOW)h+=12}}
+  return{m:((h*60+mi)%1440+1440)%1440}}
+function partIn(s){for(const p of P){const k=norm(p[0]).replace(/^بعد /,'');if(s.includes(k)&&(p[0]==='الصبح'||s.includes('بعد '+k)))return p}
+  if(/الصبح/.test(s))return P[1];return null}
+const repIn=s=>/كل يوم|يوميا/.test(s)?'كل يوم':/ايام الدوام|بالدوام كل/.test(s)?'أيام الدوام':null;
+const dayIn=s=>/باچر|باجر|بكره|بكرة/.test(s)?'باچر':/بعدين/.test(s)?'بعدين':'اليوم';
+function findThing(s){return things.find(x=>s.includes(norm(x.t).replace(/^ال/,'')))}
+function findAlarm(s){return alarms.find(x=>s.includes(norm(x.t).replace(/^ال/,'')))}
+function title(s){return s.replace(/بعد (ساعة|ساعه|ساعتين|نص ساعة|نص ساعه|ربع ساعة|ربع ساعه|\d+ دقيقة|\d+ دقيقه)/g,'').replace(/^(ذكرني|ذكّرني|نبهني|نبّهني|حطلي|حط|ضيف|اضف|سجل)\s+(ب|ان|أن)?\s*/,'')
+  .replace(/(باچر|باجر|بكره|بكرة|بعدين|اليوم|كل يوم|يوميا|ايام الدوام)/g,'').replace(/الساعه|الساعة/g,'')
+  .replace(/بعد (الفجر|الظهر|العصر|المغرب|العشاء)|الصبح|بالليل|المسا/g,'').replace(/\d{1,2}[:.]\d{2}|\b\d{1,2}\b/g,'')
+  .replace(new RegExp('\\b('+Object.keys(NN).join('|')+')\\b','g'),'').replace(/ونص|وربع|وثلث|الا ربع|الا ثلث/g,'').replace(/\s+/g,' ').trim()}
+// What a sentence asks for. Nothing happens until the user says yes.
+function understand(raw){const s=norm(raw).replace(/[؟?.!،,]/g,' ').replace(/\s+/g,' ');
+  if(/^شنو عندي/.test(s)){const list=[...things.map(x=>`${x.t} · ${x.at!=null?clk(x.at):x.part}`),...alarms.map(a=>`منبّه ${a.t} · ${clk(a.at)}`)];
+    return{kind:'q',text:'عندك: '+list.join('، ')+'.'}}
+  if(/^(شنو|شلون|ليش|منو|كم|هل|شكد|اشكد)(\s|$)/.test(s)||/[؟?]$/.test(raw.trim())&&!/^(صحيني|ذكرني|نبهني)/.test(s))
+    return{kind:'q',text:'آني أفهم بس شغلات يومك: أضيف، وأضبط منبّه، وأغيّر وكت، وأمسح. جرّب: «ذكّرني أشتري خبز باچر الصبح».'};
+  if(/^(شيل|احذف|امسح|الغي|الغ|بطل)/.test(s)){const a=findAlarm(s),t=findThing(s);
+    if(a&&/منبه/.test(s)||a&&!t)return{kind:'del',icon:'del',c:'#B23F2A',head:'أمسح المنبّه',facts:[['المنبّه',a.t],['الساعة',clk(a.at)]],yes:'إي، امسحه',run:()=>{alarms=alarms.filter(x=>x!==a)},ok:'انمسح المنبّه.'};
+    if(t)return{kind:'del',icon:'del',c:'#B23F2A',head:'أمسح الشغلة',facts:[['الشغلة',t.t],['وكتها',t.at!=null?clk(t.at):t.part]],yes:'إي، امسحها',run:()=>{things=things.filter(x=>x!==t)},ok:'انمسحت.'};
+    return{kind:'q',text:'ما لكيت هالشي بيومك. گول اسمه مثل ما هو، مثلاً: «شيل منبّه الدوام».'}}
+  if(/^(خلي|غير|بدل|اخر|قدم|حول)/.test(s)){const t=findThing(s),a=findAlarm(s);const tm=timeIn(s);const target=a&&/منبه/.test(s)?a:(t||a);
+    if(!target)return{kind:'q',text:'شنو اللي تريد أغيّره؟ گول اسمه، مثلاً: «خلّي الرياضة الساعة ستة».'};
+    let to=tm?.m;const by=s.match(/^(اخر|قدم)\S*.*?(نص ساعه|ربع ساعه|ساعتين|ساعه)/);
+    if(by&&target.at!=null){const d=by[2]==='ساعه'?60:by[2]==='ساعتين'?120:by[2]==='نص ساعه'?30:15;to=(target.at+(by[1].startsWith('اخر')?d:-d)+1440)%1440}
+    if(to==null)return{kind:'q',text:`لأي ساعة أغيّر «${target.t}»؟ مثلاً: «خلّيها الساعة ستة ونص».`};
+    const isA=alarms.includes(target);
+    return{kind:'edit',icon:'edit',c:partOf(to)[3],head:isA?`أغيّر منبّه ${target.t}`:`أغيّر وكت ${target.t}`,facts:[['كان',target.at!=null?clk(target.at):target.part],['يصير',clk(to)+(isA?'':' · '+partOf(to)[0])]],yes:'إي، غيّرها',run:()=>{target.at=to},ok:`صارت ${clk(to)}.`}}
+  const alarm=/صحيني|صحّيني|كعدني|گعدني|منبه/.test(s);const tm=timeIn(s);const rep=repIn(s);const day=dayIn(s);
+  if(alarm){if(!tm)return{kind:'q',text:'بيا ساعة أصحّيك؟ مثلاً: «صحّيني باچر خمسة ونص».'};
+    const at=tm.m;
+    const r=rep||'مرة وحدة';const when=r!=='مرة وحدة'?r:(day==='باچر'||at<=NOW?'باچر':'اليوم');
+    return{kind:'alarm',icon:'alarm',c:'#14171C',head:'منبّه جديد',facts:[['يرن',clk(at)],['إمتى',when],['يتكرر',r]],yes:'إي، اضبطه',run:()=>alarms.push({t:'منبّه',at,rep:r}),ok:`انضبط المنبّه ${clk(at)}.`}}
+  const p=partIn(s);const t=title(raw.replace(/[؟?.!]/g,''));
+  if(!t||t.length<2)return{kind:'q',text:'شنو تريد أضيف؟ مثلاً: «ذكّرني أتصل بأمي بعد المغرب كل يوم».'};
+  const at=tm?.m??null;const part=at!=null?partOf(at):(p||(day==='اليوم'?partOf(NOW):P[1]));
+  const facts=[['الشغلة',t],['وين',day==='بعدين'?'بعدين، بدون وكت':(day==='باچر'?'باچر · ':'')+part[0]]];
+  if(at!=null)facts.push(['الساعة',clk(at)+(tm.how?' ('+tm.how+')':'')]);facts.push(['يتكرر',rep||'مرة وحدة']);
+  if(day!=='بعدين')facts.push(['يذكّرك',at!=null?'بوكتها بالضبط':'بأول القسم']);
+  return{kind:'add',icon:'add',c:day==='بعدين'?'#5B6270':part[3],head:'أضيف شغلة',facts,yes:'إي، ضيفها',run:()=>things.push({t,at,part:part[0],rep:rep||'مرة وحدة'}),ok:'انضافت ليومك.'}}
+const log=document.getElementById('log');
+function say(cls,html){const d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;log.appendChild(d);d.scrollIntoView({block:'end',behavior:'smooth'});return d}
+function reply(text){say('me',text.replace(/</g,'&lt;'));const u=understand(text);
+  setTimeout(()=>{if(u.kind==='q'){say('it plain',u.text);return}
+    const c=document.createElement('div');c.className='card';c.style.setProperty('--c',u.c);
+    c.innerHTML=`<header><i>${svg(u.icon)}</i><div><small>فهمت، تريد:</small><b>${u.head}</b></div></header><dl class="facts">${u.facts.map(([k,v])=>`<div><dt>${k}</dt><dd>${String(v).replace(/</g,'&lt;')}</dd></div>`).join('')}</dl>
+      <div class="acts"><button class="yes">${u.yes}</button><button class="no">لا، غيّر</button></div><p class="ok">✓ ${u.ok}</p>`;
+    c.querySelector('.yes').onclick=()=>{u.run();c.classList.add('done')};
+    c.querySelector('.no').onclick=()=>{c.classList.add('cancel','done');c.querySelector('.ok').textContent='تمام، ما سوّيت شي. اكتبها بطريقة ثانية.'};
+    log.appendChild(c);c.scrollIntoView({block:'end',behavior:'smooth'})},380)}
+say('it','هلا. گول أو اكتب شنو تريد بجملة وحدة، وآني أرتّبها. ما أسوي شي إلا لما تگول «إي».');
+const TRY=['صحّيني باچر خمسة ونص','ذكّرني أتصل بأمي بعد المغرب كل يوم','خلّي الرياضة الساعة ستة','أخّر الرياضة نص ساعة','شيل منبّه الدوام','قراءة بعد ساعة','زيارة خالي باچر بعد العصر','شنو الجو اليوم'];
+const tries=document.getElementById('tries');tries.innerHTML=TRY.map(t=>`<button>${t}</button>`).join('');
+tries.onclick=e=>{const b=e.target.closest('button');if(b)reply(b.textContent)};
+const inp=document.getElementById('in');
+document.getElementById('send').onclick=()=>{if(inp.value.trim()){reply(inp.value.trim());inp.value=''}};
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&inp.value.trim()){reply(inp.value.trim());inp.value=''}});
+// The mic here only shows how it looks; in the app it uses the phone's on-device recognizer.
+const mic=document.getElementById('mic');let lis=null;
+mic.onclick=()=>{if(lis){return}mic.classList.add('on');mic.setAttribute('aria-pressed','true');lis=say('it plain listen','أسمعك…');
+  setTimeout(()=>{mic.classList.remove('on');mic.setAttribute('aria-pressed','false');lis.remove();lis=null;reply('ذكّرني أشتري خبز باچر الصبح')},1600)};
+})();
+</script>

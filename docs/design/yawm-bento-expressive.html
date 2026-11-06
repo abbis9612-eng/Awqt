@@ -1,0 +1,281 @@
+<title>يوم · البنتو والتعبيري</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap">
+<style>
+/* The owner's two picks (Bento, Expressive) done as an everyday app: the prayer is the anchor and the
+   biggest button; the first thing after it lights up (implementation intentions, d = .65 over 94 tests);
+   a task can shrink to a tiny step on a low day (Fogg: B = MAP, after [anchor] I will [tiny]); the week
+   forgives a missed day; text at 14px or more, line-height 1.6+, drawn icons only, plain Iraqi words. */
+:root{--ease:cubic-bezier(.2,0,0,1);--spring:cubic-bezier(.34,1.45,.64,1);color-scheme:light;font-family:"Vazirmatn",Tahoma,sans-serif}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;min-height:100dvh;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;background:#EEF0F2;color:#15181D}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0;text-align:inherit;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2.5px solid #1F6FEB;outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+svg.i{width:22px;height:22px;display:block;flex:none}
+.app{max-width:480px;margin:0 auto;min-height:100dvh;position:relative;display:flex;flex-direction:column}
+.pick{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:1fr 1fr .8fr;gap:4px;padding:calc(8px + env(safe-area-inset-top,0px)) 8px 8px;background:rgba(18,19,22,.92);backdrop-filter:blur(12px)}
+.pick button{min-height:44px;border-radius:12px;color:#C8CBD1;font-size:14px;font-weight:800;text-align:center;line-height:1.25}
+.pick button[aria-pressed="true"]{background:#fff;color:#111}
+.screen{flex:1;display:none}.screen.on{display:block;animation:in 240ms var(--ease)}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ── shared ── */
+.chk{flex:none;width:30px;height:30px;border-radius:9px;box-shadow:inset 0 0 0 2px var(--line);display:grid;place-items:center;transition:background-color 180ms var(--ease),box-shadow 180ms}
+.chk svg{width:19px;height:19px;color:#fff;opacity:0;transform:scale(.4) rotate(-12deg);transition:opacity 150ms,transform 320ms var(--spring)}
+.done .chk{background:var(--acc);box-shadow:none}.done .chk svg{opacity:1;transform:none}
+.pop{animation:pop 420ms var(--spring)}@keyframes pop{30%{transform:scale(1.06)}}
+.toast{position:fixed;z-index:60;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translate(-50%,12px);opacity:0;max-width:430px;width:calc(100% - 32px);padding:12px 16px;border-radius:16px;background:#15181D;color:#fff;font-weight:700;font-size:15px;text-align:center;transition:opacity 200ms,transform 260ms var(--ease);pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.tabs{position:sticky;bottom:0;z-index:30;display:grid;grid-template-columns:1fr 1fr 76px 1fr 1fr;align-items:center;padding:6px 6px calc(8px + env(safe-area-inset-bottom,0px));background:var(--nav);border-top:1px solid var(--line)}
+.tabs button{display:grid;justify-items:center;gap:2px;min-height:56px;font-size:12.5px;font-weight:700;color:var(--ink3)}
+.tabs button span{display:grid;place-items:center;width:56px;height:30px;border-radius:15px;transition:background-color 200ms}
+.tabs button[aria-current="page"]{color:var(--ink)}.tabs button[aria-current="page"] span{background:var(--sel)}
+.tabs .add{width:60px;height:60px;border-radius:20px;background:var(--acc);color:#fff;margin:-22px auto 0;display:grid;place-items:center;box-shadow:0 12px 24px -12px var(--acc);transition:border-radius 300ms var(--spring),transform 160ms}
+.tabs .add:active{border-radius:30px;transform:scale(.95)}
+.tabs .add svg{width:28px;height:28px}
+.energy{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:3px;border-radius:16px;background:var(--soft)}
+.energy button{min-height:44px;border-radius:13px;font-size:14px;font-weight:800;text-align:center;color:var(--ink2);display:flex;align-items:center;justify-content:center;gap:6px}
+.energy button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.energy svg{width:18px;height:18px}
+.recipe{font-size:13.5px;color:var(--ink3);font-weight:600}
+.recipe b{color:var(--acc);font-weight:800}
+
+/* ── أ بنتو الصلاة ── */
+#A{--bg:#F4F5F7;--card:#fff;--ink:#15181D;--ink2:#474D57;--ink3:#5F6671;--line:#E1E4E8;--soft:#ECEEF1;--acc:#0F6B4F;--accSoft:#DDF0E8;--nav:#fff;--sel:#DDF0E8;background:var(--bg)}
+#A .head{padding:16px 16px 6px;display:flex;justify-content:space-between;align-items:center}
+#A .head small{font-size:14px;color:var(--ink3);font-weight:600}
+#A .head b{display:block;font-size:20px;font-weight:900;line-height:1.35}
+#A .icb{width:44px;height:44px;border-radius:14px;background:var(--card);display:grid;place-items:center;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+#A .bento{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:6px 14px}
+#A .t{background:var(--card);border-radius:20px;padding:14px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+#A .t h3{margin:0;font-size:14px;font-weight:800;color:var(--ink3)}
+#A .now{grid-column:span 2;background:#0F3D2E;color:#fff;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;padding:16px}
+#A .now h3{color:#A7E3CB}
+#A .now .part{font-size:30px;font-weight:900;line-height:1.3}
+#A .now .left{font-size:15px;font-weight:600;color:#D4F1E5}
+#A .pray{min-height:60px;padding:0 22px;border-radius:30px;background:#F2C14E;color:#2A1F04;font-weight:900;font-size:17px;display:flex;align-items:center;gap:8px;transition:transform 160ms var(--ease)}
+#A .pray:active{transform:scale(.97)}
+#A .pray[aria-pressed="true"]{background:rgba(255,255,255,.14);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.4)}
+#A .chain{grid-column:span 2;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:20px;background:var(--accSoft);color:#0B3B2B;transition:background-color 300ms}
+#A .chain.lit{background:#0F6B4F;color:#fff}
+#A .chain .t2{flex:1}#A .chain b{display:block;font-size:16.5px;font-weight:900;line-height:1.35}#A .chain small{font-size:13.5px;font-weight:700;opacity:.9}
+#A .chain .go{min-height:44px;padding:0 16px;border-radius:22px;background:rgba(255,255,255,.18);font-weight:800;color:inherit}
+#A .chain:not(.lit) .go{background:#fff;color:#0F6B4F}
+#A .heat{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:8px}
+#A .heat i{display:block;aspect-ratio:1;border-radius:4px;background:#0F6B4F}
+#A .heat i.m{background:#E1E4E8}#A .heat i.f{background:#BFE5D4}
+#A .t .big{font-size:26px;font-weight:900;line-height:1.3}
+#A .t p{margin:2px 0 0;font-size:13.5px;color:var(--ink2);font-weight:600}
+#A .sleep{background:#1B2347;color:#fff}#A .sleep h3{color:#B9C3F0}#A .sleep p{color:#D9DEF7}
+#A .sec{padding:14px 16px 4px;display:flex;justify-content:space-between;align-items:baseline}
+#A .sec b{font-size:17px;font-weight:900}#A .sec small{font-size:13.5px;color:var(--ink3);font-weight:700}
+#A .energyWrap{padding:4px 14px 8px}
+#A .list{margin:0 14px;background:var(--card);border-radius:20px;overflow:hidden}
+#A .it{display:flex;align-items:center;gap:12px;width:100%;min-height:66px;padding:10px 14px}
+#A .it+.it{border-top:1px solid var(--line)}
+#A .it .tx{flex:1;min-width:0}#A .it b{display:block;font-size:16px;font-weight:800;line-height:1.45}
+#A .it.done b{color:var(--ink3);font-weight:600}
+#A .it .tm{font-size:14px;font-weight:800;color:var(--ink2)}
+#A .later{margin:10px 14px 18px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+#A .later button{flex:none;min-height:46px;padding:0 14px;border-radius:14px;background:var(--card);font-size:14.5px;font-weight:700;color:var(--ink2);display:flex;align-items:center;gap:8px}
+
+/* ── ب التعبيري الحي ── */
+#B{--bg:#FFF8F3;--card:#fff;--ink:#22170F;--ink2:#53443A;--ink3:#6B594B;--line:#EEDDCE;--soft:#F8E8DA;--acc:#8A4B08;--cont:#FFDCC0;--oncont:#2E1500;--nav:#F8E8DA;--sel:#FFDCC0;background:var(--bg)}
+#B .status{display:flex;align-items:center;justify-content:space-between;padding:8px 18px 0;font-size:13px;font-weight:700;color:var(--ink2)}
+#B .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:12px;background:#22170F;color:#FFDCC0;font-size:12.5px;font-weight:800}
+#B .chip i{width:8px;height:8px;border-radius:50%;background:#F2C14E}
+#B .hero{padding:10px 18px 2px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+#B .hero small{font-size:14px;font-weight:700;color:var(--ink2)}
+#B .hero h1{margin:0;font-size:42px;font-weight:900;line-height:1.25}
+#B .shape{width:92px;height:92px;position:relative;display:grid;place-items:center;color:var(--cont)}
+#B .shape svg.s{position:absolute;inset:0;width:100%;height:100%;transition:transform 600ms var(--spring)}
+#B .shape.morph svg.s{transform:rotate(45deg) scale(1.06)}
+#B .shape svg.i{position:relative;width:38px;height:38px;color:var(--oncont)}
+#B .wave{padding:4px 18px 0}
+#B .wave svg{width:100%;height:22px;display:block}
+#B .wave p{margin:0;display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--ink2)}
+#B .card{margin:12px 14px 0;border-radius:28px;background:var(--cont);color:var(--oncont);padding:16px}
+#B .card .row{display:flex;align-items:center;gap:12px}
+#B .card .tx{flex:1}#B .card b{display:block;font-size:21px;font-weight:900;line-height:1.35}#B .card small{font-size:14px;font-weight:600}
+#B .pray{min-height:64px;padding:0 24px;border-radius:32px;background:var(--acc);color:#fff;font-size:18px;font-weight:900;display:flex;align-items:center;gap:8px;transition:border-radius 320ms var(--spring),transform 160ms}
+#B .pray:active{border-radius:14px;transform:scale(.97)}
+#B .pray[aria-pressed="true"]{background:transparent;color:var(--oncont);box-shadow:inset 0 0 0 2px var(--oncont);border-radius:16px}
+#B .next{margin-top:12px;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:18px;background:rgba(255,255,255,.55);transition:background-color 300ms}
+#B .next.lit{background:var(--acc);color:#fff}
+#B .next b{font-size:16px;font-weight:900}#B .next .tx{flex:1}#B .next small{font-size:13.5px;font-weight:700;opacity:.9}
+#B .grp{margin:16px 14px 0;display:grid;gap:3px}
+#B .grp h2{margin:0 6px 6px;font-size:15.5px;font-weight:800;color:var(--ink2);display:flex;justify-content:space-between}
+#B .it{display:flex;align-items:center;gap:14px;width:100%;min-height:68px;padding:10px 16px;background:var(--card);border-radius:8px;transition:border-radius 300ms var(--spring)}
+#B .grp .it:first-of-type{border-radius:26px 26px 8px 8px}#B .grp .it:last-of-type{border-radius:8px 8px 26px 26px}
+#B .it.done{border-radius:26px!important}
+#B .it .tx{flex:1;min-width:0}#B .it b{display:block;font-size:16px;font-weight:800;line-height:1.45}#B .it.done b{color:var(--ink3);font-weight:600}
+#B .sh{width:42px;height:42px;display:grid;place-items:center;color:var(--acc);background:var(--soft);flex:none}
+#B .sh.a{border-radius:50%}#B .sh.b{border-radius:13px}#B .sh.c{border-radius:42% 58% 55% 45%/50% 44% 56% 50%}
+#B .energyWrap{margin:12px 14px 0}
+#B .lock{margin:18px 14px 16px;border-radius:28px;background:#1A1411;color:#F5E6D8;padding:16px}
+#B .lock small{font-size:13px;font-weight:700;opacity:.85}
+#B .lock .ln{margin-top:10px;display:flex;align-items:center;gap:10px;padding:12px;border-radius:18px;background:rgba(255,255,255,.08)}
+#B .lock .ln b{font-size:16px;font-weight:900}#B .lock .bar{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden}#B .lock .bar i{display:block;height:100%;width:17%;background:#F2C14E}
+
+/* week + assistant (both models) */
+.wk{padding:14px}
+.wk .t{background:var(--card);border-radius:22px;padding:16px;margin-bottom:10px}
+.wk h2{margin:0;font-size:20px;font-weight:900;line-height:1.4}
+.wk p{margin:4px 0 0;font-size:14.5px;color:var(--ink2)}
+.grid75{display:grid;grid-template-columns:52px repeat(5,1fr);gap:4px;margin-top:12px;align-items:center}
+.grid75 small{font-size:12.5px;font-weight:800;color:var(--ink3);text-align:center}
+.grid75 .d{font-size:13.5px;font-weight:800;color:var(--ink2)}
+.grid75 i{display:grid;place-items:center;height:34px;border-radius:10px;background:var(--acc);color:#fff}
+.grid75 i.m{background:var(--soft);color:var(--ink3)}
+.grid75 i svg{width:16px;height:16px}
+.grid75 .today{box-shadow:inset 0 0 0 2px var(--ink)}
+.dump textarea{width:100%;min-height:96px;border:0;border-radius:16px;background:var(--soft);padding:12px 14px;font-size:16px;line-height:1.7;resize:none;outline:none;margin-top:8px}
+.dump .goBtn{margin-top:10px;width:100%;min-height:54px;border-radius:16px;background:var(--acc);color:#fff;font-weight:900;font-size:16.5px;text-align:center}
+.plan{display:grid;gap:6px;margin-top:12px}
+.plan div{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--soft)}
+.plan div b{flex:1;font-size:15px;font-weight:800}
+.plan div span{font-size:13px;font-weight:800;color:#fff;background:var(--c);border-radius:9px;padding:2px 9px;white-space:nowrap}
+
+/* what changed */
+#W{background:#fff;padding:18px 18px 40px}
+#W h1{margin:0 0 6px;font-size:24px;font-weight:900;line-height:1.4}
+#W h2{margin:16px 0 6px;font-size:17px;font-weight:900}
+#W ul{margin:0;padding-inline-start:20px;display:grid;gap:6px;font-size:15px;color:#33363C}
+#W .src{font-size:12.5px;color:#5A5F68;word-break:break-word}
+</style>
+
+<div class="app">
+  <div class="pick" role="group" aria-label="اختار"><button data-v="A" aria-pressed="true">أ · بنتو الصلاة</button><button data-v="B" aria-pressed="false">ب · التعبيري الحي</button><button data-v="W" aria-pressed="false">شنو تغيّر</button></div>
+  <section class="screen on" id="A" aria-label="بنتو الصلاة"></section>
+  <section class="screen" id="B" aria-label="التعبيري الحي"></section>
+  <section class="screen" id="W" aria-label="شنو تغيّر"></section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(()=>{
+document.documentElement.lang='ar';
+const $=id=>document.getElementById(id);
+const P={check:'<path d="M5 12.5l4.5 4.5L19 7.5" stroke-width="3"/>',x:'<path d="M7 7l10 10M17 7L7 17" stroke-width="2.4"/>',
+ asr:'<path d="M3 19.5h18M10 19.5V8.5M5.2 1.8v1M1.3 5.8h1M2.4 3l.7.7M8 3l-.7.7"/><path fill="currentColor" stroke="none" d="M10 18.6h10.2l.6 1.8H10z"/><circle cx="5.2" cy="5.8" r="1.9"/>',
+ maghrib:'<path d="M3 15.5h18M6.5 18.5h11M9.5 21h5M12 4.5v5M9.8 7.6l2.2 2.2 2.2-2.2"/><path fill="currentColor" stroke="none" d="M7.4 15.5a4.6 4.6 0 0 1 9.2 0z"/>',
+ isha:'<path fill="currentColor" stroke="none" d="M13.4 5.2A7.6 7.6 0 1 0 19.6 16a6.1 6.1 0 0 1-6.2-10.8z"/>',
+ run:'<circle cx="14" cy="4.5" r="2"/><path d="M8 21l3-6 3 2v5M6 12l3-4 4 1 2 4 3 1"/>',phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+ cart:'<path d="M3 4h2l2.4 11h10.2L20 8H6.2"/><circle cx="9.5" cy="19" r="1.4"/><circle cx="16.5" cy="19" r="1.4"/>',house:'<path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/>',
+ book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5"/>',
+ plus:'<path d="M12 5v14M5 12h14" stroke-width="2.4"/>',home:'<path d="M4 11l8-7 8 7v9H4z"/>',week:'<rect x="3.5" y="5" width="17" height="15" rx="2.6"/><path d="M3.5 9.6h17M8 3.2v3.4M16 3.2v3.4"/>',
+ mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/>',gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
+ bolt:'<path d="M13 3L5 13.5h6l-1 7.5 8-10.5h-6z"/>',leaf:'<path d="M5 19c0-9 6-14 15-14 0 9-5 15-14 15"/><path d="M5 19l7-7"/>',seed:'<path d="M12 20v-7"/><path d="M12 13c-4 0-6-2.5-6-6 4 0 6 2.5 6 6zM12 13c0-4 2-6 6-6 0 3.5-2 6-6 6z"/>',
+ bed:'<path d="M3 18V8M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="1.8"/>',link:'<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>',
+ spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>'};
+const ic=(k,cls='i')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[k]}</svg>`;
+const toast=m=>{const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2200)};
+
+// The day: Friday 6 November, Sulaymaniyah, 15:10, after Asr. Each thing has three sizes (Fogg: shrink it on a low day).
+let energy='full';let asrDone=false;
+let tasks=[
+ {id:1,k:'run',at:'16:30',d:0,full:'رياضة، 45 دقيقة',low:'مشي 15 دقيقة',tiny:'ألبس الحذاء وأمشي دقيقتين'},
+ {id:2,k:'phone',at:'',d:1,full:'اتصال بالمحاسب ومراجعة الحساب',low:'أرسل له الأرقام بس',tiny:'رسالة: «نحچي باچر؟»'},
+ {id:3,k:'cart',at:'',d:0,full:'نشتري خبز وفواكه وأغراض البيت',low:'خبز وفواكه بس',tiny:'أكتب قائمة الأغراض'}];
+const txt=t=>energy==='tiny'?t.tiny:energy==='low'?t.low:t.full;
+const first=()=>tasks.find(t=>!t.d);
+let tab={A:'today',B:'today'};
+let dumpTxt='لازم أتصل بأمي، وأشتري هدية لأختي، ورياضة باچر الصبح، وأخلص التقرير قبل الظهر';let dumped=false;
+
+const energyBar=()=>`<div class="energy" role="group" aria-label="طاقتك هسه">${[['full','bolt','كاملة'],['low','leaf','قليلة'],['tiny','seed','دقيقتين']].map(([k,i,n])=>`<button data-en="${k}" aria-pressed="${energy===k}">${ic(i)}${n}</button>`).join('')}</div>`;
+const tabs=(v)=>`<nav class="tabs" aria-label="التنقّل"><button data-tab="${v}:today" ${tab[v]==='today'?'aria-current="page"':''}><span>${ic('home')}</span>اليوم</button><button data-tab="${v}:week" ${tab[v]==='week'?'aria-current="page"':''}><span>${ic('week')}</span>الأسبوع</button>
+  <button class="add" data-add aria-label="أضف">${ic('plus')}</button><button data-tab="${v}:ai" ${tab[v]==='ai'?'aria-current="page"':''}><span>${ic('mic')}</span>المساعد</button><button><span>${ic('gear')}</span>الإعدادات</button></nav>`;
+// 7 days × 5 prayers; Wednesday's Asr missed, today up to now.
+const WEEK=[['السبت',[1,1,1,1,1]],['الأحد',[1,1,1,1,1]],['الإثنين',[1,1,1,1,1]],['الثلاثاء',[1,1,1,1,1]],['الأربعاء',[1,1,0,1,1]],['الخميس',[1,1,1,1,1]],['الجمعة',[1,1,null,null,null]]];
+function week(){const t=WEEK.at(-1)[1];t[2]=asrDone?1:null;
+  const done=WEEK.flat().filter(Array.isArray).flat().filter(x=>x===1).length;
+  return `<div class="wk"><div class="t"><h2>صلّيت ${done} صلاة بوكتها هالأسبوع</h2><p>فاتك العصر يوم الأربعاء، ورجعت بعده على طول. يوم واحد ما يمسح أسبوعك.</p>
+   <div class="grid75"><span></span>${['الفجر','الظهر','العصر','المغرب','العشاء'].map(n=>`<small>${n}</small>`).join('')}
+   ${WEEK.map(([d,a],di)=>`<span class="d">${d}</span>${a.map((x,pi)=>`<i class="${x===1?'':'m'} ${di===6&&pi===2?'today':''}" aria-label="${d} ${['الفجر','الظهر','العصر','المغرب','العشاء'][pi]}: ${x===1?'صلّيت':x===0?'فاتت':'بعد'}">${x===1?ic('check'):x===0?ic('x'):''}</i>`).join('')}`).join('')}</div></div>
+  <div class="t"><h2>أكثر شي ثبت</h2><p>الرياضة بعد العصر: 5 من آخر 7 أيام. والقراءة بعد العشاء: 4 من 7.</p></div></div>`}
+function assistant(){const plan=[['أتصل بأمي','بعد المغرب','#B23F2A'],['أشتري هدية لأختي','باچر · بعد العصر','#A35512'],['رياضة','باچر · الصبح','#2F6FA8'],['أخلص التقرير','باچر · قبل الظهر','#2F6FA8']];
+  return `<div class="wk"><div class="t dump"><h2>فرّغ راسك</h2><p>اكتب كل اللي براسك مثل ما يجي، وآني أوزّعه بعد الصلوات. ما أحط شي إلا لما تگول «إي».</p>
+   <textarea id="dumpBox" aria-label="اكتب كل اللي براسك">${dumpTxt}</textarea><button class="goBtn" data-dump>رتّبها بعد الصلوات</button>
+   ${dumped?`<div class="plan">${plan.map(([n,w,c])=>`<div style="--c:${c}"><b>${n}</b><span>${w}</span></div>`).join('')}</div><button class="goBtn" data-dumpok style="background:var(--ink)">إي، حطّهن كلهن</button>`:''}</div></div>`}
+
+// ── أ بنتو الصلاة
+function A(){let h='';
+ if(tab.A==='today'){const f=first();
+  h=`<div class="head"><div><small>الجمعة 6 تشرين الثاني · السليمانية</small><b>هلا، باقي على المغرب ساعة و57 دقيقة</b></div><button class="icb" aria-label="الإعدادات">${ic('gear')}</button></div>
+  <div class="bento">
+   <div class="t now"><div><h3>هسه</h3><div class="part">بعد العصر</div><div class="left num">14:47 – 17:07</div></div>
+     <button class="pray" data-pray aria-pressed="${asrDone}">${asrDone?ic('check')+' صلّيت':'صلّيت العصر'}</button></div>
+   <div class="chain ${asrDone?'lit':''}" id="chainA">${ic('link')}<div class="t2"><small>${asrDone?'هسه وكتها':'بعد ما تصلّي العصر'}</small><b>${f?txt(f):'خلّصت كل شغلات القسم'}</b></div>${f&&asrDone?`<button class="go" data-tick="${f.id}">ابدي</button>`:''}</div>
+   <div class="t"><h3>هالأسبوع</h3><div class="big num">${asrDone?33:32}<span style="font-size:16px;color:var(--ink3)"> / 35</span></div>
+     <div class="heat" aria-hidden="true">${WEEK.map(([d,a])=>a.map(x=>`<i class="${x===1?'':x===0?'m':'f'}"></i>`).join('')).join('')}</div></div>
+   <div class="t sleep"><h3>الليلة</h3><div class="big num">22:00</div><p>تصحى 04:45 لصلاة الليل<br>نومك 6:45 + قيلولة</p></div>
+  </div>
+  <div class="sec"><b>بعد العصر</b><small>${tasks.filter(t=>t.d).length} من ${tasks.length}</small></div>
+  <div class="energyWrap">${energyBar()}<p class="recipe" style="margin:6px 4px 0">${energy==='tiny'?'يوم تعبان؟ <b>خطوة صغيرة</b> أحسن من ولا شي، والعادة تبقى.':energy==='low'?'نسخة أخف من كل شغلة.':'كل شغلة بحجمها الكامل.'}</p></div>
+  <div class="list">${tasks.map(t=>`<button class="it ${t.d?'done':''}" data-tick="${t.id}"><span class="chk" role="checkbox" aria-checked="${!!t.d}">${ic('check')}</span><span class="tx"><b>${txt(t)}</b></span>${t.at&&energy==='full'?`<span class="tm num">${t.at}</span>`:''}</button>`).join('')}</div>
+  <div class="later"><button>${ic('maghrib')} بعد المغرب · زيارة خالي</button><button>${ic('isha')} بعد العشاء · قراءة</button><button>باچر · 3</button></div>`}
+ else h=tab.A==='week'?week():assistant();
+ $('A').innerHTML=h+tabs('A')}
+
+// ── ب التعبيري الحي
+function wave(f){let d='M0 11';for(let x=0;x<=360*f;x+=4)d+=` L${x} ${11+Math.sin(x/9)*5}`;
+ return `<svg viewBox="0 0 360 22" role="img" aria-label="مضى 17٪ من بعد العصر" direction="ltr"><path d="M${360*f+6} 11H360" stroke="var(--cont)" stroke-width="6" stroke-linecap="round"/><path d="${d}" fill="none" stroke="var(--acc)" stroke-width="6" stroke-linecap="round"/></svg>`}
+function B(){let h='';
+ if(tab.B==='today'){const f=first();
+  h=`<div class="status"><span class="num">15:10</span><span class="chip" aria-label="إشعار حي: المغرب بعد ساعة و57 دقيقة"><i></i>المغرب <span class="num">1:57</span></span><span>السليمانية</span></div>
+  <div class="hero"><div><small>الجمعة 6 تشرين الثاني</small><h1>بعد العصر</h1></div>
+   <div class="shape ${asrDone?'morph':''}" aria-hidden="true"><svg class="s" viewBox="0 0 100 100"><path fill="currentColor" d="M50 3c6 0 9 6 15 7s12-3 16 1 0 11 1 16 7 9 7 15-6 9-7 15 3 12-1 16-11 0-16 1-9 7-15 7-9-6-15-7-12 3-16-1 0-11-1-16S3 56 3 50s6-9 7-15-3-12 1-16 11 0 16-1 9-7 15-7z"/></svg>${ic(asrDone?'check':'asr')}</div></div>
+  <div class="wave">${wave(.17)}<p><span class="num">14:47</span><span>باقي ساعة و57 دقيقة على المغرب</span><span class="num">17:07</span></p></div>
+  <div class="card"><div class="row"><div class="tx"><b>صلاة العصر</b><small>${asrDone?'صلّيتها':'دخل وكتها قبل 23 دقيقة'}</small></div><button class="pray" data-pray aria-pressed="${asrDone}">${asrDone?ic('check')+' صلّيت':'صلّيت'}</button></div>
+   <div class="next ${asrDone?'lit':''}">${ic('link')}<div class="tx"><small>${asrDone?'هسه وكتها':'بعد العصر على طول'}</small><br><b>${f?txt(f):'خلّصت كلشي'}</b></div>${f&&asrDone?`<button class="pray" data-tick="${f.id}" style="min-height:46px;padding:0 16px;font-size:15px;background:#fff;color:var(--acc)">ابدي</button>`:''}</div></div>
+  <div class="energyWrap">${energyBar()}</div>
+  <div class="grp"><h2><span>شغلات بعد العصر</span><span class="num">${tasks.filter(t=>t.d).length}/${tasks.length}</span></h2>
+   ${tasks.map((t,i)=>`<button class="it ${t.d?'done':''}" data-tick="${t.id}"><span class="sh ${'abc'[i%3]}">${ic(t.k)}</span><span class="tx"><b>${txt(t)}</b></span><span class="chk" role="checkbox" aria-checked="${!!t.d}">${ic('check')}</span></button>`).join('')}</div>
+  <div class="grp"><h2><span>بعد المغرب</span></h2><button class="it"><span class="sh c">${ic('house')}</span><span class="tx"><b>زيارة خالي</b></span></button></div>
+  <div class="lock" aria-label="شكل الإشعار الحي على شاشة القفل"><small>وهيچ يطلع على شاشة القفل (إشعار حي بأندرويد 16)</small>
+   <div class="ln">${ic('maghrib')}<div style="flex:1"><b>المغرب 17:07</b><div class="bar"><i></i></div></div><span class="num" style="font-weight:800">1:57</span></div></div>`}
+ else h=tab.B==='week'?week():assistant();
+ $('B').innerHTML=h+tabs('B')}
+
+function W(){$('W').innerHTML=`<h1>من ملفك، شنو بقى وشنو تصلّح</h1>
+ <h2>بقت (لأنها أفكار زينة ومثبتة)</h2><ul>
+  <li><b>زر الطاقة:</b> كاملة / قليلة / دقيقتين. الشغلة نفسها تصغر بيوم التعب. مبني على BJ Fogg (ستانفورد): السلوك يصير لما تجتمع الرغبة والقدرة والتذكير، وإذا الرغبة قليلة صغّر الشغلة.</li>
+  <li><b>الجسر بين الصلاة وأول شغلة:</b> تضغط «صلّيت» فتضوي أول شغلة بعدها. مبني على «نوايا التنفيذ»: 94 تجربة، أثر متوسط لكبير (d = 0.65).</li>
+  <li><b>أسبوع يسامح:</b> خريطة 7 أيام × 5 صلوات، ويوم واحد ما يصفّرك. على طريقة Loop Habit Tracker.</li>
+  <li><b>فرّغ راسك:</b> تكتب كلشي، والمساعد يوزّعه بعد الصلوات، وما يحط شي إلا بموافقتك.</li></ul>
+ <h2>تصلّحت</h2><ul>
+  <li>الإيموجي (🔥🌿⚡📅✨) صارت أيقونات مرسومة بخط واحد.</li>
+  <li>الخط الصغير (10 و11) صار 13.5 وأكثر، والمسافة بين الأسطر 1.65 وأكثر.</li>
+  <li>الكلام الإنگليزي التقني (Loop EMA، If-Then، Spatial Dark) صار كلام عراقي واضح.</li>
+  <li>شلت علامات «قوة التصميم 99%» والأرقام اللي ما إلها مصدر، مثل «يضاعف 3 مرات».</li>
+  <li>شلت العبارات الدينية اللي كتبها البرنامج («تقبّل الله»، «والحمد لله»). قاعدتنا: ما نكتب نص ديني إلا بمراجعة.</li>
+  <li>«الجزيرة» مال آيفون صارت <b>الإشعار الحي</b> الحقيقي مال أندرويد 16، يطلع بشريط التلفون وشاشة القفل.</li>
+  <li>ستة نماذج متزاحمة صارت نموذجين قويين، كل واحد بيه اليوم والأسبوع والمساعد.</li></ul>
+ <h2>المصادر</h2><ul class="src">
+  <li>Gollwitzer & Sheeran (2006)، تحليل 94 تجربة: d = .65 · researchgate.net/publication/37367696</li>
+  <li>BJ Fogg، نموذج السلوك B = MAP · bjfogg.com · behaviormodel.org</li>
+  <li>Loop Habit Tracker، قوة العادة بالتنعيم الأسّي · github.com/iSoron/uhabits/discussions/689</li>
+  <li>أندرويد 16، الإشعارات الحية · developer.android.com/develop/ui/compose/notifications/live-update</li>
+  <li>Material 3 Expressive (ACM CHI 2026): الزر الصح أسرع بـ33% · dl.acm.org/doi/10.1145/3772318.3790373</li>
+  <li>جوائز Apple للتصميم 2026: Tide Guide و Moonlitt · developer.apple.com/design/awards</li></ul>`}
+
+function all(){A();B();W()}
+function show(v){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===v));document.querySelectorAll('.pick button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v));window.scrollTo({top:0})}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.v){show(b.dataset.v);return}
+ if(b.dataset.tab){const [v,t]=b.dataset.tab.split(':');tab[v]=t;all();window.scrollTo({top:0});return}
+ if(b.dataset.en){energy=b.dataset.en;all();toast(energy==='tiny'?'تمام، خطوات صغيرة اليوم':energy==='low'?'نسخة أخف من كل شغلة':'كل شغلة بحجمها');return}
+ if(b.dataset.pray!==undefined){asrDone=!asrDone;all();document.querySelectorAll('.chain,.next').forEach(x=>x.classList.add('pop'));if(asrDone)toast('صلّيت العصر. أول شغلة بعدها ضوت');return}
+ if(b.dataset.tick){const t=tasks.find(x=>x.id==b.dataset.tick);t.d=t.d?0:1;all();if(t.d){toast('زين! خلّصتها');document.querySelectorAll(`[data-tick="${t.id}"]`).forEach(x=>x.classList.add('pop'))}return}
+ if(b.dataset.dump!==undefined){dumpTxt=$('dumpBox')?.value||dumpTxt;dumped=true;all();return}
+ if(b.dataset.dumpok!==undefined){dumped=false;all();toast('انحطّن بأوقاتهن');return}
+ if(b.dataset.add!==undefined){toast('هنا تنفتح ورقة «أضف» بالساعة المحددة');return}});
+all();
+})();
+</script>

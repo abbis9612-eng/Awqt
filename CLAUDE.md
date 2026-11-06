@@ -168,9 +168,9 @@ it never issues religious rulings.
 6. Before ending, update `docs/DECISIONS.md`.
 
 ## Commands
-Verified in GitHub Actions on 2026-11-05 (run 61, «الألوان» step 1: BUILD SUCCESSFUL; host tests
+Verified in GitHub Actions on 2026-11-06 (run 77, polished «أضف» and «المساعد»: BUILD SUCCESSFUL; host tests
 ArabicDate 2, PrayerTimesReference 2, DayReference 5, Customization 8, CustomizationEdits 1, MyDay 11, Checklist 3,
-SettingsCodec 4, ContentGate 1, Reminders 13, ScreenModel 9, Things 9, Spectrum 5 = 73; lint ran; APK uploaded). Gradle 9.6.0 through
+SettingsCodec 4, ContentGate 1, Reminders 13, ScreenModel 9, Things 11, Spectrum 6, Assistant 7 = 83; lint ran; APK uploaded). Gradle 9.6.0 through
 the wrapper. CI installs JDK 21 and 17: Gradle and the app build on 17, the tests run on 21 (adhan2-jvm is
 Java 21 bytecode). Not yet run in the cloud session itself (see the `dl.google.com` note below); pure logic is
 checked locally with a JVM-only harness, the Compose UI only in CI.

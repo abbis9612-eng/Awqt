@@ -102,4 +102,17 @@ class SpectrumTest {
             assertEquals(c.card, p.card)
         }
     }
+
+    @Test
+    fun thePolishedSheetReadsAtFourAndAHalfToOne() {
+        for ((part, acc) in com.dcc.yawm.shared.ui.PartAccent) assertTrue(contrast(Color.White, acc) >= 4.5, "$part accent ${contrast(Color.White, acc)}")
+        assertTrue(contrast(Color.White, com.dcc.yawm.shared.ui.NeutralAccent) >= 4.5)
+        for (c in listOf(com.dcc.yawm.shared.ui.CalmLight, com.dcc.yawm.shared.ui.CalmDark)) {
+            for (bg in listOf(c.card, c.surface, c.soft)) {
+                assertTrue(contrast(c.ink, bg) >= 4.5, "ink ${contrast(c.ink, bg)}")
+                assertTrue(contrast(c.ink2, bg) >= 4.5, "ink2 ${contrast(c.ink2, bg)}")
+                assertTrue(contrast(c.ink3, bg) >= 4.5, "ink3 on $bg ${contrast(c.ink3, bg)}")
+            }
+        }
+    }
 }

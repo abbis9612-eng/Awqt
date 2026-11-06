@@ -35,7 +35,11 @@ fun whereName(w: Where): String = when (w) {
 val AllWheres: List<Where> = DayPart.entries.map { Where.In(it) } + Where.Tomorrow + Where.Later
 
 /** What the user tapped in the sheet; null = follow the words. */
-data class AddTaps(val where: Where? = null, val repeat: Repeat? = null, val remind: Remind? = null, val at: Int? = null)
+data class AddTaps(
+    val where: Where? = null, val repeat: Repeat? = null, val remind: Remind? = null, val at: Int? = null,
+    /** «بساعة محددة» switched off: no clock time even if the words had one (an alarm always has one). */
+    val noTime: Boolean = false,
+)
 
 data class AddDraft(
     val title: String,
@@ -51,7 +55,7 @@ data class AddDraft(
 fun addDraft(raw: String, alarmMode: Boolean, taps: AddTaps, defaultPart: DayPart, spans: List<PartSpan>, nowMinute: Int): AddDraft {
     val p = parseThing(raw)
     val alarm = alarmMode || p.alarm
-    val at = taps.at ?: p.at ?: if (alarm) 7 * 60 else null
+    val at = if (taps.noTime && !alarm) null else taps.at ?: p.at ?: if (alarm) 7 * 60 else null
     val repeat = taps.repeat ?: p.repeat ?: if (alarm) Repeat.DAILY else Repeat.ONCE
     val where = taps.where ?: when (p.whenDay) {
         TaskWhen.TOMORROW -> Where.Tomorrow

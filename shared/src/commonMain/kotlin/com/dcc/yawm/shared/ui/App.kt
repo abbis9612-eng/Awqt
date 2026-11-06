@@ -303,13 +303,13 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
             }
         }
         when (sheet) {
-            SheetKind.ADD, SheetKind.ADD_ALARM -> AddSheet(
+            SheetKind.ADD, SheetKind.ADD_ALARM -> PolishedAddSheet(
                 alarmMode = sheet == SheetKind.ADD_ALARM,
                 defaultPart = addPart ?: partNow(view, if (isToday) moment.t else null),
                 spans = view.parts.map { it.span },
                 nowMinute = realNow,
-                fallback = field,
                 close = { sheet = SheetKind.NONE },
+                openAssistant = null,
             ) { d ->
                 if (d.alarm) {
                     val a = d.toAlarm(settings.alerts.nextAlarmId(), settings.workDays, realToday, realNow)

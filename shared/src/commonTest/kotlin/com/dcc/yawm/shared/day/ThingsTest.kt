@@ -238,4 +238,20 @@ class ThingsTest {
         assertEquals("كل يوم · إلى 17:30 · ينبّهك بوكتها", Thing("t", "x", at = 16 * 60 + 30, end = 17 * 60 + 30, repeat = Repeat.DAILY, remind = Remind.AT).metaLine())
         assertEquals("أيام الدوام", Thing("t", "x", repeat = Repeat.WORKDAYS, remind = Remind.NONE).metaLine())
     }
+
+    @Test
+    fun thePolishedSheetNamesTheTimeAndCanDropIt() {
+        val spans = daySpans(times(monday), 21 * 60)
+        val now = 15 * 60 + 10
+        fun d(raw: String, taps: AddTaps = AddTaps()) = addDraft(raw, false, taps, DayPart.ASR, spans, now)
+        val timed = d("رياضة", AddTaps(at = 19 * 60 + 5, where = Where.In(DayPart.ISHA), remind = Remind.AT))
+        assertEquals("حطّها الساعة 19:05", com.dcc.yawm.shared.ui.polishedSaveLabel(timed))
+        assertEquals("«رياضة» الساعة 19:05، بعد العشاء، مرة وحدة، وأذكّرك بوكتها.", com.dcc.yawm.shared.ui.polishedSays(timed))
+        // «بساعة محددة» off drops a time the words gave.
+        val words = d("زيارة الساعة 17:40")
+        assertEquals(17 * 60 + 40, words.at)
+        assertNull(d("زيارة الساعة 17:40", AddTaps(noTime = true)).at)
+        assertEquals("حطّها بالصبح", com.dcc.yawm.shared.ui.polishedSaveLabel(d("مشي", AddTaps(where = Where.In(DayPart.MORNING)))))
+        assertEquals("حطّها باچر", com.dcc.yawm.shared.ui.polishedSaveLabel(d("اتصل بالمصلّح باچر")))
+    }
 }

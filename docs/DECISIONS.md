@@ -141,6 +141,7 @@ Append a row for every decision. Never delete rows; mark superseded ones instead
   days before production) or organization (exempt, but requires business verification).
 
 ## Later (not in v1)
+- «المساعد» (owner, 2026-11-06): a second way to add, where you say what you want in one sentence and it does it (things, alarms, change a time, delete), and it understands only «يوم»'s own things. Proposed: (1) typed and offline, extending the existing parser (`parseThing`), with a confirm card; (2) voice through the phone's speech-to-text: on-device Arabic support and any network use must be checked on official Android docs first (rule 1), and RECORD_AUDIO is needed; (3) a general AI model needs the network or a rare on-device model: not for v1. Waiting for the owner's choice.
 - Phone live wallpaper: the app's live scene of the city (sky, ridge, star) as the phone's wallpaper, changing with the prayer times (owner liked the idea 2026-11-03).
 - Friction before distracting apps during deep-work blocks (Android first; iOS needs entitlement).
 - Home-screen widget showing «شغلتي هسه» (both apps the owner looked at offer widgets; propose it first after v1).

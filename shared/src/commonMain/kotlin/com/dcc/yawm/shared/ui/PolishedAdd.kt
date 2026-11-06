@@ -117,7 +117,7 @@ val PartAccent: Map<DayPart, Color> = mapOf(
 val NeutralAccent = Color(0xFF4B5563)
 
 /** The app's icon for each part (docs/design/icons). */
-fun partIcon(p: DayPart): String = when (p) {
+fun calmPartIcon(p: DayPart): String = when (p) {
     DayPart.FAJR -> "fajr"; DayPart.MORNING -> "tea"; DayPart.DHUHR -> "dhuhr"
     DayPart.ASR -> "asr"; DayPart.MAGHRIB -> "maghrib"; DayPart.ISHA -> "isha"
 }
@@ -280,7 +280,7 @@ private fun PartCard(span: PartSpan, chosen: Boolean, onClick: () -> Unit) {
     ) {
         Box(Modifier.size(28.dp).background(if (chosen) Color.White.copy(alpha = 0.18f) else acc.copy(alpha = 0.14f), RoundedCornerShape(9.dp)), contentAlignment = Alignment.Center) {
             val ink = if (chosen) Color.White else acc
-            YIcon(partIcon(span.part), 18.dp, ink, ink)
+            YIcon(calmPartIcon(span.part), 18.dp, ink, ink)
         }
         Spacer(Modifier.height(8.dp))
         CText(span.part.label, 14.5.sp, if (chosen) Color.White else c.ink, FontWeight.Bold, lh = 1.25f)
@@ -437,7 +437,7 @@ fun BoxScope.PolishedAddSheet(
             if (!d.alarm) {
                 val span = part?.let { p -> spans.firstOrNull { it.part == p } }
                 DetailRow(
-                    icon = part?.let { partIcon(it) } ?: if (d.where == Where.Tomorrow) "week" else "hourglass",
+                    icon = part?.let { calmPartIcon(it) } ?: if (d.where == Where.Tomorrow) "week" else "hourglass",
                     accent = accent, title = "وكتها",
                     sub = when (d.where) { Where.Later -> "بدون وكت، تلكاها تحت يومك"; Where.Tomorrow -> "باچر"; else -> span?.let { "${clock(it.start)} – ${clock(it.end)}" } },
                     value = whereName(d.where), onClick = { open = if (open == "when") "" else "when" },

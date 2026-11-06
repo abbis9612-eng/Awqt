@@ -19,7 +19,7 @@ button{cursor:pointer;border:0;background:none;padding:0;text-align:inherit;-web
 .num{font-variant-numeric:tabular-nums}
 svg.i{width:22px;height:22px;display:block;flex:none}
 .app{max-width:480px;margin:0 auto;min-height:100dvh;position:relative}
-.pick{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:calc(8px + env(safe-area-inset-top,0px)) 8px 8px;background:rgba(18,19,22,.9);backdrop-filter:blur(12px)}
+.pick{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:calc(8px + env(safe-area-inset-top,0px)) 8px 8px;background:rgba(18,19,22,.9);backdrop-filter:blur(12px)}
 .pick button{min-height:44px;border-radius:12px;color:#C8CBD1;font-size:13.5px;font-weight:700;text-align:center;line-height:1.2}
 .pick button[aria-pressed="true"]{background:#fff;color:#111}
 .d{display:none}.d.on{display:block;animation:in 260ms var(--ease)}
@@ -143,6 +143,30 @@ svg.i{width:22px;height:22px;display:block;flex:none}
 #D3 .res div{display:flex;gap:10px;align-items:center;font-size:14.5px;font-weight:700;padding:8px 10px;border-radius:12px;background:#F2F3F7}
 #D3 .res div span{font-size:12.5px;font-weight:800;color:#fff;background:var(--c);border-radius:8px;padding:1px 8px;white-space:nowrap}
 
+/* ── 4 المنحنى (Apple Design Awards 2026: Tide Guide's sky palette and full-screen chart, Moonlitt's touch) ── */
+#D4{--ink:#121821;--ink2:#46505E;--ink3:#5F6875;--line:#E2E6EC;--acc:#B5651D;background:#F5F7FA;min-height:100dvh}
+#D4 .chart{position:relative;color:#fff;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 14px;background:linear-gradient(180deg,var(--c1),var(--c2));transition:background 400ms}
+#D4 .chart .row{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+#D4 .chart small{font-size:13.5px;font-weight:600;opacity:.92}
+#D4 .chart h1{margin:0;font-size:34px;font-weight:900;line-height:1.25}
+#D4 .chart .tm{font-size:34px;font-weight:800;line-height:1.25}
+#D4 .chart svg{display:block;width:100%;height:auto;margin-top:6px;touch-action:none;cursor:ew-resize}
+#D4 .chart svg text{font-family:Vazirmatn;font-size:11px;font-weight:700;fill:#fff}
+#D4 .hint{font-size:12.5px;font-weight:600;opacity:.9;text-align:center;margin:2px 0 0}
+#D4 .here{margin:12px 14px 0;background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 22px -14px rgba(0,0,0,.18)}
+#D4 .here .row{display:flex;align-items:center;gap:12px}
+#D4 .here .t{flex:1}#D4 .here b{display:block;font-size:19px;font-weight:900;line-height:1.35}#D4 .here small{font-size:13.5px;color:var(--ink3);font-weight:600}
+#D4 .pray4{min-height:56px;padding:0 22px;border-radius:28px;background:var(--acc);color:#fff;font-weight:900;font-size:17px;display:flex;align-items:center;gap:6px}
+#D4 .pray4[aria-pressed="true"]{background:#EEF1F5;color:var(--ink2)}
+#D4 .list{margin:10px 0 0;display:grid;gap:2px}
+#D4 .it{display:flex;align-items:center;gap:12px;min-height:56px;width:100%;border-top:1px solid var(--line);padding-top:6px}
+#D4 .it .t b{font-size:16px;font-weight:700}#D4 .it.done b{color:var(--ink3);font-weight:500}
+#D4 .it .tm{font-size:14px;font-weight:700;color:var(--ink2)}
+#D4 .wg{margin:16px 14px 90px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#D4 .wg div{border-radius:22px;padding:14px;color:#fff;background:linear-gradient(180deg,#3C5E96,#C98A55)}
+#D4 .wg small{font-size:12px;font-weight:700;opacity:.9}#D4 .wg b{display:block;font-size:22px;font-weight:900;line-height:1.3}
+#D4 .wg svg{width:100%;height:40px;display:block;margin-top:6px}
+
 /* ── research ── */
 #R{background:#fff;min-height:100dvh;padding:18px 18px 60px}
 #R h1{margin:0 0 4px;font-size:26px;font-weight:900;line-height:1.35}
@@ -156,11 +180,12 @@ svg.i{width:22px;height:22px;display:block;flex:none}
 </style>
 
 <div class="app">
-  <div class="pick" role="group" aria-label="اختار"><button data-d="R" aria-pressed="false">البحث</button><button data-d="D1" aria-pressed="true">١ · هادي</button><button data-d="D2" aria-pressed="false">٢ · تعبيري</button><button data-d="D3" aria-pressed="false">٣ · مرئي</button></div>
+  <div class="pick" role="group" aria-label="اختار"><button data-d="R" aria-pressed="false">البحث</button><button data-d="D1" aria-pressed="true">١ · هادي</button><button data-d="D2" aria-pressed="false">٢ · تعبيري</button><button data-d="D3" aria-pressed="false">٣ · مرئي</button><button data-d="D4" aria-pressed="false">٤ · المنحنى</button></div>
   <section class="d" id="R" aria-label="البحث"></section>
   <section class="d on" id="D1" aria-label="هادي"></section>
   <section class="d" id="D2" aria-label="تعبيري"></section>
   <section class="d" id="D3" aria-label="مرئي"></section>
+  <section class="d" id="D4" aria-label="المنحنى"></section>
 </div>
 
 <script>
@@ -224,7 +249,49 @@ function D3(){const now=tasks[0];const [bg,fg]=COL.run;
    <textarea id="dump" aria-label="اكتب كل اللي براسك">لازم أتصل بأمي، وأشتري هدية لأختي، ورياضة باچر الصبح، وأخلص التقرير قبل الظهر</textarea>
    <button class="go" data-dump>${ic('spark').replace('class="i"','class="i" style="display:inline;vertical-align:-5px"')} رتّبها</button><div class="res" id="res"></div></div>${nav(0)}`}
 
+// Sun altitude over Sulaymaniyah on 6 November (lat 35.56, declination about -16.3°, solar noon about 11:44):
+// the prayers are set by it (Fajr and Isha by the sun's depth under the horizon, Maghrib at sunset).
+const LAT=35.56*Math.PI/180,DEC=-16.3*Math.PI/180,NOON=11*60+44;
+const alt=m=>{const H=(m-NOON)/4*Math.PI/180;return Math.asin(Math.sin(LAT)*Math.sin(DEC)+Math.cos(LAT)*Math.cos(DEC)*Math.cos(H))*180/Math.PI};
+const MARK=[['الفجر',305],['الشروق',389],['الظهر',710],['العصر',887],['المغرب',1027],['العشاء',1104]];
+const SKY4=m=>m<305||m>=1120?['#0B1230','#1B2550']:m<389?['#2A2F66','#C9837A']:m<840?['#2C6CB3','#7FB4E6']:m<1000?['#3C5E96','#D49A5E']:m<1104?['#3A2A5C','#D0684E']:['#121A3D','#26326A'];
+let T4=910;
+const fmt=m=>String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const dur4=m=>{const h=Math.floor(m/60),mi=m%60;const hs=h===1?'ساعة':h===2?'ساعتين':h+' ساعات';return h&&mi?hs+' و'+mi+' دقيقة':h?hs:mi+' دقيقة'};
+function partName(m){return m<305?'الليل':m<389?'بعد الفجر':m<710?'الصبح':m<887?'بعد الظهر':m<1027?'بعد العصر':m<1104?'بعد المغرب':m<1320?'بعد العشاء':'الليل'}
+function chartSVG(){const W=360,H=170,top=10,y0=100,k=2.0,A=240,B=1260;const x=m=>W-(Math.min(B,Math.max(A,m))-A)/(B-A)*W,y=a=>y0-Math.max(-30,a)*k;
+  let d='';for(let m=A;m<=B;m+=10){d+=(m>A?' L':'M')+x(m).toFixed(1)+' '+y(alt(m)).toFixed(1)}
+  const marks=MARK.map(([n,m],i)=>{const a=alt(m);const past=T4>=m;return `<circle cx="${x(m)}" cy="${y(a)}" r="4.5" fill="${past?'#fff':'none'}" stroke="#fff" stroke-width="2"/><text x="${x(m)}" y="${y(a)+(a>5?-12:20)+(i%2&&a<5?12:0)}" text-anchor="middle">${n}</text>`}).join('');
+  const sx=x(T4),sy=y(alt(T4));
+  return `<svg viewBox="0 0 ${W} ${H}" direction="ltr" style="direction:ltr" id="curve" role="slider" aria-label="الوكت على منحنى الشمس" aria-valuemin="0" aria-valuemax="1439" aria-valuenow="${T4}" aria-valuetext="${fmt(T4)}، ${partName(T4)}" tabindex="0">
+   <rect x="0" y="${y0}" width="${W}" height="${H-y0}" fill="rgba(0,0,0,.18)"/><line x1="0" y1="${y0}" x2="${W}" y2="${y0}" stroke="#fff" stroke-opacity=".55"/>
+   <line x1="0" y1="${y(-18)}" x2="${W}" y2="${y(-18)}" stroke="#fff" stroke-opacity=".25" stroke-dasharray="3 5"/><text x="${W/2}" y="${y(-18)-4}" text-anchor="middle" opacity=".75">تحت الأفق 18°: الفجر والعشاء</text>
+   <path d="${d}" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".9"/>${marks}
+   <line x1="${sx}" y1="${top}" x2="${sx}" y2="${H-6}" stroke="#fff" stroke-width="1.5" stroke-dasharray="2 3" opacity=".8"/>
+   <circle cx="${sx}" cy="${sy}" r="11" fill="${alt(T4)>0?'#FFE29A':'#DCE3FF'}" stroke="#fff" stroke-width="2"/>
+   <text x="${W-4}" y="${H-4}" text-anchor="end" opacity=".8">04:00</text><text x="${x(720)}" y="${H-4}" text-anchor="middle" opacity=".8">12:00</text><text x="4" y="${H-4}" text-anchor="start" opacity=".8">21:00</text></svg>`}
+function D4(){const [c1,c2]=SKY4(T4);const nextPr=MARK.find(([n,m])=>m>T4&&n!=='الشروق');
+  $('D4').innerHTML=`<div class="chart" style="--c1:${c1};--c2:${c2}"><div class="row"><div><small>الجمعة 6 تشرين الثاني · السليمانية</small><h1>${partName(T4)}</h1></div><div class="tm num">${fmt(T4)}</div></div>
+   ${chartSVG()}<p class="hint">مرّر إصبعك على المنحنى حتى تشوف أي وكت</p></div>
+  <div class="here"><div class="row"><div class="t"><b>${T4>=887&&T4<1027?'صلاة العصر':nextPr?'الجاي: '+nextPr[0]:'الليل'}</b><small>${nextPr?nextPr[0]+' '+fmt(nextPr[1])+' · بعد '+dur4(nextPr[1]-T4):'تنام 22:00'}</small></div>
+   ${T4>=887&&T4<1027?`<button class="pray4" data-p4 aria-pressed="${asrDone}">${asrDone?ic('check')+' صلّيت':'صلّيت'}</button>`:''}</div>
+   <div class="list">${tasks.map((x,i)=>`<button class="it ${x.d?'done':''}" data-t4="${i}"><span class="chk" role="checkbox" aria-checked="${!!x.d}" style="--acc:#B5651D">${ic('check')}</span><span class="t"><b>${x.t}</b></span>${x.tm?`<span class="tm num">${x.tm}</span>`:''}</button>`).join('')}</div></div>
+  <div class="wg" aria-label="ودجتات الشاشة الرئيسية"><div><small>العصر · السليمانية</small><b>المغرب 17:07</b><svg viewBox="0 0 160 40"><path d="${(()=>{let d='';for(let m=300;m<=1110;m+=15){const X=160-(m-300)/810*160,Y=34-Math.max(-4,alt(m))*0.75;d+=(m>300?' L':'M')+X.toFixed(1)+' '+Y.toFixed(1)}return d})()}" fill="none" stroke="#fff" stroke-width="2"/></svg></div>
+   <div style="background:linear-gradient(180deg,#121A3D,#26326A)"><small>الليل</small><b>تنام 22:00</b><small>تصحى 04:45 لصلاة الليل</small></div></div>${nav(0)}`;
+  const sv=$('curve');const seek=e=>{const r=sv.getBoundingClientRect();const f=1-(e.clientX-r.left)/r.width;T4=Math.max(240,Math.min(1260,240+Math.round(f*1020/5)*5));D4()};
+  let drag=false;sv.addEventListener('pointerdown',e=>{drag=true;try{sv.setPointerCapture(e.pointerId)}catch(_){};seek(e)});
+  sv.addEventListener('pointermove',e=>{if(drag){const r=sv.getBoundingClientRect();const f=1-(e.clientX-r.left)/r.width;T4=Math.max(240,Math.min(1260,240+Math.round(f*1020/5)*5));D4Light()}});
+  sv.addEventListener('pointerup',()=>{drag=false;D4()});
+  sv.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){T4=Math.min(1435,T4+15);D4();$('curve').focus()}if(e.key==='ArrowRight'){T4=Math.max(0,T4-15);D4();$('curve').focus()}})}
+// While dragging: only the chart and the heading change, so the finger keeps its hold.
+function D4Light(){const [c1,c2]=SKY4(T4);const ch=$('D4').querySelector('.chart');ch.style.setProperty('--c1',c1);ch.style.setProperty('--c2',c2);
+  ch.querySelector('h1').textContent=partName(T4);ch.querySelector('.tm').textContent=fmt(T4);
+  const old=$('curve');const tmp=document.createElement('div');tmp.innerHTML=chartSVG();const nw=tmp.firstElementChild;
+  for(const el of [...old.childNodes])old.removeChild(el);for(const el of [...nw.childNodes])old.appendChild(el);old.setAttribute('aria-valuenow',T4);old.setAttribute('aria-valuetext',fmt(T4)+'، '+partName(T4))}
+
 function R(){const S=[
+ ['جوائز Apple للتصميم 2026: تطبيق المد والجزر وتطبيق القمر','أُعلنت يوم 2 حزيران 2026. الفائز بجائزة «الشكل والرسوم» هو Tide Guide، تطبيق مواعيد المد والجزر. Apple مدحته على رسومه البيانية الكبيرة الواضحة، وعلى الودجتات القوية، وإن «ألوانه مصممة حتى تطابق لون السما طول اليوم». والفائز بجائزة «التفاعل» هو Moonlitt، تطبيق أطوار القمر، على تفاعله الذكي وسهولة البداية. وتطبيق تنظيم اليوم Structured وصل للنهائيات.','apple.com/newsroom/2026/06/apple-reveals-winners-of-the-2026-apple-design-awards · developer.apple.com/design/awards','الاثنين مثلنا بالضبط: وقت مربوط بالسما. هذا هو التصميم الرابع «المنحنى».'],
+ ['جوائز نهاية 2026 بعد ما طلعت','جوائز App Store لسنة 2026، وأفضل تطبيقات Google Play لسنة 2026، تنعلن كل سنة بآخر تشرين الثاني أو بكانون الأول. لهذا آخر فائز هو تطبيق 2025. أفضل تطبيق بـ Google Play لسنة 2025 هو Focus Friend، تطبيق تركيز.','developer.apple.com/news · blog.google/products-and-platforms/platforms/google-play/best-apps-games-2025','أول ما تنعلن، أراجعها.'],
  ['التطبيق اليومي ينجح بالمألوف، مو بالغرابة','أشهر مهارة تصميم بـ GitHub (Impeccable، حوالي 62 ألف نجمة) تفرّق بين صفحة تبيع شي وتطبيق تشتغل بيه كل يوم. للتطبيق: «فشل التطبيق مو إنه باهت، فشله الغرابة بدون سبب… الأداة لازم تختفي ويبقى الشغل». لون واحد للأفعال المهمة، ونفس الأزرار بكل مكان، وحركة 150 إلى 250 جزء من الثانية.','github.com/pbakaus/impeccable · reference/operate.md','لهذا التصاميم الجديدة تستخدم أشكال أندرويد المعروفة، ووياها لمسة وحدة خاصة بـ«يوم».'],
  ['الزر المهم لازم يكون أكبر وملوّن وبشكل مميز','بحث Google على Material 3 Expressive، المنشور بمؤتمر ACM CHI 2026 على 10 تطبيقات: الناس تشوف الزر الصح أسرع بـ33% وتضغطه أسرع بـ20%، وأحياناً لحد أربع مرات أسرع. وكبار السن صاروا بنفس سرعة الشباب.','design.google/library/expressive-material-design-google-research · dl.acm.org/doi/10.1145/3772318.3790373','بكل تصميم: «صلّيت» هو أكبر زر بالشاشة.'],
  ['اربط العادة بوكت ثابت، والصلاة هي أقوى وكت','بالمراجعات العلمية لتطبيقات العادات، أكثر الطرق اللي اشتغلت: متابعة النفس، والهدف، والتذكير. والبحث يگول إن ربط الفعل بإشارة ثابتة («بعد ما يصير كذا، أسوي كذا») يثبّت العادة.','researchgate: Digital Behavior Change Intervention Designs for Habit Formation (2024) · arxiv.org/html/2508.09312','هذا قلب «يوم» من الأساس: «بعد العصر رياضة». التصاميم تخلي الصلاة هي الإشارة.'],
@@ -233,16 +300,16 @@ function R(){const S=[
  ['أنجح تطبيق صلاة: هادي، بلا إعلانات، والودجت','Pillars بيه أكثر من 1.6 مليون مستخدم. المراجعات تمدح نفس الشغلات: «نظيف وبسيط»، و«ألوانه مريحة»، و«الودجت مفيد جداً»، وبلا إعلانات ولا جمع بيانات.','thepillarsapp.com · x.com/ThePillarsApp','التصميم الأول «هادي» على هالروح، ووياه شكل الودجت على شاشة التلفون.'],
  ['العربي يحتاج مسافة بين الأسطر أكثر','الكتابة العربية تحتاج مسافة بين الأسطر من 1.7 لـ1.85 للنص، ومن 1.3 لـ1.4 للعناوين، وبلا تباعد بين الحروف. وApple تنصح بتكبير العربي بنقطتين حتى يتوازن ويّا اللاتيني.','developer.apple.com/design/human-interface-guidelines/right-to-left · voxire.com/blog/arabic-rtl-typography-web-design-2026','كل التصاميم: النص 1.7، والعناوين 1.25 لـ1.3، وبلا تباعد بين الحروف.'],
  ['الشي اللي يخلي التطبيق «AI»','نفس المهارات تمنع: بطاقات متشابهة بأيقونة وعنوان كهيكل للصفحة، ورقم كبير ويّاه عنوان صغير، والرموز (✓ ✦) بدل الأيقونات، والألوان المتدرجة على الكلام، والتوهج.','github.com/pbakaus/impeccable · reference/craft-floor.md','شلت كل الرموز، والأيقونات كلها مرسومة بخط واحد.']];
- $('R').innerHTML=`<h1>شنو لكيت بالبحث</h1><p class="lead">هذا اللي بنيت عليه التصاميم الثلاثة. كل نقطة وياها مصدرها، وتحتها شلون استخدمتها.</p>${S.map(([h,p,s,u])=>`<section><h2>${h}</h2><p>${p}</p><span class="src">المصدر: ${s}</span><p class="use">${u}</p></section>`).join('')}`}
+ $('R').innerHTML=`<h1>شنو لكيت بالبحث</h1><p class="lead">هذا اللي بنيت عليه التصاميم الأربعة، لحد 6 تشرين الثاني 2026. كل نقطة وياها مصدرها، وتحتها شلون استخدمتها.</p>${S.map(([h,p,s,u])=>`<section><h2>${h}</h2><p>${p}</p><span class="src">المصدر: ${s}</span><p class="use">${u}</p></section>`).join('')}`}
 
 function show(d){document.querySelectorAll('.d').forEach(s=>s.classList.toggle('on',s.id===d));document.querySelectorAll('.pick button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.d===d));window.scrollTo({top:0})}
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.d){show(b.dataset.d);return}
   if(b.dataset.p1!==undefined){if(+b.dataset.p1===2){asrDone=!asrDone;all()}return}
-  if(b.dataset.p2!==undefined){asrDone=!asrDone;all();return}
-  const t=b.dataset.t1??b.dataset.t2??b.dataset.t3;if(t!==undefined){tasks[t].d=tasks[t].d?0:1;all();return}
+  if(b.dataset.p2!==undefined||b.dataset.p4!==undefined){asrDone=!asrDone;all();return}
+  const t=b.dataset.t1??b.dataset.t2??b.dataset.t3??b.dataset.t4;if(t!==undefined){tasks[t].d=tasks[t].d?0:1;all();return}
   if(b.dataset.dump!==undefined){$('res').innerHTML=[['أتصل بأمي','بعد المغرب','#B23F2A'],['أشتري هدية لأختي','باچر · بعد العصر','#A35512'],['رياضة','باچر · الصبح','#2F6FA8'],['أخلص التقرير','باچر · قبل الظهر','#2F6FA8']].map(([n,w,c])=>`<div style="--c:${c}"><span>${w}</span>${n}</div>`).join('')+`<button class="go" style="background:#15171C">حطّهن كلهن</button>`;return}});
-function all(){D1();D2();D3();R()}
+function all(){D1();D2();D3();D4();R()}
 all();
 })();
 </script>

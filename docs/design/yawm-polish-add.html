@@ -87,6 +87,18 @@ button{cursor:pointer;border:0;background:none;padding:0;text-align:inherit;-web
 .sw[aria-checked="true"]{background:var(--acc)}
 .sw[aria-checked="true"]::after{transform:translateX(-20px)}
 
+.clock{display:flex;align-items:center;justify-content:center;gap:10px;direction:ltr;padding:6px 0 2px}
+.unit{display:grid;justify-items:center;gap:4px}
+.unit b{font-size:46px;font-weight:600;line-height:1.05;min-width:2.2ch;text-align:center;font-variant-numeric:tabular-nums}
+.unit small{font-size:12px;color:var(--ink3);font-weight:600}
+.step{width:44px;height:36px;border-radius:12px;background:var(--soft);display:grid;place-items:center;color:var(--ink2)}
+.step svg{width:18px;height:18px}
+.colon{font-size:40px;font-weight:600;color:var(--ink3);padding-bottom:22px}
+.quick{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.quick button{min-height:36px;padding:0 12px;border-radius:18px;background:var(--soft);font-size:14px;font-weight:600;color:var(--ink2);font-variant-numeric:tabular-nums}
+.quick button[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink)}
+.inpart{margin:8px 2px 0;font-size:13.5px;color:var(--ink2);text-align:center}
+.inpart b{color:var(--acc)}
 .go{margin-top:auto;min-height:56px;border-radius:16px;background:var(--acc);color:var(--acc-ink);font-size:17px;font-weight:700;text-align:center;
   box-shadow:0 10px 24px -12px var(--acc);transition:background-color 300ms var(--ease),transform 160ms var(--ease),opacity 200ms}
 .go:active{transform:scale(.98)}
@@ -108,6 +120,17 @@ button{cursor:pointer;border:0;background:none;padding:0;text-align:inherit;-web
     <button class="row" id="rWhen" aria-expanded="true" aria-controls="mWhen"><span class="tile acc" id="tWhen"></span>
       <span class="t"><b>وكتها</b><small id="sWhen"></small></span><span class="v" id="vWhen"></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button>
     <div class="more" id="mWhen"><div class="parts" id="parts"></div><div class="alt" id="alt"></div></div>
+    <div class="row"><span class="tile" id="tAt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+      <span class="t"><b>بساعة محددة</b><small id="sAt">لا، بأي وكت بالقسم</small></span><button class="sw" id="swAt" role="switch" aria-checked="false" aria-label="بساعة محددة"></button></div>
+    <div class="more" id="mAt" hidden>
+      <div class="clock" role="group" aria-label="الساعة">
+        <div class="unit"><button class="step" data-h="1" aria-label="ساعة أكثر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 15l6-6 6 6"/></svg></button><b id="hh">16</b><button class="step" data-h="-1" aria-label="ساعة أقل"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button><small>ساعة</small></div>
+        <span class="colon">:</span>
+        <div class="unit"><button class="step" data-m="5" aria-label="5 دقايق أكثر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 15l6-6 6 6"/></svg></button><b id="mm">30</b><button class="step" data-m="-5" aria-label="5 دقايق أقل"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button><small>دقيقة</small></div>
+      </div>
+      <div class="quick" id="quick"></div>
+      <p class="inpart" id="inpart"></p>
+    </div>
     <button class="row" id="rRep" aria-expanded="false" aria-controls="mRep"><span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l3 3-3 3"/><path d="M4 11V9a3 3 0 0 1 3-3h13"/><path d="M7 21l-3-3 3-3"/><path d="M20 13v2a3 3 0 0 1-3 3H4"/></svg></span>
       <span class="t"><b>يتكرر</b></span><span class="v" id="vRep"></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button>
     <div class="more" id="mRep" hidden><div class="seg" id="seg" style="--n:3"></div></div>
@@ -135,7 +158,10 @@ const svg=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
 const P=[['fajr','بعد الفجر','05:05','06:28','#2B4A86','#2B4A86'],['morning','الصبح','06:28','11:50','#2F6FA8','#CFE3F4'],['dhuhr','بعد الظهر','11:50','14:47','#8A6508','#F7E6A6'],
   ['asr','بعد العصر','14:47','17:07','#A35512','#E09A3E'],['maghrib','بعد المغرب','17:07','18:24','#B23F2A','#B23F2A'],['isha','بعد العشاء','18:24','22:00','#1B2347','#1B2347']];
 const by=k=>P.find(p=>p[0]===k);
-const S={text:'',where:'morning',rep:0,rem:true,open:'when'};
+const S={text:'',where:'morning',rep:0,rem:true,open:'when',at:null};
+const toMin=t=>{const [h,m]=t.split(':').map(Number);return h*60+m};
+const clk=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const partOf=m=>{for(const p of P)if(m>=toMin(p[2])&&m<toMin(p[3]))return p[0];return 'isha'};
 const REP=['مرة وحدة','كل يوم','أيام الدوام'];
 const IDEAS=[['قرآن بعد الفجر','fajr'],['رياضة','asr'],['قراءة','isha'],['مشوار','maghrib'],['اتصال بالأهل','maghrib'],['دراسة','morning'],['شغل البيت','dhuhr'],['تسوّق','asr']];
 const $=id=>document.getElementById(id);
@@ -147,17 +173,29 @@ function render(){const w=where();const r=document.documentElement.style;r.setPr
   $('tWhen').innerHTML=svg(w.icon);$('vWhen').textContent=w.name;$('sWhen').textContent=w.range;
   $('parts').innerHTML=P.map(([k,n,a,b,acc])=>`<button class="pc" data-w="${k}" aria-pressed="${S.where===k}" style="--c:${acc}"><i style="background:color-mix(in srgb,${acc} 14%,transparent);color:${acc}">${svg(k)}</i><span><b>${n}</b><br><small class="num">${a} – ${b}</small></span></button>`).join('');
   $('alt').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',S.where===b.dataset.w));
+  const timed=S.at!==null;$('swAt').setAttribute('aria-checked',timed);$('mAt').hidden=!timed;
+  $('tAt').classList.toggle('acc',timed);
+  $('sAt').textContent=timed?`الساعة ${clk(S.at)}`:'لا، بأي وكت بالقسم';
+  if(timed){$('hh').textContent=String(Math.floor(S.at/60)).padStart(2,'0');$('mm').textContent=String(S.at%60).padStart(2,'0');
+    $('inpart').innerHTML=S.where==='tom'?`باچر، الساعة <b>${clk(S.at)}</b>`:`هاي الساعة تصير <b>${by(S.where)[1]}</b>`;
+    $('quick').innerHTML=['07:00','08:30','13:00','16:30','19:00','21:00'].map(t=>`<button data-q="${t}" aria-pressed="${clk(S.at)===t}">${t}</button>`).join('')}
   $('vRep').textContent=REP[S.rep];
   $('seg').innerHTML=`<span class="thumb" style="inset-inline-start:calc(3px + ${S.rep} * (100% - 6px) / 3)"></span>`+REP.map((t,i)=>`<button data-rep="${i}" aria-pressed="${S.rep===i}">${t}</button>`).join('');
-  $('sw').setAttribute('aria-checked',S.rem);$('sRem').textContent=S.where==='later'?'ما ينبّه، لأن ما إلها وكت':S.rem?'بأول القسم، بإشعار هادي':'بدون تنبيه';
+  $('sw').setAttribute('aria-checked',S.rem);$('sRem').textContent=S.where==='later'?'ما ينبّه، لأن ما إلها وكت':!S.rem?'بدون تنبيه':timed?`الساعة ${clk(S.at)} بالضبط`:'بأول القسم، بإشعار هادي';
   const has=S.text.trim().length>0;const lbl=w.name.startsWith('ال')?'ب'+w.name:w.name;
-  $('go').textContent=has?`حطّها ${lbl}`:'اكتب شنو تريد تسوي';$('go').disabled=!has;$('ok').disabled=!has;
-  $('says').innerHTML=has?`<b>«${S.text.trim()}»</b> ${S.where==='later'?'تنحط بعدين، بدون وكت.':`${lbl}، ${REP[S.rep]}${S.rem?'، وأذكّرك بأوله':''}.`}`:'اكتب، أو اختار فكرة من فوق.';
+  $('go').textContent=has?(S.at!==null?`حطّها الساعة ${clk(S.at)}`:`حطّها ${lbl}`):'اكتب شنو تريد تسوي';$('go').disabled=!has;$('ok').disabled=!has;
+  $('says').innerHTML=has?`<b>«${S.text.trim()}»</b> ${S.where==='later'?'تنحط بعدين، بدون وكت.':(timed?`الساعة ${clk(S.at)}، ${lbl}، ${REP[S.rep]}${S.rem?'، وأذكّرك بوكتها':''}.`:`${lbl}، ${REP[S.rep]}${S.rem?'، وأذكّرك بأوله':''}.`)}`:'اكتب، أو اختار فكرة من فوق.';
   for(const [row,m] of [['rWhen','mWhen'],['rRep','mRep']]){const open=(row==='rWhen'&&S.open==='when')||(row==='rRep'&&S.open==='rep');$(row).setAttribute('aria-expanded',open);$(m).hidden=!open}}
 $('in').addEventListener('input',e=>{S.text=e.target.value;render()});
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.idea){S.text=b.dataset.idea;$('in').value=S.text;S.where=b.dataset.k;render();return}
-  if(b.dataset.w){S.where=b.dataset.w;if(S.where==='later')S.rem=false;render();return}
+  if(b.dataset.w){S.where=b.dataset.w;if(S.where==='later'){S.rem=false;S.at=null}
+    else if(S.at!==null&&partOf(S.at)!==S.where&&by(S.where))S.at=toMin(by(S.where)[2])+30;render();return}
+  const follow=()=>{if(S.where!=='tom')S.where=partOf(S.at)};
+  if(b.id==='swAt'){if(S.where==='later')return;S.at=S.at===null?(by(S.where)?toMin(by(S.where)[2])+30:16*60+30):null;if(S.at!==null)follow();render();return}
+  if(b.dataset.h){S.at=(S.at+60*+b.dataset.h+1440)%1440;follow();render();return}
+  if(b.dataset.m){S.at=(S.at+ +b.dataset.m+1440)%1440;follow();render();return}
+  if(b.dataset.q){S.at=toMin(b.dataset.q);follow();render();return}
   if(b.dataset.rep){S.rep=+b.dataset.rep;render();return}
   if(b.id==='rWhen'){S.open=S.open==='when'?null:'when';render();return}
   if(b.id==='rRep'){S.open=S.open==='rep'?null:'rep';render();return}

@@ -1,0 +1,268 @@
+<title>يوم · ثلاث طرق</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap">
+<style>
+/* Three directions, none like the earlier ones:
+   أ «المسار» — the day as a vertical timeline: times on one side, the line with an icon for each thing,
+     the length of each thing shown by its height, a red line for now.
+   ب «هسه» — dark, one thing at a time: what to do now, big; the next ones stacked behind it; one box to say
+     or type anything.
+   ج «البينتو» — the day as tiles of different sizes, each tile one answer (the prayer, sleep, done, next). */
+:root{--ease:cubic-bezier(.23,1,.32,1);color-scheme:light;font-family:"Vazirmatn",Tahoma,sans-serif}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;min-height:100dvh;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;background:#F6F5F2;color:#16181C}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0;text-align:inherit;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2.5px solid #3D7BFF;outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.app{max-width:480px;margin:0 auto;min-height:100dvh;position:relative}
+.pick{position:sticky;top:0;z-index:30;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:calc(8px + env(safe-area-inset-top,0px)) 10px 8px;background:rgba(20,20,24,.86);backdrop-filter:blur(12px)}
+.pick button{min-height:42px;border-radius:12px;color:#C9CBD1;font-size:14px;font-weight:700;text-align:center}
+.pick button[aria-pressed="true"]{background:#fff;color:#111}
+.d{display:none}.d.on{display:block;animation:in 300ms var(--ease)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+svg{display:block}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ── أ المسار ─────────────────────────────── */
+#A{background:#FBFAF7;color:#1A1C20;min-height:100dvh;padding-bottom:110px}
+#A .head{padding:18px 18px 6px}
+#A .head small{font-size:14px;color:#5E636C;font-weight:600}
+#A .head h1{margin:2px 0 0;font-size:32px;font-weight:900;line-height:1.15}
+#A .week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:10px 12px 6px}
+#A .wd{display:grid;justify-items:center;gap:2px;min-height:58px;border-radius:16px;padding-top:6px;font-size:12px;font-weight:700;color:#6B7079}
+#A .wd b{font-size:17px;color:#1A1C20}
+#A .wd[aria-current="date"]{background:#1A1C20;color:#C9CCD3}#A .wd[aria-current="date"] b{color:#fff}
+#A .line{position:relative;padding:10px 14px 0 14px}
+#A .it{display:grid;grid-template-columns:52px 44px 1fr auto;align-items:start;gap:10px;position:relative;min-height:60px}
+#A .it .tm{font-size:13px;font-weight:700;color:#6B7079;padding-top:12px;text-align:center}
+#A .it .tm small{display:block;font-size:11.5px;font-weight:600;color:#8A8F98}
+#A .rail{position:relative;display:flex;justify-content:center;height:100%}
+#A .rail::before{content:"";position:absolute;top:0;bottom:-12px;width:2px;background:repeating-linear-gradient(to bottom,#D6D3CC 0 4px,transparent 4px 9px)}
+#A .it:last-child .rail::before{display:none}
+#A .bub{position:relative;width:44px;border-radius:22px;background:var(--c);color:#fff;display:flex;align-items:flex-start;justify-content:center;padding-top:10px;min-height:44px;box-shadow:0 6px 14px -8px var(--c)}
+#A .bub svg{width:22px;height:22px}
+#A .bub.soft{background:color-mix(in srgb,var(--c) 16%,#fff);color:var(--c);box-shadow:none}
+#A .it.done .bub{opacity:.45}
+#A .txt{padding:10px 0 14px}
+#A .txt b{display:block;font-size:16.5px;font-weight:800;line-height:1.3}
+#A .txt small{font-size:13.5px;color:#5E636C}
+#A .it.done .txt b{text-decoration:line-through;color:#8A8F98;font-weight:600}
+#A .ck{width:30px;height:30px;margin-top:10px;border-radius:9px;box-shadow:inset 0 0 0 2px #D6D3CC;display:grid;place-items:center;transition:background-color 200ms}
+#A .ck svg{width:18px;height:18px;color:#fff;opacity:0}
+#A .it.done .ck{background:var(--c);box-shadow:none}#A .it.done .ck svg{opacity:1}
+#A .now{position:relative;display:flex;align-items:center;gap:8px;margin:2px 0 8px;color:#E23B3B;font-size:13px;font-weight:800}
+#A .now::after{content:"";flex:1;height:2px;background:#E23B3B;border-radius:1px}
+#A .now i{width:10px;height:10px;border-radius:50%;background:#E23B3B;margin-inline-start:61px}
+#A .gap{font-size:13px;color:#8A8F98;font-weight:600;padding:2px 0 10px 0;margin-inline-start:118px}
+#A .fab{position:fixed;inset:auto auto calc(24px + env(safe-area-inset-bottom,0px)) calc(50% - 222px);z-index:20}
+#A .fab button{width:62px;height:62px;border-radius:22px;background:#1A1C20;color:#fff;display:grid;place-items:center;box-shadow:0 14px 28px -12px rgba(0,0,0,.6)}
+#A .fab svg{width:28px;height:28px}
+@media (max-width:480px){#A .fab{left:18px}}
+#A .addbar{position:fixed;inset:auto 0 0 0;z-index:21;max-width:480px;margin:0 auto;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -16px 40px -20px rgba(0,0,0,.35);padding:14px 16px calc(16px + env(safe-area-inset-bottom,0px));transform:translateY(110%);transition:transform 320ms var(--ease)}
+#A .addbar.on{transform:none}
+#A .addbar input{width:100%;min-height:52px;border:0;border-radius:16px;background:#F2F0EB;padding:0 16px;font-size:18px;font-weight:700;outline:none}
+#A .when{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:10px -16px 0;padding:0 16px}
+#A .when button{flex:none;min-height:42px;padding:0 14px;border-radius:21px;background:#F2F0EB;font-size:14.5px;font-weight:700;color:#4B5058}
+#A .when button[aria-pressed="true"]{background:var(--c);color:#fff}
+#A .addbar .go{margin-top:12px;width:100%;min-height:54px;border-radius:16px;background:#1A1C20;color:#fff;font-weight:800;font-size:16.5px;text-align:center}
+
+/* ── ب هسه ─────────────────────────────── */
+#B{background:#0D0E11;color:#F2F3F5;min-height:100dvh;padding:14px 16px calc(110px + env(safe-area-inset-bottom,0px))}
+#B .pr{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+#B .pr div{border-radius:14px;padding:8px 4px;text-align:center;background:#17191E;font-size:12px;font-weight:700;color:#8E939C}
+#B .pr div b{display:block;font-size:14.5px;color:#C9CCD2}
+#B .pr div.past{opacity:.5}
+#B .pr div.cur{background:#F2C14E;color:#2A2107}#B .pr div.cur b{color:#1A1404}
+#B .label{margin:22px 4px 8px;font-size:14px;font-weight:800;color:#8E939C;letter-spacing:0}
+#B .stack{position:relative;height:330px}
+#B .card{position:absolute;inset:0 0 auto 0;border-radius:30px;padding:22px 22px 18px;transition:transform 420ms var(--ease),opacity 420ms var(--ease)}
+#B .card.c0{background:#F2F3F5;color:#121317;z-index:3;min-height:300px;box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+#B .card.c1{background:#2A2D33;z-index:2;transform:translateY(22px) scale(.94);opacity:.9;height:300px}
+#B .card.c2{background:#1E2025;z-index:1;transform:translateY(42px) scale(.88);opacity:.8;height:300px}
+#B .card.gone{transform:translateX(-120%) rotate(-8deg);opacity:0}
+#B .kind{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#6A5A1F;background:#F8E7B5;border-radius:10px;padding:3px 10px}
+#B .card h2{margin:14px 0 4px;font-size:38px;font-weight:900;line-height:1.1}
+#B .card p{margin:0;font-size:16px;color:#4A4E57;font-weight:600}
+#B .bar{height:8px;border-radius:4px;background:#E2E3E7;margin:22px 0 8px;overflow:hidden}
+#B .bar i{display:block;height:100%;width:var(--w);background:#121317;border-radius:4px}
+#B .meta{display:flex;justify-content:space-between;font-size:13.5px;font-weight:700;color:#5C616A}
+#B .acts{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:18px}
+#B .acts button{min-height:56px;border-radius:18px;font-weight:800;font-size:16.5px;text-align:center}
+#B .acts .yes{background:#121317;color:#fff}
+#B .acts .no{background:#E2E3E7;color:#2A2D33}
+#B .next{display:grid;gap:8px;margin-top:6px}
+#B .nx{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:#17191E}
+#B .nx b{flex:1;font-size:15.5px;font-weight:700}
+#B .nx span{font-size:14px;color:#8E939C;font-weight:700}
+#B .nx i{width:10px;height:10px;border-radius:3px;background:var(--c)}
+#B .ask{position:fixed;inset:auto 0 0 0;z-index:20;max-width:480px;margin:0 auto;padding:10px 14px calc(14px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,#0D0E11 70%,rgba(13,14,17,0))}
+#B .ask div{display:flex;gap:8px;align-items:center;background:#1B1D22;border-radius:28px;padding:6px}
+#B .ask input{flex:1;min-height:48px;border:0;background:transparent;padding:0 12px;font-size:16px;color:#fff;outline:none}
+#B .ask input::placeholder{color:#8E939C}
+#B .ask button{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#F2C14E;color:#1A1404}
+#B .ask button svg{width:22px;height:22px}
+#B .reply{margin-top:12px;border-radius:20px;background:#17191E;padding:14px;font-size:15px;display:none}
+#B .reply.on{display:block;animation:in 300ms var(--ease)}
+#B .reply b{color:#F2C14E}
+
+/* ── ج البينتو ─────────────────────────────── */
+#C{background:#EFEDE8;color:#1C1C1E;min-height:100dvh;padding:14px 12px 40px}
+#C .hd{display:flex;align-items:flex-end;justify-content:space-between;padding:8px 6px 12px}
+#C .hd h1{margin:0;font-size:28px;font-weight:900;line-height:1.15}
+#C .hd small{font-size:13.5px;color:#5C5C62;font-weight:600}
+#C .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#C .t{border-radius:28px;padding:16px;position:relative;overflow:hidden;min-height:150px;display:flex;flex-direction:column;justify-content:space-between}
+#C .t.w2{grid-column:span 2}
+#C .t h3{margin:0;font-size:14px;font-weight:800;opacity:.85}
+#C .big{font-size:44px;font-weight:900;line-height:1}
+#C .t p{margin:0;font-size:14.5px;font-weight:700}
+#C .pray{background:#E8913A;color:#251204;min-height:200px}
+#C .pray .big{font-size:58px}
+#C .pray .row{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+#C .pray button{min-height:48px;padding:0 20px;border-radius:24px;background:#251204;color:#FCE3C6;font-weight:800}
+#C .pray button[aria-pressed="true"]{background:rgba(37,18,4,.15);color:#251204}
+#C .shape{position:absolute;width:150px;height:150px;left:-30px;top:-34px;opacity:.22;color:#251204}
+#C .sleep{background:#1E2347;color:#EEF0FF}
+#C .sleep .moon{width:36px;height:36px;color:#F6E7A8}
+#C .done{background:#fff}
+#C .ring{width:84px;height:84px;align-self:center}
+#C .now{background:#fff}
+#C .now ul{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:4px}
+#C .now li{display:flex;align-items:center;gap:10px;min-height:48px;border-radius:16px;padding:0 10px;background:#F5F4F0}
+#C .now li b{flex:1;font-size:15.5px;font-weight:700}
+#C .now li span{font-size:13.5px;color:#5C5C62;font-weight:700}
+#C .now li.ok b{text-decoration:line-through;color:#8C8C92}
+#C .box{width:26px;height:26px;border-radius:8px;box-shadow:inset 0 0 0 2px #CFCDC6;display:grid;place-items:center}
+#C .box svg{width:16px;height:16px;color:#fff;opacity:0}
+#C li.ok .box{background:#2F6FA8;box-shadow:none}#C li.ok .box svg{opacity:1}
+#C .ai{background:#2F6FA8;color:#fff;min-height:130px}
+#C .ai button{display:flex;align-items:center;gap:10px;min-height:52px;border-radius:26px;background:rgba(255,255,255,.18);padding:0 16px;font-weight:700;font-size:15px}
+#C .ai svg{width:22px;height:22px}
+#C .wk{background:#fff}
+#C .bars{display:flex;align-items:flex-end;gap:6px;height:70px}
+#C .bars i{flex:1;border-radius:7px;background:#D9D6CF}
+#C .bars i.today{background:#1C1C1E}
+#C .days{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;color:#77777D;margin-top:6px}
+#C .next2{background:#DCEBDD;color:#13301A}
+#C .add{position:fixed;inset:auto 0 calc(18px + env(safe-area-inset-bottom,0px)) 0;z-index:20;display:flex;justify-content:center;pointer-events:none}
+#C .add button{pointer-events:auto;min-height:58px;padding:0 26px;border-radius:29px;background:#1C1C1E;color:#fff;font-weight:800;font-size:16.5px;display:flex;align-items:center;gap:8px;box-shadow:0 16px 30px -14px rgba(0,0,0,.6)}
+#C .add svg{width:22px;height:22px}
+</style>
+
+<div class="app">
+  <div class="pick" role="group" aria-label="اختار طريقة"><button data-d="A" aria-pressed="true">أ · المسار</button><button data-d="B" aria-pressed="false">ب · هسه</button><button data-d="C" aria-pressed="false">ج · البينتو</button></div>
+  <section class="d on" id="A" aria-label="المسار"></section>
+  <section class="d" id="B" aria-label="هسه"></section>
+  <section class="d" id="C" aria-label="البينتو"></section>
+</div>
+
+<script>
+(()=>{
+document.documentElement.lang='ar';
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0'),clk=m=>pad(Math.floor(m/60)%24)+':'+pad(m%60);
+const I={
+ fajr:'<path d="M3 17h18M7 20.5h10M12 7.5v2M5.6 10.6l1.3 1.3M18.4 10.6l-1.3 1.3"/><path fill="currentColor" stroke="none" d="M7.4 17a4.6 4.6 0 0 1 9.2 0z"/>',
+ dhuhr:'<path d="M4 19.5h16M12 3.2v1.6M5 10h1.6M17.4 10H19M7.1 5.1l1.1 1.1M16.9 5.1l-1.1 1.1"/><circle fill="currentColor" stroke="none" cx="12" cy="10" r="3.6"/>',
+ asr:'<path d="M3 19.5h18M10 19.5V8.5M5.2 1.8v1M1.3 5.8h1M2.4 3l.7.7M8 3l-.7.7"/><path fill="currentColor" stroke="none" d="M10 18.6h10.2l.6 1.8H10z"/><circle cx="5.2" cy="5.8" r="1.9"/>',
+ maghrib:'<path d="M3 15.5h18M6.5 18.5h11M9.5 21h5M12 4.5v5M9.8 7.6l2.2 2.2 2.2-2.2"/><path fill="currentColor" stroke="none" d="M7.4 15.5a4.6 4.6 0 0 1 9.2 0z"/>',
+ isha:'<path fill="currentColor" stroke="none" d="M13.4 5.2A7.6 7.6 0 1 0 19.6 16a6.1 6.1 0 0 1-6.2-10.8z"/>',
+ book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5"/>',
+ run:'<circle cx="14" cy="4.5" r="2"/><path d="M8 21l3-6 3 2v5M6 12l3-4 4 1 2 4 3 1"/>',
+ case:'<rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5h6v2M3 12h18"/>',
+ phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+ bed:'<path d="M3 18V8M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="1.8"/>',
+ house:'<path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/>',
+ check:'<path d="M5 12.5l4.5 4.5L19 7.5" stroke-width="3"/>',plus:'<path d="M12 5v14M5 12h14" stroke-width="2.4"/>',
+ mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/>',
+ moon:'<path fill="currentColor" stroke="none" d="M13.4 5.2A7.6 7.6 0 1 0 19.6 16a6.1 6.1 0 0 1-6.2-10.8z"/>'};
+const svg=(k,w=1.9)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]}</svg>`;
+const NOW=15*60+10;
+// Friday 6 November, Sulaymaniyah.
+let items=[
+ {id:1,s:305,e:315,t:'صلاة الفجر',k:'fajr',c:'#2B4A86',pr:1,done:true},
+ {id:2,s:320,e:345,t:'قرآن',k:'book',c:'#2B4A86',done:true,sub:'كل يوم'},
+ {id:3,s:420,e:450,t:'مشي',k:'run',c:'#2C8C53',done:true,sub:'نص ساعة'},
+ {id:4,s:480,e:840,t:'الدوام',k:'case',c:'#5B6270',done:true,sub:'أيام الدوام'},
+ {id:5,s:710,e:725,t:'صلاة الظهر',k:'dhuhr',c:'#2F6FA8',pr:1,done:true},
+ {id:6,s:887,e:900,t:'صلاة العصر',k:'asr',c:'#A35512',pr:1,done:false},
+ {id:7,s:990,e:1050,t:'رياضة',k:'run',c:'#2C8C53',done:false,sub:'ساعة'},
+ {id:8,s:1000,e:1015,t:'اتصال بالمحاسب',k:'phone',c:'#A35512',done:false,sub:'قبل المغرب'},
+ {id:9,s:1027,e:1040,t:'صلاة المغرب',k:'maghrib',c:'#B23F2A',pr:1,done:false},
+ {id:10,s:1060,e:1100,t:'زيارة خالي',k:'house',c:'#B23F2A',done:false,sub:'بعد المغرب'},
+ {id:11,s:1104,e:1117,t:'صلاة العشاء',k:'isha',c:'#3B4A8C',pr:1,done:false},
+ {id:12,s:1200,e:1230,t:'قراءة',k:'book',c:'#3B4A8C',done:false,sub:'كل يوم'},
+ {id:13,s:1320,e:1320,t:'النوم',k:'bed',c:'#1E2347',done:false,sub:'تصحى 04:45 لصلاة الليل'}];
+items.sort((a,b)=>a.s-b.s);
+
+// ── أ المسار
+let aWhen='asr';
+function A(){const days=[['س',31],['ح',1],['ن',2],['ث',3],['ر',4],['خ',5],['ج',6]];
+  let h=`<div class="head"><small>26 جمادى الأولى 1448 · السليمانية</small><h1>الجمعة، 6 تشرين الثاني</h1></div>
+  <div class="week">${days.map(([d,n],i)=>`<button class="wd" ${i===6?'aria-current="date"':''}>${d}<b class="num">${n}</b></button>`).join('')}</div><div class="line">`;
+  let nowShown=false;let prev=null;
+  for(const x of items){
+    if(!nowShown&&x.s>NOW){h+=`<div class="now"><i></i>هسه ${clk(NOW)}</div>`;nowShown=true}
+    if(prev&&x.s-prev.e>=90)h+=`<p class="gap">${Math.round((x.s-prev.e)/60)} ساعات فاضية</p>`;
+    const len=Math.max(44,Math.min(150,(x.e-x.s)*.45));
+    h+=`<div class="it ${x.done?'done':''}" style="--c:${x.c}"><span class="tm num">${clk(x.s)}${x.e-x.s>=30?`<small>${clk(x.e)}</small>`:''}</span>
+      <span class="rail"><span class="bub ${x.pr?'':'soft'}" style="height:${len}px">${svg(x.k)}</span></span>
+      <span class="txt"><b>${x.t}</b><small>${x.pr?(x.done?'صلّيتها':'دخل وكتها'):x.sub||''}</small></span>
+      ${x.k==='bed'?'<span></span>':`<button class="ck" data-a="${x.id}" role="checkbox" aria-checked="${x.done}" aria-label="${x.pr?'صلّيت':'خلّصت'} ${x.t}">${svg('check',3)}</button>`}</div>`;prev=x}
+  h+=`</div><div class="fab"><button data-aadd aria-label="أضف">${svg('plus')}</button></div>
+  <div class="addbar" id="aadd" role="dialog" aria-label="أضف"><input id="ain" placeholder="شنو تريد تسوي؟" aria-label="شنو تريد تسوي؟">
+   <div class="when">${[['fajr','بعد الفجر','#2B4A86'],['morning','الصبح','#2F6FA8'],['dhuhr','بعد الظهر','#2F6FA8'],['asr','بعد العصر','#A35512'],['maghrib','بعد المغرب','#B23F2A'],['isha','بعد العشاء','#3B4A8C'],['at','ساعة محددة…','#1A1C20']].map(([k,n,c])=>`<button data-aw="${k}" aria-pressed="${aWhen===k}" style="--c:${c}">${n}</button>`).join('')}</div>
+   <button class="go" data-aput>حطّها بالمسار</button></div>`;
+  $('A').innerHTML=h}
+// ── ب هسه
+let bIdx=0;
+function bQueue(){return items.filter(x=>!x.done&&x.e>=NOW-15&&x.k!=='bed')}
+function B(){const q=bQueue();const prs=items.filter(x=>x.pr);
+  let h=`<div class="pr">${prs.map(p=>`<div class="${p.e<NOW&&p.done?'past':''} ${p.k==='asr'?'cur':''}">${p.t.replace('صلاة ','')}<b class="num">${clk(p.s)}</b></div>`).join('')}</div>
+  <p class="label">هسه</p><div class="stack">`;
+  q.slice(0,3).forEach((x,i)=>{if(i===0){const total=x.pr?20:Math.max(15,x.e-x.s);const into=Math.max(0,NOW-x.s);const w=Math.min(100,Math.round(into/total*100));
+      h+=`<div class="card c0" id="bc"><span class="kind">${x.pr?'صلاة':'شغلة'} · ${clk(x.s)}</span><h2>${x.t}</h2><p>${x.pr?'دخل وكتها قبل '+(NOW-x.s)+' دقيقة':x.sub||''}</p>
+       <div class="bar"><i style="--w:${x.pr?60:w}%"></i></div><div class="meta"><span>${x.pr?'المغرب '+clk(1027):'تخلص '+clk(x.e)}</span><span>${x.pr?'باقي ساعة و57 دقيقة':''}</span></div>
+       <div class="acts"><button class="yes" data-bdone>${x.pr?'صلّيت':'خلّصت'}</button><button class="no" data-blater>بعدين</button></div></div>`}
+    else h+=`<div class="card c${i}" aria-hidden="true"></div>`});
+  h+=`</div><p class="label">الجاي</p><div class="next">${q.slice(1,5).map(x=>`<div class="nx" style="--c:${x.c}"><i></i><b>${x.t}</b><span class="num">${clk(x.s)}</span></div>`).join('')}</div>
+  <div class="reply" id="brep"></div>
+  <div class="ask"><div><input id="bin" placeholder="گول أو اكتب أي شي… «ذكّرني أتصل بأمي بعد المغرب»" aria-label="گول أو اكتب"><button data-bsay aria-label="احچي">${svg('mic')}</button></div></div>`;
+  $('B').innerHTML=h}
+// ── ج البينتو
+function C(){const now=items.filter(x=>!x.pr&&x.k!=='bed'&&x.s>=880&&x.s<1027);const done=items.filter(x=>x.done).length,tot=items.filter(x=>x.k!=='bed').length;
+  const asr=items.find(x=>x.k==='asr');const r=34,cir=2*Math.PI*r,frac=done/tot;
+  $('C').innerHTML=`<div class="hd"><div><small>الجمعة 6 تشرين الثاني · السليمانية</small><h1>بعد العصر</h1></div><small class="num">${clk(NOW)}</small></div>
+  <div class="grid">
+   <div class="t w2 pray"><svg class="shape" viewBox="0 0 100 100" aria-hidden="true"><path fill="currentColor" d="M50 2l9 13 15-6 3 16 16 3-6 15 13 9-13 9 6 15-16 3-3 16-15-6-9 13-9-13-15 6-3-16-16-3 6-15L2 50l13-9-6-15 16-3 3-16 15 6z"/></svg>
+     <h3>صلاة العصر</h3><div class="row"><div><div class="big num">14:47</div><p>دخل وكتها · المغرب 17:07</p></div><button data-cpray aria-pressed="${asr.done}">${asr.done?'✓ صلّيت':'صلّيت'}</button></div></div>
+   <div class="t now w2"><h3>بعد العصر · لحد 17:07</h3><ul>${now.map(x=>`<li class="${x.done?'ok':''}"><button class="box" data-c="${x.id}" role="checkbox" aria-checked="${x.done}" aria-label="خلّصت ${x.t}">${svg('check',3)}</button><b>${x.t}</b><span class="num">${clk(x.s)}</span></li>`).join('')}</ul></div>
+   <div class="t done"><h3>اليوم</h3><svg class="ring" viewBox="0 0 84 84" role="img" aria-label="خلّصت ${done} من ${tot}"><circle cx="42" cy="42" r="${r}" fill="none" stroke="#E6E3DC" stroke-width="10"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="#2C8C53" stroke-width="10" stroke-linecap="round" stroke-dasharray="${cir*frac} ${cir}" transform="rotate(-90 42 42)"/><text x="42" y="48" text-anchor="middle" font-size="18" font-weight="900" fill="#1C1C1E" font-family="Vazirmatn">${done}/${tot}</text></svg><p>خلّصت ${done} من ${tot}</p></div>
+   <div class="t sleep"><span class="moon">${svg('moon')}</span><div><div class="big num" style="font-size:38px">22:00</div><p>تنام · تصحى 04:45<br>لصلاة الليل</p></div></div>
+   <div class="t next2"><h3>الجاي</h3><div><div class="big" style="font-size:26px">رياضة</div><p class="num">16:30 · بعد 80 دقيقة</p></div></div>
+   <div class="t wk"><h3>الأسبوع</h3><div><div class="bars">${[5,6,6,4,7,5,3].map((v,i)=>`<i class="${i===6?'today':''}" style="height:${v/7*100}%"></i>`).join('')}</div><div class="days"><span>س</span><span>ح</span><span>ن</span><span>ث</span><span>ر</span><span>خ</span><span>ج</span></div></div></div>
+   <div class="t ai w2"><h3>المساعد</h3><button data-cai>${svg('mic')} گول شنو تريد، وآني أرتّبه</button></div>
+  </div><div class="add"><button data-cadd>${svg('plus')} أضف</button></div>`}
+
+function show(d){document.querySelectorAll('.d').forEach(s=>s.classList.toggle('on',s.id===d));document.querySelectorAll('.pick button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.d===d));window.scrollTo({top:0})}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.d){show(b.dataset.d);return}
+  if(b.dataset.a){const x=items.find(x=>x.id==b.dataset.a);x.done=!x.done;A();return}
+  if(b.dataset.aadd!==undefined){$('aadd').classList.add('on');setTimeout(()=>$('ain').focus(),320);return}
+  if(b.dataset.aw){aWhen=b.dataset.aw;const v=$('ain').value;A();$('aadd').classList.add('on');$('ain').value=v;return}
+  if(b.dataset.aput!==undefined){const v=$('ain').value.trim();if(!v){$('ain').focus();return}const S={fajr:330,morning:600,dhuhr:760,asr:950,maghrib:1070,isha:1180,at:1000}[aWhen];
+    items.push({id:Date.now(),s:S,e:S+30,t:v,k:'book',c:{fajr:'#2B4A86',morning:'#2F6FA8',dhuhr:'#2F6FA8',asr:'#A35512',maghrib:'#B23F2A',isha:'#3B4A8C',at:'#1A1C20'}[aWhen],done:false,sub:'جديدة'});items.sort((a,b)=>a.s-b.s);A();B();C();return}
+  if(b.dataset.bdone!==undefined||b.dataset.blater!==undefined){const q=bQueue();const x=q[0];const c=$('bc');c.classList.add('gone');
+    setTimeout(()=>{if(b.dataset.bdone!==undefined)x.done=true;else{x.s+=60;x.e+=60;items.sort((a,b)=>a.s-b.s)}B();A();C()},380);return}
+  if(b.dataset.bsay!==undefined){const v=$('bin').value.trim()||'ذكّرني أتصل بأمي بعد المغرب كل يوم';const r=$('brep');r.innerHTML=`فهمت: <b>«أتصل بأمي»</b> بعد المغرب، كل يوم، وأذكّرك بأوله.<div class="acts" style="margin-top:10px"><button class="yes" style="background:#F2C14E;color:#1A1404">إي، ضيفها</button><button class="no" style="background:#2A2D33;color:#fff">لا</button></div>`;r.classList.add('on');r.scrollIntoView({behavior:'smooth',block:'center'});return}
+  if(b.dataset.c){const x=items.find(x=>x.id==b.dataset.c);x.done=!x.done;C();return}
+  if(b.dataset.cpray!==undefined){const x=items.find(x=>x.k==='asr');x.done=!x.done;C();A();return}
+  if(b.dataset.cai!==undefined||b.dataset.cadd!==undefined){show('B');setTimeout(()=>$('bin').focus(),300);return}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('aadd')?.classList.remove('on')});
+A();B();C();
+})();
+</script>

@@ -14,6 +14,8 @@ import com.dcc.yawm.shared.day.Repeat
 import com.dcc.yawm.shared.day.Thing
 import com.dcc.yawm.shared.day.nextThingId
 import com.dcc.yawm.shared.screen.Where
+import com.dcc.yawm.shared.screen.movedTo
+import com.dcc.yawm.shared.screen.Ask
 import com.dcc.yawm.shared.screen.partNow
 import com.dcc.yawm.shared.screen.partsView
 import com.dcc.yawm.shared.screen.savedMessage
@@ -81,11 +83,25 @@ interface Platform {
     fun playSound(file: String)
     /** Shows the alarm screen now, ringing, to try it. */
     fun testAlarm()
+    /**
+     * «المساعد» by voice: speech to text on the phone only (never an online recognizer, CLAUDE.md rule 5).
+     * Where the phone cannot do it, [onEvent] gets [Heard.Problem] with a plain reason.
+     */
+    fun listen(onEvent: (Heard) -> Unit) { onEvent(Heard.Problem("الصوت ما متوفر هنا. اكتبها، وتشتغل نفس الشي.")) }
+    fun stopListening() {}
+}
+
+/** What the phone heard. */
+sealed interface Heard {
+    data object Listening : Heard
+    data class Partial(val text: String) : Heard
+    data class Final(val text: String) : Heard
+    data class Problem(val text: String) : Heard
 }
 
 private enum class Overlay { NONE, SETTINGS, REVIEW, NIGHT, PAGE, SOUNDS, ALERTS, WEEK }
 
-private enum class SheetKind { NONE, ADD, ADD_ALARM, THING }
+private enum class SheetKind { NONE, ADD, ADD_ALARM, THING, ASSISTANT }
 
 @OptIn(ExperimentalTime::class)
 @Composable
@@ -309,10 +325,11 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
                 spans = view.parts.map { it.span },
                 nowMinute = realNow,
                 close = { sheet = SheetKind.NONE },
-                openAssistant = null,
+                openAssistant = { sheet = SheetKind.ASSISTANT },
             ) { d ->
                 if (d.alarm) {
-                    val a = d.toAlarm(settings.alerts.nextAlarmId(), settings.workDays, realToday, realNow)
+                    // «باچر» on a one-time alarm: never today, even when the hour is still ahead.
+                    val a = d.toAlarm(settings.alerts.nextAlarmId(), settings.workDays, realToday, if (d.where == Where.Tomorrow) 1440 else realNow)
                     save(settings.copy(alerts = settings.alerts.copy(alarms = settings.alerts.alarms + a)))
                 } else {
                     save(settings.copy(things = settings.things + d.toThing(nextThingId(settings.things), date)))
@@ -348,6 +365,25 @@ private fun androidx.compose.foundation.layout.ColumnScope.MainScreens(
                     onRepeat = { r -> putThing(x.id) { it.copy(repeat = r, date = if (r == Repeat.ONCE) (it.date ?: moment.date) else it.date) } },
                     onDelete = { save(settings.copy(things = settings.things.filter { it.id != x.id })); toast("انحذفت"); sheet = SheetKind.NONE },
                 )
+            }
+            SheetKind.ASSISTANT -> AssistantSheet(
+                things = settings.things, alarms = settings.alerts.alarms, spans = remember(settings, moment.date) { partsView(settings, moment.date, moment.date, moment.t).parts.map { it.span } },
+                nowMinute = realNow, defaultPart = partNow(view, if (isToday) moment.t else null),
+                platform = platform, close = { sheet = SheetKind.NONE },
+            ) { ask ->
+                when (ask) {
+                    is Ask.AddThing -> save(settings.copy(things = settings.things + ask.draft.toThing(nextThingId(settings.things), moment.date)))
+                    is Ask.AddAlarm -> {
+                        val d = ask.draft
+                        val a = d.toAlarm(settings.alerts.nextAlarmId(), settings.workDays, realToday, if (d.where == Where.Tomorrow) 1440 else realNow)
+                        save(settings.copy(alerts = settings.alerts.copy(alarms = settings.alerts.alarms + a)))
+                    }
+                    is Ask.MoveThing -> putThing(ask.thing.id) { it.movedTo(ask.to) }
+                    is Ask.MoveAlarm -> save(settings.copy(alerts = settings.alerts.copy(alarms = settings.alerts.alarms.map { if (it.id == ask.alarm.id) it.copy(minute = ask.to) else it })))
+                    is Ask.DeleteThing -> save(settings.copy(things = settings.things.filter { it.id != ask.thing.id }))
+                    is Ask.DeleteAlarm -> save(settings.copy(alerts = settings.alerts.copy(alarms = settings.alerts.alarms.filter { it.id != ask.alarm.id })))
+                    is Ask.Tell -> {}
+                }
             }
             SheetKind.NONE -> {}
         }

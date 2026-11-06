@@ -10,6 +10,13 @@ import android.location.LocationManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.provider.Settings
+import com.dcc.yawm.shared.ui.Heard
+import android.speech.SpeechRecognizer
+import android.speech.RecognizerIntent
+import android.speech.RecognitionSupportCallback
+import android.speech.RecognitionSupport
+import android.speech.RecognitionListener
+import android.os.Bundle
 import android.view.View
 import android.view.WindowInsetsController
 import androidx.activity.ComponentActivity
@@ -110,6 +117,93 @@ internal class AndroidPlatform(private val activity: ComponentActivity) : Platfo
             val v = window.decorView
             v.systemUiVisibility = if (dark) v.systemUiVisibility and flags.inv() else v.systemUiVisibility or flags
         }
+    }
+
+    // «المساعد» by voice (DECISIONS 2026-11-06, checked on developer.android.com): the on-device recognizer
+    // only (API 31+), Arabic checked on the phone first (API 33+), never the general recognizer, which the docs
+    // say is «likely to stream audio to remote servers». No INTERNET permission is added.
+    private var recognizer: SpeechRecognizer? = null
+
+    override fun listen(onEvent: (Heard) -> Unit) {
+        // Named apart from RecognitionListener.onEvent, which the listener below also has.
+        val emit = onEvent
+        stopListening()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !SpeechRecognizer.isOnDeviceRecognitionAvailable(activity)) {
+            emit(Heard.Problem("تلفونك ما بيه فهم كلام يشتغل داخل التلفون. اكتبها، وتشتغل نفس الشي."))
+            return
+        }
+        if (activity.checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            activity.requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), 3)
+            emit(Heard.Problem("اسمح بالمايك، وبعدين اضغط المايك مرة ثانية. الصوت ما يطلع من تلفونك."))
+            return
+        }
+        val r = SpeechRecognizer.createOnDeviceSpeechRecognizer(activity)
+        recognizer = r
+        fun intent(lang: String) = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            .putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            .putExtra(RecognizerIntent.EXTRA_LANGUAGE, lang)
+            .putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+            .putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true)
+        fun start(lang: String) {
+            r.setRecognitionListener(object : RecognitionListener {
+                override fun onReadyForSpeech(params: Bundle?) = emit(Heard.Listening)
+                override fun onBeginningOfSpeech() {}
+                override fun onRmsChanged(rmsdB: Float) {}
+                override fun onBufferReceived(buffer: ByteArray?) {}
+                override fun onEndOfSpeech() {}
+                override fun onEvent(eventType: Int, params: Bundle?) {}
+                override fun onPartialResults(partialResults: Bundle?) {
+                    partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull()?.let { emit(Heard.Partial(it)) }
+                }
+                override fun onResults(results: Bundle?) {
+                    val text = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull().orEmpty()
+                    emit(if (text.isBlank()) Heard.Problem("ما سمعت كلام واضح. جرّب مرة ثانية، أو اكتبها.") else Heard.Final(text))
+                    stopListening()
+                }
+                override fun onError(error: Int) {
+                    emit(Heard.Problem(voiceError(error)))
+                    stopListening()
+                }
+            })
+            r.startListening(intent(lang))
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            r.checkRecognitionSupport(intent("ar"), activity.mainExecutor, object : RecognitionSupportCallback {
+                override fun onSupportResult(support: RecognitionSupport) {
+                    val installed = support.installedOnDeviceLanguages.filter { it.lowercase().startsWith("ar") }
+                    when {
+                        installed.isNotEmpty() -> start(installed.firstOrNull { it.equals("ar-IQ", true) } ?: installed.first())
+                        support.supportedOnDeviceLanguages.any { it.lowercase().startsWith("ar") } || support.pendingOnDeviceLanguages.any { it.lowercase().startsWith("ar") } -> {
+                            // The phone can, once its own Arabic speech pack is downloaded by the system.
+                            r.triggerModelDownload(intent("ar"))
+                            emit(Heard.Problem("تلفونك يحتاج ينزّل العربي للصوت مرة وحدة، وبدا هسه. جرّب المايك بعد دقايق، وهسه اكتبها."))
+                            stopListening()
+                        }
+                        else -> {
+                            emit(Heard.Problem("فهم الكلام داخل تلفونك ما يدعم العربي. اكتبها، وتشتغل نفس الشي."))
+                            stopListening()
+                        }
+                    }
+                }
+                override fun onError(error: Int) {
+                    emit(Heard.Problem("ما كدرت أعرف إذا تلفونك يفهم العربي بالصوت. اكتبها، وتشتغل نفس الشي."))
+                    stopListening()
+                }
+            })
+        } else start("ar")
+    }
+
+    override fun stopListening() {
+        recognizer?.let { runCatching { it.cancel() }; runCatching { it.destroy() } }
+        recognizer = null
+    }
+
+    private fun voiceError(code: Int): String = when (code) {
+        SpeechRecognizer.ERROR_NO_MATCH, SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "ما سمعت كلام واضح. جرّب مرة ثانية، أو اكتبها."
+        SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "اسمح بالمايك، وبعدين اضغط المايك مرة ثانية."
+        SpeechRecognizer.ERROR_LANGUAGE_NOT_SUPPORTED, SpeechRecognizer.ERROR_LANGUAGE_UNAVAILABLE -> "العربي ما متوفر للصوت بتلفونك هسه. اكتبها، وتشتغل نفس الشي."
+        SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "المايك مشغول بشي ثاني. جرّب بعد شوية."
+        else -> "صار خلل بالصوت. اكتبها، وتشتغل نفس الشي."
     }
 
     private var player: MediaPlayer? = null

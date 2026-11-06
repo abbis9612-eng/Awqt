@@ -14,6 +14,16 @@
          and Play asks for a declaration (DECISIONS 2026-10-29); without it the alarm still rings. -->
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- «المساعد» by voice: the phone's on-device recognizer only (DECISIONS 2026-11-06). Audio is turned
+         into text on the phone; with no INTERNET permission the app itself cannot send it anywhere. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Apps targeting Android 11+ must declare that they talk to a speech recognition service. -->
+    <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="false"
